@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useLang } from '@/context/LangContext';
+import { useCart } from '@/context/CartContext';
+import BrandedImagePlaceholder from './BrandedImagePlaceholder';
 
 const BADGE_LABELS = {
   bestseller: { tr: 'Çok Satan', en: 'Best Seller', ar: 'الأكثر مبيعًا', zh: '热卖' },
@@ -20,30 +22,12 @@ function Badge({ tag, lang }) {
   return <span className={cls}>{label}</span>;
 }
 
-function ImagePlaceholder({ name, emoji = '🍣' }) {
-  return (
-    <div className="dish-card__img-placeholder" aria-hidden="true">
-      {emoji}
-    </div>
-  );
-}
-
-const CATEGORY_EMOJI = {
-  'best-sellers': '🔥',
-  'sushi-sets': '🎁',
-  'special-rolls': '🍣',
-  'bento-sets': '🍱',
-  'ramen-soups': '🍜',
-  'noodles-udon': '🍝',
-  'chinese-favorites': '🥡',
-  starters: '🥟',
-  desserts: '🍡',
-  drinks: '🍹',
-};
-
 export default function DishCard({ item, onOpen }) {
   const { lang, t } = useLang();
+  const { addToCart, removeFromCart, getItemQuantity } = useCart();
   const [imgError, setImgError] = useState(false);
+
+  const quantity = getItemQuantity(item.id);
 
   const primaryBadges = item.tags
     .filter((tag) => ['bestseller', 'chefs-pick', 'new'].includes(tag))
@@ -54,7 +38,6 @@ export default function DishCard({ item, onOpen }) {
     .slice(0, 2);
 
   const allBadges = [...primaryBadges, ...infoBadges];
-  const emoji = CATEGORY_EMOJI[item.category] ?? '🍱';
 
   const handleClick = useCallback(() => onOpen(item), [item, onOpen]);
   const handleKey = useCallback(
@@ -83,7 +66,7 @@ export default function DishCard({ item, onOpen }) {
             onError={() => setImgError(true)}
           />
         ) : (
-          <ImagePlaceholder name={t(item, 'name')} emoji={emoji} />
+          <BrandedImagePlaceholder category={item.category} />
         )}
 
         {/* Badges */}
@@ -111,13 +94,46 @@ export default function DishCard({ item, onOpen }) {
               {item.price.toLocaleString()} {item.currency}
             </span>
           </div>
-          <button
-            className="btn-add"
-            aria-label={`View ${t(item, 'name')}`}
-            onClick={(e) => { e.stopPropagation(); onOpen(item); }}
-          >
-            +
-          </button>
+
+          {/* Cart Interaction: Add (+) or Inline Counter ([-] qty [+]) */}
+          {quantity > 0 ? (
+            <div
+              className="dish-card__counter"
+              onClick={(e) => e.stopPropagation()}
+              role="group"
+              aria-label={`Cart quantity: ${quantity}`}
+            >
+              <button
+                type="button"
+                className="dish-card__qty-btn"
+                onClick={() => removeFromCart(item.id)}
+                aria-label={`Decrease quantity of ${t(item, 'name')}`}
+              >
+                −
+              </button>
+              <span className="dish-card__qty-num">{quantity}</span>
+              <button
+                type="button"
+                className="dish-card__qty-btn"
+                onClick={() => addToCart(item, 1)}
+                aria-label={`Increase quantity of ${t(item, 'name')}`}
+              >
+                +
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="btn-add"
+              aria-label={`Add ${t(item, 'name')} to cart`}
+              onClick={(e) => {
+                e.stopPropagation();
+                addToCart(item, 1);
+              }}
+            >
+              +
+            </button>
+          )}
         </div>
       </div>
     </article>

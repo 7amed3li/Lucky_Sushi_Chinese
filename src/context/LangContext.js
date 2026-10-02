@@ -1,6 +1,7 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback } from 'react';
+import { uiTranslations } from '@/data/translations';
 
 const LangContext = createContext(null);
 
@@ -19,10 +20,16 @@ export function LangProvider({ children, defaultLang = 'tr' }) {
     [lang]
   );
 
+  /** tUI('trending_title') → localized static string */
+  const tUI = useCallback(
+    (key) => uiTranslations[key]?.[lang] ?? uiTranslations[key]?.en ?? '',
+    [lang]
+  );
+
   const dir = lang === 'ar' ? 'rtl' : 'ltr';
 
   return (
-    <LangContext.Provider value={{ lang, switchLang, t, dir, SUPPORTED_LANGS }}>
+    <LangContext.Provider value={{ lang, switchLang, t, tUI, dir, SUPPORTED_LANGS }}>
       {children}
     </LangContext.Provider>
   );

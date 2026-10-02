@@ -1,6 +1,7 @@
 import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import { LangProvider } from "@/context/LangContext";
+import { CartProvider } from "@/context/CartContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -45,7 +46,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="tr" className={`${inter.variable} ${outfit.variable}`}>
       <body>
-        <LangProvider defaultLang="tr">{children}</LangProvider>
+        <LangProvider defaultLang="tr">
+          <CartProvider>{children}</CartProvider>
+        </LangProvider>
       </body>
     </html>
   );
