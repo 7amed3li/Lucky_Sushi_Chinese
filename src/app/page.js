@@ -42,6 +42,18 @@ export default function HomePage() {
       <main id="main-content" className="home-main">
         {/* ── 1. Hero Section ────────────────────────────── */}
         <section className="home-hero" aria-label="Welcome">
+          {/* Video Background */}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="home-hero__video-bg"
+          >
+            <source src="/hero-bg.mp4" type="video/mp4" />
+          </video>
+          <div className="home-hero__video-overlay" aria-hidden="true" />
+          
           <div className="home-hero__glow" aria-hidden="true" />
           <div className="home-hero__inner">
             <div className="home-hero__badge-wrap">
@@ -82,30 +94,33 @@ export default function HomePage() {
               </a>
             </div>
 
-            {/* Stats Strip */}
-            <div className="home-stats-strip">
-              <div className="home-stat-item">
-                <span className="home-stat-icon" aria-hidden="true"><FaMoon /></span>
-                <span className="home-stat-val">{tUI('home_stats_hours')}</span>
-              </div>
-              <div className="home-stat-divider" aria-hidden="true" />
-              <div className="home-stat-item">
-                <span className="home-stat-icon" aria-hidden="true"><GiChopsticks /></span>
-                <span className="home-stat-val">{tUI('home_stats_dishes')}</span>
-              </div>
-              <div className="home-stat-divider" aria-hidden="true" />
-              <div className="home-stat-item">
-                <span className="home-stat-icon" aria-hidden="true"><FaStar /></span>
-                <span className="home-stat-val">{tUI('home_stats_rating')}</span>
-              </div>
-              <div className="home-stat-divider" aria-hidden="true" />
-              <div className="home-stat-item">
-                <span className="home-stat-icon" aria-hidden="true"><FaMotorcycle /></span>
-                <span className="home-stat-val">{tUI('home_stats_delivery')}</span>
-              </div>
-            </div>
           </div>
         </section>
+
+        {/* Stats Strip - Moved Outside Hero to act as a sleek bridge */}
+        <div className="home-stats-wrapper">
+          <div className="home-stats-strip">
+            <div className="home-stat-item">
+              <span className="home-stat-icon" aria-hidden="true"><FaMoon /></span>
+              <span className="home-stat-val">{tUI('home_stats_hours')}</span>
+            </div>
+            <div className="home-stat-divider" aria-hidden="true" />
+            <div className="home-stat-item">
+              <span className="home-stat-icon" aria-hidden="true"><GiChopsticks /></span>
+              <span className="home-stat-val">{tUI('home_stats_dishes')}</span>
+            </div>
+            <div className="home-stat-divider" aria-hidden="true" />
+            <div className="home-stat-item">
+              <span className="home-stat-icon" aria-hidden="true"><FaStar /></span>
+              <span className="home-stat-val">{tUI('home_stats_rating')}</span>
+            </div>
+            <div className="home-stat-divider" aria-hidden="true" />
+            <div className="home-stat-item">
+              <span className="home-stat-icon" aria-hidden="true"><FaMotorcycle /></span>
+              <span className="home-stat-val">{tUI('home_stats_delivery')}</span>
+            </div>
+          </div>
+        </div>
 
         {/* ── 2. Trending Dishes Showcase ───────────────── */}
         <section className="home-trending-section">
@@ -152,15 +167,15 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 4. Story Teaser Section ────────────────────── */}
-        <section className="home-story-teaser">
-          <div className="home-story-teaser__inner">
-            <div className="home-story-teaser__content">
+        {/* ── 4. Story Section ────────────────────── */}
+        <section className="home-story-section">
+          <div className="home-story-grid">
+            <div>
               <span className="home-section-badge"><FaBookOpen style={{ marginRight: '6px' }} /> {tUI('nav_about')}</span>
-              <h2 className="home-section-title">{tUI('home_story_teaser_title')}</h2>
-              <p className="home-story-teaser__p">{tUI('home_story_teaser_p1')}</p>
-              <p className="home-story-teaser__p">{tUI('home_story_teaser_p2')}</p>
-              <Link href="/about" className="btn-story-cta">
+              <h2 className="home-story-title">{tUI('home_story_teaser_title')}</h2>
+              <p className="home-story-desc">{tUI('home_story_teaser_p1')}</p>
+              <p className="home-story-desc">{tUI('home_story_teaser_p2')}</p>
+              <Link href="/about" className="btn-hero-secondary" style={{ marginTop: 'var(--sp-4)', display: 'inline-flex' }}>
                 <span>{tUI('read_full_story')}</span>
                 <span aria-hidden="true">{dir === 'rtl' ? '←' : '→'}</span>
               </Link>
