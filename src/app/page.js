@@ -125,14 +125,20 @@ export default function HomePage() {
         {/* ── CREATIVE: Marquee Ticker ───────────────────────────── */}
         <div className="home-marquee-wrap" aria-hidden="true">
           <div className="home-marquee-track">
-            {[...Array(6)].map((_, i) => (
+            {[...Array(4)].map((_, i) => (
               <div key={i} className="home-marquee-item">
                 <GiSushis />
                 <span>PREMIUM SUSHI</span>
+                <FaMoon />
+                <span>ASYA HİÇ UYUMAZ</span>
+                <FaFire />
+                <span>GERÇEK ASYA LEZZETLERİ</span>
                 <FaStar />
                 <span>LUCKY CHINESE</span>
+                <FaMotorcycle />
+                <span>GECE 04:00'A KADAR AÇIK</span>
                 <GiChopsticks />
-                <span>{tUI('trending_badge') || 'BEST SELLERS'}</span>
+                <span>{tUI('trending_badge') || 'ÖNE ÇIKANLAR'}</span>
               </div>
             ))}
           </div>
