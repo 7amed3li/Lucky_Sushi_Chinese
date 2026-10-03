@@ -2,7 +2,13 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { 
+  FaWhatsapp, FaMoon, FaStar, FaMotorcycle, FaFire, 
+  FaFish, FaBookOpen, FaLocationDot, FaHouse, 
+  FaPhone, FaMapLocationDot, FaLeaf 
+} from 'react-icons/fa6';
+import { GiChopsticks, GiSushis } from 'react-icons/gi';
 import { useLang } from '@/context/LangContext';
 import { restaurantInfo, menuItems } from '@/data/menuData';
 import Header from '@/components/Header';
@@ -13,6 +19,15 @@ import CartDrawer from '@/components/CartDrawer';
 export default function HomePage() {
   const { lang, t, tUI, dir } = useLang();
   const [selectedItem, setSelectedItem] = useState(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      document.documentElement.style.setProperty('--scroll-y', `${scrollY * 0.35}px`);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const phoneClean = restaurantInfo.phone.replace(/[^0-9]/g, '');
 
@@ -50,7 +65,7 @@ export default function HomePage() {
 
             <div className="home-hero__cta-group">
               <Link href="/menu" className="btn-hero-primary" id="hero-menu-cta">
-                <span>🍣</span>
+                <GiSushis />
                 <span>{tUI('explore_menu_btn')}</span>
                 <span aria-hidden="true">{dir === 'rtl' ? '←' : '→'}</span>
               </Link>
@@ -62,7 +77,7 @@ export default function HomePage() {
                 className="btn-hero-secondary"
                 id="hero-whatsapp-cta"
               >
-                <span>💬</span>
+                <FaWhatsapp />
                 <span>{tUI('order_now_btn')} (WhatsApp)</span>
               </a>
             </div>
@@ -70,22 +85,22 @@ export default function HomePage() {
             {/* Stats Strip */}
             <div className="home-stats-strip">
               <div className="home-stat-item">
-                <span className="home-stat-icon" aria-hidden="true">🌙</span>
+                <span className="home-stat-icon" aria-hidden="true"><FaMoon /></span>
                 <span className="home-stat-val">{tUI('home_stats_hours')}</span>
               </div>
               <div className="home-stat-divider" aria-hidden="true" />
               <div className="home-stat-item">
-                <span className="home-stat-icon" aria-hidden="true">🥢</span>
+                <span className="home-stat-icon" aria-hidden="true"><GiChopsticks /></span>
                 <span className="home-stat-val">{tUI('home_stats_dishes')}</span>
               </div>
               <div className="home-stat-divider" aria-hidden="true" />
               <div className="home-stat-item">
-                <span className="home-stat-icon" aria-hidden="true">⭐</span>
+                <span className="home-stat-icon" aria-hidden="true"><FaStar /></span>
                 <span className="home-stat-val">{tUI('home_stats_rating')}</span>
               </div>
               <div className="home-stat-divider" aria-hidden="true" />
               <div className="home-stat-item">
-                <span className="home-stat-icon" aria-hidden="true">🛵</span>
+                <span className="home-stat-icon" aria-hidden="true"><FaMotorcycle /></span>
                 <span className="home-stat-val">{tUI('home_stats_delivery')}</span>
               </div>
             </div>
@@ -96,7 +111,7 @@ export default function HomePage() {
         <section className="home-trending-section">
           <div className="home-trending-header">
             <div>
-              <span className="home-section-badge">🔥 {tUI('trending_badge')}</span>
+              <span className="home-section-badge"><FaFire style={{ marginRight: '6px' }} /> {tUI('trending_badge')}</span>
               <h2 className="home-section-title">{tUI('trending_title')}</h2>
               <p className="home-section-sub">{tUI('trending_sub')}</p>
             </div>
@@ -111,26 +126,26 @@ export default function HomePage() {
         {/* ── 3. Why Choose Us (3 Feature Pillars) ──────── */}
         <section className="home-features-section">
           <div className="home-features-header">
-            <span className="home-section-badge">✨ {tUI('home_features_title')}</span>
+            <span className="home-section-badge"><FaStar style={{ marginRight: '6px' }} /> {tUI('home_features_title')}</span>
             <h2 className="home-section-title">{tUI('home_features_title')}</h2>
             <p className="home-section-sub">{tUI('home_features_sub')}</p>
           </div>
 
           <div className="home-features-grid">
             <div className="home-feature-card">
-              <span className="home-feature-icon" aria-hidden="true">🐟</span>
+              <span className="home-feature-icon" aria-hidden="true"><FaFish /></span>
               <h3 className="home-feature-title">{tUI('feature_fresh_title')}</h3>
               <p className="home-feature-desc">{tUI('feature_fresh_desc')}</p>
             </div>
 
             <div className="home-feature-card">
-              <span className="home-feature-icon" aria-hidden="true">🔥</span>
+              <span className="home-feature-icon" aria-hidden="true"><FaFire /></span>
               <h3 className="home-feature-title">{tUI('feature_wok_title')}</h3>
               <p className="home-feature-desc">{tUI('feature_wok_desc')}</p>
             </div>
 
             <div className="home-feature-card">
-              <span className="home-feature-icon" aria-hidden="true">🌙</span>
+              <span className="home-feature-icon" aria-hidden="true"><FaMoon /></span>
               <h3 className="home-feature-title">{tUI('feature_night_title')}</h3>
               <p className="home-feature-desc">{tUI('feature_night_desc')}</p>
             </div>
@@ -141,7 +156,7 @@ export default function HomePage() {
         <section className="home-story-teaser">
           <div className="home-story-teaser__inner">
             <div className="home-story-teaser__content">
-              <span className="home-section-badge">📖 {tUI('nav_about')}</span>
+              <span className="home-section-badge"><FaBookOpen style={{ marginRight: '6px' }} /> {tUI('nav_about')}</span>
               <h2 className="home-section-title">{tUI('home_story_teaser_title')}</h2>
               <p className="home-story-teaser__p">{tUI('home_story_teaser_p1')}</p>
               <p className="home-story-teaser__p">{tUI('home_story_teaser_p2')}</p>
@@ -175,10 +190,70 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ── CREATIVE: Marquee Ticker ───────────────────────────── */}
+        <div className="home-marquee-wrap" aria-hidden="true">
+          <div className="home-marquee-track">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="home-marquee-item">
+                <GiSushis />
+                <span>PREMIUM SUSHI</span>
+                <FaStar />
+                <span>LUCKY CHINESE</span>
+                <GiChopsticks />
+                <span>{tUI('trending_badge') || 'BEST SELLERS'}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── CREATIVE: Spinning Plate Presentation ──────────────── */}
+        <section className="home-plate-container" aria-label="Rotating Sushi Selection">
+          <div className="home-plate-spinner">
+            <Image
+              src="/images/set-salmon-lovers.jpg"
+              alt="Sushi Set Option 1"
+              fill
+              className="home-plate-img home-plate-1"
+              sizes="(max-width: 768px) 280px, 480px"
+            />
+            <Image
+              src="/images/canada-set.jpg"
+              alt="Sushi Set Option 2"
+              fill
+              className="home-plate-img home-plate-2"
+              sizes="(max-width: 768px) 280px, 480px"
+            />
+          </div>
+        </section>
+
+        {/* ── CREATIVE: Parallax Action Section ─────────────────────── */}
+        <section className="home-parallax-section">
+          <div className="home-parallax-chopsticks">
+            <Image
+              src="/images/set-salmon-lovers.jpg"
+              alt="Action Shot"
+              width={350}
+              height={350}
+              style={{ objectFit: 'contain', filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.4))', borderRadius: '50%' }}
+            />
+          </div>
+          <div className="home-parallax-text-box">
+            <h2 className="home-section-title" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', marginBottom: '1rem' }}>
+              The Art of <span style={{ color: 'var(--sake-gold)' }}>Making Sushi</span>
+            </h2>
+            <p className="home-story-desc" style={{ marginBottom: '1.5rem' }}>
+              We bring traditional recipes and modern presentation together, creating an unforgettable culinary experience right to your table.
+            </p>
+            <Link href="/menu" className="btn-hero-primary" style={{ padding: '12px 24px', fontSize: '1rem' }}>
+              <span>{tUI('explore_menu_btn')}</span>
+            </Link>
+          </div>
+        </section>
+
         {/* ── 5. Location & Order Channels ──────────────── */}
         <section className="home-visit-section">
           <div className="home-visit-header">
-            <span className="home-section-badge">📍 {tUI('nav_contact')}</span>
+            <span className="home-section-badge"><FaLocationDot style={{ marginRight: '6px' }} /> {tUI('nav_contact')}</span>
             <h2 className="home-section-title">{tUI('visit_us_title')}</h2>
           </div>
 
@@ -189,7 +264,7 @@ export default function HomePage() {
               
               return (
                 <div key={branch.id} className="home-visit-card" style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span className="home-visit-icon" aria-hidden="true">🏠</span>
+                  <span className="home-visit-icon" aria-hidden="true"><FaHouse /></span>
                   <h3 className="home-visit-name">{branch.name}</h3>
                   <p className="home-visit-text" style={{ flex: 1, marginBottom: 'var(--sp-3)' }}>{branch.address}</p>
                   
@@ -204,14 +279,14 @@ export default function HomePage() {
                         fontWeight: 600, fontSize: '0.85rem'
                       }}
                     >
-                      💬 WhatsApp
+                      <FaWhatsapp /> WhatsApp
                     </a>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                      <a href={`tel:${phoneClean}`} style={{ border: '1px solid rgba(185,148,82,0.3)', padding: '8px', borderRadius: 'var(--btn-radius)', textAlign: 'center', fontSize: '0.8rem', fontWeight: 500 }}>
-                        📞 Ara
+                      <a href={`tel:${phoneClean}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', border: '1px solid rgba(185,148,82,0.3)', padding: '8px', borderRadius: 'var(--btn-radius)', textAlign: 'center', fontSize: '0.8rem', fontWeight: 500 }}>
+                        <FaPhone /> Ara
                       </a>
-                      <a href={branch.map} target="_blank" rel="noopener noreferrer" style={{ border: '1px solid rgba(185,148,82,0.3)', padding: '8px', borderRadius: 'var(--btn-radius)', textAlign: 'center', fontSize: '0.8rem', fontWeight: 500 }}>
-                        🗺️ Harita
+                      <a href={branch.map} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', border: '1px solid rgba(185,148,82,0.3)', padding: '8px', borderRadius: 'var(--btn-radius)', textAlign: 'center', fontSize: '0.8rem', fontWeight: 500 }}>
+                        <FaMapLocationDot /> Harita
                       </a>
                     </div>
                   </div>
@@ -226,7 +301,7 @@ export default function HomePage() {
       <footer className="site-footer" role="contentinfo">
         <div className="site-footer__inner">
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
-            <span style={{ fontSize: '1.2rem' }}>🍀</span>
+            <span style={{ fontSize: '1.5rem', color: 'var(--sake-gold)' }}><FaLeaf /></span>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <span style={{ fontFamily: 'var(--font-heading-en)', fontSize: '1.2rem', color: 'var(--rice-white)' }}>Lucky</span>
               <span style={{ fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'var(--mist-beige)' }}>Sushi · Chinese</span>
