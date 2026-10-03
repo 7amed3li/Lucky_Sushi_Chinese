@@ -1,139 +1,111 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import Image from 'next/image';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
-import BrandedImagePlaceholder from './BrandedImagePlaceholder';
 
-const BADGE_LABELS = {
-  bestseller: { tr: 'Çok Satan', en: 'Best Seller', ar: 'الأكثر مبيعًا', zh: '热卖' },
-  'chefs-pick': { tr: 'Şef Seçimi', en: "Chef's Pick", ar: 'اختيار الشيف', zh: '主厨推荐' },
-  new: { tr: 'Yeni', en: 'New', ar: 'جديد', zh: '新品' },
-  spicy: { tr: '🌶 Acı', en: '🌶 Spicy', ar: '🌶 حار', zh: '🌶 辣' },
-  vegan: { tr: 'Vegan', en: 'Vegan', ar: 'نباتي', zh: '纯素' },
-  raw: { tr: 'Çiğ', en: 'Raw', ar: 'نيئ', zh: '生' },
-  cooked: { tr: 'Pişmiş', en: 'Cooked', ar: 'مطهو', zh: '熟' },
+/**
+ * Dark nori-black product card with:
+ * - Large image (1:1)
+ * - Single badge max
+ * - Name in Rice White
+ * - Description in Mist Beige (2 line clamp)
+ * - Portion/pieces
+ * - Price in Sake Gold
+ * - Gold + button
+ */
+
+const BADGE_MAP = {
+  'bestseller':        { label_tr: 'Çok Satan', label_en: 'Best Seller', label_ar: 'الأكثر طلباً', label_zh: '热卖', cls: 'product-card__badge--bestseller' },
+  'chefs-pick':        { label_tr: 'Şef Seçimi', label_en: "Chef's Pick", label_ar: 'اختيار الشيف', label_zh: '主厨推荐', cls: 'product-card__badge--chef' },
+  'beginner-friendly': { label_tr: 'Yeni Başlayan', label_en: 'Beginner', label_ar: 'للمبتدئين', label_zh: '新手', cls: 'product-card__badge--beginner' },
+  'cooked':            { label_tr: 'Pişmiş', label_en: 'Cooked', label_ar: 'مطهو', label_zh: '熟食', cls: 'product-card__badge--cooked' },
+  'spicy':             { label_tr: 'Acılı', label_en: 'Spicy', label_ar: 'حار', label_zh: '辣', cls: 'product-card__badge--spicy' },
 };
 
-function Badge({ tag, lang }) {
-  const label = BADGE_LABELS[tag]?.[lang] ?? BADGE_LABELS[tag]?.en;
-  if (!label) return null;
-  const cls = `badge badge--${tag}`;
-  return <span className={cls}>{label}</span>;
+// Priority order for badge selection (show only one)
+const BADGE_PRIORITY = ['bestseller', 'chefs-pick', 'beginner-friendly', 'spicy', 'cooked'];
+
+function getBadge(tags, lang) {
+  for (const key of BADGE_PRIORITY) {
+    if (tags?.includes(key)) {
+      const badge = BADGE_MAP[key];
+      return {
+        label: badge[`label_${lang}`] || badge.label_en,
+        cls: badge.cls,
+      };
+    }
+  }
+  return null;
 }
 
-export default function DishCard({ item, onOpen }) {
+export default function DishCard({ item, onClick }) {
   const { lang, t } = useLang();
-  const { addToCart, removeFromCart, getItemQuantity } = useCart();
-  const [imgError, setImgError] = useState(false);
+  const { addToCart } = useCart();
 
-  const quantity = getItemQuantity(item.id);
+  const name = t(item, 'name');
+  const desc = t(item, 'description');
+  const badge = getBadge(item.tags, lang);
+  const hasImage = item.image && item.image !== '/images/placeholder.jpg';
 
-  const primaryBadges = item.tags
-    .filter((tag) => ['bestseller', 'chefs-pick', 'new'].includes(tag))
-    .slice(0, 1);
-
-  const infoBadges = item.tags
-    .filter((tag) => ['spicy', 'vegan', 'raw', 'cooked'].includes(tag))
-    .slice(0, 2);
-
-  const allBadges = [...primaryBadges, ...infoBadges];
-
-  const handleClick = useCallback(() => onOpen(item), [item, onOpen]);
-  const handleKey = useCallback(
-    (e) => { if (e.key === 'Enter' || e.key === ' ') onOpen(item); },
-    [item, onOpen]
-  );
+  const handleAdd = (e) => {
+    e.stopPropagation();
+    addToCart(item, 1);
+  };
 
   return (
     <article
-      className="dish-card animate-fade-up"
-      onClick={handleClick}
-      onKeyDown={handleKey}
-      tabIndex={0}
+      className="product-card"
+      onClick={() => onClick?.(item)}
       role="button"
-      aria-label={t(item, 'name')}
-      id={`dish-${item.id}`}
+      tabIndex={0}
+      aria-label={name}
+      onKeyDown={(e) => { if (e.key === 'Enter') onClick?.(item); }}
     >
       {/* Image */}
-      <div className="dish-card__img-wrap">
-        {!imgError && item.image ? (
-          <img
+      <div className="product-card__img-wrap">
+        {hasImage ? (
+          <Image
             src={item.image}
-            alt={t(item, 'name')}
-            className="dish-card__img"
+            alt={name}
+            width={400}
+            height={400}
             loading="lazy"
-            onError={() => setImgError(true)}
+            style={{ objectFit: 'contain', background: 'var(--warm-cream)' }}
           />
         ) : (
-          <BrandedImagePlaceholder category={item.category} />
+          <div className="product-card__no-img" aria-hidden="true">
+            🍣
+          </div>
         )}
 
-        {/* Badges */}
-        {allBadges.length > 0 && (
-          <div className="dish-card__badges">
-            {allBadges.map((tag) => (
-              <Badge key={tag} tag={tag} lang={lang} />
-            ))}
-          </div>
+        {/* Single badge */}
+        {badge && (
+          <span className={`product-card__badge ${badge.cls}`}>
+            {badge.label}
+          </span>
         )}
       </div>
 
       {/* Body */}
-      <div className="dish-card__body">
-        <h3 className="dish-card__name">{t(item, 'name')}</h3>
-        <p className="dish-card__desc">{t(item, 'description')}</p>
+      <div className="product-card__body">
+        <h3 className="product-card__name">{name}</h3>
+        {desc && <p className="product-card__desc">{desc}</p>}
         {item.portion_or_pieces && (
-          <p className="dish-card__portion">
-            {item.portion_or_pieces}
-          </p>
+          <span className="product-card__pieces">{item.portion_or_pieces}</span>
         )}
-        <div className="dish-card__footer">
-          <div>
-            <span className="dish-card__price">
-              {item.price.toLocaleString()} {item.currency}
-            </span>
-          </div>
 
-          {/* Cart Interaction: Add (+) or Inline Counter ([-] qty [+]) */}
-          {quantity > 0 ? (
-            <div
-              className="dish-card__counter"
-              onClick={(e) => e.stopPropagation()}
-              role="group"
-              aria-label={`Cart quantity: ${quantity}`}
-            >
-              <button
-                type="button"
-                className="dish-card__qty-btn"
-                onClick={() => removeFromCart(item.id)}
-                aria-label={`Decrease quantity of ${t(item, 'name')}`}
-              >
-                −
-              </button>
-              <span className="dish-card__qty-num">{quantity}</span>
-              <button
-                type="button"
-                className="dish-card__qty-btn"
-                onClick={() => addToCart(item, 1)}
-                aria-label={`Increase quantity of ${t(item, 'name')}`}
-              >
-                +
-              </button>
-            </div>
-          ) : (
-            <button
-              type="button"
-              className="btn-add"
-              aria-label={`Add ${t(item, 'name')} to cart`}
-              onClick={(e) => {
-                e.stopPropagation();
-                addToCart(item, 1);
-              }}
-            >
-              +
-            </button>
-          )}
+        <div className="product-card__footer">
+          <span className="product-card__price">
+            {item.price?.toLocaleString('tr-TR')} ₺
+          </span>
+          <button
+            className="product-card__add"
+            onClick={handleAdd}
+            aria-label={`${lang === 'ar' ? 'أضف' : lang === 'tr' ? 'Ekle' : 'Add'} ${name}`}
+          >
+            +
+          </button>
         </div>
       </div>
     </article>
