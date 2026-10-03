@@ -278,30 +278,6 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* ── Site Footer ─────────────────────────────────────── */}
-      <footer className="site-footer" role="contentinfo">
-        <div className="site-footer__inner">
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
-            <span style={{ fontSize: '1.5rem', color: 'var(--sake-gold)' }}><FaLeaf /></span>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontFamily: 'var(--font-heading-en)', fontSize: '1.2rem', color: 'var(--rice-white)' }}>Lucky</span>
-              <span style={{ fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'var(--mist-beige)' }}>Sushi · Chinese</span>
-            </div>
-          </div>
-          
-          <div className="site-footer__links">
-            <Link href="/" className="site-footer__link">{tUI('nav_home')}</Link>
-            <Link href="/menu" className="site-footer__link">{tUI('nav_menu')}</Link>
-            <Link href="/about" className="site-footer__link">{tUI('nav_about')}</Link>
-            <Link href="/contact" className="site-footer__link">{tUI('nav_contact')}</Link>
-          </div>
-
-          <p className="site-footer__copy">
-            © {new Date().getFullYear()} Lucky Sushi Chinese — {lang === 'tr' ? 'Tüm Hakları Saklıdır.' : 'All Rights Reserved.'}
-          </p>
-        </div>
-      </footer>
-
       {/* Selected Item Modal */}
       {selectedItem && (
         <DishModal

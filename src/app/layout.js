@@ -1,7 +1,9 @@
 import { DM_Serif_Display, Manrope } from "next/font/google";
 import "./globals.css";
+import "./footer.css";
 import { LangProvider } from "@/context/LangContext";
 import { CartProvider } from "@/context/CartContext";
+import Footer from "@/components/Footer";
 
 const dmSerif = DM_Serif_Display({
   subsets: ["latin"],
@@ -51,7 +53,10 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <LangProvider defaultLang="tr">
-          <CartProvider>{children}</CartProvider>
+          <CartProvider>
+            {children}
+            <Footer />
+          </CartProvider>
         </LangProvider>
       </body>
     </html>
