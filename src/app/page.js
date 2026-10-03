@@ -122,6 +122,42 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* ── CREATIVE: Marquee Ticker ───────────────────────────── */}
+        <div className="home-marquee-wrap" aria-hidden="true">
+          <div className="home-marquee-track">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="home-marquee-item">
+                <GiSushis />
+                <span>PREMIUM SUSHI</span>
+                <FaStar />
+                <span>LUCKY CHINESE</span>
+                <GiChopsticks />
+                <span>{tUI('trending_badge') || 'BEST SELLERS'}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── CREATIVE: Spinning Plate Presentation ──────────────── */}
+        <section className="home-plate-container" aria-label="Rotating Sushi Selection">
+          <div className="home-plate-spinner">
+            <Image
+              src="/images/set-salmon-lovers.jpg"
+              alt="Sushi Set Option 1"
+              fill
+              className="home-plate-img home-plate-1"
+              sizes="(max-width: 768px) 280px, 480px"
+            />
+            <Image
+              src="/images/canada-set.jpg"
+              alt="Sushi Set Option 2"
+              fill
+              className="home-plate-img home-plate-2"
+              sizes="(max-width: 768px) 280px, 480px"
+            />
+          </div>
+        </section>
+
         {/* ── 2. Trending Dishes Showcase ───────────────── */}
         <section className="home-trending-section">
           <div className="home-trending-header">
@@ -190,78 +226,8 @@ export default function HomePage() {
                   height={160}
                   className="home-story-logo-art"
                 />
-                <div className="home-story-stats">
-                  <div className="home-story-stat-box">
-                    <span className="home-story-stat-num">04:00</span>
-                    <span className="home-story-stat-lbl">AM Midnight</span>
-                  </div>
-                  <div className="home-story-stat-box">
-                    <span className="home-story-stat-num">140+</span>
-                    <span className="home-story-stat-lbl">Dishes</span>
-                  </div>
-                </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* ── CREATIVE: Marquee Ticker ───────────────────────────── */}
-        <div className="home-marquee-wrap" aria-hidden="true">
-          <div className="home-marquee-track">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="home-marquee-item">
-                <GiSushis />
-                <span>PREMIUM SUSHI</span>
-                <FaStar />
-                <span>LUCKY CHINESE</span>
-                <GiChopsticks />
-                <span>{tUI('trending_badge') || 'BEST SELLERS'}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* ── CREATIVE: Spinning Plate Presentation ──────────────── */}
-        <section className="home-plate-container" aria-label="Rotating Sushi Selection">
-          <div className="home-plate-spinner">
-            <Image
-              src="/images/set-salmon-lovers.jpg"
-              alt="Sushi Set Option 1"
-              fill
-              className="home-plate-img home-plate-1"
-              sizes="(max-width: 768px) 280px, 480px"
-            />
-            <Image
-              src="/images/canada-set.jpg"
-              alt="Sushi Set Option 2"
-              fill
-              className="home-plate-img home-plate-2"
-              sizes="(max-width: 768px) 280px, 480px"
-            />
-          </div>
-        </section>
-
-        {/* ── CREATIVE: Parallax Action Section ─────────────────────── */}
-        <section className="home-parallax-section">
-          <div className="home-parallax-chopsticks">
-            <Image
-              src="/images/set-salmon-lovers.jpg"
-              alt="Action Shot"
-              width={350}
-              height={350}
-              style={{ objectFit: 'contain', filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.4))', borderRadius: '50%' }}
-            />
-          </div>
-          <div className="home-parallax-text-box">
-            <h2 className="home-section-title" style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', marginBottom: '1rem' }}>
-              The Art of <span style={{ color: 'var(--sake-gold)' }}>Making Sushi</span>
-            </h2>
-            <p className="home-story-desc" style={{ marginBottom: '1.5rem' }}>
-              We bring traditional recipes and modern presentation together, creating an unforgettable culinary experience right to your table.
-            </p>
-            <Link href="/menu" className="btn-hero-primary" style={{ padding: '12px 24px', fontSize: '1rem' }}>
-              <span>{tUI('explore_menu_btn')}</span>
-            </Link>
           </div>
         </section>
 
