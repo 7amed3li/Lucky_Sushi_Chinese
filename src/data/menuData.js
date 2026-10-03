@@ -3,6 +3,13 @@
  * مصدر: lucky_sushi_menu.csv (المنيو الحقيقي)
  * الأسعار يجب تأكيدها من صاحب المطعم قبل الإطلاق النهائي.
  */
+import React from 'react';
+import { 
+  FaBowlRice, FaFish, FaShrimp, FaPepperHot, FaBowlFood, 
+  FaUtensils, FaGlassWater, FaFire, FaThumbsUp, FaLeaf, 
+  FaBox, FaBoxOpen, FaStar, FaGift, FaSun, FaBacon, FaCakeCandles
+} from 'react-icons/fa6';
+import { GiSushis, GiChopsticks, GiNoodles, GiDumpling } from 'react-icons/gi';
 
 export const menuItems = [
 
@@ -3079,54 +3086,92 @@ export const menuItems = [
 
 // ── Categories ──────────────────────────────────
 export const menuCategories = [
-  { id: "sushi-sets",      label_tr: "Sushi Setler",      label_en: "Sushi Sets",       label_ar: "طقم السوشي",       label_zh: "寿司套餐",  emoji: "🎁" },
-  { id: "special-rolls",   label_tr: "Special Rolls",     label_en: "Special Rolls",    label_ar: "رولات خاصة",      label_zh: "特色卷",    emoji: "🍣" },
-  { id: "crunchy-cooked",  label_tr: "Crunchy & Pişmiş",  label_en: "Crunchy & Cooked", label_ar: "كرانشي ومطهو",    label_zh: "脆皮熟食",  emoji: "✨" },
-  { id: "maki",            label_tr: "Magic Maki",        label_en: "Magic Maki",       label_ar: "ماجيك ماكي",      label_zh: "花式卷",    emoji: "🥢" },
-  { id: "nigiri-sashimi",  label_tr: "Nigiri & Sashimi",  label_en: "Nigiri & Sashimi", label_ar: "نيغيري وساشيمي",  label_zh: "握寿司刺身",emoji: "🐟" },
-  { id: "bento-sets",      label_tr: "Bento Menüler",     label_en: "Bento Sets",       label_ar: "طقم البينتو",      label_zh: "便当套餐",  emoji: "🍱" },
-  { id: "poke-bowls",      label_tr: "Poke Bowls",        label_en: "Poke Bowls",       label_ar: "بوكي بول",        label_zh: "波奇碗",    emoji: "🥣" },
-  { id: "ramen-soups",     label_tr: "Çorba & Ramen",     label_en: "Ramen & Soups",    label_ar: "رامن وحساء",      label_zh: "拉面汤品",  emoji: "🍜" },
-  { id: "noodles-udon",    label_tr: "Noodle & Udon",     label_en: "Noodles & Udon",   label_ar: "نودلز وأودون",    label_zh: "面条乌冬",  emoji: "🍝" },
-  { id: "meat-chicken",    label_tr: "Et & Tavuk",        label_en: "Meat & Chicken",   label_ar: "لحوم ودجاج",      label_zh: "肉类鸡肉",  emoji: "🥩" },
-  { id: "seafood",         label_tr: "Deniz Ürünleri",    label_en: "Seafood",          label_ar: "مأكولات بحرية",   label_zh: "海鲜",      emoji: "🦐" },
-  { id: "starters",        label_tr: "Başlangıçlar",      label_en: "Starters",         label_ar: "المقبلات",        label_zh: "前菜",      emoji: "🥟" },
-  { id: "rice-salads",     label_tr: "Pilav & Salatalar", label_en: "Rice & Salads",    label_ar: "أرز وسلطات",      label_zh: "米饭沙拉",  emoji: "🍚" },
-  { id: "desserts",        label_tr: "Tatlılar",          label_en: "Desserts",         label_ar: "الحلويات",        label_zh: "甜点",      emoji: "🍡" },
-  { id: "drinks",          label_tr: "İçecekler",         label_en: "Drinks",           label_ar: "المشروبات",       label_zh: "饮料",      emoji: "🥤" },
-  { id: "sauces",          label_tr: "Soslar",            label_en: "Sauces & Extras",  label_ar: "صوصات وإضافات",   label_zh: "酱料",      emoji: "🫙" },
+  { id: "sushi-sets",      label_tr: "Sushi Setler",      label_en: "Sushi Sets",       label_ar: "طقم السوشي",       label_zh: "寿司套餐",  icon: <FaGift /> },
+  { id: "special-rolls",   label_tr: "Special Rolls",     label_en: "Special Rolls",    label_ar: "رولات خاصة",      label_zh: "特色卷",    icon: <GiSushis /> },
+  { id: "crunchy-cooked",  label_tr: "Crunchy & Pişmiş",  label_en: "Crunchy & Cooked", label_ar: "كرانشي ومطهو",    label_zh: "脆皮熟食",  icon: <FaFire /> },
+  { id: "maki",            label_tr: "Magic Maki",        label_en: "Magic Maki",       label_ar: "ماجيك ماكي",      label_zh: "花式卷",    icon: <GiChopsticks /> },
+  { id: "nigiri-sashimi",  label_tr: "Nigiri & Sashimi",  label_en: "Nigiri & Sashimi", label_ar: "نيغيري وساشيمي",  label_zh: "握寿司刺身",icon: <FaFish /> },
+  { id: "bento-sets",      label_tr: "Bento Menüler",     label_en: "Bento Sets",       label_ar: "طقم البينتو",      label_zh: "便当套餐",  icon: <FaBox /> },
+  { id: "poke-bowls",      label_tr: "Poke Bowls",        label_en: "Poke Bowls",       label_ar: "بوكي بول",        label_zh: "波奇碗",    icon: <FaBowlFood /> },
+  { id: "ramen-soups",     label_tr: "Çorba & Ramen",     label_en: "Ramen & Soups",    label_ar: "رامن وحساء",      label_zh: "拉面汤品",  icon: <GiNoodles /> },
+  { id: "noodles-udon",    label_tr: "Noodle & Udon",     label_en: "Noodles & Udon",   label_ar: "نودلز وأودون",    label_zh: "面条乌冬",  icon: <FaBowlRice /> },
+  { id: "meat-chicken",    label_tr: "Et & Tavuk",        label_en: "Meat & Chicken",   label_ar: "لحوم ودجاج",      label_zh: "肉类鸡肉",  icon: <FaUtensils /> },
+  { id: "seafood",         label_tr: "Deniz Ürünleri",    label_en: "Seafood",          label_ar: "مأكولات بحرية",   label_zh: "海鲜",      icon: <FaShrimp /> },
+  { id: "starters",        label_tr: "Başlangıçlar",      label_en: "Starters",         label_ar: "المقبلات",        label_zh: "前菜",      icon: <GiDumpling /> },
+  { id: "rice-salads",     label_tr: "Pilav & Salatalar", label_en: "Rice & Salads",    label_ar: "أرز وسلطات",      label_zh: "米饭沙拉",  icon: <FaLeaf /> },
+  { id: "desserts",        label_tr: "Tatlılar",          label_en: "Desserts",         label_ar: "الحلويات",        label_zh: "甜点",      icon: <FaCakeCandles /> },
+  { id: "drinks",          label_tr: "İçecekler",         label_en: "Drinks",           label_ar: "المشروبات",       label_zh: "饮料",      icon: <FaGlassWater /> },
+  { id: "sauces",          label_tr: "Soslar",            label_en: "Sauces & Extras",  label_ar: "صوصات وإضافات",   label_zh: "酱料",      icon: <FaPepperHot /> },
 ];
 
 // ── Quick Filter Chips ────────────────────────
 export const quickFilters = [
-  { id: "all",               label_tr: "Tümü",            label_en: "All",               label_ar: "الكل",            label_zh: "全部",     emoji: "✨" },
-  { id: "bestseller",        label_tr: "Çok Satanlar",    label_en: "Best Sellers",      label_ar: "الأكثر مبيعًا",   label_zh: "热卖",      emoji: "🔥" },
-  { id: "sharing",           label_tr: "Paylaşım",        label_en: "Sharing Sets",      label_ar: "أطباق مشتركة",   label_zh: "分享套餐",  emoji: "🎁" },
-  { id: "cooked",            label_tr: "Pişmiş",          label_en: "Cooked & Crunchy",  label_ar: "مطهو ومقرمش",    label_zh: "熟食脆皮",  emoji: "🔆" },
-  { id: "beginner-friendly", label_tr: "Başlangıç",       label_en: "Beginner Friendly", label_ar: "للمبتدئين",       label_zh: "新手友好",  emoji: "👍" },
-  { id: "vegetarian",        label_tr: "Vejetaryen",      label_en: "Vegetarian",        label_ar: "نباتي",           label_zh: "素食",      emoji: "🥦" },
-  { id: "chinese-favorites", label_tr: "Çin Mutfağı",     label_en: "Chinese Favorites", label_ar: "المفضلة الصينية", label_zh: "中式菜肴",  emoji: "🥡" },
-  { id: "spicy",             label_tr: "Acılı",           label_en: "Spicy",             label_ar: "حار",             label_zh: "辣",        emoji: "🌶️" },
+  { id: "all",               label_tr: "Tümü",            label_en: "All",               label_ar: "الكل",            label_zh: "全部",     icon: <FaStar /> },
+  { id: "bestseller",        label_tr: "Çok Satanlar",    label_en: "Best Sellers",      label_ar: "الأكثر مبيعًا",   label_zh: "热卖",      icon: <FaFire /> },
+  { id: "sharing",           label_tr: "Paylaşım",        label_en: "Sharing Sets",      label_ar: "أطباق مشتركة",   label_zh: "分享套餐",  icon: <FaGift /> },
+  { id: "cooked",            label_tr: "Pişmiş",          label_en: "Cooked & Crunchy",  label_ar: "مطهو ومقرمش",    label_zh: "熟食脆皮",  icon: <FaSun /> },
+  { id: "beginner-friendly", label_tr: "Başlangıç",       label_en: "Beginner Friendly", label_ar: "للمبتدئين",       label_zh: "新手友好",  icon: <FaThumbsUp /> },
+  { id: "vegetarian",        label_tr: "Vejetaryen",      label_en: "Vegetarian",        label_ar: "نباتي",           label_zh: "素食",      icon: <FaLeaf /> },
+  { id: "chinese-favorites", label_tr: "Çin Mutfağı",     label_en: "Chinese Favorites", label_ar: "المفضلة الصينية", label_zh: "中式菜肴",  icon: <FaBoxOpen /> },
+  { id: "spicy",             label_tr: "Acılı",           label_en: "Spicy",             label_ar: "حار",             label_zh: "辣",        icon: <FaPepperHot /> },
 ];
 
 // ── Restaurant Info ───────────────────────────
 export const restaurantInfo = {
   name: "Lucky Sushi Chinese",
-  tagline_tr: "Gece yarısı Asya menüsü, rengi yemek getirir.",
-  tagline_en: "A midnight Asian menu where the food brings the color.",
-  tagline_ar: "منيو آسيوي ليلي، الطعام فيه هو مصدر اللون.",
-  tagline_zh: "午夜亚洲菜单，美食带来色彩。",
+  tagline_tr: "Uzak Doğu mutfağının rafine ve çağdaş yorumu.",
+  tagline_en: "A refined and contemporary interpretation of Far East cuisine.",
+  tagline_ar: "تفسير راقٍ ومعاصر لمطبخ الشرق الأقصى.",
+  tagline_zh: "对远东美食的精致和当代诠释。",
+  desc_tr: "Geleneksel teknikler, özenle seçilmiş malzemeler ve dengeli tatlar. Sadelikten gelen zarafet anlayışıyla.",
+  desc_en: "Traditional techniques, carefully selected ingredients, and balanced flavors. Elegance born from simplicity.",
+  desc_ar: "تقنيات تقليدية، مكونات مختارة بعناية، ونكهات متوازنة. أناقة نابعة من البساطة.",
+  desc_zh: "传统技法，精心挑选的食材，平衡的风味。源于简约的优雅。",
+  
+  // Branches
+  branches: [
+    {
+      id: "alibeykoy",
+      name: "Alibeyköy (Merkez)",
+      address: "Vardar Bulvarı Çırçır Caddesi No: 25, Eyüp, İstanbul 34060",
+      phone: "+90 531 486 34 04",
+      whatsapp: "+90 212 427 60 97",
+      map: "https://maps.app.goo.gl/FYJRC83umT6g6diYA?g_st=ic"
+    },
+    {
+      id: "zeytinburnu",
+      name: "Zeytinburnu",
+      address: "Zeytinburnu, İstanbul",
+      phone: "+90 544 217 98 57",
+      whatsapp: "+90 544 217 98 57",
+      map: "https://maps.app.goo.gl/1bUYKe45ERSb8HWo7?g_st=ic"
+    },
+    {
+      id: "resitpasa",
+      name: "Reşitpaşa (Paket Servis)",
+      address: "Reşitpaşa, İstanbul",
+      phone: "+90 555 995 34 04",
+      whatsapp: "+90 555 995 34 04",
+      map: "https://maps.app.goo.gl/dNb9zXpej65MLyyH9?g_st=ic"
+    }
+  ],
+
+  // Fallback / legacy compatibility
   phone: "+90 531 486 34 04",
-  address_tr: "Çırçır Caddesi No:25, Alibeyköy, Eyüpsultan, İstanbul",
-  address_en: "Çırçır St. No:25, Alibeyköy, Eyüpsultan, Istanbul",
-  address_ar: "شارع تشيرتشير رقم 25، أليبي كوي، إيوب سلطان، إسطنبول",
-  address_zh: "伊斯坦布尔欧普苏丹区阿里贝科伊奇尔奇尔大街25号",
+  address_tr: "Vardar Bulvarı Çırçır Caddesi No:25, Eyüp, İstanbul",
+  address_en: "Vardar Blvd Çırçır St No:25, Eyüp, Istanbul",
+  address_ar: "بولفار فاردار شارع تشيرتشير رقم 25، أيوب، إسطنبول",
+  address_zh: "伊斯坦布尔埃于普区 Vardar大道 Çırçır街 25号",
+  
   hours_tr: "Her gün: 10:00 — 04:00",
   hours_en: "Daily: 10:00 AM — 4:00 AM",
   hours_ar: "يوميًا: 10:00 صباحًا — 04:00 فجرًا",
   hours_zh: "每天: 上午10:00 — 凌晨4:00",
+  
   delivery_min_tl: 399,
   instagram: "@lucky.sushi_chinese",
+  menu_url: "https://menu.sepettakip.com/lucky-sushi",
+  
   ratings: {
     yemeksepeti: { score: 4.6, count: "2000+" },
     yandex: { score: 5.0, count: 38 },
