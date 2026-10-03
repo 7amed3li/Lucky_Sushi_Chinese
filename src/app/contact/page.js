@@ -1,232 +1,224 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
 import { useLang } from '@/context/LangContext';
-import { restaurantInfo } from '@/data/menuData';
 import Header from '@/components/Header';
 import CartDrawer from '@/components/CartDrawer';
+import { restaurantInfo } from '@/data/menuData';
 
 export default function ContactPage() {
-  const { lang, t, tUI, dir } = useLang();
-  const phoneClean = restaurantInfo.phone.replace(/[^0-9]/g, '');
+  const { lang, t, dir } = useLang();
 
-  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    'Lucky Sushi Chinese Çırçır Caddesi No:25 Eyüpsultan İstanbul'
-  )}`;
+  const labels = {
+    title: { tr: 'İletişim & Şubeler', en: 'Contact & Branches', ar: 'اتصل بنا وفروعنا', zh: '联系与分店' },
+    subtitle: { 
+      tr: 'Size en yakın Lucky Sushi Chinese şubesini bulun.', 
+      en: 'Find the nearest Lucky Sushi Chinese branch to you.', 
+      ar: 'ابحث عن أقرب فرع لـ Lucky Sushi Chinese إليك.', 
+      zh: '找到离您最近的 Lucky Sushi Chinese 分店。' 
+    },
+    order: { tr: 'Sipariş Ver', en: 'Order Now', ar: 'اطلب الآن', zh: '立即下单' },
+    map: { tr: 'Haritada Gör', en: 'View on Map', ar: 'عرض على الخريطة', zh: '在地图上查看' },
+    call: { tr: 'Ara', en: 'Call', ar: 'اتصل', zh: '呼叫' },
+    mainMenu: { tr: 'Ana Menü (Tüm Şubeler)', en: 'Main Menu (All Branches)', ar: 'القائمة الرئيسية (جميع الفروع)', zh: '主菜单（所有分店）' }
+  };
 
-  const whatsappUrl = `https://wa.me/${phoneClean}?text=${encodeURIComponent(
-    'Merhaba! Lucky Sushi Chinese hakkında bilgi almak / sipariş vermek istiyorum.'
-  )}`;
+  const l = (key) => labels[key]?.[lang] || labels[key]?.en || '';
 
   return (
     <>
       <Header />
 
-      <main id="main-content" className="contact-main">
-        {/* ── Hero ─────────────────────────────────────── */}
-        <section className="contact-hero">
-          <div className="contact-hero__glow" aria-hidden="true" />
-          <div className="contact-hero__inner">
-            <div className="contact-hero__logo-box">
-              <Image
-                src="/logo-full-badge.png"
-                alt="Lucky Sushi Chinese"
-                width={120}
-                height={86}
-                className="contact-hero__logo"
-                priority
-              />
-            </div>
-            <p className="contact-hero__tag">{tUI('contact_hero_tag')}</p>
-            <h1 className="contact-hero__title">{tUI('contact_hero_title')}</h1>
-            <p className="contact-hero__sub">{tUI('contact_hero_sub')}</p>
-          </div>
+      <main style={{ background: 'var(--warm-cream)', minHeight: '100vh', paddingBottom: 'var(--sp-12)' }}>
+        
+        {/* Header Section */}
+        <section style={{ padding: 'var(--sp-8) var(--page-pad)', textAlign: 'center' }}>
+          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', color: 'var(--roasted-cacao)', marginBottom: 'var(--sp-2)' }}>
+            {l('title')}
+          </h1>
+          <p style={{ color: 'var(--soft-taupe)', maxWidth: '600px', margin: '0 auto' }}>
+            {l('subtitle')}
+          </p>
         </section>
 
-        {/* ── Contact Grid ─────────────────────────────── */}
-        <section className="contact-section">
-          <div className="contact-container">
-            <div className="contact-cards-grid">
-              {/* Card 1: Phone */}
-              <div className="contact-card">
-                <div className="contact-card__icon" aria-hidden="true">📞</div>
-                <h3 className="contact-card__title">{tUI('contact_phone_title')}</h3>
-                <p className="contact-card__val">
-                  <a href={`tel:${phoneClean}`} className="contact-link">
-                    {restaurantInfo.phone}
-                  </a>
-                </p>
-                <p className="contact-card__hint">
-                  {lang === 'tr' ? 'Doğrudan telefon ile sipariş ve bilgi hattı' : 'Direct phone order and inquiry line'}
-                </p>
-                <a href={`tel:${phoneClean}`} className="btn-contact-action btn-contact-action--phone">
-                  <span>📞</span>
-                  <span>{tUI('call_direct_btn')}</span>
-                </a>
-              </div>
-
-              {/* Card 2: WhatsApp */}
-              <div className="contact-card">
-                <div className="contact-card__icon" aria-hidden="true">💬</div>
-                <h3 className="contact-card__title">WhatsApp Sipariş & Destek</h3>
-                <p className="contact-card__val">
-                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="contact-link">
-                    +90 531 486 34 04
-                  </a>
-                </p>
-                <p className="contact-card__hint">
-                  {lang === 'tr' ? 'Hızlı sipariş, menü desteği ve canlı konum' : 'Fast ordering, menu questions, and live support'}
-                </p>
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-contact-action btn-contact-action--whatsapp"
-                >
-                  <span>💬</span>
-                  <span>WhatsApp ile Yazın</span>
-                </a>
-              </div>
-
-              {/* Card 3: Address & Directions */}
-              <div className="contact-card">
-                <div className="contact-card__icon" aria-hidden="true">📍</div>
-                <h3 className="contact-card__title">{tUI('contact_address_title')}</h3>
-                <p className="contact-card__val">
-                  {t(restaurantInfo, 'address')}
-                </p>
-                <p className="contact-card__hint">
-                  {lang === 'tr' ? 'Alibeyköy, Eyüpsultan / İstanbul' : 'Alibeykoy, Eyupsultan / Istanbul'}
-                </p>
-                <a
-                  href={googleMapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-contact-action btn-contact-action--maps"
-                >
-                  <span>🗺️</span>
-                  <span>{tUI('open_in_google_maps')}</span>
-                </a>
-              </div>
-
-              {/* Card 4: Hours */}
-              <div className="contact-card">
-                <div className="contact-card__icon" aria-hidden="true">🕐</div>
-                <h3 className="contact-card__title">{tUI('contact_hours_title')}</h3>
-                <p className="contact-card__val">
-                  {restaurantInfo[`hours_${lang}`] || restaurantInfo.hours_en}
-                </p>
-                <p className="contact-card__hint">
-                  {lang === 'tr' ? 'Haftanın her günü gece 04:00\'e kadar kesintisiz' : 'Open 7 days a week continuously until 4:00 AM'}
-                </p>
-                <div className="open-badge">
-                  <span className="open-badge__dot" aria-hidden="true" />
-                  <span>{lang === 'tr' ? 'Gece 04:00\'e kadar Açık' : 'Open Until 04:00 AM'}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Delivery Platforms Section */}
-            <div className="contact-delivery-box">
-              <h3 className="contact-delivery-title">
-                {lang === 'tr' ? '🛵 Online Paket Servis Platformlarımız' : '🛵 Online Delivery Platforms'}
-              </h3>
-              <p className="contact-delivery-sub">
-                {lang === 'tr'
-                  ? 'Dilediğiniz sipariş uygulamasından Lucky Sushi Chinese lezzetlerine anında ulaşabilirsiniz:'
-                  : 'You can order your favorite Lucky Sushi Chinese dishes directly through top food apps:'}
-              </p>
-              <div className="contact-delivery-grid">
-                <div className="delivery-card">
-                  <span className="delivery-card__icon">⭐</span>
-                  <div>
-                    <h4 className="delivery-card__title">Yemeksepeti</h4>
-                    <p className="delivery-card__score">4.6 / 5 ({restaurantInfo.ratings.yemeksepeti.count}+ değerlendirme)</p>
-                  </div>
-                </div>
-                <div className="delivery-card">
-                  <span className="delivery-card__icon">⚡</span>
-                  <div>
-                    <h4 className="delivery-card__title">Trendyol Yemek</h4>
-                    <p className="delivery-card__score">Hızlı teslimat & puan fırsatı</p>
-                  </div>
-                </div>
-                <div className="delivery-card">
-                  <span className="delivery-card__icon">🛵</span>
-                  <div>
-                    <h4 className="delivery-card__title">Getir Yemek</h4>
-                    <p className="delivery-card__score">Sıcak & taze teslimat</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Google Maps Visual Box */}
-            <div className="contact-map-card">
-              <div className="contact-map-info">
-                <span className="contact-map-badge">📍 Eyüpsultan, İstanbul</span>
-                <h3 className="contact-map-heading">Lucky Sushi Chinese Restaurant</h3>
-                <p className="contact-map-desc">
-                  Çırçır Cad. No:25, Eyüpsultan / İstanbul (Alibeyköy)
-                </p>
-                <div className="contact-map-buttons">
-                  <a
-                    href={googleMapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-hero-primary"
-                  >
-                    <span>🗺️</span>
-                    <span>{tUI('open_in_google_maps')}</span>
-                    <span aria-hidden="true">{dir === 'rtl' ? '←' : '→'}</span>
-                  </a>
-                  <Link href="/menu" className="btn-hero-secondary">
-                    <span>🍣</span>
-                    <span>{tUI('nav_menu')}</span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="footer" role="contentinfo">
-        <div className="footer__inner">
-          <div className="footer__brand">
-            <div className="logo__badge" style={{ display: 'inline-flex', marginBottom: 12 }}>
-              <Image
-                src="/logo-full-badge.png"
-                alt="Lucky Sushi Chinese"
-                width={64}
-                height={46}
-                className="logo__img"
-              />
-            </div>
-            <p className="footer__name">Lucky Sushi Chinese</p>
-            <p className="footer__tagline">{restaurantInfo[`tagline_${lang}`] || restaurantInfo.tagline_en}</p>
-            <p className="footer__info">
-              {restaurantInfo[`address_${lang}`] || restaurantInfo.address_en}<br />
-              {restaurantInfo[`hours_${lang}`] || restaurantInfo.hours_en}<br />
-              <a href={`tel:${phoneClean}`} style={{ color: 'var(--color-red)' }}>{restaurantInfo.phone}</a>
-            </p>
-          </div>
-          <div>
-            <p style={{ fontSize: '0.82rem', color: 'var(--color-muted)', lineHeight: 2.2 }}>
-              <a href="https://instagram.com/lucky.sushi_chinese" target="_blank" rel="noopener noreferrer">
-                📸 {restaurantInfo.instagram}
-              </a><br />
-              <span>⭐ {restaurantInfo.ratings.yemeksepeti.score}/5 · Yemeksepeti</span><br />
-              <span>⭐ {restaurantInfo.ratings.yandex.score}/5 · Yandex</span>
-            </p>
+        {/* Global Menu Link */}
+        <div className="container" style={{ marginBottom: 'var(--sp-8)' }}>
+          <div style={{ 
+            background: 'var(--aged-champagne)', 
+            borderRadius: 'var(--card-radius)', 
+            padding: 'var(--sp-4)',
+            textAlign: 'center',
+            color: 'white',
+            boxShadow: '0 8px 32px rgba(185, 148, 82, 0.2)'
+          }}>
+            <h2 style={{ color: 'white', marginBottom: 'var(--sp-2)', fontSize: '1.5rem' }}>
+              {l('mainMenu')}
+            </h2>
+            <a 
+              href={restaurantInfo.menu_url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                background: 'white',
+                color: 'var(--roasted-cacao)',
+                padding: '12px 32px',
+                borderRadius: 'var(--btn-radius)',
+                fontWeight: 600,
+                transition: 'transform 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+              <span>🍣</span> {l('order')} (menu.sepettakip.com)
+            </a>
           </div>
         </div>
-        <p className="footer__copy">
-          © {new Date().getFullYear()} Lucky Sushi Chinese — Eyüpsultan, İstanbul · All prices in TL.
-        </p>
-      </footer>
+
+        {/* Branches Grid */}
+        <div className="container">
+          <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+            gap: 'var(--sp-4)' 
+          }}>
+            {restaurantInfo.branches.map((branch) => {
+              const whatsappClean = branch.whatsapp.replace(/[^0-9]/g, '');
+              const phoneClean = branch.phone.replace(/[^0-9]/g, '');
+              
+              return (
+                <div key={branch.id} style={{
+                  background: 'white',
+                  borderRadius: 'var(--card-radius)',
+                  padding: 'var(--sp-5)',
+                  border: '1px solid rgba(185, 148, 82, 0.15)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  transition: 'box-shadow 0.3s, transform 0.3s',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(52, 43, 37, 0.08)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}
+                >
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'var(--aged-champagne)' }} />
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: 'var(--sp-3)' }}>
+                    <div style={{ 
+                      width: '48px', height: '48px', 
+                      borderRadius: '50%', background: 'var(--rice-paper)', 
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '1.5rem', color: 'var(--aged-champagne)'
+                    }}>
+                      📍
+                    </div>
+                    <h3 style={{ fontSize: '1.4rem', color: 'var(--roasted-cacao)' }}>{branch.name}</h3>
+                  </div>
+
+                  <p style={{ color: 'var(--soft-taupe)', marginBottom: 'var(--sp-4)', flex: 1 }}>
+                    {branch.address}
+                  </p>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <a 
+                      href={`https://wa.me/${whatsappClean}?text=${encodeURIComponent('Merhaba! Sipariş vermek istiyorum.')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '8px',
+                        background: '#25D366',
+                        color: 'white',
+                        padding: '12px',
+                        borderRadius: 'var(--btn-radius)',
+                        fontWeight: 600,
+                        fontSize: '0.95rem'
+                      }}
+                    >
+                      💬 WhatsApp: {branch.whatsapp}
+                    </a>
+                    
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                      <a 
+                        href={`tel:${phoneClean}`}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '8px',
+                          border: '1px solid rgba(185, 148, 82, 0.3)',
+                          color: 'var(--roasted-cacao)',
+                          padding: '10px',
+                          borderRadius: 'var(--btn-radius)',
+                          fontWeight: 500,
+                          fontSize: '0.85rem'
+                        }}
+                      >
+                        📞 {l('call')}
+                      </a>
+                      <a 
+                        href={branch.map}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '8px',
+                          border: '1px solid rgba(185, 148, 82, 0.3)',
+                          color: 'var(--roasted-cacao)',
+                          padding: '10px',
+                          borderRadius: 'var(--btn-radius)',
+                          fontWeight: 500,
+                          fontSize: '0.85rem'
+                        }}
+                      >
+                        🗺️ {l('map')}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Global Info */}
+        <section className="container" style={{ marginTop: 'var(--sp-10)' }}>
+          <div style={{ 
+            background: 'var(--nori-black)', 
+            borderRadius: 'var(--card-radius)', 
+            padding: 'var(--sp-6)',
+            color: 'var(--rice-white)',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: 'var(--sp-6)',
+            justifyContent: 'space-between',
+            alignItems: 'center'
+          }}>
+            <div>
+              <h3 style={{ color: 'var(--aged-champagne)', marginBottom: '8px', fontSize: '1.2rem' }}>Çalışma Saatleri</h3>
+              <p style={{ color: 'var(--mist-beige)' }}>{t(restaurantInfo, 'hours')}</p>
+            </div>
+            <div>
+              <h3 style={{ color: 'var(--aged-champagne)', marginBottom: '8px', fontSize: '1.2rem' }}>Sosyal Medya</h3>
+              <a href="https://instagram.com/lucky.sushi_chinese" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--mist-beige)' }}>
+                📸 {restaurantInfo.instagram}
+              </a>
+            </div>
+          </div>
+        </section>
+
+      </main>
 
       <CartDrawer />
     </>

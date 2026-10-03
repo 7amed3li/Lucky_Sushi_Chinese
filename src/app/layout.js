@@ -1,32 +1,33 @@
-import { Inter, Outfit } from "next/font/google";
+import { DM_Serif_Display, Manrope } from "next/font/google";
 import "./globals.css";
 import { LangProvider } from "@/context/LangContext";
 import { CartProvider } from "@/context/CartContext";
 
-const inter = Inter({
+const dmSerif = DM_Serif_Display({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: "400",
+  variable: "--font-dm-serif",
   display: "swap",
 });
 
-const outfit = Outfit({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  variable: "--font-manrope",
   display: "swap",
 });
 
 export const metadata = {
   title: {
     template: "%s | Lucky Sushi Chinese",
-    default: "Lucky Sushi Chinese — Midnight Asian Menu",
+    default: "Lucky Sushi Chinese — Contemporary Sushi & Asian Kitchen · Istanbul",
   },
   description:
-    "A midnight Asian menu where the food brings the color. Best sushi, ramen, noodles & Chinese food in Eyüpsultan, Istanbul. Open until 4AM. Delivery available.",
-  keywords: ["sushi", "chinese food", "ramen", "istanbul", "eyüpsultan", "delivery", "سوشي", "مطعم"],
+    "Fresh sushi, warm Asian dishes, and details crafted to be craved from first glance. Eyüpsultan, Istanbul. Open until 4AM. Delivery available.",
+  keywords: ["sushi", "chinese food", "ramen", "istanbul", "eyüpsultan", "delivery", "سوشي", "مطعم", "sushi istanbul"],
   openGraph: {
-    title: "Lucky Sushi Chinese — Midnight Asian Menu",
+    title: "Lucky Sushi Chinese — Contemporary Sushi & Asian Kitchen",
     description:
-      "A midnight Asian menu where the food brings the color. Sushi, ramen, noodles & Chinese food in Istanbul — open until 4AM.",
+      "Fresh sushi, warm Asian dishes, and details crafted to be craved. Eyüpsultan, Istanbul — open until 4AM.",
     siteName: "Lucky Sushi Chinese",
     locale: "tr_TR",
     type: "website",
@@ -34,17 +35,20 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Lucky Sushi Chinese",
-    description: "Midnight Asian menu — open until 4AM in Istanbul.",
+    description: "Contemporary sushi & Asian kitchen — open until 4AM in Istanbul.",
   },
   robots: { index: true, follow: true },
   other: {
-    "theme-color": "#111112",
+    "theme-color": "#F3E8D2",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="tr" className={`${inter.variable} ${outfit.variable}`}>
+    <html lang="tr" className={`${dmSerif.variable} ${manrope.variable}`}>
+      <head>
+        {/* Arabic & secondary font imports via CSS @import in globals.css */}
+      </head>
       <body>
         <LangProvider defaultLang="tr">
           <CartProvider>{children}</CartProvider>

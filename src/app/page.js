@@ -182,95 +182,68 @@ export default function HomePage() {
             <h2 className="home-section-title">{tUI('visit_us_title')}</h2>
           </div>
 
-          <div className="home-visit-grid">
-            {/* Address & Hours Card */}
-            <div className="home-visit-card">
-              <span className="home-visit-icon" aria-hidden="true">🏠</span>
-              <h3 className="home-visit-name">{restaurantInfo.name}</h3>
-              <p className="home-visit-text">{t(restaurantInfo, 'address')}</p>
-              <p className="home-visit-hours">
-                🕐 <strong>{restaurantInfo[`hours_${lang}`] || restaurantInfo.hours_en}</strong>
-              </p>
-              <div className="home-visit-actions">
-                <a
-                  href={`tel:${phoneClean}`}
-                  className="btn-visit-action btn-visit-action--phone"
-                >
-                  <span>📞 {restaurantInfo.phone}</span>
-                </a>
-                <Link href="/contact" className="btn-visit-action btn-visit-action--map">
-                  <span>🗺️ {tUI('nav_contact')}</span>
-                </Link>
-              </div>
-            </div>
-
-            {/* Delivery Platforms Card */}
-            <div className="home-visit-card">
-              <span className="home-visit-icon" aria-hidden="true">🛵</span>
-              <h3 className="home-visit-name">
-                {lang === 'tr' ? 'Online Sipariş Platformları' : lang === 'ar' ? 'منصات التوصيل السريع' : 'Fast Delivery Platforms'}
-              </h3>
-              <p className="home-visit-text">
-                {lang === 'tr'
-                  ? 'Yemeksepeti, Trendyol Yemek ve Getir üzerinden kapınıza sıcacık sipariş verin.'
-                  : lang === 'ar'
-                  ? 'اطلب مباشرة عبر منصات التوصيل المعتمدة أو اتصل بنا لتوصيل فوري.'
-                  : 'Order hot and fresh right to your doorstep through your favorite delivery platforms.'}
-              </p>
-              <div className="delivery-pills">
-                <span className="delivery-pill">⭐ Yemeksepeti (4.6)</span>
-                <span className="delivery-pill">⚡ Trendyol Yemek</span>
-                <span className="delivery-pill">🛵 Getir Yemek</span>
-              </div>
-              <a
-                href={`https://wa.me/${phoneClean}?text=${encodeURIComponent('Merhaba! Menüden doğrudan sipariş vermek istiyorum.')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-whatsapp-order-card"
-              >
-                <span>💬 WhatsApp Sipariş Hattı</span>
-              </a>
-            </div>
+          <div className="home-visit-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--sp-4)' }}>
+            {restaurantInfo.branches.map((branch) => {
+              const whatsappClean = branch.whatsapp.replace(/[^0-9]/g, '');
+              const phoneClean = branch.phone.replace(/[^0-9]/g, '');
+              
+              return (
+                <div key={branch.id} className="home-visit-card" style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span className="home-visit-icon" aria-hidden="true">🏠</span>
+                  <h3 className="home-visit-name">{branch.name}</h3>
+                  <p className="home-visit-text" style={{ flex: 1, marginBottom: 'var(--sp-3)' }}>{branch.address}</p>
+                  
+                  <div className="home-visit-actions" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <a
+                      href={`https://wa.me/${whatsappClean}?text=${encodeURIComponent('Merhaba! Sipariş vermek istiyorum.')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                        background: '#25D366', color: 'white', padding: '10px', borderRadius: 'var(--btn-radius)',
+                        fontWeight: 600, fontSize: '0.85rem'
+                      }}
+                    >
+                      💬 WhatsApp
+                    </a>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                      <a href={`tel:${phoneClean}`} style={{ border: '1px solid rgba(185,148,82,0.3)', padding: '8px', borderRadius: 'var(--btn-radius)', textAlign: 'center', fontSize: '0.8rem', fontWeight: 500 }}>
+                        📞 Ara
+                      </a>
+                      <a href={branch.map} target="_blank" rel="noopener noreferrer" style={{ border: '1px solid rgba(185,148,82,0.3)', padding: '8px', borderRadius: 'var(--btn-radius)', textAlign: 'center', fontSize: '0.8rem', fontWeight: 500 }}>
+                        🗺️ Harita
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
       </main>
 
-      {/* ── Footer ─────────────────────────────────────── */}
-      <footer className="footer" role="contentinfo">
-        <div className="footer__inner">
-          <div className="footer__brand">
-            <div className="footer__logo-wrap">
-              <div className="logo__badge" style={{ display: 'inline-flex' }}>
-                <Image
-                  src="/logo-full-badge.png"
-                  alt="Lucky Sushi Chinese"
-                  width={64}
-                  height={46}
-                  className="logo__img"
-                />
-              </div>
+      {/* ── Site Footer ─────────────────────────────────────── */}
+      <footer className="site-footer" role="contentinfo">
+        <div className="site-footer__inner">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
+            <span style={{ fontSize: '1.2rem' }}>🍀</span>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <span style={{ fontFamily: 'var(--font-heading-en)', fontSize: '1.2rem', color: 'var(--rice-white)' }}>Lucky</span>
+              <span style={{ fontSize: '0.6rem', textTransform: 'uppercase', letterSpacing: '0.3em', color: 'var(--mist-beige)' }}>Sushi · Chinese</span>
             </div>
-            <p className="footer__name">Lucky Sushi Chinese</p>
-            <p className="footer__tagline">{restaurantInfo[`tagline_${lang}`] || restaurantInfo.tagline_en}</p>
-            <p className="footer__info">
-              {restaurantInfo[`address_${lang}`] || restaurantInfo.address_en}<br />
-              {restaurantInfo[`hours_${lang}`] || restaurantInfo.hours_en}<br />
-              <a href={`tel:${phoneClean}`} style={{ color: 'var(--color-red)' }}>{restaurantInfo.phone}</a>
-            </p>
           </div>
-          <div>
-            <p style={{ fontSize: '0.82rem', color: 'var(--color-muted)', lineHeight: 2.2 }}>
-              <a href="https://instagram.com/lucky.sushi_chinese" target="_blank" rel="noopener noreferrer">
-                📸 {restaurantInfo.instagram}
-              </a><br />
-              <span>⭐ {restaurantInfo.ratings.yemeksepeti.score}/5 · Yemeksepeti</span><br />
-              <span>⭐ {restaurantInfo.ratings.yandex.score}/5 · Yandex</span>
-            </p>
+          
+          <div className="site-footer__links">
+            <Link href="/" className="site-footer__link">{tUI('nav_home')}</Link>
+            <Link href="/menu" className="site-footer__link">{tUI('nav_menu')}</Link>
+            <Link href="/about" className="site-footer__link">{tUI('nav_about')}</Link>
+            <Link href="/contact" className="site-footer__link">{tUI('nav_contact')}</Link>
           </div>
+
+          <p className="site-footer__copy">
+            © {new Date().getFullYear()} Lucky Sushi Chinese — {lang === 'tr' ? 'Tüm Hakları Saklıdır.' : 'All Rights Reserved.'}
+          </p>
         </div>
-        <p className="footer__copy">
-          © {new Date().getFullYear()} Lucky Sushi Chinese — Eyüpsultan, İstanbul · All prices in TL.
-        </p>
       </footer>
 
       {/* Selected Item Modal */}
