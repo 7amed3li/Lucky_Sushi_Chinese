@@ -30,7 +30,7 @@ function getBadge(tags, lang) {
 }
 
 export default function DishCard({ item, onClick }) {
-  const { lang, t } = useLang();
+  const { lang, t, tUI } = useLang();
   const { addToCart, removeFromCart, getItemQuantity } = useCart();
 
   const name = t(item, 'name');
