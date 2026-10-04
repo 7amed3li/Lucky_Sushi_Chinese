@@ -9,13 +9,13 @@ export default function Footer() {
   const { lang, t, tUI } = useLang();
 
   const labels = {
-    phone: { tr: 'Telefon', en: 'Phone', ar: 'الهاتف', zh: '电话' },
-    email: { tr: 'E-posta', en: 'Email', ar: 'البريد الإلكتروني', zh: '邮箱' },
-    hq: { tr: 'Merkez', en: 'Headquarters', ar: 'المقر الرئيسي', zh: '总店' },
-    orderMenu: { tr: 'Sipariş Ver / Menü', en: 'Order / Menu', ar: 'اطلب / القائمة', zh: '下单 / 菜单' },
-    aboutUs: { tr: 'Hakkımızda', en: 'About Us', ar: 'من نحن', zh: '关于我们' },
-    branches: { tr: 'Şubelerimiz / İletişim', en: 'Branches / Contact', ar: 'فروعنا / اتصل بنا', zh: '分店 / 联系' },
-    rights: { tr: 'Tüm hakları saklıdır.', en: 'All rights reserved.', ar: 'جميع الحقوق محفوظة.', zh: '版权所有。' },
+    phone: { tr: 'Telefon', en: 'Phone', ar: 'الهاتف', zh: '电话', ru: 'Телефон', fa: 'تلفن', fr: 'Téléphone' },
+    email: { tr: 'E-posta', en: 'Email', ar: 'البريد الإلكتروني', zh: '邮箱', ru: 'Эл. почта', fa: 'ایمیل', fr: 'E-mail' },
+    hq: { tr: 'Merkez', en: 'Headquarters', ar: 'المقر الرئيسي', zh: '总店', ru: 'Главный филиал', fa: 'شعبه مرکزی', fr: 'Siège' },
+    orderMenu: { tr: 'Sipariş Ver / Menü', en: 'Order / Menu', ar: 'اطلب / القائمة', zh: '下单 / 菜单', ru: 'Заказ / Меню', fa: 'سفارش / منو', fr: 'Commander / Menu' },
+    aboutUs: { tr: 'Hakkımızda', en: 'About Us', ar: 'من نحن', zh: '关于我们', ru: 'О нас', fa: 'درباره ما', fr: 'À propos' },
+    branches: { tr: 'Şubelerimiz / İletişim', en: 'Branches / Contact', ar: 'فروعنا / اتصل بنا', zh: '分店 / 联系', ru: 'Филиалы / Контакты', fa: 'شعبات / تماس', fr: 'Nos Adresses / Contact' },
+    rights: { tr: 'Tüm hakları saklıdır.', en: 'All rights reserved.', ar: 'جميع الحقوق محفوظة.', zh: '版权所有。', ru: 'Все права защищены.', fa: 'تمامی حقوق محفوظ است.', fr: 'Tous droits réservés.' },
   };
 
   const l = (key) => labels[key]?.[lang] || labels[key]?.en || '';
@@ -25,13 +25,15 @@ export default function Footer() {
       <div className="main-footer__inner">
         {/* Column 1: Logo */}
         <div className="main-footer__col main-footer__col--logo">
-          <Image 
-            src="/logo-full-badge.png" 
-            alt="Lucky Sushi Chinese Logo"
-            width={200}
-            height={150}
-            className="main-footer__logo-img"
-          />
+          <Link href="/" aria-label="Lucky Sushi Chinese Home">
+            <Image 
+              src="/logo-dark-mode.png" 
+              alt="Lucky Sushi Chinese Logo"
+              width={160}
+              height={110}
+              className="main-footer__logo-img"
+            />
+          </Link>
         </div>
 
         {/* Column 2: Links */}

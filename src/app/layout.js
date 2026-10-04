@@ -1,4 +1,4 @@
-import { DM_Serif_Display, Manrope } from "next/font/google";
+import { Noto_Sans, Noto_Serif } from "next/font/google";
 import "./globals.css";
 import "./footer.css";
 import { LangProvider } from "@/context/LangContext";
@@ -6,16 +6,17 @@ import { CartProvider } from "@/context/CartContext";
 import Footer from "@/components/Footer";
 import { generateRestaurantJsonLd } from "@/lib/structuredData";
 
-const dmSerif = DM_Serif_Display({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-dm-serif",
+const notoSans = Noto_Sans({
+  subsets: ["latin", "cyrillic"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-noto-sans",
   display: "swap",
 });
 
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
+const notoSerif = Noto_Serif({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "600", "700"],
+  variable: "--font-noto-serif",
   display: "swap",
 });
 
@@ -65,12 +66,15 @@ export const metadata = {
       'tr': baseUrl,
       'en': baseUrl,
       'ar': baseUrl,
+      'ru': baseUrl,
+      'fa': baseUrl,
+      'fr': baseUrl,
       'zh': baseUrl,
       'x-default': baseUrl,
     },
   },
   other: {
-    "theme-color": "#F3E8D2",
+    "theme-color": "#F6F1E8",
     "color-scheme": "light",
   },
   icons: {
@@ -84,14 +88,14 @@ export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#F3E8D2',
+  themeColor: '#F6F1E8',
 };
 
 export default function RootLayout({ children }) {
   const restaurantJsonLd = generateRestaurantJsonLd();
 
   return (
-    <html lang="tr" dir="ltr" className={`${dmSerif.variable} ${manrope.variable}`}>
+    <html lang="tr" dir="ltr" className={`${notoSerif.variable} ${notoSans.variable}`}>
       <head>
         {/* Structured Data: Restaurant */}
         <script

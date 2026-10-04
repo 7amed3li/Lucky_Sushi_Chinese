@@ -5,7 +5,7 @@ import { uiTranslations } from '@/data/translations';
 
 const LangContext = createContext(null);
 
-const SUPPORTED_LANGS = ['tr', 'en', 'ar', 'zh'];
+const SUPPORTED_LANGS = ['tr', 'en', 'ar', 'ru', 'fa', 'fr', 'zh'];
 
 export function LangProvider({ children, defaultLang = 'tr' }) {
   const [lang, setLang] = useState(defaultLang);
@@ -26,7 +26,7 @@ export function LangProvider({ children, defaultLang = 'tr' }) {
     [lang]
   );
 
-  const dir = lang === 'ar' ? 'rtl' : 'ltr';
+  const dir = (lang === 'ar' || lang === 'fa') ? 'rtl' : 'ltr';
 
   return (
     <LangContext.Provider value={{ lang, switchLang, t, tUI, dir, SUPPORTED_LANGS }}>

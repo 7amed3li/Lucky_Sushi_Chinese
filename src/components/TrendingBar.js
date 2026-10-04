@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useRef } from 'react';
+import { GiSushis } from 'react-icons/gi';
 import { useLang } from '@/context/LangContext';
 import { menuItems } from '@/data/menuData';
 
@@ -23,10 +24,13 @@ export default function TrendingBar({ onOpen }) {
 
   const activeLang = lang || 'tr';
   const getBestSellersTitle = () => {
-    if (activeLang === 'ar') return 'الأكثر مبيعاً';
-    if (activeLang === 'tr') return 'En Çok Satanlar';
-    if (activeLang === 'zh') return '热卖菜品';
-    return 'Best Sellers';
+    if (activeLang === 'ar') return 'الأكثر طلباً واختياراتنا';
+    if (activeLang === 'tr') return 'En Çok Tercih Edilenler';
+    if (activeLang === 'zh') return '热门精选与推荐';
+    if (activeLang === 'ru') return 'Популярные блюда';
+    if (activeLang === 'fa') return 'محبوب‌ترین‌ها';
+    if (activeLang === 'fr') return 'Nos Meilleurs Choix';
+    return 'Top Picks & Best Sellers';
   };
 
   const trendingItems = TRENDING_IDS
@@ -37,7 +41,7 @@ export default function TrendingBar({ onOpen }) {
     <div className="trending-showcase">
       <div className="trending-showcase__inner">
         <h2 className="trending-showcase__title">
-          <span style={{ fontSize: '1rem', color: '#B99452' }}>🍱</span>
+          <GiSushis style={{ fontSize: '1.15rem', color: 'var(--color-brand-primary)' }} aria-hidden="true" />
           <span>{getBestSellersTitle()}</span>
         </h2>
         
@@ -56,6 +60,8 @@ export default function TrendingBar({ onOpen }) {
               : isChef
               ? (lang === 'ar' ? 'اختيار الشيف' : lang === 'tr' ? 'Şef Seçimi' : lang === 'zh' ? '主厨' : "Chef's Pick")
               : (lang === 'tr' ? 'Popüler' : 'Popular');
+
+            const badgeBg = isChef ? 'var(--color-accent)' : 'var(--color-brand-primary)';
 
             return (
               <div
@@ -82,15 +88,15 @@ export default function TrendingBar({ onOpen }) {
                       <div style={{
                         width: '100%', height: '100%',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '1.4rem', opacity: 0.4,
+                        fontSize: '1.4rem', color: 'var(--color-brand-primary)', opacity: 0.6,
                       }}>
-                        🍣
+                        🥢
                       </div>
                     )}
                   </div>
                   {badgeLabel && (
                     <div className="trending__badge-wrap">
-                      <span className="trending__badge">{badgeLabel}</span>
+                      <span className="trending__badge" style={{ backgroundColor: badgeBg }}>{badgeLabel}</span>
                     </div>
                   )}
                 </div>

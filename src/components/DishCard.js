@@ -5,12 +5,12 @@ import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 
 const BADGE_MAP = {
-  'bestseller':        { label_tr: 'Çok Satan', label_en: 'Best Seller', label_ar: 'الأكثر طلباً', label_zh: '热卖', color: '#4E5F4C' },
-  'chefs-pick':        { label_tr: 'Şef Seçimi', label_en: "Chef's Pick", label_ar: 'اختيار الشيف', label_zh: '主厨推荐', color: '#9C7A3F' },
-  'beginner-friendly': { label_tr: 'Yeni Başlayan', label_en: 'Beginner', label_ar: 'للمبتدئين', label_zh: '新手', color: '#4E5F4C' },
-  'cooked':            { label_tr: 'Pişmiş', label_en: 'Cooked', label_ar: 'مطهو', label_zh: '熟食', color: '#4E5F4C' },
-  'spicy':             { label_tr: 'Acılı', label_en: 'Spicy', label_ar: 'حار', label_zh: '辣', color: '#A0422E' },
-  'vegetarian':        { label_tr: 'Vejetaryen', label_en: 'Veg', label_ar: 'نباتي', label_zh: '素食', color: '#4E5F4C' },
+  'bestseller':        { label_tr: 'Çok Satan', label_en: 'Best Seller', label_ar: 'الأكثر طلباً', label_zh: '热卖', bg: 'var(--color-brand-primary)', color: '#FFFFFF' },
+  'chefs-pick':        { label_tr: 'Şef Seçimi', label_en: "Chef's Pick", label_ar: 'اختيار الشيف', label_zh: '主厨推荐', bg: 'var(--color-accent)', color: '#FFFFFF' },
+  'beginner-friendly': { label_tr: 'Yeni Başlayan', label_en: 'Beginner', label_ar: 'للمبتدئين', label_zh: '新手', bg: 'var(--color-surface-secondary)', color: 'var(--color-text-primary)' },
+  'cooked':            { label_tr: 'Pişmiş', label_en: 'Cooked', label_ar: 'مطهو', label_zh: '熟食', bg: 'var(--color-brand-primary)', color: '#FFFFFF' },
+  'spicy':             { label_tr: 'Acılı', label_en: 'Spicy', label_ar: 'حار', label_zh: '辣', bg: 'var(--color-accent)', color: '#FFFFFF' },
+  'vegetarian':        { label_tr: 'Vejetaryen', label_en: 'Vejetaryen', label_ar: 'نباتي', label_zh: '素食', bg: 'var(--color-brand-primary)', color: '#FFFFFF' },
 };
 
 const BADGE_PRIORITY = ['chefs-pick', 'bestseller', 'spicy', 'cooked', 'vegetarian', 'beginner-friendly'];
@@ -21,6 +21,7 @@ function getBadge(tags, lang) {
       const badge = BADGE_MAP[key];
       return {
         label: badge[`label_${lang}`] || badge.label_en,
+        bg: badge.bg,
         color: badge.color,
       };
     }
@@ -69,11 +70,19 @@ export default function DishCard({ item, onClick }) {
             className="kardeshler-food-card__img"
           />
         ) : (
-          <div style={{
-            width: '100%', height: '100%',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '2rem', opacity: 0.35,
-          }}>
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '1.8rem',
+              color: 'var(--color-brand-primary)',
+              opacity: 0.6,
+            }}
+            aria-hidden="true"
+          >
             🥢
           </div>
         )}
@@ -87,9 +96,9 @@ export default function DishCard({ item, onClick }) {
 
         {/* Tag badge in bottom-start */}
         {badge && (
-          <div 
+          <div
             className="kardeshler-food-card__tag-badge"
-            style={{ backgroundColor: badge.color }}
+            style={{ backgroundColor: badge.bg, color: badge.color }}
           >
             {badge.label}
           </div>
@@ -116,6 +125,7 @@ export default function DishCard({ item, onClick }) {
 
           {qty === 0 ? (
             <button
+              type="button"
               className="kardeshler-food-card__add-btn"
               onClick={handleAdd}
               aria-label={`${lang === 'ar' ? 'أضف' : lang === 'tr' ? 'Ekle' : 'Add'} ${name}`}
@@ -123,17 +133,22 @@ export default function DishCard({ item, onClick }) {
               +
             </button>
           ) : (
-            <div className="kardeshler-food-card__qty-group" onClick={(e) => e.stopPropagation()}>
-              <button 
-                className="kardeshler-food-card__qty-btn" 
+            <div
+              className="kardeshler-food-card__qty-group"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                className="kardeshler-food-card__qty-btn"
                 onClick={handleRemove}
                 aria-label="Decrease quantity"
               >
                 −
               </button>
               <span className="kardeshler-food-card__qty-num">{qty}</span>
-              <button 
-                className="kardeshler-food-card__qty-btn" 
+              <button
+                type="button"
+                className="kardeshler-food-card__qty-btn"
                 onClick={handleAdd}
                 aria-label="Increase quantity"
               >

@@ -2,30 +2,34 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 import { restaurantInfo } from '@/data/menuData';
 
-/* ── SVG Logo Symbol (Lucky four-petal clover + rice grain center) ── */
-function LogoSymbol({ color = 'var(--aged-champagne)', size = 36 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      {/* Four petals */}
-      <ellipse cx="20" cy="12" rx="6" ry="9" fill={color} opacity="0.85" />
-      <ellipse cx="20" cy="28" rx="6" ry="9" fill={color} opacity="0.85" />
-      <ellipse cx="12" cy="20" rx="9" ry="6" fill={color} opacity="0.85" />
-      <ellipse cx="28" cy="20" rx="9" ry="6" fill={color} opacity="0.85" />
-      {/* Center rice grain */}
-      <ellipse cx="20" cy="20" rx="3.5" ry="4.5" fill="white" transform="rotate(-30 20 20)" />
-      {/* Subtle chopstick lines */}
-      <line x1="14" y1="6" x2="26" y2="34" stroke={color} strokeWidth="0.7" opacity="0.3" />
-      <line x1="16" y1="5" x2="28" y2="33" stroke={color} strokeWidth="0.7" opacity="0.3" />
-    </svg>
-  );
-}
+const LANG_DISPLAY = {
+  tr: 'TR',
+  en: 'EN',
+  ar: 'AR',
+  ru: 'RU',
+  fa: 'FA',
+  fr: 'FR',
+  zh: 'ZH',
+};
+
+const LANG_FULL = {
+  tr: 'Türkçe',
+  en: 'English',
+  ar: 'العربية',
+  ru: 'Русский',
+  fa: 'فارسی',
+  fr: 'Français',
+  zh: '中文',
+};
 
 export default function Header() {
+  const pathname = usePathname();
   const { lang, switchLang, tUI, dir, SUPPORTED_LANGS } = useLang();
   const { cartCount, setIsCartOpen } = useCart();
   const [scrolled, setScrolled] = useState(false);
@@ -57,7 +61,7 @@ export default function Header() {
   // Close lang dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (!e.target.closest('.lang-dropdown-container')) {
+      if (!e.target.closest('.header__lang-container')) {
         setLangOpen(false);
       }
     };
@@ -65,160 +69,147 @@ export default function Header() {
     return () => document.removeEventListener('click', handleClickOutside);
   }, [langOpen]);
 
-  const langLabels = { tr: '🇹🇷 TR', en: '🇬🇧 EN', ar: '🇸🇦 AR', zh: '🇨🇳 ZH' };
-
   return (
     <>
       <header className={`header${scrolled ? ' scrolled' : ''}`} role="banner">
         <div className="header__inner">
-          {/* Logo */}
+          {/* Brand Logo */}
           <Link href="/" className="header__logo" aria-label="Lucky Sushi Chinese — Home">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Image src="/logo-icon.png" alt="" width={36} height={36} style={{ objectFit: 'contain' }} />
-              <div className="header__logo-text" style={{ display: 'flex', flexDirection: 'column' }}>
-                <span className="header__logo-lucky" style={{ fontFamily: 'var(--font-heading-en)', fontSize: '1.2rem', color: 'var(--roasted-cacao)' }}>Lucky</span>
-                <span className="header__logo-sushi" style={{ fontSize: '0.55rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--soft-taupe)', whiteSpace: 'nowrap' }}>Sushi · Chinese</span>
-              </div>
+            <Image
+              src="/logo-icon.png"
+              alt="Lucky Sushi Chinese"
+              width={38}
+              height={38}
+              priority
+              style={{ objectFit: 'contain' }}
+            />
+            <div className="header__logo-text">
+              <span className="header__logo-lucky">Lucky</span>
+              <span className="header__logo-sushi">Sushi · Chinese</span>
             </div>
           </Link>
 
-          {/* Desktop Nav */}
+          {/* Desktop Navigation */}
           <nav className="header__nav" aria-label="Main navigation">
-            <Link href="/" className="header__nav-link">{tUI('nav_home')}</Link>
-            <Link href="/menu" className="header__nav-link">{tUI('nav_menu')}</Link>
-            <Link href="/about" className="header__nav-link">{tUI('nav_about')}</Link>
-            <Link href="/contact" className="header__nav-link">{tUI('nav_contact')}</Link>
+            <Link
+              href="/"
+              className={`header__nav-link ${pathname === '/' ? 'active' : ''}`}
+            >
+              {tUI('nav_home')}
+            </Link>
+            <Link
+              href="/menu"
+              className={`header__nav-link ${pathname === '/menu' ? 'active' : ''}`}
+            >
+              {tUI('nav_menu')}
+            </Link>
+            <Link
+              href="/about"
+              className={`header__nav-link ${pathname === '/about' ? 'active' : ''}`}
+            >
+              {tUI('nav_about')}
+            </Link>
+            <Link
+              href="/contact"
+              className={`header__nav-link ${pathname === '/contact' ? 'active' : ''}`}
+            >
+              {tUI('nav_contact')}
+            </Link>
           </nav>
 
           {/* Actions */}
-          <div className="header__actions" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            {/* Language Switcher (Dropdown) */}
-            <div className="lang-dropdown-container" style={{ position: 'relative' }}>
+          <div className="header__actions">
+            {/* Minimal Language Dropdown */}
+            <div className="header__lang-container">
               <button
+                type="button"
+                className="header__lang-btn"
                 onClick={() => setLangOpen(!langOpen)}
                 aria-label="Select language"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  background: '#F7F2E7',
-                  border: '1px solid rgba(185,148,82,0.3)',
-                  padding: '5px 10px',
-                  borderRadius: '6px',
-                  fontSize: '0.78rem',
-                  fontWeight: '700',
-                  color: '#2B2620',
-                  cursor: 'pointer',
-                  height: '34px',
-                  fontFamily: 'var(--font-body-en)'
-                }}
+                aria-expanded={langOpen}
               >
-                <span>{langLabels[lang]}</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: langOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                <span>{LANG_DISPLAY[lang] || lang.toUpperCase()}</span>
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
 
               {langOpen && (
-                <div style={{
-                  position: 'absolute',
-                  top: '100%',
-                  right: 0,
-                  marginTop: '6px',
-                  background: '#FAF7F0',
-                  border: '1px solid rgba(185,148,82,0.25)',
-                  borderRadius: '8px',
-                  boxShadow: '0 6px 20px rgba(52, 43, 37, 0.08)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  minWidth: '110px',
-                  overflow: 'hidden',
-                  zIndex: 100
-                }}>
+                <div className="header__lang-menu" role="menu">
                   {SUPPORTED_LANGS.map((code) => (
                     <button
                       key={code}
-                      onClick={() => { switchLang(code); setLangOpen(false); }}
-                      style={{
-                        padding: '8px 12px',
-                        background: lang === code ? '#4E5F4C' : 'transparent',
-                        color: lang === code ? 'white' : '#2B2620',
-                        border: 'none',
-                        borderBottom: '1px solid rgba(185,148,82,0.06)',
-                        textAlign: 'left',
-                        cursor: 'pointer',
-                        fontSize: '0.8rem',
-                        fontWeight: lang === code ? '700' : '600',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
+                      type="button"
+                      role="menuitem"
+                      className={`header__lang-item ${lang === code ? 'active' : ''}`}
+                      onClick={() => {
+                        switchLang(code);
+                        setLangOpen(false);
                       }}
                     >
-                      <span>{langLabels[code]}</span>
-                      {lang === code && <span style={{ fontSize: '0.75rem' }}>✓</span>}
+                      <span>{LANG_FULL[code] || code.toUpperCase()}</span>
+                      {lang === code && <span aria-hidden="true">✓</span>}
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            {/* Cart */}
+            {/* Cart Button */}
             <button
+              type="button"
               className="header__cart-btn"
               onClick={() => setIsCartOpen(true)}
               aria-label={`Cart (${cartCount} items)`}
-              style={{
-                position: 'relative',
-                background: '#F7F2E7',
-                border: '1px solid rgba(185,148,82,0.3)',
-                borderRadius: '6px',
-                color: '#2B2620',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '34px',
-                height: '34px',
-                padding: '0'
-              }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="19"
+                height="19"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                 <line x1="3" y1="6" x2="21" y2="6" />
                 <path d="M16 10a4 4 0 01-8 0" />
               </svg>
               {cartCount > 0 && (
-                <span style={{
-                  position: 'absolute', top: '-4px', right: '-4px',
-                  background: '#B99452', color: 'white',
-                  fontSize: '0.62rem', fontWeight: 'bold',
-                  width: '16px', height: '16px', borderRadius: '50%',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center'
-                }}>{cartCount}</span>
+                <span className="header__cart-count">{cartCount}</span>
               )}
             </button>
 
-            {/* Mobile Toggle (Hamburger) */}
+            {/* Mobile Menu Hamburger */}
             <button
+              type="button"
               className="header__menu-toggle"
               onClick={() => setMobileOpen(true)}
-              aria-label="Open menu"
+              aria-label="Open navigation menu"
               aria-expanded={mobileOpen}
-              style={{
-                background: '#F7F2E7',
-                border: '1px solid rgba(185,148,82,0.3)',
-                borderRadius: '6px',
-                cursor: 'pointer',
-                color: '#2B2620',
-                width: '34px',
-                height: '34px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '0'
-              }}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                aria-hidden="true"
+              >
                 <line x1="4" y1="7" x2="20" y2="7" />
                 <line x1="4" y1="12" x2="20" y2="12" />
                 <line x1="4" y1="17" x2="20" y2="17" />
@@ -228,100 +219,122 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Mobile Menu Drawer */}
-      <div 
-        className={`mobile-menu${mobileOpen ? ' open' : ''}`} 
-        role="dialog" 
-        aria-modal="true" 
+      {/* Mobile Drawer Backdrop */}
+      <div
+        className={`mobile-drawer-overlay${mobileOpen ? ' open' : ''}`}
+        onClick={closeMobile}
+        role="presentation"
+        aria-hidden={!mobileOpen}
+      />
+
+      {/* Mobile Drawer */}
+      <aside
+        className={`mobile-drawer${mobileOpen ? ' open' : ''}`}
+        role="dialog"
+        aria-modal="true"
         aria-label="Mobile navigation"
-        style={{
-          position: 'fixed', top: 0, right: 0, bottom: 0, width: '100%', maxWidth: '320px',
-          background: 'var(--warm-cream)', zIndex: 1000,
-          transform: mobileOpen ? 'translateX(0)' : 'translateX(100%)',
-          transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-          boxShadow: mobileOpen ? '-10px 0 30px rgba(0,0,0,0.1)' : 'none',
-          padding: '24px', display: 'flex', flexDirection: 'column'
-        }}
       >
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-          <Image src="/logo-icon.png" alt="Lucky Sushi Chinese" width={40} height={40} style={{ objectFit: 'contain' }} />
-          <button onClick={closeMobile} aria-label="Close menu" style={{ background: 'var(--rice-paper)', border: 'none', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+        <div className="mobile-drawer__header">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Image
+              src="/logo-icon.png"
+              alt="Lucky Sushi Chinese"
+              width={34}
+              height={34}
+              style={{ objectFit: 'contain' }}
+            />
+            <div className="header__logo-text">
+              <span className="header__logo-lucky" style={{ fontSize: '1.1rem' }}>Lucky</span>
+              <span className="header__logo-sushi">Sushi · Chinese</span>
+            </div>
+          </div>
+          <button
+            type="button"
+            className="mobile-drawer__close"
+            onClick={closeMobile}
+            aria-label="Close menu"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
         </div>
 
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: '16px', flex: 1 }}>
-          <Link href="/" onClick={closeMobile} style={{ fontSize: '1.4rem', fontWeight: 600, color: 'var(--roasted-cacao)', textDecoration: 'none', padding: '12px 0', borderBottom: '1px solid rgba(185,148,82,0.1)' }}>{tUI('nav_home')}</Link>
-          <Link href="/menu" onClick={closeMobile} style={{ fontSize: '1.4rem', fontWeight: 600, color: 'var(--roasted-cacao)', textDecoration: 'none', padding: '12px 0', borderBottom: '1px solid rgba(185,148,82,0.1)' }}>{tUI('nav_menu')}</Link>
-          <Link href="/about" onClick={closeMobile} style={{ fontSize: '1.4rem', fontWeight: 600, color: 'var(--roasted-cacao)', textDecoration: 'none', padding: '12px 0', borderBottom: '1px solid rgba(185,148,82,0.1)' }}>{tUI('nav_about')}</Link>
-          <Link href="/contact" onClick={closeMobile} style={{ fontSize: '1.4rem', fontWeight: 600, color: 'var(--roasted-cacao)', textDecoration: 'none', padding: '12px 0', borderBottom: '1px solid rgba(185,148,82,0.1)' }}>{tUI('nav_contact')}</Link>
+        <nav className="mobile-drawer__nav" aria-label="Mobile menu">
+          <Link
+            href="/"
+            onClick={closeMobile}
+            className={`mobile-drawer__link ${pathname === '/' ? 'active' : ''}`}
+          >
+            {tUI('nav_home')}
+          </Link>
+          <Link
+            href="/menu"
+            onClick={closeMobile}
+            className={`mobile-drawer__link ${pathname === '/menu' ? 'active' : ''}`}
+          >
+            {tUI('nav_menu')}
+          </Link>
+          <Link
+            href="/about"
+            onClick={closeMobile}
+            className={`mobile-drawer__link ${pathname === '/about' ? 'active' : ''}`}
+          >
+            {tUI('nav_about')}
+          </Link>
+          <Link
+            href="/contact"
+            onClick={closeMobile}
+            className={`mobile-drawer__link ${pathname === '/contact' ? 'active' : ''}`}
+          >
+            {tUI('nav_contact')}
+          </Link>
         </nav>
 
         {/* Mobile Language Switcher */}
-        <div style={{ marginTop: '32px' }}>
-          <h4 style={{ fontSize: '0.8rem', color: 'var(--mist-beige)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px' }}>
-            {tUI('nav_language') || 'Language'}
-          </h4>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: '1fr 1fr', 
-            gap: '8px'
-          }}>
-            {SUPPORTED_LANGS.map((code) => {
-              const isActive = lang === code;
-              return (
-                <button
-                  key={code}
-                  onClick={() => { switchLang(code); closeMobile(); }}
-                  style={{
-                    fontSize: '1rem',
-                    fontWeight: isActive ? '700' : '500',
-                    padding: '12px',
-                    borderRadius: '12px',
-                    background: isActive ? 'var(--aged-champagne)' : 'white',
-                    color: isActive ? 'white' : 'var(--roasted-cacao)',
-                    border: '1px solid rgba(185,148,82,0.2)',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px',
-                    boxShadow: isActive ? '0 4px 12px rgba(185,148,82,0.2)' : 'none'
-                  }}
-                >
-                  {langLabels[code]}
-                  {isActive && <span>✓</span>}
-                </button>
-              );
-            })}
-          </div>
+        <div className="mobile-drawer__section-title">
+          {tUI('nav_language') || 'Language'}
+        </div>
+        <div className="mobile-drawer__lang-grid">
+          {SUPPORTED_LANGS.map((code) => {
+            const isActive = lang === code;
+            return (
+              <button
+                key={code}
+                type="button"
+                className={`mobile-drawer__lang-btn ${isActive ? 'active' : ''}`}
+                onClick={() => {
+                  switchLang(code);
+                  closeMobile();
+                }}
+              >
+                {LANG_DISPLAY[code] || code.toUpperCase()}
+              </button>
+            );
+          })}
         </div>
 
+        {/* WhatsApp Direct Order CTA */}
         <a
           href={`https://wa.me/${phoneClean}?text=${encodeURIComponent('Merhaba! Menüden sipariş vermek istiyorum.')}`}
           target="_blank"
           rel="noopener noreferrer"
           onClick={closeMobile}
-          style={{
-            marginTop: '24px', background: 'var(--roasted-cacao)', color: 'white', padding: '16px', borderRadius: '12px', textAlign: 'center', fontWeight: 'bold', textDecoration: 'none', display: 'block'
-          }}
+          className="mobile-drawer__order-btn"
         >
-          {tUI('order_now_btn')} — WhatsApp
+          <span>{tUI('order_now_btn')} (WhatsApp)</span>
         </a>
-      </div>
-      
-      {/* Overlay for mobile menu */}
-      {mobileOpen && (
-        <div 
-          onClick={closeMobile}
-          role="presentation"
-          aria-hidden="true"
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 999, backdropFilter: 'blur(2px)' }}
-        />
-      )}
+      </aside>
     </>
   );
 }

@@ -7,7 +7,7 @@ import CartDrawer from '@/components/CartDrawer';
 import { restaurantInfo } from '@/data/menuData';
 import { 
   FaWhatsapp, FaPhone, FaMapLocationDot, FaLocationDot, 
-  FaInstagram, FaClock, FaBagShopping 
+  FaInstagram, FaClock, FaBagShopping, FaMoon 
 } from 'react-icons/fa6';
 import { GiSushis } from 'react-icons/gi';
 
@@ -15,17 +15,24 @@ export default function ContactPage() {
   const { lang, t, dir } = useLang();
 
   const labels = {
-    title: { tr: 'İletişim & Şubeler', en: 'Contact & Branches', ar: 'اتصل بنا وفروعنا', zh: '联系与分店' },
+    badge: { tr: 'İletişim & Lokasyon', en: 'Contact & Locations', ar: 'التواصل والمواقع', zh: '联系与分店', ru: 'Контакты и адреса', fa: 'تماس و شعبات', fr: 'Contact & Adresses' },
+    title: { tr: 'Bize Ulaşın & Şubelerimiz', en: 'Contact Us & Branches', ar: 'تواصل معنا وفروعنا', zh: '联系我们与门店', ru: 'Свяжитесь с нами и филиалы', fa: 'تماس با ما و شعبات', fr: 'Nous Contacter & Adresses' },
     subtitle: { 
-      tr: 'Size en yakın Lucky Sushi Chinese şubesini bulun.', 
-      en: 'Find the nearest Lucky Sushi Chinese branch to you.', 
-      ar: 'ابحث عن أقرب فرع لـ Lucky Sushi Chinese إليك.', 
-      zh: '找到离您最近的 Lucky Sushi Chinese 分店。' 
+      tr: 'İstanbul\'da canınız taze sushi ve sıcak wok lezzeti çektiğinde en yakın Lucky Sushi Chinese şubesi yanı başınızda.', 
+      en: 'Whenever you crave fresh sushi and wok specialties in Istanbul, your nearest Lucky Sushi Chinese is ready.', 
+      ar: 'أينما اشتهيت السوشي الطازج ونكهات الووك الساخنة في إسطنبول، أقرب فرع لـ Lucky Sushi Chinese بجوارك.', 
+      zh: '在伊斯坦布尔，无论何时渴望新鲜寿司和热烈炒锅风味，最近的 Lucky Sushi Chinese 都在您身边。',
+      ru: 'Когда вам захочется свежих суши и горячего вока в Стамбуле, филиал Lucky Sushi Chinese всегда рядом.',
+      fa: 'هر زمان که در استانبول هوس سوشی تازه یا غذای وک کردید، نزدیک‌ترین شعبه لاکی در کنار شماست.',
+      fr: 'Pour toutes vos envies de sushis frais et de wok savoureux à Istanbul, votre Lucky Sushi Chinese vous accueille.'
     },
-    order: { tr: 'Sipariş Ver', en: 'Order Now', ar: 'اطلب الآن', zh: '立即下单' },
-    map: { tr: 'Haritada Gör', en: 'View on Map', ar: 'عرض على الخريطة', zh: '在地图上查看' },
-    call: { tr: 'Ara', en: 'Call', ar: 'اتصل', zh: '呼叫' },
-    mainMenu: { tr: 'Ana Menü (Tüm Şubeler)', en: 'Main Menu (All Branches)', ar: 'القائمة الرئيسية (جميع الفروع)', zh: '主菜单（所有分店）' }
+    order: { tr: 'Menüden Sipariş Ver', en: 'Order From Menu', ar: 'اطلب من القائمة', zh: '从菜单下单', ru: 'Заказать из меню', fa: 'سفارش از منو', fr: 'Commander du Menu' },
+    map: { tr: 'Harita', en: 'Map', ar: 'الخريطة', zh: '地图', ru: 'Карта', fa: 'نقشه', fr: 'Carte' },
+    call: { tr: 'Ara', en: 'Call', ar: 'اتصال', zh: '电话', ru: 'Позвонить', fa: 'تماس', fr: 'Appeler' },
+    mainMenu: { tr: 'Gece Boyu Kesintisiz Paket Servis', en: 'Continuous Night Delivery Service', ar: 'خدمة توصيل مستمرة طوال الليل', zh: '全夜持续外卖配送', ru: 'Доставка всю ночь без перерывов', fa: 'ارسال شبانه بی‌وقفه', fr: 'Livraison Nocturne Continue' },
+    mainMenuSub: { tr: 'Gece 04:00\'e kadar tüm İstanbul siparişleriniz özenle hazırlanıp kapınıza ulaştırılır.', en: 'Open until 04:00 AM — your orders are freshly crafted and delivered right to your door.', ar: 'مفتوح حتى الرابعة فجراً — تُعد طلباتكم طازجة وتصلكم أينما كنتم.', zh: '营业至凌晨04:00 — 您的订单现点现做，准时送达。', ru: 'Открыто до 04:00 — ваш заказ свежеприготовлен и доставлен до двери.', fa: 'فعال تا ۰۴:۰۰ صبح — سفارش‌های شما تازه آماده شده و ارسال می‌شوند.', fr: 'Ouvert jusqu\'à 04h00 — vos commandes préparées à la minute livrées chez vous.' },
+    hoursTitle: { tr: 'Çalışma Saatleri', en: 'Working Hours', ar: 'ساعات العمل', zh: '营业时间', ru: 'Часы работы', fa: 'ساعات کاری', fr: 'Horaires' },
+    socialTitle: { tr: 'Sosyal Medya', en: 'Social Media', ar: 'وسائل التواصل', zh: '社交媒体', ru: 'Социальные сети', fa: 'شبکه‌های اجتماعی', fr: 'Réseaux Sociaux' }
   };
 
   const l = (key) => labels[key]?.[lang] || labels[key]?.en || '';
@@ -34,40 +41,46 @@ export default function ContactPage() {
     <>
       <Header />
 
-      <main style={{ background: 'var(--rice-paper)', minHeight: '100vh', paddingBottom: 'var(--sp-12)' }}>
+      <main style={{ background: 'var(--color-background)', minHeight: '100vh', paddingBottom: 'var(--sp-12)' }}>
         
-        {/* Header Section */}
+        {/* ── 1. Page Header ── */}
         <section style={{ padding: 'var(--sp-10) var(--page-pad)', textAlign: 'center' }}>
-          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(185, 148, 82, 0.1)', color: 'var(--sake-gold)', padding: '6px 16px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 700, marginBottom: 'var(--sp-4)' }}>
-            <FaLocationDot /> {l('title')}
+          <span className="home-section-badge">
+            <FaLocationDot style={{ marginInlineEnd: '6px' }} aria-hidden="true" />
+            {l('badge')}
           </span>
-          <h1 style={{ fontFamily: 'var(--font-heading-en)', fontSize: 'clamp(2.5rem, 6vw, 3.5rem)', color: 'var(--nori-black)', marginBottom: 'var(--sp-3)' }}>
+          <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: 'clamp(2.2rem, 5vw, 3.4rem)', color: 'var(--color-text-primary)', marginBottom: 'var(--sp-3)' }}>
             {l('title')}
           </h1>
-          <p style={{ color: 'var(--soft-taupe)', maxWidth: '600px', margin: '0 auto', fontSize: '1.1rem' }}>
+          <p style={{ color: 'var(--color-text-secondary)', maxWidth: '620px', margin: '0 auto', fontSize: '1.05rem', lineHeight: 1.7 }}>
             {l('subtitle')}
           </p>
         </section>
 
-        {/* Global Menu Link */}
-        <div className="container" style={{ marginBottom: 'var(--sp-12)' }}>
+        {/* ── 2. Controlled Dark Moment: Late Night Delivery Card ── */}
+        <div className="container" style={{ marginBottom: 'var(--sp-10)' }}>
           <div style={{ 
-            background: 'var(--nori-black)', 
-            borderRadius: '24px', 
-            padding: 'var(--sp-10)',
+            background: 'var(--color-brand-dark)', 
+            borderRadius: 'var(--radius-lg)', 
+            padding: 'var(--sp-8) var(--sp-6)',
             textAlign: 'center',
-            color: 'var(--rice-white)',
-            boxShadow: '0 12px 40px rgba(52, 43, 37, 0.15)',
-            border: '1px solid rgba(185, 148, 82, 0.2)',
+            color: 'var(--color-brand-light)',
+            boxShadow: 'var(--shadow-lg)',
+            border: '1px solid rgba(246, 241, 232, 0.08)',
             position: 'relative',
             overflow: 'hidden'
           }}>
-            <GiSushis style={{ position: 'absolute', top: '-15%', right: '-5%', fontSize: '20rem', color: 'rgba(255,255,255,0.03)', pointerEvents: 'none' }} />
-            <h2 style={{ fontFamily: 'var(--font-heading-en)', color: 'var(--sake-gold)', marginBottom: 'var(--sp-3)', fontSize: '2.2rem' }}>
+            <GiSushis style={{ position: 'absolute', top: '-20%', right: '-5%', fontSize: '18rem', color: 'rgba(255,255,255,0.03)', pointerEvents: 'none' }} />
+            
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(40, 122, 63, 0.15)', color: 'var(--color-brand-primary)', padding: '4px 14px', borderRadius: '16px', fontSize: '0.8rem', fontWeight: 700, marginBottom: 'var(--sp-2)' }}>
+              <FaMoon aria-hidden="true" /> Gece 04:00'e Kadar Açık
+            </div>
+
+            <h2 style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-brand-light)', marginBottom: 'var(--sp-2)', fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)' }}>
               {l('mainMenu')}
             </h2>
-            <p style={{ color: 'var(--mist-beige)', marginBottom: 'var(--sp-6)', maxWidth: '500px', margin: '0 auto', fontSize: '1rem', lineHeight: 1.6 }}>
-              Canınız nerede çekerse çeksin, tüm şubelerimiz için online sipariş verin.
+            <p style={{ color: 'var(--mist-beige)', marginBottom: 'var(--sp-6)', maxWidth: '520px', margin: '0 auto var(--sp-6)', fontSize: '0.95rem', lineHeight: 1.6 }}>
+              {l('mainMenuSub')}
             </p>
             <Link 
               href="/menu" 
@@ -75,18 +88,19 @@ export default function ContactPage() {
               style={{
                 display: 'inline-flex',
                 padding: '14px 32px',
-                fontSize: '1.05rem',
+                fontSize: '1rem',
                 position: 'relative',
                 zIndex: 2
               }}
             >
-              <FaBagShopping style={{ marginRight: '8px' }} />
+              <FaBagShopping style={{ marginInlineEnd: '8px' }} />
               <span>{l('order')}</span>
+              <span aria-hidden="true">{dir === 'rtl' ? '←' : '→'}</span>
             </Link>
           </div>
         </div>
 
-        {/* Branches Grid */}
+        {/* ── 3. Branches Grid: Porcelain Cards ── */}
         <div className="container">
           <div style={{ 
             display: 'grid', 
@@ -98,88 +112,80 @@ export default function ContactPage() {
               const phoneClean = branch.phone.replace(/[^0-9]/g, '');
               
               return (
-                <div key={branch.id} style={{
-                  background: 'white',
-                  borderRadius: '24px',
-                  padding: 'var(--sp-8)',
-                  border: '1px solid rgba(185, 148, 82, 0.1)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                  position: 'relative',
-                  boxShadow: '0 8px 30px rgba(52, 43, 37, 0.04)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-8px)';
-                  e.currentTarget.style.boxShadow = '0 16px 50px rgba(185, 148, 82, 0.15)';
-                  e.currentTarget.style.borderColor = 'rgba(185, 148, 82, 0.3)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '0 8px 30px rgba(52, 43, 37, 0.04)';
-                  e.currentTarget.style.borderColor = 'rgba(185, 148, 82, 0.1)';
-                }}
+                <div
+                  key={branch.id}
+                  style={{
+                    background: 'var(--color-surface)',
+                    borderRadius: 'var(--radius-lg)',
+                    padding: 'var(--sp-8)',
+                    border: '1px solid var(--color-border)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    boxShadow: 'var(--shadow-sm)',
+                    transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+                    position: 'relative'
+                  }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: 'var(--sp-4)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: 'var(--sp-4)' }}>
                     <div style={{ 
-                      width: '56px', height: '56px', 
-                      borderRadius: '50%', background: 'var(--warm-cream)', 
+                      width: '50px', height: '50px', 
+                      borderRadius: '50%', background: 'rgba(40, 122, 63, 0.08)', 
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      fontSize: '1.5rem', color: 'var(--sake-gold)',
-                      border: '1px solid rgba(185, 148, 82, 0.2)'
+                      fontSize: '1.3rem', color: 'var(--color-brand-primary)'
                     }}>
                       <FaLocationDot />
                     </div>
-                    <h3 style={{ fontFamily: 'var(--font-heading-en)', fontSize: '1.5rem', color: 'var(--roasted-cacao)' }}>{branch.name}</h3>
+                    <div>
+                      <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', color: 'var(--color-text-primary)' }}>
+                        {branch.name}
+                      </h3>
+                      <span style={{ fontSize: '0.78rem', color: 'var(--color-brand-primary)', fontWeight: 600 }}>
+                        ● Aktif Hizmet
+                      </span>
+                    </div>
                   </div>
 
-                  <p style={{ color: 'var(--soft-taupe)', marginBottom: 'var(--sp-6)', flex: 1, lineHeight: 1.6 }}>
+                  <p style={{ color: 'var(--color-text-secondary)', marginBottom: 'var(--sp-6)', flex: 1, lineHeight: 1.6, fontSize: '0.92rem' }}>
                     {branch.address}
                   </p>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     <a 
                       href={`https://wa.me/${whatsappClean}?text=${encodeURIComponent('Merhaba! Sipariş vermek istiyorum.')}`}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className="btn-primary"
                       style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         gap: '8px',
-                        background: '#25D366',
-                        color: 'white',
                         padding: '12px',
-                        borderRadius: 'var(--btn-radius)',
-                        fontWeight: 600,
-                        fontSize: '0.95rem',
-                        transition: 'opacity 0.2s'
+                        fontSize: '0.9rem',
+                        textDecoration: 'none'
                       }}
-                      onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-                      onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                     >
                       <FaWhatsapp size={18} /> WhatsApp: {branch.whatsapp}
                     </a>
                     
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                       <a 
                         href={`tel:${phoneClean}`}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          gap: '8px',
-                          border: '1px solid rgba(185, 148, 82, 0.3)',
-                          color: 'var(--roasted-cacao)',
-                          background: 'white',
+                          gap: '6px',
+                          border: '1px solid var(--color-border)',
+                          color: 'var(--color-text-primary)',
+                          background: 'var(--color-surface)',
                           padding: '10px',
                           borderRadius: 'var(--btn-radius)',
-                          fontWeight: 500,
-                          fontSize: '0.9rem',
-                          transition: 'background 0.2s'
+                          fontWeight: 600,
+                          fontSize: '0.85rem',
+                          textDecoration: 'none',
+                          transition: 'all var(--transition-fast)'
                         }}
-                        onMouseEnter={(e) => e.currentTarget.style.background = 'var(--warm-cream)'}
-                        onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
                       >
                         <FaPhone /> {l('call')}
                       </a>
@@ -191,18 +197,17 @@ export default function ContactPage() {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          gap: '8px',
-                          border: '1px solid rgba(185, 148, 82, 0.3)',
-                          color: 'var(--roasted-cacao)',
-                          background: 'white',
+                          gap: '6px',
+                          border: '1px solid var(--color-border)',
+                          color: 'var(--color-text-primary)',
+                          background: 'var(--color-surface)',
                           padding: '10px',
                           borderRadius: 'var(--btn-radius)',
-                          fontWeight: 500,
-                          fontSize: '0.9rem',
-                          transition: 'background 0.2s'
+                          fontWeight: 600,
+                          fontSize: '0.85rem',
+                          textDecoration: 'none',
+                          transition: 'all var(--transition-fast)'
                         }}
-                        onMouseEnter={(e) => e.currentTarget.style.background = 'var(--warm-cream)'}
-                        onMouseLeave={(e) => e.currentTarget.style.background = 'white'}
                       >
                         <FaMapLocationDot /> {l('map')}
                       </a>
@@ -214,37 +219,42 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Global Info */}
-        <section className="container" style={{ marginTop: 'var(--sp-12)' }}>
+        {/* ── 4. Global Info Bar: Hours & Instagram ── */}
+        <section className="container" style={{ marginTop: 'var(--sp-10)' }}>
           <div style={{ 
-            background: 'white', 
-            borderRadius: '24px', 
-            padding: 'var(--sp-8)',
+            background: 'var(--color-surface)', 
+            borderRadius: 'var(--radius-lg)', 
+            padding: 'var(--sp-6) var(--sp-8)',
             display: 'flex',
             flexWrap: 'wrap',
             gap: 'var(--sp-6)',
             justifyContent: 'space-between',
             alignItems: 'center',
-            boxShadow: '0 8px 30px rgba(52, 43, 37, 0.04)',
-            border: '1px solid rgba(185, 148, 82, 0.1)'
+            boxShadow: 'var(--shadow-sm)',
+            border: '1px solid var(--color-border-light)'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'var(--warm-cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--sake-gold)', fontSize: '1.2rem' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(40, 122, 63, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-brand-primary)', fontSize: '1.2rem' }}>
                 <FaClock />
               </div>
               <div>
-                <h3 style={{ color: 'var(--roasted-cacao)', marginBottom: '4px', fontSize: '1.1rem', fontFamily: 'var(--font-heading-en)' }}>Çalışma Saatleri</h3>
-                <p style={{ color: 'var(--soft-taupe)' }}>{t(restaurantInfo, 'hours')}</p>
+                <h3 style={{ color: 'var(--color-text-primary)', marginBottom: '2px', fontSize: '1.05rem', fontFamily: 'var(--font-serif)' }}>{l('hoursTitle')}</h3>
+                <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem' }}>{t(restaurantInfo, 'hours')}</p>
               </div>
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'var(--warm-cream)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--sake-gold)', fontSize: '1.2rem' }}>
+              <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(40, 122, 63, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-brand-primary)', fontSize: '1.2rem' }}>
                 <FaInstagram />
               </div>
               <div>
-                <h3 style={{ color: 'var(--roasted-cacao)', marginBottom: '4px', fontSize: '1.1rem', fontFamily: 'var(--font-heading-en)' }}>Sosyal Medya</h3>
-                <a href="https://instagram.com/lucky.sushi_chinese" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--soft-taupe)', transition: 'color 0.2s' }} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--sake-gold)'} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--soft-taupe)'}>
+                <h3 style={{ color: 'var(--color-text-primary)', marginBottom: '2px', fontSize: '1.05rem', fontFamily: 'var(--font-serif)' }}>{l('socialTitle')}</h3>
+                <a
+                  href="https://instagram.com/lucky.sushi_chinese"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: 'var(--color-brand-primary)', fontWeight: 600, fontSize: '0.9rem', textDecoration: 'none' }}
+                >
                   {restaurantInfo.instagram}
                 </a>
               </div>

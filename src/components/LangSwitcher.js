@@ -5,8 +5,11 @@ import { useLang } from '@/context/LangContext';
 const LANG_LABELS = {
   tr: 'TR',
   en: 'EN',
-  ar: 'عر',
-  zh: '中文',
+  ar: 'AR',
+  ru: 'RU',
+  fa: 'FA',
+  fr: 'FR',
+  zh: 'ZH',
 };
 
 export default function LangSwitcher() {

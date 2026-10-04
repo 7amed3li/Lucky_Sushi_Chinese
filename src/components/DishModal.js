@@ -89,7 +89,7 @@ export default function DishModal({ item, onClose }) {
     <div className="modal-overlay" onClick={handleOverlayClick} role="dialog" aria-modal="true" aria-label={name}>
       <div className="modal-panel">
         {/* Image */}
-        <div className="modal-panel__img-wrap" style={{ position: 'relative', background: 'var(--warm-cream)' }}>
+        <div className="modal-panel__img-wrap" style={{ position: 'relative', background: 'var(--color-surface-secondary)' }}>
           {hasImage ? (
             <>
               <Image
@@ -111,16 +111,16 @@ export default function DishModal({ item, onClose }) {
                   right: '12px',
                   width: '36px',
                   height: '36px',
-                  background: 'rgba(255, 255, 255, 0.95)',
+                  background: 'rgba(255, 252, 247, 0.95)',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  border: 'none',
-                  boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                  border: '1px solid var(--color-border)',
+                  boxShadow: 'var(--shadow-sm)',
                   cursor: 'pointer',
-                  color: 'var(--roasted-cacao)',
-                  fontSize: '1.2rem',
+                  color: 'var(--color-text-primary)',
+                  fontSize: '1.1rem',
                   zIndex: 10
                 }}
                 aria-label="Close modal"
@@ -138,16 +138,16 @@ export default function DishModal({ item, onClose }) {
                   right: '12px',
                   width: '36px',
                   height: '36px',
-                  background: 'rgba(255, 255, 255, 0.9)',
+                  background: 'rgba(255, 252, 247, 0.95)',
                   borderRadius: '50%',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  border: 'none',
-                  boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
+                  border: '1px solid var(--color-border)',
+                  boxShadow: 'var(--shadow-sm)',
                   cursor: 'pointer',
-                  color: 'var(--roasted-cacao)',
-                  fontSize: '1.2rem',
+                  color: 'var(--color-text-primary)',
+                  fontSize: '1.1rem',
                   zIndex: 10
                 }}
                 aria-label="Enlarge image"
@@ -162,11 +162,12 @@ export default function DishModal({ item, onClose }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'linear-gradient(135deg, var(--charcoal-green), var(--nori-black))',
-              fontSize: '4rem',
-              opacity: 0.3,
+              background: 'var(--color-surface-secondary)',
+              fontSize: '3.5rem',
+              color: 'var(--color-brand-primary)',
+              opacity: 0.5,
             }}>
-              🍣
+              🥢
             </div>
           )}
           <button className="modal-panel__close" onClick={onClose} aria-label="Close">
@@ -241,7 +242,7 @@ export default function DishModal({ item, onClose }) {
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(17, 23, 22, 0.95)',
+            background: 'rgba(22, 20, 26, 0.95)',
             backdropFilter: 'blur(10px)',
             zIndex: 9999,
             display: 'flex',
@@ -257,7 +258,7 @@ export default function DishModal({ item, onClose }) {
               position: 'absolute',
               top: '20px',
               right: '20px',
-              background: 'white',
+              background: 'var(--color-surface)',
               border: 'none',
               width: '44px',
               height: '44px',
@@ -265,10 +266,11 @@ export default function DishModal({ item, onClose }) {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.5rem',
+              fontSize: '1.3rem',
+              color: 'var(--color-text-primary)',
               cursor: 'pointer',
               zIndex: 10000,
-              boxShadow: '0 4px 15px rgba(0,0,0,0.3)'
+              boxShadow: 'var(--shadow-md)'
             }}
           >
             <FaXmark />

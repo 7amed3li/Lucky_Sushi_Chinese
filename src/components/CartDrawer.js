@@ -68,13 +68,19 @@ export default function CartDrawer() {
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             {cart.length > 0 && (
               <button
+                type="button"
                 onClick={clearCart}
-                style={{ fontSize: '0.72rem', color: 'var(--salmon-coral)', opacity: 0.7 }}
+                style={{ fontSize: '0.75rem', color: 'var(--color-accent)', opacity: 0.85, cursor: 'pointer' }}
               >
                 {l('clear')}
               </button>
             )}
-            <button className="cart-drawer__close" onClick={() => setIsCartOpen(false)} aria-label="Close cart">
+            <button
+              type="button"
+              className="cart-drawer__close"
+              onClick={() => setIsCartOpen(false)}
+              aria-label="Close cart"
+            >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <line x1="18" y1="6" x2="6" y2="18" />
                 <line x1="6" y1="6" x2="18" y2="18" />
@@ -87,9 +93,13 @@ export default function CartDrawer() {
         <div className="cart-drawer__body">
           {cart.length === 0 ? (
             <div className="cart-drawer__empty">
-              <div className="cart-drawer__empty-icon">🛒</div>
-              <p style={{ fontSize: '0.95rem', color: 'var(--soft-taupe)', marginBottom: '4px' }}>{l('empty')}</p>
-              <p style={{ fontSize: '0.82rem', color: 'var(--mist-beige)' }}>{l('emptyHint')}</p>
+              <div className="cart-drawer__empty-icon">🥢</div>
+              <p style={{ fontSize: '1rem', color: 'var(--color-brand-light)', marginBottom: '4px', fontWeight: 600 }}>
+                {l('empty')}
+              </p>
+              <p style={{ fontSize: '0.85rem', color: 'var(--mist-beige)' }}>
+                {l('emptyHint')}
+              </p>
             </div>
           ) : (
             cart.map(({ item, quantity }) => {
@@ -99,24 +109,24 @@ export default function CartDrawer() {
                 <div key={item.id} className="cart-item">
                   <div className="cart-item__img">
                     {hasImg ? (
-                      <Image src={item.image} alt={name} width={64} height={64} style={{ objectFit: 'cover' }} />
+                      <Image src={item.image} alt={name} width={64} height={64} style={{ objectFit: 'contain' }} />
                     ) : (
                       <div style={{
                         width: '100%', height: '100%',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        background: 'var(--oat-beige)', fontSize: '1.5rem', opacity: 0.4,
-                      }}>🍣</div>
+                        background: 'rgba(246, 241, 232, 0.08)', fontSize: '1.4rem', color: 'var(--color-brand-primary)'
+                      }}>🥢</div>
                     )}
                   </div>
                   <div className="cart-item__info">
                     <span className="cart-item__name">{name}</span>
                     <span className="cart-item__price">{(item.price * quantity).toLocaleString('tr-TR')} ₺</span>
                     <div className="cart-item__controls">
-                      <button className="cart-item__qty-btn" onClick={() => removeFromCart(item.id)} aria-label="Decrease">−</button>
+                      <button type="button" className="cart-item__qty-btn" onClick={() => removeFromCart(item.id)} aria-label="Decrease">−</button>
                       <span className="cart-item__qty">{quantity}</span>
-                      <button className="cart-item__qty-btn" onClick={() => addToCart(item, 1)} aria-label="Increase">+</button>
+                      <button type="button" className="cart-item__qty-btn" onClick={() => addToCart(item, 1)} aria-label="Increase">+</button>
                     </div>
-                    <button className="cart-item__remove" onClick={() => deleteItem(item.id)}>
+                    <button type="button" className="cart-item__remove" onClick={() => deleteItem(item.id)}>
                       {l('remove')}
                     </button>
                   </div>

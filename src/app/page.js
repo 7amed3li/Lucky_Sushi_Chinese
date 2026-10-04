@@ -6,13 +6,13 @@ import { useState, useEffect } from 'react';
 import { 
   FaWhatsapp, FaMoon, FaStar, FaMotorcycle, FaFire, 
   FaFish, FaBookOpen, FaLocationDot, FaHouse, 
-  FaPhone, FaMapLocationDot, FaLeaf 
+  FaPhone, FaMapLocationDot, FaClock
 } from 'react-icons/fa6';
 import { GiChopsticks, GiSushis } from 'react-icons/gi';
 import { useLang } from '@/context/LangContext';
 import { restaurantInfo, menuItems } from '@/data/menuData';
 import Header from '@/components/Header';
-import TrendingBar from '@/components/TrendingBar';
+import RotatingDishShowcase from '@/components/RotatingDishShowcase';
 import DishModal from '@/components/DishModal';
 import CartDrawer from '@/components/CartDrawer';
 
@@ -31,16 +31,12 @@ export default function HomePage() {
 
   const phoneClean = restaurantInfo.phone.replace(/[^0-9]/g, '');
 
-  const popularSets = menuItems
-    .filter((item) => item.category === 'sushi-sets')
-    .slice(0, 4);
-
   return (
     <>
       <Header />
 
       <main id="main-content" className="home-main">
-        {/* ── 1. Hero Section ────────────────────────────── */}
+        {/* ── 1. Hero Section (Controlled Dark Moment) ────────────────────────────── */}
         <section className="home-hero" aria-label="Welcome">
           {/* Video Background */}
           <video
@@ -69,7 +65,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <p className="home-hero__tag">{tUI('home_hero_tag')}</p>
+            <p className="home-hero__tag">{tUI('home_hero_tag') || 'Contemporary Asian Dining · Istanbul'}</p>
             <h1 className="home-hero__title">
               Lucky <span>Sushi</span> Chinese
             </h1>
@@ -77,7 +73,7 @@ export default function HomePage() {
 
             <div className="home-hero__cta-group">
               <Link href="/menu" className="btn-hero-primary" id="hero-menu-cta">
-                <GiSushis />
+                <GiSushis aria-hidden="true" />
                 <span>{tUI('explore_menu_btn')}</span>
                 <span aria-hidden="true">{dir === 'rtl' ? '←' : '→'}</span>
               </Link>
@@ -89,15 +85,14 @@ export default function HomePage() {
                 className="btn-hero-secondary"
                 id="hero-whatsapp-cta"
               >
-                <FaWhatsapp />
+                <FaWhatsapp aria-hidden="true" />
                 <span>{tUI('order_now_btn')} (WhatsApp)</span>
               </a>
             </div>
-
           </div>
         </section>
 
-        {/* Stats Strip - Moved Outside Hero to act as a sleek bridge */}
+        {/* ── 2. Stats Strip (Sleek Bridge Overlap) ────────────────────────── */}
         <div className="home-stats-wrapper">
           <div className="home-stats-strip">
             <div className="home-stat-item">
@@ -122,7 +117,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ── CREATIVE: Marquee Ticker ───────────────────────────── */}
+        {/* ── 3. Marquee Ticker ───────────────────────────── */}
         <div className="home-marquee-wrap" aria-hidden="true">
           <div className="home-marquee-track">
             {[...Array(4)].map((_, i) => (
@@ -144,35 +139,16 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* ── CREATIVE: Spinning Plate Presentation ──────────────── */}
-        <section className="home-plate-container" aria-label="Rotating Sushi Selection">
-          <div className="home-plate-spinner">
-            <Image
-              src="/images/set-salmon-lovers.jpg"
-              alt="Sushi Set Option 1"
-              fill
-              className="home-plate-img home-plate-1"
-              sizes="(max-width: 768px) 280px, 480px"
-            />
-            <Image
-              src="/images/canada-set.jpg"
-              alt="Sushi Set Option 2"
-              fill
-              className="home-plate-img home-plate-2"
-              sizes="(max-width: 768px) 280px, 480px"
-            />
-          </div>
-        </section>
+        {/* ── 4. Best Sellers Circular Dish Showcase (Merged & Space-Optimized) ── */}
+        <RotatingDishShowcase onOpen={setSelectedItem} />
 
-        {/* ── 2. Trending Dishes Showcase ───────────────── */}
-        <section className="home-trending-section" style={{ padding: 0 }}>
-          <TrendingBar onOpen={setSelectedItem} />
-        </section>
-
-        {/* ── 3. Why Choose Us (3 Feature Pillars) ──────── */}
+        {/* ── 6. Why Choose Us (3 Feature Pillars) ──────── */}
         <section className="home-features-section">
           <div className="home-features-header">
-            <span className="home-section-badge"><FaStar style={{ marginRight: '6px' }} /> {tUI('home_features_title')}</span>
+            <span className="home-section-badge">
+              <FaStar style={{ marginInlineEnd: '6px' }} aria-hidden="true" />
+              {tUI('home_features_title')}
+            </span>
             <h2 className="home-section-title">{tUI('home_features_title')}</h2>
             <p className="home-section-sub">{tUI('home_features_sub')}</p>
           </div>
@@ -198,11 +174,14 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 4. Story Section ────────────────────── */}
+        {/* ── 7. Story Section (Atmospheric Dark Editorial) ────────────────────── */}
         <section className="home-story-section">
           <div className="home-story-grid">
             <div>
-              <span className="home-section-badge"><FaBookOpen style={{ marginRight: '6px' }} /> {tUI('nav_about')}</span>
+              <span className="home-section-badge">
+                <FaBookOpen style={{ marginInlineEnd: '6px' }} aria-hidden="true" />
+                {tUI('nav_about')}
+              </span>
               <h2 className="home-story-title">{tUI('home_story_teaser_title')}</h2>
               <p className="home-story-desc">{tUI('home_story_teaser_p1')}</p>
               <p className="home-story-desc">{tUI('home_story_teaser_p2')}</p>
@@ -226,17 +205,20 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── 5. Location & Order Channels ──────────────── */}
+        {/* ── 8. Location & Order Channels ──────────────── */}
         <section className="home-visit-section">
           <div className="home-visit-header">
-            <span className="home-section-badge"><FaLocationDot style={{ marginRight: '6px' }} /> {tUI('nav_contact')}</span>
+            <span className="home-section-badge">
+              <FaLocationDot style={{ marginInlineEnd: '6px' }} aria-hidden="true" />
+              {tUI('nav_contact')}
+            </span>
             <h2 className="home-section-title">{tUI('visit_us_title')}</h2>
           </div>
 
           <div className="home-visit-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--sp-4)' }}>
             {restaurantInfo.branches.map((branch) => {
               const whatsappClean = branch.whatsapp.replace(/[^0-9]/g, '');
-              const phoneClean = branch.phone.replace(/[^0-9]/g, '');
+              const branchPhoneClean = branch.phone.replace(/[^0-9]/g, '');
               
               return (
                 <div key={branch.id} className="home-visit-card" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -251,18 +233,36 @@ export default function HomePage() {
                       rel="noopener noreferrer"
                       style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                        background: '#25D366', color: 'white', padding: '10px', borderRadius: 'var(--btn-radius)',
-                        fontWeight: 600, fontSize: '0.85rem'
+                        background: 'var(--color-brand-primary)', color: 'white', padding: '11px', borderRadius: 'var(--btn-radius)',
+                        fontWeight: 600, fontSize: '0.88rem', textDecoration: 'none', transition: 'background var(--transition-fast)'
                       }}
                     >
-                      <FaWhatsapp /> WhatsApp
+                      <FaWhatsapp aria-hidden="true" /> WhatsApp
                     </a>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
-                      <a href={`tel:${phoneClean}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', border: '1px solid rgba(185,148,82,0.3)', padding: '8px', borderRadius: 'var(--btn-radius)', textAlign: 'center', fontSize: '0.8rem', fontWeight: 500 }}>
-                        <FaPhone /> Ara
+                      <a
+                        href={`tel:${branchPhoneClean}`}
+                        style={{
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                          border: '1px solid var(--color-border)', background: 'var(--color-surface)',
+                          color: 'var(--color-text-primary)', padding: '9px', borderRadius: 'var(--btn-radius)',
+                          textAlign: 'center', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none'
+                        }}
+                      >
+                        <FaPhone aria-hidden="true" /> Ara
                       </a>
-                      <a href={branch.map} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', border: '1px solid rgba(185,148,82,0.3)', padding: '8px', borderRadius: 'var(--btn-radius)', textAlign: 'center', fontSize: '0.8rem', fontWeight: 500 }}>
-                        <FaMapLocationDot /> Harita
+                      <a
+                        href={branch.map}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                          border: '1px solid var(--color-border)', background: 'var(--color-surface)',
+                          color: 'var(--color-text-primary)', padding: '9px', borderRadius: 'var(--btn-radius)',
+                          textAlign: 'center', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none'
+                        }}
+                      >
+                        <FaMapLocationDot aria-hidden="true" /> Harita
                       </a>
                     </div>
                   </div>

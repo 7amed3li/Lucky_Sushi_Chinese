@@ -14,6 +14,7 @@ export default function MenuPage() {
   const { lang, tUI, dir } = useLang();
   const [activeCategory, setActiveCategory] = useState(menuCategories[0].id);
   const [activeFilter, setActiveFilter] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
   
   const categoryScrollRef = useRef(null);
@@ -73,29 +74,49 @@ export default function MenuPage() {
 
   // Filter items
   const filteredItems = useMemo(() => {
-    let items = menuItems.filter((item) => item.category === activeCategory);
+    let items = menuItems;
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase().trim();
+      return items.filter(
+        (item) =>
+          item.name_tr?.toLowerCase().includes(q) ||
+          item.name_en?.toLowerCase().includes(q) ||
+          item.name_ar?.toLowerCase().includes(q) ||
+          item.name_zh?.toLowerCase().includes(q) ||
+          item.description_tr?.toLowerCase().includes(q) ||
+          item.description_en?.toLowerCase().includes(q) ||
+          item.ingredients?.some((ing) => ing.toLowerCase().includes(q))
+      );
+    }
+
+    items = items.filter((item) => item.category === activeCategory);
 
     if (activeFilter !== 'all') {
       const categoryMatches = items.filter((item) => item.tags?.includes(activeFilter));
       if (categoryMatches.length > 0) {
         return categoryMatches;
       }
-      // Fallback: show all menu dishes matching the filter if none in this category
       return menuItems.filter((item) => item.tags?.includes(activeFilter));
     }
 
     return items;
-  }, [activeFilter, activeCategory]);
+  }, [searchQuery, activeFilter, activeCategory]);
 
   // Labels
   const labels = {
-    exploreMenu: { tr: 'Menüyü Keşfet', en: 'Explore Menu', ar: 'استكشف القائمة', zh: '探索菜单' },
+    exploreMenu: { tr: 'Menüyü Keşfet', en: 'Explore Menu', ar: 'استكشف القائمة', zh: '探索菜单', ru: 'Наше меню', fa: 'کاوش منو', fr: 'Explorer le Menu' },
+    searchPlaceholder: { tr: 'Sushi, ramen, set veya içerik ara...', en: 'Search sushi, ramen, sets or ingredients...', ar: 'ابحث عن سوشي، رامين، مجموعات...', zh: '搜索寿司、拉面、套餐或配料...', ru: 'Поиск суши, рамена, сетов...', fa: 'جستجوی سوشی، رامن...', fr: 'Rechercher sushi, ramen, sets...' },
     noResults: {
-      tr: 'Seçilen filtreye uygun ürün bulunamadı.',
-      en: 'No dishes match the selected filter.',
-      ar: 'لم يتم العثور على أطباق مطابقة للفلتر المحدد.',
-      zh: '未找到符合所选条件的菜品。'
-    }
+      tr: 'Seçilen kritere uygun ürün bulunamadı.',
+      en: 'No dishes match the selected criteria.',
+      ar: 'لم يتم العثور على أطباق مطابقة للبحث.',
+      zh: '未找到符合条件的菜品。',
+      ru: 'Блюд по вашему запросу не найдено.',
+      fa: 'موردی یافت نشد.',
+      fr: 'Aucun plat ne correspond à votre recherche.'
+    },
+    clearSearch: { tr: 'Filtreyi Sıfırla', en: 'Reset Filters', ar: 'إعادة ضبط', zh: '重置筛选', ru: 'Сбросить фильтры', fa: 'بازنشانی', fr: 'Réinitialiser' }
   };
 
   const l = (key) => labels[key]?.[lang] || labels[key]?.en || '';
@@ -104,26 +125,26 @@ export default function MenuPage() {
     <>
       <Header />
 
-      <main className="menu-main" style={{ background: '#EDE3CE', minHeight: '100vh', paddingBottom: '32px' }}>
+      <main className="menu-main" style={{ background: 'var(--color-background)', minHeight: '100vh', paddingBottom: '48px' }}>
         
-        {/* ── 1. Best Sellers Trending Showcase (Kardeshler compact style) ── */}
-        <div style={{ paddingTop: '8px' }}>
+        {/* ── 1. Best Sellers Trending Showcase ── */}
+        <div style={{ paddingTop: '10px' }}>
           <TrendingBar onOpen={(item) => setSelectedItem(item)} />
         </div>
 
-        {/* ── 4. Sticky Header for Categories & Smart Filters ── */}
+        {/* ── 2. Sticky Header for Categories & Filters ── */}
         <div 
           style={{
             position: 'sticky',
             top: 'var(--header-h)',
             zIndex: 40,
-            background: '#F7F2E7',
-            borderBottom: '1px solid rgba(185, 148, 82, 0.25)',
+            background: 'var(--color-background)',
+            borderBottom: '1px solid var(--color-border-light)',
             padding: '4px 0 2px 0',
-            boxShadow: '0 2px 8px rgba(52, 43, 37, 0.05)'
+            boxShadow: 'var(--shadow-sm)'
           }}
         >
-          {/* Categories Card (Always visible) */}
+          {/* Categories Box */}
           <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '0 var(--page-pad)' }}>
             <div className="kardeshler-cat-box">
               <div className="kardeshler-cat-title">
@@ -134,6 +155,7 @@ export default function MenuPage() {
                 {/* Left Scroll Arrow */}
                 {canScrollLeft && (
                   <button
+                    type="button"
                     onClick={() => scrollCategories(-1)}
                     aria-label="Scroll left"
                     style={{
@@ -143,13 +165,13 @@ export default function MenuPage() {
                       bottom: 0,
                       zIndex: 10,
                       width: '28px',
-                      background: 'linear-gradient(to right, #FAF7F0 60%, transparent)',
+                      background: 'linear-gradient(to right, var(--color-surface) 65%, transparent)',
                       border: 'none',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: '#2B2620',
+                      color: 'var(--color-text-primary)',
                       fontWeight: 'bold',
                       fontSize: '16px'
                     }}
@@ -161,6 +183,7 @@ export default function MenuPage() {
                 {/* Right Scroll Arrow */}
                 {canScrollRight && (
                   <button
+                    type="button"
                     onClick={() => scrollCategories(1)}
                     aria-label="Scroll right"
                     style={{
@@ -170,13 +193,13 @@ export default function MenuPage() {
                       bottom: 0,
                       zIndex: 10,
                       width: '28px',
-                      background: 'linear-gradient(to left, #FAF7F0 60%, transparent)',
+                      background: 'linear-gradient(to left, var(--color-surface) 65%, transparent)',
                       border: 'none',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: '#2B2620',
+                      color: 'var(--color-text-primary)',
                       fontWeight: 'bold',
                       fontSize: '16px'
                     }}
@@ -198,7 +221,7 @@ export default function MenuPage() {
                   }}
                 >
                   {menuCategories.map((cat) => {
-                    const isActive = activeCategory === cat.id;
+                    const isActive = activeCategory === cat.id && !searchQuery;
                     const catName = cat[`label_${lang}`] || cat.label_en;
                     const catImg = categoryImages[cat.id];
 
@@ -206,8 +229,10 @@ export default function MenuPage() {
                       <button
                         key={cat.id}
                         data-cat={cat.id}
+                        type="button"
                         className={`kardeshler-cat-item ${isActive ? 'active' : ''}`}
                         onClick={() => {
+                          setSearchQuery('');
                           setActiveCategory(cat.id);
                           scrollToGrid();
                         }}
@@ -222,7 +247,7 @@ export default function MenuPage() {
                               style={{ objectFit: 'cover' }}
                             />
                           ) : (
-                            <span style={{ fontSize: '1.2rem', color: '#B99452' }}>
+                            <span style={{ fontSize: '1.2rem', color: 'var(--color-brand-primary)' }}>
                               {cat.icon}
                             </span>
                           )}
@@ -238,38 +263,64 @@ export default function MenuPage() {
             </div>
           </div>
 
-          {/* Quick Filters Row */}
-          <div className="kardeshler-filter-row">
-            {quickFilters.map((filter) => {
-              const isActive = activeFilter === filter.id;
-              const filterName = filter[`label_${lang}`] || filter.label_en;
-              return (
-                <button
-                  key={filter.id}
-                  onClick={() => {
-                    if (filter.id === 'all') {
-                      setActiveFilter('all');
-                    } else {
-                      setActiveFilter(isActive ? 'all' : filter.id);
-                    }
-                    scrollToGrid();
-                  }}
-                  className={`kardeshler-filter-pill ${isActive ? 'active' : ''}`}
-                >
-                  <span>{filterName}</span>
-                  {isActive && filter.id !== 'all' && (
-                    <span style={{ fontSize: '11px', opacity: 0.85 }}>✕</span>
-                  )}
-                </button>
-              );
-            })}
+          {/* Quick Search */}
+          <div className="menu-search-wrap">
+            <span className="menu-search-icon" aria-hidden="true">🔍</span>
+            <input
+              type="text"
+              className="menu-search-input"
+              placeholder={l('searchPlaceholder')}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              aria-label={l('searchPlaceholder')}
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="menu-search-clear"
+                onClick={() => setSearchQuery('')}
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
           </div>
+
+          {/* Quick Filters Row (All, Bestseller, Vegetarian, Cooked, Spicy) */}
+          {!searchQuery && (
+            <div className="kardeshler-filter-row">
+              {quickFilters.map((filter) => {
+                const isActive = activeFilter === filter.id;
+                const filterName = filter[`label_${lang}`] || filter.label_en;
+                return (
+                  <button
+                    key={filter.id}
+                    type="button"
+                    onClick={() => {
+                      if (filter.id === 'all') {
+                        setActiveFilter('all');
+                      } else {
+                        setActiveFilter(isActive ? 'all' : filter.id);
+                      }
+                      scrollToGrid();
+                    }}
+                    className={`kardeshler-filter-pill ${isActive ? 'active' : ''}`}
+                  >
+                    <span>{filterName}</span>
+                    {isActive && filter.id !== 'all' && (
+                      <span style={{ fontSize: '11px', opacity: 0.85 }} aria-hidden="true">✕</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Scroll anchor */}
         <div ref={menuGridRef} style={{ height: '8px' }} />
 
-        {/* ── 5. Products Grid (Kardeshler horizontal cards) ── */}
+        {/* ── 3. Products Grid (Light/Hybrid Cards) ── */}
         <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '6px var(--page-pad) 24px var(--page-pad)' }}>
           {filteredItems.length > 0 ? (
             <div className="kardeshler-products-grid">
@@ -285,29 +336,31 @@ export default function MenuPage() {
             <div style={{
               textAlign: 'center',
               padding: '60px 20px',
-              color: '#796D60',
-              background: '#FAF7F0',
-              borderRadius: '12px',
-              border: '1px solid rgba(185, 148, 82, 0.25)'
+              color: 'var(--color-text-secondary)',
+              background: 'var(--color-surface)',
+              borderRadius: 'var(--radius-lg)',
+              border: '1px solid var(--color-border-light)',
+              boxShadow: 'var(--shadow-sm)'
             }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>🥢</div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#2B2620', marginBottom: '8px' }}>
+              <div style={{ fontSize: '2.5rem', marginBottom: '12px', color: 'var(--color-brand-primary)' }} aria-hidden="true">🥢</div>
+              <h3 style={{ fontSize: '1.1rem', fontWeight: '700', color: 'var(--color-text-primary)', marginBottom: '8px' }}>
                 {l('noResults')}
               </h3>
               <button
-                onClick={() => setActiveFilter('all')}
+                type="button"
+                onClick={() => {
+                  setSearchQuery('');
+                  setActiveFilter('all');
+                }}
+                className="btn-primary"
                 style={{
-                  marginTop: '8px',
-                  padding: '8px 18px',
-                  borderRadius: '8px',
-                  background: '#4E5F4C',
-                  color: 'white',
-                  border: 'none',
-                  fontWeight: '700',
-                  cursor: 'pointer'
+                  marginTop: '12px',
+                  padding: '10px 22px',
+                  minHeight: '40px',
+                  fontSize: '0.85rem'
                 }}
               >
-                {tUI('nav_menu')}
+                {l('clearSearch')}
               </button>
             </div>
           )}
