@@ -165,18 +165,7 @@ export default function HomePage() {
         </section>
 
         {/* ── 2. Trending Dishes Showcase ───────────────── */}
-        <section className="home-trending-section">
-          <div className="home-trending-header">
-            <div>
-              <span className="home-section-badge"><FaFire style={{ marginRight: '6px' }} /> {tUI('trending_badge')}</span>
-              <h2 className="home-section-title">{tUI('trending_title')}</h2>
-              <p className="home-section-sub">{tUI('trending_sub')}</p>
-            </div>
-            <Link href="/menu" className="btn-link-all">
-              <span>{tUI('nav_menu')}</span>
-              <span aria-hidden="true">{dir === 'rtl' ? '←' : '→'}</span>
-            </Link>
-          </div>
+        <section className="home-trending-section" style={{ padding: 0 }}>
           <TrendingBar onOpen={setSelectedItem} />
         </section>
 

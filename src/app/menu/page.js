@@ -70,20 +70,7 @@ export default function MenuPage() {
         {/* Best Sellers Trending Box */}
         {activeFilter === 'all' && (
           <div className="container" style={{ marginTop: 'var(--sp-4)' }}>
-            <div style={{
-              background: 'white',
-              borderRadius: '24px',
-              padding: 'var(--sp-4)',
-              boxShadow: '0 8px 30px rgba(52, 43, 37, 0.05)',
-              border: '1px solid rgba(185, 148, 82, 0.1)',
-              marginBottom: 'var(--sp-6)'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: 'var(--sp-3)', paddingLeft: '8px' }}>
-                <span style={{ fontSize: '1.3rem', color: 'var(--sake-gold)', display: 'flex' }}><FaFire /></span>
-                <h2 style={{ fontSize: '1.2rem', fontFamily: 'var(--font-heading-en)', color: 'var(--roasted-cacao)' }}>
-                  {lang === 'ar' ? 'الأكثر مبيعاً' : lang === 'tr' ? 'Çok Satanlar' : 'Best Sellers'}
-                </h2>
-              </div>
+            <div style={{ marginBottom: 'var(--sp-6)' }}>
               <TrendingBar onOpen={(item) => setSelectedItem(item)} />
             </div>
           </div>
@@ -108,43 +95,50 @@ export default function MenuPage() {
             
             {/* Categories */}
             {activeFilter === 'all' && (
-              <div 
-                className="categories-scroll" 
-                style={{ 
-                  display: 'flex', 
-                  gap: '16px', 
-                  overflowX: 'auto', 
-                  padding: '4px 4px 12px 4px', 
-                  scrollbarWidth: 'none',
-                  WebkitOverflowScrolling: 'touch'
-                }}
-              >
-                {menuCategories.map(cat => {
-                  const isActive = activeCategory === cat.id;
-                  const catName = cat[`label_${lang}`] || cat.label_en;
-                  return (
-                    <button
-                      key={cat.id}
-                      className={`premium-cat-box ${isActive ? 'active' : ''}`}
-                      onClick={() => {
-                        setActiveCategory(cat.id);
-                        window.scrollTo({ top: 100, behavior: 'smooth' });
-                      }}
-                    >
-                      <div className="cat-icon">
-                        {cat.icon}
-                      </div>
-                      <span className="cat-label">
-                        {catName}
-                      </span>
-                    </button>
-                  );
-                })}
+              <div className="trending-showcase__inner" style={{ marginBottom: 'var(--sp-4)' }}>
+                <h2 className="trending-showcase__title" style={{ fontSize: '1rem', marginBottom: '8px', opacity: 0.8 }}>
+                  {lang === 'ar' ? 'استكشف القائمة' : lang === 'tr' ? 'Menüyü Keşfet' : 'Explore Menu'}
+                </h2>
+                <div 
+                  className="categories-scroll" 
+                  style={{ 
+                    display: 'flex', 
+                    gap: '12px', 
+                    overflowX: 'auto', 
+                    padding: '8px 4px', 
+                    scrollbarWidth: 'none',
+                    WebkitOverflowScrolling: 'touch',
+                    scrollSnapType: 'x mandatory'
+                  }}
+                >
+                  {menuCategories.map(cat => {
+                    const isActive = activeCategory === cat.id;
+                    const catName = cat[`label_${lang}`] || cat.label_en;
+                    return (
+                      <button
+                        key={cat.id}
+                        className={`premium-cat-box ${isActive ? 'active' : ''}`}
+                        style={{ scrollSnapAlign: 'start' }}
+                        onClick={() => {
+                          setActiveCategory(cat.id);
+                          window.scrollTo({ top: 100, behavior: 'smooth' });
+                        }}
+                      >
+                        <div className="cat-icon">
+                          {cat.icon}
+                        </div>
+                        <span className="cat-label">
+                          {catName}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             )}
 
             {/* Quick Filters Row */}
-            <div className="menu-search-row" style={{ borderTop: '1px solid rgba(185, 148, 82, 0.1)', paddingTop: '12px' }}>
+            <div className="menu-search-row" style={{ paddingTop: '8px' }}>
               <div 
                 className="menu-filters-col quick-filters"
                 style={{ flex: 1, justifyContent: 'center' }}

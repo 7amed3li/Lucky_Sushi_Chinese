@@ -21,6 +21,13 @@ export default function TrendingBar({ onOpen }) {
   const { lang, t } = useLang();
   const scrollRef = useRef(null);
 
+  const activeLang = lang || 'tr';
+  const getBestSellersTitle = () => {
+    if (activeLang === "ar") return "الأكثر مبيعاً";
+    if (activeLang === "tr") return "En Çok Satanlar";
+    return "Best Sellers";
+  };
+
   const trendingItems = TRENDING_IDS
     .map((id) => menuItems.find((m) => m.id === id))
     .filter(Boolean);
@@ -35,7 +42,13 @@ export default function TrendingBar({ onOpen }) {
   };
 
   return (
-    <div className="trending" style={{ position: 'relative' }}>
+    <div className="trending-showcase">
+      <div className="trending-showcase__inner">
+        <h2 className="trending-showcase__title">
+          <span className="trending-showcase__icon">🌿</span>
+          <span>{getBestSellersTitle()}</span>
+        </h2>
+        <div className="trending" style={{ position: 'relative' }}>
       {/* Scroll arrows (desktop) */}
       <button
         className="trending__arrow trending__arrow--left"
@@ -92,32 +105,39 @@ export default function TrendingBar({ onOpen }) {
               aria-label={name}
               onKeyDown={(e) => { if (e.key === 'Enter') onOpen?.(item); }}
             >
-              <div className="trending__img-wrap">
-                {hasImage ? (
-                  <Image
-                    src={item.image}
-                    alt={name}
-                    width={160}
-                    height={160}
-                    loading="lazy"
-                    style={{ objectFit: 'cover' }}
-                  />
-                ) : (
-                  <div style={{
-                    width: '100%', height: '100%',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: '2rem', opacity: 0.3,
-                  }}>
-                    🍣
+              <div className="trending__img-container">
+                <div className="trending__img-wrap">
+                  {hasImage ? (
+                    <Image
+                      src={item.image}
+                      alt={name}
+                      fill
+                      loading="lazy"
+                      style={{ objectFit: 'contain', padding: '2px' }}
+                    />
+                  ) : (
+                    <div style={{
+                      width: '100%', height: '100%',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '1.5rem', opacity: 0.3,
+                    }}>
+                      🍣
+                    </div>
+                  )}
+                </div>
+                {badgeLabel && (
+                  <div className="trending__badge-wrap">
+                    <span className="trending__badge">{badgeLabel}</span>
                   </div>
                 )}
               </div>
               <span className="trending__name">{name}</span>
-              {badgeLabel && <span className="trending__badge">{badgeLabel}</span>}
             </div>
           );
         })}
       </div>
+    </div>
+    </div>
     </div>
   );
 }
