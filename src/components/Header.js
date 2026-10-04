@@ -8,29 +8,11 @@ import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 import { restaurantInfo } from '@/data/menuData';
 
-const LANG_DISPLAY = {
-  tr: 'TR',
-  en: 'EN',
-  ar: 'AR',
-  ru: 'RU',
-  fa: 'FA',
-  fr: 'FR',
-  zh: 'ZH',
-};
 
-const LANG_FULL = {
-  tr: 'Türkçe',
-  en: 'English',
-  ar: 'العربية',
-  ru: 'Русский',
-  fa: 'فارسی',
-  fr: 'Français',
-  zh: '中文',
-};
 
 export default function Header() {
   const pathname = usePathname();
-  const { lang, switchLang, tUI, dir, SUPPORTED_LANGS } = useLang();
+  const { lang, switchLang, tUI, dir, SUPPORTED_LANGS, getLocale } = useLang();
   const { cartCount, setIsCartOpen } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -128,7 +110,7 @@ export default function Header() {
                 aria-label="Select language"
                 aria-expanded={langOpen}
               >
-                <span>{LANG_DISPLAY[lang] || lang.toUpperCase()}</span>
+                <span>{getLocale(lang)?.flag} {getLocale(lang)?.displayName || lang.toUpperCase()}</span>
                 <svg
                   width="12"
                   height="12"
@@ -157,7 +139,7 @@ export default function Header() {
                         setLangOpen(false);
                       }}
                     >
-                      <span>{LANG_FULL[code] || code.toUpperCase()}</span>
+                      <span>{getLocale(code)?.flag} {getLocale(code)?.nativeName || code.toUpperCase()}</span>
                       {lang === code && <span aria-hidden="true">✓</span>}
                     </button>
                   ))}
@@ -318,7 +300,7 @@ export default function Header() {
                   closeMobile();
                 }}
               >
-                {LANG_DISPLAY[code] || code.toUpperCase()}
+                {getLocale(code)?.flag} {getLocale(code)?.displayName || code.toUpperCase()}
               </button>
             );
           })}

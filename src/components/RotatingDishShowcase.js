@@ -77,6 +77,18 @@ function formatPortion(portion, lang) {
       .replace(/(\d+)\s*bowl/i, '$1 Kase')
       .replace(/(\d+)\s*portion/i, '$1 Porsiyon');
   }
+  if (lang === 'ru') {
+    return portion
+      .replace(/(\d+)\s*pcs/i, '$1 шт.')
+      .replace(/(\d+)\s*bowl/i, '$1 порция')
+      .replace(/(\d+)\s*portion/i, '$1 порция');
+  }
+  if (lang === 'zh') {
+    return portion
+      .replace(/(\d+)\s*pcs/i, '$1件')
+      .replace(/(\d+)\s*bowl/i, '$1碗')
+      .replace(/(\d+)\s*portion/i, '$1份');
+  }
   return portion;
 }
 

@@ -19,7 +19,7 @@ const TRENDING_IDS = [
 ];
 
 export default function TrendingBar({ onOpen }) {
-  const { lang, t } = useLang();
+  const { lang, t, tUI } = useLang();
   const scrollRef = useRef(null);
 
   const activeLang = lang || 'tr';
@@ -56,9 +56,9 @@ export default function TrendingBar({ onOpen }) {
             const isBestseller = item.tags?.includes('bestseller');
             const isChef = item.tags?.includes('chefs-pick');
             const badgeLabel = isBestseller
-              ? (lang === 'ar' ? 'الأكثر طلباً' : lang === 'tr' ? 'Çok Satan' : lang === 'zh' ? '热卖' : 'Best Seller')
+              ? tUI('badge_bestseller')
               : isChef
-              ? (lang === 'ar' ? 'اختيار الشيف' : lang === 'tr' ? 'Şef Seçimi' : lang === 'zh' ? '主厨' : "Chef's Pick")
+              ? tUI('badge_chefs_pick')
               : (lang === 'tr' ? 'Popüler' : 'Popular');
 
             const badgeBg = isChef ? 'var(--color-accent)' : 'var(--color-brand-primary)';

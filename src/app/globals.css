@@ -977,6 +977,321 @@ p {
    Rotating Dish Showcase — Complete Brand Identity
    Light-First · Warm Porcelain & Lucky Jade Accents
    ══════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════
+   LUCKY PICK SHOWCASE — Cinematic Chopstick Animation
+   ══════════════════════════════════════════════════════ */
+
+@keyframes lp-fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes lp-scale-in {
+  from { opacity: 0; transform: scale(0.82); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes lp-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-7px); }
+}
+@keyframes lp-chopstick-drop {
+  from { transform: translateY(-80px); opacity: 0; }
+  to   { transform: translateY(0px); opacity: 1; }
+}
+@keyframes lp-left-open {
+  from { transform: translateX(0) rotate(-8deg); }
+  to   { transform: translateX(-10px) rotate(-18deg); }
+}
+@keyframes lp-right-open {
+  from { transform: translateX(0) rotate(8deg); }
+  to   { transform: translateX(10px) rotate(18deg); }
+}
+@keyframes lp-left-close {
+  from { transform: translateX(-10px) rotate(-18deg); }
+  to   { transform: translateX(-2px) rotate(-6deg); }
+}
+@keyframes lp-right-close {
+  from { transform: translateX(10px) rotate(18deg); }
+  to   { transform: translateX(2px) rotate(6deg); }
+}
+@keyframes lp-lift {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-52px); }
+}
+@keyframes lp-ride-piece-appear {
+  from { opacity: 0; transform: scale(0.5); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes lp-clover-shimmer {
+  0%   { opacity: 0; transform: scale(0.6); }
+  50%  { opacity: 0.85; transform: scale(1.35); }
+  100% { opacity: 0; transform: scale(1.8); }
+}
+@keyframes lp-info-enter {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes lp-glow-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 0.7; transform: scale(1.12); }
+}
+
+.lucky-pick {
+  background: var(--color-background);
+  padding: var(--sp-8) var(--page-pad) var(--sp-6);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+.lucky-pick__inner {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+}
+.lucky-pick__header { text-align: center; animation: lp-fade-up 0.6s ease both; }
+.lucky-pick__badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-brand-primary);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 99px;
+  margin-bottom: var(--sp-2);
+}
+.lucky-pick__title {
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin: 0 0 4px;
+  line-height: 1.15;
+}
+.lucky-pick__sub { font-size: 0.82rem; color: var(--color-text-tertiary); margin: 0; }
+
+.lucky-pick__stage {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  position: relative;
+  min-height: 340px;
+}
+.lucky-pick__arrow {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+  font-size: 12px; z-index: 2;
+}
+.lucky-pick__arrow:hover {
+  background: var(--color-brand-primary);
+  border-color: var(--color-brand-primary);
+  color: #fff; transform: scale(1.08);
+}
+.lucky-pick__arrow:active { transform: scale(0.94); }
+
+.lucky-pick__scene {
+  position: relative;
+  width: 300px; height: 320px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.lucky-pick__logo-anchor {
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex; align-items: center; justify-content: center;
+}
+.lucky-pick__logo-img {
+  width: 100px; height: auto; object-fit: contain;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.18));
+}
+.lucky-pick__clover-shimmer {
+  position: absolute; inset: -6px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(74,192,74,0.6) 0%, rgba(255,215,0,0.3) 50%, transparent 75%);
+  opacity: 0; pointer-events: none;
+}
+.lucky-pick__scene--catch .lucky-pick__clover-shimmer,
+.lucky-pick__scene--show .lucky-pick__clover-shimmer {
+  animation: lp-clover-shimmer 0.8s ease forwards;
+}
+
+.lucky-pick__chopsticks {
+  position: absolute; top: 68px; left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 140px; z-index: 3;
+  display: flex; align-items: flex-start; justify-content: center; gap: 6px;
+}
+.lucky-pick__scene--enter .lucky-pick__chopsticks { opacity: 0; }
+.lucky-pick__scene--chopstick-open .lucky-pick__chopsticks,
+.lucky-pick__scene--lift .lucky-pick__chopsticks,
+.lucky-pick__scene--catch .lucky-pick__chopsticks,
+.lucky-pick__scene--show .lucky-pick__chopsticks { opacity: 1; }
+
+.lucky-pick__chopstick {
+  width: 4px; height: 120px; border-radius: 2px;
+  background: linear-gradient(180deg, #2a1a0a 0%, #6b3a1f 60%, #1a0a00 100%);
+  transform-origin: top center;
+  box-shadow: inset 1px 0 2px rgba(255,255,255,0.15);
+}
+.lucky-pick__scene--chopstick-open .lucky-pick__chopstick--left {
+  animation: lp-chopstick-drop 0.45s ease both, lp-left-open 0.5s 0.45s ease both;
+}
+.lucky-pick__scene--chopstick-open .lucky-pick__chopstick--right {
+  animation: lp-chopstick-drop 0.45s ease both, lp-right-open 0.5s 0.45s ease both;
+}
+.lucky-pick__scene--lift .lucky-pick__chopstick--left {
+  animation: lp-chopstick-drop 0.45s ease both, lp-left-open 0.5s 0.45s ease both,
+             lp-left-close 0.3s 0.95s ease both, lp-lift 0.5s 1.3s ease both;
+}
+.lucky-pick__scene--lift .lucky-pick__chopstick--right {
+  animation: lp-chopstick-drop 0.45s ease both, lp-right-open 0.5s 0.45s ease both,
+             lp-right-close 0.3s 0.95s ease both, lp-lift 0.5s 1.3s ease both;
+}
+.lucky-pick__scene--catch .lucky-pick__chopstick--left,
+.lucky-pick__scene--show .lucky-pick__chopstick--left {
+  transform: translateX(-2px) rotate(-6deg) translateY(-52px);
+}
+.lucky-pick__scene--catch .lucky-pick__chopstick--right,
+.lucky-pick__scene--show .lucky-pick__chopstick--right {
+  transform: translateX(2px) rotate(6deg) translateY(-52px);
+}
+
+.lucky-pick__ride-piece {
+  position: absolute; bottom: 10px; left: 50%;
+  transform: translateX(-50%); opacity: 0;
+}
+.lucky-pick__ride-piece-inner {
+  width: 22px; height: 14px; border-radius: 3px;
+  background: linear-gradient(135deg, #f97316 0%, #ea580c 50%, #dc2626 100%);
+  box-shadow: 0 0 6px rgba(249,115,22,0.5); position: relative;
+}
+.lucky-pick__ride-piece-inner::after {
+  content: ''; position: absolute;
+  top: 2px; left: 3px; right: 3px; height: 5px;
+  border-radius: 2px; background: rgba(255,255,255,0.35);
+}
+.lucky-pick__scene--lift .lucky-pick__ride-piece {
+  animation: lp-ride-piece-appear 0.3s 0.9s ease both, lp-lift 0.5s 1.3s ease both;
+}
+.lucky-pick__scene--catch .lucky-pick__ride-piece,
+.lucky-pick__scene--show .lucky-pick__ride-piece { opacity: 0; }
+
+.lucky-pick__plate-btn {
+  position: absolute; bottom: 8px; left: 50%;
+  transform: translateX(-50%);
+  background: none; border: none; padding: 0; cursor: pointer; z-index: 2;
+}
+.lucky-pick__plate-ring {
+  position: relative; width: 230px; height: 230px;
+  border-radius: 50%; overflow: hidden;
+  border: 3px solid var(--color-brand-primary);
+  box-shadow: 0 0 0 6px rgba(198,56,56,0.12), 0 8px 32px rgba(0,0,0,0.18);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.lucky-pick__plate-btn:hover .lucky-pick__plate-ring,
+.lucky-pick__plate-btn:focus-visible .lucky-pick__plate-ring {
+  transform: scale(1.04);
+  box-shadow: 0 0 0 8px rgba(198,56,56,0.2), 0 12px 40px rgba(0,0,0,0.24);
+}
+.lucky-pick__plate-glow {
+  position: absolute; inset: -20%; border-radius: 50%;
+  background: radial-gradient(circle, rgba(198,56,56,0.15) 0%, transparent 70%);
+  animation: lp-glow-pulse 3s ease-in-out infinite;
+  pointer-events: none; z-index: 0;
+}
+.lucky-pick__plate-img { object-fit: cover; border-radius: 50%; transition: transform 0.4s ease; }
+.lucky-pick__plate-btn:hover .lucky-pick__plate-img { transform: scale(1.06); }
+.lucky-pick__scene--enter .lucky-pick__plate-ring,
+.lucky-pick__scene--chopstick-open .lucky-pick__plate-ring {
+  animation: lp-scale-in 0.5s ease both;
+}
+.lucky-pick__scene--show .lucky-pick__plate-ring { animation: lp-float 4s ease-in-out infinite; }
+
+.lucky-pick__info {
+  width: 100%; max-width: 400px;
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg); padding: var(--sp-4);
+  cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+  min-height: 110px; display: flex; flex-direction: column; gap: var(--sp-2);
+  animation: lp-info-enter 0.5s ease both;
+}
+.lucky-pick__info:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
+.lucky-pick__info-top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--sp-2); min-height: 24px;
+}
+.lucky-pick__info-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 3px 9px; border-radius: 99px; text-transform: uppercase;
+}
+.lucky-pick__info-badge--bestseller { background: var(--color-brand-primary); color: #fff; }
+.lucky-pick__info-badge--chefs-pick { background: var(--color-accent); color: #fff; }
+.lucky-pick__info-badge-placeholder { height: 22px; }
+.lucky-pick__info-portion {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--color-text-tertiary);
+}
+.lucky-pick__info-name {
+  font-size: clamp(1rem, 2.5vw, 1.25rem); font-weight: 700;
+  color: var(--color-text-primary); margin: 0; line-height: 1.25;
+  -webkit-line-clamp: 2; line-clamp: 2;
+  display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden;
+}
+.lucky-pick__info-bottom {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--sp-2); margin-top: auto;
+}
+.lucky-pick__info-price { font-size: 1.35rem; font-weight: 800; color: var(--color-brand-primary); line-height: 1; }
+.lucky-pick__info-currency { font-size: 0.85rem; font-weight: 600; opacity: 0.7; }
+.lucky-pick__info-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--color-brand-primary); color: #fff;
+  font-size: 12px; font-weight: 700; padding: 8px 16px;
+  border-radius: var(--radius-full); border: none; cursor: pointer;
+  transition: background 0.2s, transform 0.15s; white-space: nowrap;
+}
+.lucky-pick__info-cta:hover { background: var(--color-brand-dark); transform: scale(1.04); }
+.lucky-pick__info-cta:active { transform: scale(0.96); }
+
+.lucky-pick__dots { display: flex; align-items: center; gap: 6px; margin-top: var(--sp-1); }
+.lucky-pick__dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--color-border); border: none; cursor: pointer; padding: 0;
+  transition: width 0.3s ease, background 0.3s ease;
+}
+.lucky-pick__dot.is-active { width: 20px; border-radius: 3px; background: var(--color-brand-primary); }
+.lucky-pick__dot:hover:not(.is-active) { background: var(--color-text-tertiary); }
+
+.lucky-pick--no-motion .lucky-pick__chopsticks { display: none; }
+.lucky-pick--no-motion .lucky-pick__plate-ring,
+.lucky-pick--no-motion .lucky-pick__plate-glow,
+.lucky-pick--no-motion .lucky-pick__clover-shimmer { animation: none; }
+
+@media (max-width: 480px) {
+  .lucky-pick__stage { min-height: 285px; }
+  .lucky-pick__scene { width: 255px; height: 270px; }
+  .lucky-pick__plate-ring { width: 190px; height: 190px; }
+  .lucky-pick__logo-img { width: 78px; }
+  .lucky-pick__arrow { width: 30px; height: 30px; font-size: 10px; }
+  .lucky-pick__info { max-width: 100%; }
+}
+
+
 .dish-showcase {
   background: var(--color-background);
   padding: var(--sp-6) var(--page-pad) var(--sp-6);
@@ -1638,6 +1953,7 @@ p {
   padding: 0 2px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -1717,6 +2033,7 @@ p {
   line-height: 1.15;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   padding: 0 1px;
@@ -1942,6 +2259,7 @@ p {
   transition: color 0.2s;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-align: start;
@@ -1977,6 +2295,7 @@ p {
   margin-top: 3px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-align: start;

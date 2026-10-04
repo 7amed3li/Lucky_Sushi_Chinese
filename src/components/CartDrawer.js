@@ -37,7 +37,7 @@ export default function CartDrawer() {
 
   // Build WhatsApp message
   const buildWhatsAppMsg = () => {
-    let msg = `🍣 Lucky Sushi Chinese — ${lang === 'ar' ? 'طلب جديد' : lang === 'tr' ? 'Yeni Sipariş' : 'New Order'}\n\n`;
+    let msg = `🍣 Lucky Sushi Chinese — ${tUI('cart_new_order')}\n\n`;
     cart.forEach(({ item, quantity }) => {
       const name = t(item, 'name');
       msg += `• ${quantity}x ${name} — ${(item.price * quantity).toLocaleString('tr-TR')} ₺\n`;

@@ -128,7 +128,7 @@ export default function DishCard({ item, onClick }) {
               type="button"
               className="kardeshler-food-card__add-btn"
               onClick={handleAdd}
-              aria-label={`${lang === 'ar' ? 'أضف' : lang === 'tr' ? 'Ekle' : 'Add'} ${name}`}
+              aria-label={`${tUI('dish_add_aria')} ${name}`}
             >
               +
             </button>
