@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import Image from 'next/image';
 import { useLang } from '@/context/LangContext';
 import { menuItems, menuCategories, quickFilters } from '@/data/menuData';
 import Header from '@/components/Header';
@@ -8,55 +9,93 @@ import DishCard from '@/components/DishCard';
 import DishModal from '@/components/DishModal';
 import CartDrawer from '@/components/CartDrawer';
 import TrendingBar from '@/components/TrendingBar';
-import { FaFire } from 'react-icons/fa6';
 
 export default function MenuPage() {
-  const { lang, t, tUI, dir } = useLang();
+  const { lang, tUI, dir } = useLang();
   const [activeCategory, setActiveCategory] = useState(menuCategories[0].id);
   const [activeFilter, setActiveFilter] = useState('all');
   const [selectedItem, setSelectedItem] = useState(null);
-  const [isScrolled, setIsScrolled] = useState(false);
+  
+  const categoryScrollRef = useRef(null);
+  const menuGridRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
 
-  // Scroll listener for sticky category bar
+  // Check scroll on category bar
+  const checkCatScroll = useCallback(() => {
+    const el = categoryScrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 5);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 5);
+  }, []);
+
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 150);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    checkCatScroll();
+    const el = categoryScrollRef.current;
+    if (el) el.addEventListener('scroll', checkCatScroll);
+    return () => el?.removeEventListener('scroll', checkCatScroll);
+  }, [checkCatScroll]);
+
+  const scrollCategories = (dirVal) => {
+    categoryScrollRef.current?.scrollBy({ left: dirVal * 160, behavior: 'smooth' });
+  };
+
+  const scrollToGrid = () => {
+    menuGridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  // Center active category tab
+  useEffect(() => {
+    const el = categoryScrollRef.current;
+    if (!el) return;
+    const activeBtn = el.querySelector(`[data-cat="${activeCategory}"]`);
+    if (activeBtn) {
+      const containerRect = el.getBoundingClientRect();
+      const btnRect = activeBtn.getBoundingClientRect();
+      const offset = btnRect.left - containerRect.left - (containerRect.width / 2) + (btnRect.width / 2);
+      el.scrollBy({ left: offset, behavior: 'smooth' });
+    }
+  }, [activeCategory]);
+
+  // First image per category cache
+  const categoryImages = useMemo(() => {
+    const map = {};
+    for (const cat of menuCategories) {
+      const match = menuItems.find(
+        (item) => item.category === cat.id && item.image && item.image !== '/images/placeholder.jpg'
+      );
+      if (match) {
+        map[cat.id] = match.image;
+      }
+    }
+    return map;
   }, []);
 
   // Filter items
   const filteredItems = useMemo(() => {
-    let items = menuItems;
+    let items = menuItems.filter((item) => item.category === activeCategory);
 
-    // Quick filter
     if (activeFilter !== 'all') {
-      items = items.filter((item) => item.tags?.includes(activeFilter));
-      // Ignore category if using a quick filter (other than all)
-      return items;
+      const categoryMatches = items.filter((item) => item.tags?.includes(activeFilter));
+      if (categoryMatches.length > 0) {
+        return categoryMatches;
+      }
+      // Fallback: show all menu dishes matching the filter if none in this category
+      return menuItems.filter((item) => item.tags?.includes(activeFilter));
     }
 
-    // Category filter
-    return items.filter((item) => item.category === activeCategory);
-  }, [activeFilter, activeCategory, lang]);
+    return items;
+  }, [activeFilter, activeCategory]);
 
   // Labels
   const labels = {
-    title: { tr: 'Menü', en: 'Menu', ar: 'القائمة', zh: '菜单' },
-    subtitle: { 
-      tr: 'Özenle hazırlanmış uzak doğu lezzetleri.', 
-      en: 'Carefully crafted Far East flavors.', 
-      ar: 'نكهات الشرق الأقصى المحضرة بعناية.', 
-      zh: '精心制作的远东风味。' 
-    },
-    searchPlaceholder: { 
-      tr: 'Yemek veya içerik arayın...', 
-      en: 'Search dishes or ingredients...', 
-      ar: 'ابحث عن طبق أو مكون...', 
-      zh: '搜索菜品或食材...' 
-    },
-    noResults: { tr: 'Sonuç bulunamadı.', en: 'No results found.', ar: 'لم يتم العثور على نتائج.', zh: '未找到结果。' }
+    exploreMenu: { tr: 'Menüyü Keşfet', en: 'Explore Menu', ar: 'استكشف القائمة', zh: '探索菜单' },
+    noResults: {
+      tr: 'Seçilen filtreye uygun ürün bulunamadı.',
+      en: 'No dishes match the selected filter.',
+      ar: 'لم يتم العثور على أطباق مطابقة للفلتر المحدد.',
+      zh: '未找到符合所选条件的菜品。'
+    }
   };
 
   const l = (key) => labels[key]?.[lang] || labels[key]?.en || '';
@@ -65,69 +104,130 @@ export default function MenuPage() {
     <>
       <Header />
 
-      <main className="menu-main" style={{ background: 'var(--warm-cream)', minHeight: '100vh', paddingBottom: 'var(--sp-12)' }}>
+      <main className="menu-main" style={{ background: '#EDE3CE', minHeight: '100vh', paddingBottom: '32px' }}>
         
-        {/* Best Sellers Trending Box */}
-        {activeFilter === 'all' && (
-          <div className="container" style={{ marginTop: 'var(--sp-4)' }}>
-            <div style={{ marginBottom: 'var(--sp-6)' }}>
-              <TrendingBar onOpen={(item) => setSelectedItem(item)} />
-            </div>
-          </div>
-        )}
+        {/* ── 1. Best Sellers Trending Showcase (Kardeshler compact style) ── */}
+        <div style={{ paddingTop: '8px' }}>
+          <TrendingBar onOpen={(item) => setSelectedItem(item)} />
+        </div>
 
-        {/* Sticky Filters & Categories Container */}
+        {/* ── 4. Sticky Header for Categories & Smart Filters ── */}
         <div 
-          className="menu-filters-wrapper"
           style={{
             position: 'sticky',
             top: 'var(--header-h)',
-            zIndex: 90,
-            background: 'rgba(255, 253, 248, 0.95)',
-            backdropFilter: 'blur(12px)',
-            borderBottom: isScrolled ? '1px solid rgba(185, 148, 82, 0.15)' : '1px solid transparent',
-            transition: 'all 0.3s ease',
-            padding: 'var(--sp-2) 0',
-            boxShadow: isScrolled ? '0 4px 20px rgba(52, 43, 37, 0.05)' : 'none'
+            zIndex: 40,
+            background: '#F7F2E7',
+            borderBottom: '1px solid rgba(185, 148, 82, 0.25)',
+            padding: '4px 0 2px 0',
+            boxShadow: '0 2px 8px rgba(52, 43, 37, 0.05)'
           }}
         >
-          <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-2)' }}>
-            
-            {/* Categories */}
-            {activeFilter === 'all' && (
-              <div className="trending-showcase__inner" style={{ marginBottom: 'var(--sp-4)' }}>
-                <h2 className="trending-showcase__title" style={{ fontSize: '1rem', marginBottom: '8px', opacity: 0.8 }}>
-                  {lang === 'ar' ? 'استكشف القائمة' : lang === 'tr' ? 'Menüyü Keşfet' : 'Explore Menu'}
-                </h2>
-                <div 
-                  className="categories-scroll" 
-                  style={{ 
-                    display: 'flex', 
-                    gap: '12px', 
-                    overflowX: 'auto', 
-                    padding: '8px 4px', 
+          {/* Categories Card (Always visible) */}
+          <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '0 var(--page-pad)' }}>
+            <div className="kardeshler-cat-box">
+              <div className="kardeshler-cat-title">
+                {l('exploreMenu')}
+              </div>
+
+              <div style={{ position: 'relative' }}>
+                {/* Left Scroll Arrow */}
+                {canScrollLeft && (
+                  <button
+                    onClick={() => scrollCategories(-1)}
+                    aria-label="Scroll left"
+                    style={{
+                      position: 'absolute',
+                      left: 0,
+                      top: 0,
+                      bottom: 0,
+                      zIndex: 10,
+                      width: '28px',
+                      background: 'linear-gradient(to right, #FAF7F0 60%, transparent)',
+                      border: 'none',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#2B2620',
+                      fontWeight: 'bold',
+                      fontSize: '16px'
+                    }}
+                  >
+                    ‹
+                  </button>
+                )}
+
+                {/* Right Scroll Arrow */}
+                {canScrollRight && (
+                  <button
+                    onClick={() => scrollCategories(1)}
+                    aria-label="Scroll right"
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      top: 0,
+                      bottom: 0,
+                      zIndex: 10,
+                      width: '28px',
+                      background: 'linear-gradient(to left, #FAF7F0 60%, transparent)',
+                      border: 'none',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: '#2B2620',
+                      fontWeight: 'bold',
+                      fontSize: '16px'
+                    }}
+                  >
+                    ›
+                  </button>
+                )}
+
+                {/* Horizontal Categories Scroll */}
+                <div
+                  ref={categoryScrollRef}
+                  style={{
+                    display: 'flex',
+                    gap: '8px',
+                    overflowX: 'auto',
+                    padding: '2px 4px 4px 4px',
                     scrollbarWidth: 'none',
-                    WebkitOverflowScrolling: 'touch',
-                    scrollSnapType: 'x mandatory'
+                    WebkitOverflowScrolling: 'touch'
                   }}
                 >
-                  {menuCategories.map(cat => {
+                  {menuCategories.map((cat) => {
                     const isActive = activeCategory === cat.id;
                     const catName = cat[`label_${lang}`] || cat.label_en;
+                    const catImg = categoryImages[cat.id];
+
                     return (
                       <button
                         key={cat.id}
-                        className={`premium-cat-box ${isActive ? 'active' : ''}`}
-                        style={{ scrollSnapAlign: 'start' }}
+                        data-cat={cat.id}
+                        className={`kardeshler-cat-item ${isActive ? 'active' : ''}`}
                         onClick={() => {
                           setActiveCategory(cat.id);
-                          window.scrollTo({ top: 100, behavior: 'smooth' });
+                          scrollToGrid();
                         }}
                       >
-                        <div className="cat-icon">
-                          {cat.icon}
+                        <div className="kardeshler-cat-thumb">
+                          {catImg ? (
+                            <Image
+                              src={catImg}
+                              alt=""
+                              fill
+                              sizes="54px"
+                              style={{ objectFit: 'cover' }}
+                            />
+                          ) : (
+                            <span style={{ fontSize: '1.2rem', color: '#B99452' }}>
+                              {cat.icon}
+                            </span>
+                          )}
                         </div>
-                        <span className="cat-label">
+                        <span className="kardeshler-cat-label">
                           {catName}
                         </span>
                       </button>
@@ -135,55 +235,77 @@ export default function MenuPage() {
                   })}
                 </div>
               </div>
-            )}
-
-            {/* Quick Filters Row */}
-            <div className="menu-search-row" style={{ paddingTop: '8px' }}>
-              <div 
-                className="menu-filters-col quick-filters"
-                style={{ flex: 1, justifyContent: 'center' }}
-              >
-                {quickFilters.map(filter => {
-                  const isActive = activeFilter === filter.id;
-                  const filterName = filter[`label_${lang}`] || filter.label_en;
-                  return (
-                    <button
-                      key={filter.id}
-                      onClick={() => setActiveFilter(filter.id)}
-                      className={`quick-filter-btn ${isActive ? 'active' : ''}`}
-                    >
-                      <span aria-hidden="true" style={{ display: 'flex', alignItems: 'center', fontSize: '1.1rem' }}>{filter.icon}</span>
-                      {filterName}
-                    </button>
-                  );
-                })}
-              </div>
             </div>
+          </div>
+
+          {/* Quick Filters Row */}
+          <div className="kardeshler-filter-row">
+            {quickFilters.map((filter) => {
+              const isActive = activeFilter === filter.id;
+              const filterName = filter[`label_${lang}`] || filter.label_en;
+              return (
+                <button
+                  key={filter.id}
+                  onClick={() => {
+                    if (filter.id === 'all') {
+                      setActiveFilter('all');
+                    } else {
+                      setActiveFilter(isActive ? 'all' : filter.id);
+                    }
+                    scrollToGrid();
+                  }}
+                  className={`kardeshler-filter-pill ${isActive ? 'active' : ''}`}
+                >
+                  <span>{filterName}</span>
+                  {isActive && filter.id !== 'all' && (
+                    <span style={{ fontSize: '11px', opacity: 0.85 }}>✕</span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 
+        {/* Scroll anchor */}
+        <div ref={menuGridRef} style={{ height: '8px' }} />
 
-
-        {/* Products Grid */}
-        <div className="container" style={{ marginTop: activeFilter === 'all' ? '0' : 'var(--sp-6)' }}>
+        {/* ── 5. Products Grid (Kardeshler horizontal cards) ── */}
+        <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '6px var(--page-pad) 24px var(--page-pad)' }}>
           {filteredItems.length > 0 ? (
-            <div className="products-grid">
-              {filteredItems.map(item => (
-                <DishCard 
-                  key={item.id} 
-                  item={item} 
-                  onClick={() => setSelectedItem(item)} 
+            <div className="kardeshler-products-grid">
+              {filteredItems.map((item) => (
+                <DishCard
+                  key={item.id}
+                  item={item}
+                  onClick={() => setSelectedItem(item)}
                 />
               ))}
             </div>
           ) : (
-            <div className="empty-state">
-              <div className="empty-state__icon">🥢</div>
-              <h3 className="empty-state__title">{l('noResults')}</h3>
-              <button 
-                className="btn-secondary" 
+            <div style={{
+              textAlign: 'center',
+              padding: '60px 20px',
+              color: '#796D60',
+              background: '#FAF7F0',
+              borderRadius: '12px',
+              border: '1px solid rgba(185, 148, 82, 0.25)'
+            }}>
+              <div style={{ fontSize: '2.5rem', marginBottom: '12px' }}>🥢</div>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#2B2620', marginBottom: '8px' }}>
+                {l('noResults')}
+              </h3>
+              <button
                 onClick={() => setActiveFilter('all')}
-                style={{ marginTop: 'var(--sp-3)' }}
+                style={{
+                  marginTop: '8px',
+                  padding: '8px 18px',
+                  borderRadius: '8px',
+                  background: '#4E5F4C',
+                  color: 'white',
+                  border: 'none',
+                  fontWeight: '700',
+                  cursor: 'pointer'
+                }}
               >
                 {tUI('nav_menu')}
               </button>

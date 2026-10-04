@@ -23,7 +23,7 @@ export default function CartDrawer() {
   }, [isCartOpen]);
 
   const labels = {
-    title: { tr: 'سلة الطلب', en: 'Your Cart', ar: 'سلة الطلب', zh: '购物车' },
+    title: { tr: 'Sepetiniz', en: 'Your Cart', ar: 'سلة الطلب', zh: '购物车' },
     empty: { tr: 'Sepetiniz boş', en: 'Your cart is empty', ar: 'سلتك فارغة', zh: '购物车为空' },
     emptyHint: { tr: 'Lezzetleri keşfetmeye başlayın', en: 'Start exploring our dishes', ar: 'ابدأ باستكشاف أطباقنا', zh: '开始探索美食' },
     subtotal: { tr: 'Ara Toplam', en: 'Subtotal', ar: 'المجموع الفرعي', zh: '小计' },

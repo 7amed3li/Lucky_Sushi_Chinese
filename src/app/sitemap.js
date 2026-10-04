@@ -1,33 +1,62 @@
 export default function sitemap() {
-  const baseUrl = 'https://luckysushi.example.com';
-  
-  // Here we will eventually map over dynamic routes like dishes and languages
-  // For now, returning static routes
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lucky-sushi-chinese.vercel.app';
   
   return [
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'yearly',
+      changeFrequency: 'weekly',
       priority: 1,
+      alternates: {
+        languages: {
+          tr: baseUrl,
+          en: baseUrl,
+          ar: baseUrl,
+          zh: baseUrl,
+        },
+      },
     },
     {
       url: `${baseUrl}/menu`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+      alternates: {
+        languages: {
+          tr: `${baseUrl}/menu`,
+          en: `${baseUrl}/menu`,
+          ar: `${baseUrl}/menu`,
+          zh: `${baseUrl}/menu`,
+        },
+      },
     },
     {
       url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.5,
+      priority: 0.6,
+      alternates: {
+        languages: {
+          tr: `${baseUrl}/about`,
+          en: `${baseUrl}/about`,
+          ar: `${baseUrl}/about`,
+          zh: `${baseUrl}/about`,
+        },
+      },
     },
     {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.5,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+      alternates: {
+        languages: {
+          tr: `${baseUrl}/contact`,
+          en: `${baseUrl}/contact`,
+          ar: `${baseUrl}/contact`,
+          zh: `${baseUrl}/contact`,
+        },
+      },
     },
   ];
 }

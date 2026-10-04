@@ -1,0 +1,20 @@
+{
+  "name": "Lucky Sushi Chinese",
+  "short_name": "Lucky Sushi",
+  "description": "Taze sushi, sıcak Asya yemekleri. Eyüpsultan, İstanbul. Gece 04:00'e kadar açık.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFDF8",
+  "theme_color": "#F3E8D2",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "restaurant"],
+  "lang": "tr"
+}

@@ -1,10 +1,12 @@
 export default function robots() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lucky-sushi-chinese.vercel.app';
+  
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/admin/', '/api/'],
+      disallow: ['/api/'],
     },
-    sitemap: 'https://luckysushi.example.com/sitemap.xml',
+    sitemap: `${baseUrl}/sitemap.xml`,
   };
 }

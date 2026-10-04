@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
@@ -73,7 +74,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="header__logo" aria-label="Lucky Sushi Chinese — Home">
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <img src="/logo-icon.png" alt="Logo" width={36} height={36} style={{ objectFit: 'contain' }} />
+              <Image src="/logo-icon.png" alt="" width={36} height={36} style={{ objectFit: 'contain' }} />
               <div className="header__logo-text" style={{ display: 'flex', flexDirection: 'column' }}>
                 <span className="header__logo-lucky" style={{ fontFamily: 'var(--font-heading-en)', fontSize: '1.2rem', color: 'var(--roasted-cacao)' }}>Lucky</span>
                 <span className="header__logo-sushi" style={{ fontSize: '0.55rem', textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--soft-taupe)', whiteSpace: 'nowrap' }}>Sushi · Chinese</span>
@@ -90,28 +91,30 @@ export default function Header() {
           </nav>
 
           {/* Actions */}
-          <div className="header__actions">
+          <div className="header__actions" style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             {/* Language Switcher (Dropdown) */}
             <div className="lang-dropdown-container" style={{ position: 'relative' }}>
               <button
                 onClick={() => setLangOpen(!langOpen)}
+                aria-label="Select language"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '4px',
-                  background: 'var(--rice-paper)',
-                  border: '1px solid rgba(185,148,82,0.2)',
-                  padding: '6px 12px',
-                  borderRadius: '20px',
-                  fontSize: '0.85rem',
-                  fontWeight: '600',
-                  color: 'var(--roasted-cacao)',
+                  background: '#F7F2E7',
+                  border: '1px solid rgba(185,148,82,0.3)',
+                  padding: '5px 10px',
+                  borderRadius: '6px',
+                  fontSize: '0.78rem',
+                  fontWeight: '700',
+                  color: '#2B2620',
                   cursor: 'pointer',
+                  height: '34px',
                   fontFamily: 'var(--font-body-en)'
                 }}
               >
-                {langLabels[lang]}
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ transform: langOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                <span>{langLabels[lang]}</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ transform: langOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
@@ -121,14 +124,14 @@ export default function Header() {
                   position: 'absolute',
                   top: '100%',
                   right: 0,
-                  marginTop: '8px',
-                  background: 'white',
-                  border: '1px solid rgba(185,148,82,0.15)',
-                  borderRadius: '12px',
-                  boxShadow: '0 8px 24px rgba(52, 43, 37, 0.1)',
+                  marginTop: '6px',
+                  background: '#FAF7F0',
+                  border: '1px solid rgba(185,148,82,0.25)',
+                  borderRadius: '8px',
+                  boxShadow: '0 6px 20px rgba(52, 43, 37, 0.08)',
                   display: 'flex',
                   flexDirection: 'column',
-                  minWidth: '100px',
+                  minWidth: '110px',
                   overflow: 'hidden',
                   zIndex: 100
                 }}>
@@ -137,22 +140,22 @@ export default function Header() {
                       key={code}
                       onClick={() => { switchLang(code); setLangOpen(false); }}
                       style={{
-                        padding: '10px 16px',
-                        background: lang === code ? 'var(--aged-champagne)' : 'transparent',
-                        color: lang === code ? 'white' : 'var(--roasted-cacao)',
+                        padding: '8px 12px',
+                        background: lang === code ? '#4E5F4C' : 'transparent',
+                        color: lang === code ? 'white' : '#2B2620',
                         border: 'none',
-                        borderBottom: '1px solid rgba(185,148,82,0.05)',
+                        borderBottom: '1px solid rgba(185,148,82,0.06)',
                         textAlign: 'left',
                         cursor: 'pointer',
-                        fontSize: '0.85rem',
-                        fontWeight: lang === code ? '700' : '500',
+                        fontSize: '0.8rem',
+                        fontWeight: lang === code ? '700' : '600',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between'
                       }}
                     >
-                      {langLabels[code]}
-                      {lang === code && <span style={{ fontSize: '0.8rem' }}>✓</span>}
+                      <span>{langLabels[code]}</span>
+                      {lang === code && <span style={{ fontSize: '0.75rem' }}>✓</span>}
                     </button>
                   ))}
                 </div>
@@ -166,27 +169,30 @@ export default function Header() {
               aria-label={`Cart (${cartCount} items)`}
               style={{
                 position: 'relative',
-                background: 'none',
-                border: 'none',
-                color: 'var(--roasted-cacao)',
+                background: '#F7F2E7',
+                border: '1px solid rgba(185,148,82,0.3)',
+                borderRadius: '6px',
+                color: '#2B2620',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '8px'
+                width: '34px',
+                height: '34px',
+                padding: '0'
               }}
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                 <line x1="3" y1="6" x2="21" y2="6" />
                 <path d="M16 10a4 4 0 01-8 0" />
               </svg>
               {cartCount > 0 && (
                 <span style={{
-                  position: 'absolute', top: '0', right: '0',
-                  background: 'var(--aged-champagne)', color: 'white',
-                  fontSize: '0.65rem', fontWeight: 'bold',
-                  width: '18px', height: '18px', borderRadius: '50%',
+                  position: 'absolute', top: '-4px', right: '-4px',
+                  background: '#B99452', color: 'white',
+                  fontSize: '0.62rem', fontWeight: 'bold',
+                  width: '16px', height: '16px', borderRadius: '50%',
                   display: 'flex', alignItems: 'center', justifyContent: 'center'
                 }}>{cartCount}</span>
               )}
@@ -198,12 +204,24 @@ export default function Header() {
               onClick={() => setMobileOpen(true)}
               aria-label="Open menu"
               aria-expanded={mobileOpen}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--roasted-cacao)' }}
+              style={{
+                background: '#F7F2E7',
+                border: '1px solid rgba(185,148,82,0.3)',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                color: '#2B2620',
+                width: '34px',
+                height: '34px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '0'
+              }}
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
+                <line x1="4" y1="7" x2="20" y2="7" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="17" x2="20" y2="17" />
               </svg>
             </button>
           </div>
@@ -226,7 +244,7 @@ export default function Header() {
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-          <img src="/logo-icon.png" alt="Lucky Sushi" width={40} height={40} style={{ objectFit: 'contain' }} />
+          <Image src="/logo-icon.png" alt="Lucky Sushi Chinese" width={40} height={40} style={{ objectFit: 'contain' }} />
           <button onClick={closeMobile} aria-label="Close menu" style={{ background: 'var(--rice-paper)', border: 'none', width: '40px', height: '40px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <line x1="18" y1="6" x2="6" y2="18" />
@@ -299,6 +317,8 @@ export default function Header() {
       {mobileOpen && (
         <div 
           onClick={closeMobile}
+          role="presentation"
+          aria-hidden="true"
           style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 999, backdropFilter: 'blur(2px)' }}
         />
       )}
