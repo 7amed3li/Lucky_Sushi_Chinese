@@ -158,23 +158,20 @@ export default function RotatingDishShowcase({ onOpen }) {
     goToPair((pairIndex - 1 + totalPairs) % totalPairs);
   }, [pairIndex, totalPairs, goToPair]);
 
-  // Auto-advance pair every 6s (matches 720deg CSS keyframe duration)
+  // Keep the plate rotation smooth and consistent instead of abrupt.
   useEffect(() => {
     if (isPaused || totalPairs <= 1) return;
     const interval = setInterval(() => {
       nextPair();
-    }, 6000);
+    }, 3400);
     return () => clearInterval(interval);
   }, [isPaused, nextPair, totalPairs]);
 
-  // Toggle display info between the two images mid-cycle (at ~3s)
+  // Keep the highlighted dish in sync immediately with the current pair.
   useEffect(() => {
     if (isPaused) return;
-    const timeout = setTimeout(() => {
-      setDisplayIndex(pairIndex * 2 + 1 < items.length ? pairIndex * 2 + 1 : pairIndex * 2);
-    }, 3000);
-    return () => clearTimeout(timeout);
-  }, [pairIndex, animKey, isPaused, items.length]);
+    setDisplayIndex((pairIndex * 2 + 1) < items.length ? pairIndex * 2 + 1 : pairIndex * 2);
+  }, [pairIndex, isPaused, items.length]);
 
   const triggerTempPause = () => {
     setIsPaused(true);

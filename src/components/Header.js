@@ -8,6 +8,7 @@ import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import CurrencySwitcher from '@/components/CurrencySwitcher';
+import SvgFlag from '@/components/SvgFlag';
 import { restaurantInfo } from '@/data/menuData';
 
 
@@ -114,22 +115,9 @@ export default function Header() {
                 aria-label="Select language"
                 aria-expanded={langOpen}
               >
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                  style={{ opacity: 0.85 }}
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="2" y1="12" x2="22" y2="12" />
-                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                </svg>
+                <span className="header__lang-flag" aria-hidden="true">
+                  <SvgFlag code={lang} size={15} />
+                </span>
                 <span className="header__lang-code">{lang.toUpperCase()}</span>
                 <svg
                   width="11"
@@ -159,8 +147,11 @@ export default function Header() {
                         setLangOpen(false);
                       }}
                     >
-                      <span>{getLocale(code)?.nativeName || code.toUpperCase()} ({code.toUpperCase()})</span>
-                      {lang === code && <span aria-hidden="true">✓</span>}
+                      <span className="header__lang-item-main">
+                        <SvgFlag code={code} size={15} />
+                        <span>{getLocale(code)?.nativeName || code.toUpperCase()}</span>
+                      </span>
+                      <span className="header__lang-item-code">{code.toUpperCase()}</span>
                     </button>
                   ))}
                 </div>
@@ -320,7 +311,8 @@ export default function Header() {
                   closeMobile();
                 }}
               >
-                {getLocale(code)?.nativeName || code.toUpperCase()} ({code.toUpperCase()})
+                <span className="mobile-drawer__lang-flag"><SvgFlag code={code} size={15} /></span>
+                <span>{getLocale(code)?.nativeName || code.toUpperCase()}</span>
               </button>
             );
           })}
