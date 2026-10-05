@@ -5,6 +5,7 @@ import { useEffect, useCallback, useState } from 'react';
 import { FaExpand, FaXmark } from 'react-icons/fa6';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 
 const ALLERGEN_LABELS = {
   gluten:    { tr: 'Glüten', en: 'Gluten', ar: 'جلوتين', ru: 'Глютен', zh: '麸质' },
@@ -30,6 +31,7 @@ const TAG_LABELS = {
 export default function DishModal({ item, onClose }) {
   const { lang, t } = useLang();
   const { addToCart } = useCart();
+  const { formatPrice } = useCurrency();
   const [isZoomed, setIsZoomed] = useState(false);
 
   const name = t(item, 'name');
@@ -225,7 +227,7 @@ export default function DishModal({ item, onClose }) {
           {/* Footer */}
           <div className="modal-panel__footer">
             <span className="modal-panel__price">
-              {item.price?.toLocaleString('tr-TR')} ₺
+              {formatPrice(item.price)}
             </span>
             <button className="modal-panel__add-btn" onClick={handleAdd}>
               <span>+</span>

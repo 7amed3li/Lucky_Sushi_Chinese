@@ -3,6 +3,7 @@ import "./globals.css";
 import "./footer.css";
 import { LangProvider } from "@/context/LangContext";
 import { CartProvider } from "@/context/CartContext";
+import { CurrencyProvider } from "@/context/CurrencyContext";
 import Footer from "@/components/Footer";
 import MobileBottomBar from "@/components/MobileBottomBar";
 import { generateRestaurantJsonLd } from "@/lib/structuredData";
@@ -107,11 +108,13 @@ export default function RootLayout({ children }) {
       <body>
         <a href="#main-content" className="skip-link">Skip to content</a>
         <LangProvider defaultLang="tr">
-          <CartProvider>
+          <CurrencyProvider>
+            <CartProvider>
             {children}
             <Footer />
             <MobileBottomBar />
           </CartProvider>
+          </CurrencyProvider>
         </LangProvider>
       </body>
     </html>

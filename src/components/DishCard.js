@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 
 const BADGE_MAP = {
   'bestseller':        { label_tr: 'Çok Satan', label_en: 'Best Seller', label_ar: 'الأكثر طلباً', label_ru: 'Хит продаж', label_zh: '热卖', bg: 'var(--color-brand-primary)', color: '#FFFFFF' },
@@ -32,6 +33,7 @@ function getBadge(tags, lang) {
 export default function DishCard({ item, onClick }) {
   const { lang, t, tUI } = useLang();
   const { addToCart, removeFromCart, getItemQuantity } = useCart();
+  const { formatPrice } = useCurrency();
 
   const name = t(item, 'name');
   const desc = t(item, 'description');
@@ -90,7 +92,7 @@ export default function DishCard({ item, onClick }) {
         {/* Price Tag in top-start */}
         {item.price != null && (
           <div className="kardeshler-food-card__price-badge">
-            {item.price.toLocaleString('tr-TR')} ₺
+            {formatPrice(item.price)}
           </div>
         )}
 

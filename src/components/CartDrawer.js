@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useEffect } from 'react';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 import { restaurantInfo } from '@/data/menuData';
 
 export default function CartDrawer() {
@@ -48,7 +49,7 @@ export default function CartDrawer() {
     let msg = `🍣 ${greeting}\n\n`;
     cart.forEach(({ item, quantity }) => {
       const name = t(item, 'name');
-      msg += `• ${quantity}x ${name} — ${(item.price * quantity).toLocaleString('tr-TR')} ₺\n`;
+      msg += `• ${quantity}x ${name} — ${formatPrice(item.price * quantity)}\n`;
     });
     msg += `\n💰 ${l('subtotal')}: ${cartSubtotal.toLocaleString('tr-TR')} ₺`;
     return msg;

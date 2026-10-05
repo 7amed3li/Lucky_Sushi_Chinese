@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect, useCallback } from 'react';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
+import CurrencySwitcher from '@/components/CurrencySwitcher';
 import { restaurantInfo } from '@/data/menuData';
 
 
@@ -14,6 +16,7 @@ export default function Header() {
   const pathname = usePathname();
   const { lang, switchLang, tUI, dir, SUPPORTED_LANGS, getLocale } = useLang();
   const { cartCount, setIsCartOpen } = useCart();
+  const { currency, changeCurrency, currencies } = useCurrency();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
@@ -102,6 +105,7 @@ export default function Header() {
           {/* Actions */}
           <div className="header__actions">
             {/* Minimal Language Dropdown */}
+            <CurrencySwitcher />
             <div className="header__lang-container">
               <button
                 type="button"
@@ -317,6 +321,29 @@ export default function Header() {
                 }}
               >
                 {getLocale(code)?.nativeName || code.toUpperCase()} ({code.toUpperCase()})
+              </button>
+            );
+          })}
+        </div>
+
+                {/* Mobile Currency Switcher */}
+        <div className="mobile-drawer__section-title">
+          Döviz / Currency
+        </div>
+        <div className="mobile-drawer__lang-grid">
+          {currencies.map((c) => {
+            const isSelected = currency === c.code;
+            return (
+              <button
+                key={c.code}
+                type="button"
+                className={`mobile-drawer__lang-btn ${isSelected ? 'active' : ''}`}
+                onClick={() => {
+                  changeCurrency(c.code);
+                  closeMobile();
+                }}
+              >
+                {c.symbol} {c.code}
               </button>
             );
           })}
