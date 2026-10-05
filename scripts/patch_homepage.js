@@ -1,4 +1,9 @@
-'use client';
+const fs = require('fs');
+const path = require('path');
+
+const pagePath = path.join(__dirname, '../src/app/page.js');
+
+const newHomePageContent = `'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -34,7 +39,7 @@ export default function HomePage() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      document.documentElement.style.setProperty('--scroll-y', `${scrollY * 0.35}px`);
+      document.documentElement.style.setProperty('--scroll-y', \`\${scrollY * 0.35}px\`);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -104,7 +109,7 @@ export default function HomePage() {
               </Link>
 
               <a
-                href={`https://wa.me/${phoneClean}?text=${waHeroText}`}
+                href={\`https://wa.me/\${phoneClean}?text=\${waHeroText}\`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-hero-secondary"
@@ -318,7 +323,7 @@ export default function HomePage() {
             {restaurantInfo.branches.map((branch) => {
               const whatsappClean = branch.whatsapp.replace(/[^0-9]/g, '');
               const branchPhoneClean = branch.phone.replace(/[^0-9]/g, '');
-              const branchBadge = branch[`badge_${lang}`] || branch.badge_tr;
+              const branchBadge = branch[\`badge_\${lang}\`] || branch.badge_tr;
               
               return (
                 <div key={branch.id} className="home-visit-card" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -340,7 +345,7 @@ export default function HomePage() {
                   
                   <div className="home-visit-actions" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <a
-                      href={`https://wa.me/${whatsappClean}?text=${waHeroText}`}
+                      href={\`https://wa.me/\${whatsappClean}?text=\${waHeroText}\`}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
@@ -353,7 +358,7 @@ export default function HomePage() {
                     </a>
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
                       <a
-                        href={`tel:${branchPhoneClean}`}
+                        href={\`tel:\${branchPhoneClean}\`}
                         style={{
                           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
                           border: '1px solid var(--color-border)', background: 'var(--color-surface)',
@@ -398,3 +403,7 @@ export default function HomePage() {
     </>
   );
 }
+`;
+
+fs.writeFileSync(pagePath, newHomePageContent, 'utf8');
+console.log('Successfully updated src/app/page.js with curated bestsellers and refined positioning.');

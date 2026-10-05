@@ -67,7 +67,7 @@ export default function Header() {
             />
             <div className="header__logo-text">
               <span className="header__logo-lucky">Lucky</span>
-              <span className="header__logo-sushi">Sushi · Chinese</span>
+              <span className="header__logo-sushi">Sushi & Chinese</span>
             </div>
           </Link>
 
@@ -227,7 +227,7 @@ export default function Header() {
             />
             <div className="header__logo-text">
               <span className="header__logo-lucky" style={{ fontSize: '1.1rem' }}>Lucky</span>
-              <span className="header__logo-sushi">Sushi · Chinese</span>
+              <span className="header__logo-sushi">Sushi & Chinese</span>
             </div>
           </div>
           <button
@@ -308,7 +308,13 @@ export default function Header() {
 
         {/* WhatsApp Direct Order CTA */}
         <a
-          href={`https://wa.me/${phoneClean}?text=${encodeURIComponent('Merhaba! Menüden sipariş vermek istiyorum.')}`}
+          href={`https://wa.me/${phoneClean}?text=${encodeURIComponent(
+            lang === 'ar' ? 'مرحباً لاكي سوشي صيني، أود تقديم طلب من المنيو.' :
+            lang === 'en' ? 'Hello Lucky Sushi & Chinese, I would like to place an order from the menu.' :
+            lang === 'ru' ? 'Здравствуйте, Lucky Sushi & Chinese! Хочу сделать заказ по меню.' :
+            lang === 'zh' ? '您好 Lucky Sushi & Chinese，我想根据菜单点餐。' :
+            'Merhaba Lucky Sushi & Chinese, menüden sipariş vermek istiyorum.'
+          )}`}
           target="_blank"
           rel="noopener noreferrer"
           onClick={closeMobile}

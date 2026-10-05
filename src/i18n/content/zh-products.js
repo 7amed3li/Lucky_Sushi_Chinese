@@ -560,4 +560,12 @@ export const zhProducts = {
     name: "芥末",
     description: "芥末",
   },
+  'set-salmon-lovers': {
+    name: "三文鱼爱好者套餐 (40件)",
+    description: "三文鱼套餐(40件)：三文鱼天妇罗卷(8件)·费城卷(8件)等丰富搭配",
+  },
+  'chicken-general-tso': {
+    name: "左宗棠鸡",
+    description: "酥脆鸡肉裹经典左宗棠酱汁，撒上鲜翠葱花与香浓芝麻",
+  },
 };

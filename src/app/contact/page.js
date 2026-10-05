@@ -31,6 +31,7 @@ export default function ContactPage() {
     call: { tr: 'Ara', en: 'Call', ar: 'اتصال', zh: '电话', ru: 'Позвонить', fa: 'تماس', fr: 'Appeler' },
     mainMenu: { tr: 'Gece Boyu Kesintisiz Paket Servis', en: 'Continuous Night Delivery Service', ar: 'خدمة توصيل مستمرة طوال الليل', zh: '全夜持续外卖配送', ru: 'Доставка всю ночь без перерывов', fa: 'ارسال شبانه بی‌وقفه', fr: 'Livraison Nocturne Continue' },
     mainMenuSub: { tr: 'Gece 04:00\'e kadar tüm İstanbul siparişleriniz özenle hazırlanıp kapınıza ulaştırılır.', en: 'Open until 04:00 AM — your orders are freshly crafted and delivered right to your door.', ar: 'مفتوح حتى الرابعة فجراً — تُعد طلباتكم طازجة وتصلكم أينما كنتم.', zh: '营业至凌晨04:00 — 您的订单现点现做，准时送达。', ru: 'Открыто до 04:00 — ваш заказ свежеприготовлен и доставлен до двери.', fa: 'فعال تا ۰۴:۰۰ صبح — سفارش‌های شما تازه آماده شده و ارسال می‌شوند.', fr: 'Ouvert jusqu\'à 04h00 — vos commandes préparées à la minute livrées chez vous.' },
+    nightBadge: { tr: "Gece 04:00'e Kadar Açık", en: 'Open Until 04:00 AM', ar: 'مفتوح حتى الرابعة فجراً', ru: 'Открыто до 04:00', zh: '营业至凌晨04:00' },
     hoursTitle: { tr: 'Çalışma Saatleri', en: 'Working Hours', ar: 'ساعات العمل', zh: '营业时间', ru: 'Часы работы', fa: 'ساعات کاری', fr: 'Horaires' },
     socialTitle: { tr: 'Sosyal Medya', en: 'Social Media', ar: 'وسائل التواصل', zh: '社交媒体', ru: 'Социальные сети', fa: 'شبکه‌های اجتماعی', fr: 'Réseaux Sociaux' }
   };
@@ -73,7 +74,7 @@ export default function ContactPage() {
             <GiSushis style={{ position: 'absolute', top: '-20%', right: '-5%', fontSize: '18rem', color: 'rgba(255,255,255,0.03)', pointerEvents: 'none' }} />
             
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: 'rgba(40, 122, 63, 0.15)', color: 'var(--color-brand-primary)', padding: '4px 14px', borderRadius: '16px', fontSize: '0.8rem', fontWeight: 700, marginBottom: 'var(--sp-2)' }}>
-              <FaMoon aria-hidden="true" /> Gece 04:00'e Kadar Açık
+              <FaMoon aria-hidden="true" /> {l('nightBadge')}
             </div>
 
             <h2 style={{ fontFamily: 'var(--font-serif)', color: 'var(--color-brand-light)', marginBottom: 'var(--sp-2)', fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)' }}>
@@ -139,8 +140,9 @@ export default function ContactPage() {
                       <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', color: 'var(--color-text-primary)' }}>
                         {branch.name}
                       </h3>
-                      <span style={{ fontSize: '0.78rem', color: 'var(--color-brand-primary)', fontWeight: 600 }}>
-                        ● Aktif Hizmet
+                      <span style={{ fontSize: '0.78rem', color: 'var(--color-brand-primary)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '5px' }}>
+                        <span style={{ display: 'inline-block', width: '6px', height: '6px', borderRadius: '50%', background: 'var(--color-brand-primary)' }} />
+                        {branch[`badge_${lang}`] || branch.badge_en || branch.badge_tr}
                       </span>
                     </div>
                   </div>
@@ -151,7 +153,13 @@ export default function ContactPage() {
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                     <a 
-                      href={`https://wa.me/${whatsappClean}?text=${encodeURIComponent('Merhaba! Sipariş vermek istiyorum.')}`}
+                      href={`https://wa.me/${whatsappClean}?text=${encodeURIComponent(
+                        lang === 'tr' ? `Merhaba! ${branch.name} şubenizden sipariş vermek istiyorum.` :
+                        lang === 'ar' ? `مرحباً! أود تقديم طلب من فرع ${branch.name}.` :
+                        lang === 'ru' ? `Здравствуйте! Я хочу сделать заказ из филиала ${branch.name}.` :
+                        lang === 'zh' ? `您好！我想在 ${branch.name} 分店订餐。` :
+                        `Hello! I would like to place an order from ${branch.name}.`
+                      )}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-primary"

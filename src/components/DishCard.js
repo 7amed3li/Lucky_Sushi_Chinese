@@ -5,12 +5,12 @@ import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 
 const BADGE_MAP = {
-  'bestseller':        { label_tr: 'Çok Satan', label_en: 'Best Seller', label_ar: 'الأكثر طلباً', label_zh: '热卖', bg: 'var(--color-brand-primary)', color: '#FFFFFF' },
-  'chefs-pick':        { label_tr: 'Şef Seçimi', label_en: "Chef's Pick", label_ar: 'اختيار الشيف', label_zh: '主厨推荐', bg: 'var(--color-accent)', color: '#FFFFFF' },
-  'beginner-friendly': { label_tr: 'Yeni Başlayan', label_en: 'Beginner', label_ar: 'للمبتدئين', label_zh: '新手', bg: 'var(--color-surface-secondary)', color: 'var(--color-text-primary)' },
-  'cooked':            { label_tr: 'Pişmiş', label_en: 'Cooked', label_ar: 'مطهو', label_zh: '熟食', bg: 'var(--color-brand-primary)', color: '#FFFFFF' },
-  'spicy':             { label_tr: 'Acılı', label_en: 'Spicy', label_ar: 'حار', label_zh: '辣', bg: 'var(--color-accent)', color: '#FFFFFF' },
-  'vegetarian':        { label_tr: 'Vejetaryen', label_en: 'Vejetaryen', label_ar: 'نباتي', label_zh: '素食', bg: 'var(--color-brand-primary)', color: '#FFFFFF' },
+  'bestseller':        { label_tr: 'Çok Satan', label_en: 'Best Seller', label_ar: 'الأكثر طلباً', label_ru: 'Хит продаж', label_zh: '热卖', bg: 'var(--color-brand-primary)', color: '#FFFFFF' },
+  'chefs-pick':        { label_tr: 'Şef Seçimi', label_en: "Chef's Pick", label_ar: 'اختيار الشيف', label_ru: 'Выбор шефа', label_zh: '主厨推荐', bg: 'var(--color-accent)', color: '#FFFFFF' },
+  'beginner-friendly': { label_tr: 'Yeni Başlayan', label_en: 'Beginner', label_ar: 'للمبتدئين', label_ru: 'Для новичков', label_zh: '新手', bg: 'var(--color-surface-secondary)', color: 'var(--color-text-primary)' },
+  'cooked':            { label_tr: 'Pişmiş', label_en: 'Cooked', label_ar: 'مطهو', label_ru: 'Горячее', label_zh: '熟食', bg: 'var(--color-brand-primary)', color: '#FFFFFF' },
+  'spicy':             { label_tr: 'Acılı', label_en: 'Spicy', label_ar: 'حار', label_ru: 'Острое', label_zh: '辣', bg: 'var(--color-accent)', color: '#FFFFFF' },
+  'vegetarian':        { label_tr: 'Vejetaryen', label_en: 'Vegetarian', label_ar: 'نباتي', label_ru: 'Вегетарианское', label_zh: '素食', bg: 'var(--color-brand-primary)', color: '#FFFFFF' },
 };
 
 const BADGE_PRIORITY = ['chefs-pick', 'bestseller', 'spicy', 'cooked', 'vegetarian', 'beginner-friendly'];

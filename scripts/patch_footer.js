@@ -1,4 +1,9 @@
-'use client';
+const fs = require('fs');
+const path = require('path');
+
+const footerPath = path.join(__dirname, '../src/components/Footer.js');
+
+const newFooterContent = `'use client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLang } from '@/context/LangContext';
@@ -61,7 +66,7 @@ export default function Footer() {
           <div className="main-footer__info-block">
             <h4>{l('phone')}</h4>
             <p>
-              <a href={`tel:${phoneClean}`} style={{ color: 'inherit', textDecoration: 'none' }}>
+              <a href={\`tel:\${phoneClean}\`} style={{ color: 'inherit', textDecoration: 'none' }}>
                 {restaurantInfo.phone}
               </a>
             </p>
@@ -100,7 +105,7 @@ export default function Footer() {
               <FaInstagram />
             </a>
             <a 
-              href={`https://wa.me/${phoneClean}?text=${encodeURIComponent('Merhaba Lucky Sushi & Chinese, sipariş vermek istiyorum.')}`}
+              href={\`https://wa.me/\${phoneClean}?text=\${encodeURIComponent('Merhaba Lucky Sushi & Chinese, sipariş vermek istiyorum.')}\`}
               target="_blank" 
               rel="noopener noreferrer" 
               aria-label="Order on WhatsApp"
@@ -119,7 +124,7 @@ export default function Footer() {
               <FaMapLocationDot />
             </a>
             <a 
-              href={`tel:${phoneClean}`}
+              href={\`tel:\${phoneClean}\`}
               aria-label="Call Directly"
               title="Doğrudan Ara"
             >
@@ -136,3 +141,7 @@ export default function Footer() {
     </footer>
   );
 }
+`;
+
+fs.writeFileSync(footerPath, newFooterContent, 'utf8');
+console.log('Successfully updated Footer.js with canonical NAP, verified socials, and hours.');

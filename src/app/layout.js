@@ -4,6 +4,7 @@ import "./footer.css";
 import { LangProvider } from "@/context/LangContext";
 import { CartProvider } from "@/context/CartContext";
 import Footer from "@/components/Footer";
+import MobileBottomBar from "@/components/MobileBottomBar";
 import { generateRestaurantJsonLd } from "@/lib/structuredData";
 
 const notoSans = Noto_Sans({
@@ -25,23 +26,24 @@ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lucky-sushi-chinese
 export const metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    template: "%s | Lucky Sushi Chinese — Istanbul",
-    default: "Lucky Sushi Chinese — Sushi & Asya Mutfağı · Eyüpsultan, İstanbul",
+    template: "%s | Lucky Sushi & Chinese — Istanbul",
+    default: "Lucky Sushi & Chinese — Sushi & Asya Mutfağı · Eyüpsultan, İstanbul",
   },
   description:
-    "Taze sushi setleri, sıcak wok lezzetleri ve doyurucu ramenler. Eyüpsultan, İstanbul. Gece 04:00'e kadar açık. Paket servis mevcuttur.",
+    "Taze sushi setleri, sıcak wok lezzetleri ve doyurucu ramenler. Eyüpsultan, Alibeyköy, İstanbul. Gece 04:00'e kadar açık. Paket servis mevcuttur.",
   keywords: [
-    "sushi istanbul", "çin yemeği istanbul", "ramen istanbul", "eyüpsultan sushi",
-    "asya mutfağı", "paket servis sushi", "lucky sushi", "sushi delivery istanbul",
-    "سوشي اسطنبول", "مطعم صيني", "寿司 伊斯坦布尔"
+    "sushi istanbul", "sushi eyüpsultan", "sushi alibeyköy", "çin restoranı istanbul",
+    "ramen istanbul", "wok istanbul", "asya mutfağı istanbul", "gece açık sushi istanbul",
+    "late night sushi istanbul", "sushi delivery istanbul", "lucky sushi",
+    "سوشي اسطنبول", "مطعم اسيوي اسطنبول", "مطعم صيني اسطنبول", "寿司 伊斯坦布尔", "суши стамбул"
   ],
   openGraph: {
-    title: "Lucky Sushi Chinese — Sushi & Asya Mutfağı · İstanbul",
+    title: "Lucky Sushi & Chinese — Sushi & Asya Mutfağı · İstanbul",
     description:
-      "Taze sushi, sıcak Asya yemekleri. Eyüpsultan, İstanbul — Gece 04:00'e kadar açık.",
-    siteName: "Lucky Sushi Chinese",
+      "Taze sushi, sıcak wok ve ramen lezzetleri. Eyüpsultan Alibeyköy, İstanbul — Gece 04:00'e kadar açık.",
+    siteName: "Lucky Sushi & Chinese",
     locale: "tr_TR",
-    alternateLocale: ["en_US", "ar_SA", "zh_CN"],
+    alternateLocale: ["en_US", "ar_SA", "ru_RU", "zh_CN"],
     type: "website",
     url: baseUrl,
     images: [
@@ -49,14 +51,14 @@ export const metadata = {
         url: "/logo-full-badge.png",
         width: 800,
         height: 600,
-        alt: "Lucky Sushi Chinese Logo",
+        alt: "Lucky Sushi & Chinese Logo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Lucky Sushi Chinese — Sushi & Asian Kitchen",
-    description: "Contemporary sushi & Asian kitchen — open until 4AM in Istanbul.",
+    title: "Lucky Sushi & Chinese — Sushi & Asian Kitchen",
+    description: "Contemporary sushi & Asian kitchen — open until 04:00 AM in Eyüpsultan, Istanbul.",
     images: ["/logo-full-badge.png"],
   },
   robots: { index: true, follow: true },
@@ -67,8 +69,6 @@ export const metadata = {
       'en': baseUrl,
       'ar': baseUrl,
       'ru': baseUrl,
-      'fa': baseUrl,
-      'fr': baseUrl,
       'zh': baseUrl,
       'x-default': baseUrl,
     },
@@ -110,6 +110,7 @@ export default function RootLayout({ children }) {
           <CartProvider>
             {children}
             <Footer />
+            <MobileBottomBar />
           </CartProvider>
         </LangProvider>
       </body>

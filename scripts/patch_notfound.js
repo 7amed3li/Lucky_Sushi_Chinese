@@ -1,4 +1,6 @@
-'use client';
+const fs = require('fs');
+
+const content = `'use client';
 
 import Link from 'next/link';
 import Header from '@/components/Header';
@@ -104,3 +106,7 @@ export default function NotFound() {
     </>
   );
 }
+`;
+
+fs.writeFileSync('src/app/not-found.js', content, 'utf8');
+console.log('src/app/not-found.js updated successfully!');

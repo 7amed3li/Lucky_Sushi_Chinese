@@ -1998,62 +1998,94 @@ export const quickFilters = [
 
 // ── Restaurant Info ───────────────────────────
 export const restaurantInfo = {
-  name: "Lucky Sushi Chinese",
-  tagline_tr: "Uzak Doğu mutfağının rafine ve çağdaş yorumu.",
-  tagline_en: "A refined and contemporary interpretation of Far East cuisine.",
-  tagline_ar: "تفسير راقٍ ومعاصر لمطبخ الشرق الأقصى.",
-  tagline_zh: "对远东美食的精致和当代诠释。",
-  desc_tr: "Geleneksel teknikler, özenle seçilmiş malzemeler ve dengeli tatlar. Sadelikten gelen zarafet anlayışıyla.",
-  desc_en: "Traditional techniques, carefully selected ingredients, and balanced flavors. Elegance born from simplicity.",
-  desc_ar: "تقنيات تقليدية، مكونات مختارة بعناية، ونكهات متوازنة. أناقة نابعة من البساطة.",
-  desc_zh: "传统技法，精心挑选的食材，平衡的风味。源于简约的优雅。",
+  name: "Lucky Sushi & Chinese",
+  brandTitle: "Lucky Sushi & Chinese",
+  tagline_tr: "Sushi · Wok · Ramen · Gece 04:00'e Kadar Asya Lezzetleri",
+  tagline_en: "Sushi · Wok · Ramen · Asian Flavors Until 04:00",
+  tagline_ar: "سوشي · ووك · رامن · نكهات آسيوية حتى 04:00 فجراً",
+  tagline_ru: "Суши · Вок · Рамен · Азиатские вкусы до 04:00",
+  tagline_zh: "寿司 · 炒锅 · 拉面 · 深夜亚洲风味至凌晨04:00",
+  desc_tr: "Eyüpsultan'ın Asya gece mutfağı. Taze Norveç somonlu sushiler, dumanı tüten wok erişteleri ve doyurucu sıcak ramenler.",
+  desc_en: "Eyüpsultan's Asian night kitchen. Fresh salmon sushi, sizzling high-heat wok noodles, and comforting hot ramen until 04:00.",
+  desc_ar: "مطبخ إسطنبول الآسيوي الليلي في أيوب سلطان. سوشي طازج، نودلز ووك ساخنة، ورامن غني حتى الرابعة فجراً.",
+  desc_ru: "Азиатская ночная кухня в Эйюпсултане. Свежие суши, горячая лапша вок и сытный рамен до 04:00.",
+  desc_zh: "欧普苏丹深夜亚洲厨房。新鲜挪威三文鱼寿司、镬气十足炒面与暖心拉面，营业至凌晨04:00。",
   
-  // Branches
+  // Canonical NAP (Name, Address, Phone)
+  phone: "+90 531 486 34 04",
+  whatsapp: "+90 531 486 34 04",
+  whatsapp_secondary: "+90 212 427 60 97",
+  address_tr: "Alibeyköy, Çırçır Cd. 25 A, 34060 Eyüpsultan/İstanbul",
+  address_en: "Alibeyköy, Çırçır Cd. 25 A, 34060 Eyüpsultan/Istanbul",
+  address_ar: "أليبي كوي، شارع تشيرتشير 25 أ، 34060 أيوب سلطان/إسطنبول",
+  address_ru: "Алибейкёй, ул. Чырчыр 25 A, 34060 Эйюпсултан/Стамбул",
+  address_zh: "伊斯坦布尔埃于普苏丹区阿里贝科伊 Çırçır街 25 A号 (34060)",
+  
+  hours_tr: "Her gün: 10:45 — 04:00",
+  hours_en: "Daily: 10:45 AM — 04:00 AM",
+  hours_ar: "يوميًا: 10:45 صباحًا — 04:00 فجرًا",
+  hours_ru: "Ежедневно: 10:45 — 04:00",
+  hours_zh: "每天: 10:45 — 次日04:00",
+  
+  delivery_min_tl: 399,
+  instagram: "@lucky.sushi_chinese",
+  instagram_url: "https://www.instagram.com/lucky.sushi_chinese/",
+  google_maps_url: "https://maps.app.goo.gl/FYJRC83umT6g6diYA?g_st=ic",
+  menu_url: "https://lucky-sushi-chinese.vercel.app/menu",
+  
+  // Real Verified Social Proof
+  ratings: {
+    google: { score: 4.6, count: "800+" },
+    yandex: { score: 5.0, count: 38 },
+    platformsCombined: { score: 4.6, count: "2000+" },
+  },
+
+  // Clearly Distinguished Branches
   branches: [
     {
       id: "alibeykoy",
       name: "Alibeyköy (Merkez)",
-      address: "Vardar Bulvarı Çırçır Caddesi No: 25, Eyüp, İstanbul 34060",
+      type: "restaurant",
+      badge_tr: "Restoran & Paket Servis",
+      badge_en: "Restaurant & Delivery",
+      badge_ar: "صالة طعام وتوصيل",
+      badge_ru: "Ресторан и доставка",
+      badge_zh: "餐厅堂食与外送 (总店)",
+      address: "Alibeyköy, Çırçır Cd. 25 A, 34060 Eyüpsultan/İstanbul",
       phone: "+90 531 486 34 04",
-      whatsapp: "+90 212 427 60 97",
-      map: "https://maps.app.goo.gl/FYJRC83umT6g6diYA?g_st=ic"
+      whatsapp: "+90 531 486 34 04",
+      map: "https://maps.app.goo.gl/FYJRC83umT6g6diYA?g_st=ic",
+      hours: "10:45 — 04:00",
     },
     {
       id: "zeytinburnu",
       name: "Zeytinburnu",
+      type: "pickup-delivery",
+      badge_tr: "Gel-Al & Paket Servis",
+      badge_en: "Takeaway & Delivery",
+      badge_ar: "استلام وتوصيل",
+      badge_ru: "Самовывоз и доставка",
+      badge_zh: "外送与自提",
       address: "Zeytinburnu, İstanbul",
       phone: "+90 544 217 98 57",
       whatsapp: "+90 544 217 98 57",
-      map: "https://maps.app.goo.gl/1bUYKe45ERSb8HWo7?g_st=ic"
+      map: "https://maps.app.goo.gl/1bUYKe45ERSb8HWo7?g_st=ic",
+      hours: "11:00 — 03:00",
     },
     {
       id: "resitpasa",
       name: "Reşitpaşa (Paket Servis)",
-      address: "Reşitpaşa, İstanbul",
+      type: "delivery-only",
+      badge_tr: "Sadece Paket Servis",
+      badge_en: "Delivery Kitchen Only",
+      badge_ar: "مطبخ توصيل فقط",
+      badge_ru: "Только доставка",
+      badge_zh: "仅限外送 (厨房)",
+      address: "Reşitpaşa, Sarıyer, İstanbul",
       phone: "+90 555 995 34 04",
       whatsapp: "+90 555 995 34 04",
-      map: "https://maps.app.goo.gl/dNb9zXpej65MLyyH9?g_st=ic"
-    }
+      map: "https://maps.app.goo.gl/dNb9zXpej65MLyyH9?g_st=ic",
+      hours: "11:00 — 03:00",
+    },
   ],
-
-  // Fallback / legacy compatibility
-  phone: "+90 531 486 34 04",
-  address_tr: "Vardar Bulvarı Çırçır Caddesi No:25, Eyüp, İstanbul",
-  address_en: "Vardar Blvd Çırçır St No:25, Eyüp, Istanbul",
-  address_ar: "بولفار فاردار شارع تشيرتشير رقم 25، أيوب، إسطنبول",
-  address_zh: "伊斯坦布尔埃于普区 Vardar大道 Çırçır街 25号",
-  
-  hours_tr: "Her gün: 10:00 — 04:00",
-  hours_en: "Daily: 10:00 AM — 4:00 AM",
-  hours_ar: "يوميًا: 10:00 صباحًا — 04:00 فجرًا",
-  hours_zh: "每天: 上午10:00 — 凌晨4:00",
-  
-  delivery_min_tl: 399,
-  instagram: "@lucky.sushi_chinese",
-  menu_url: "https://menu.sepettakip.com/lucky-sushi",
-  
-  ratings: {
-    yemeksepeti: { score: 4.6, count: "2000+" },
-    yandex: { score: 5.0, count: 38 },
-  },
 };

@@ -7,24 +7,24 @@ import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 
 const ALLERGEN_LABELS = {
-  gluten:    { tr: 'Glüten', en: 'Gluten', ar: 'جلوتين', zh: '麸质' },
-  fish:      { tr: 'Balık', en: 'Fish', ar: 'سمك', zh: '鱼' },
-  shellfish: { tr: 'Kabuklu', en: 'Shellfish', ar: 'محار', zh: '贝壳' },
-  dairy:     { tr: 'Süt', en: 'Dairy', ar: 'ألبان', zh: '乳制品' },
-  egg:       { tr: 'Yumurta', en: 'Egg', ar: 'بيض', zh: '蛋' },
-  soy:       { tr: 'Soya', en: 'Soy', ar: 'صويا', zh: '大豆' },
-  sesame:    { tr: 'Susam', en: 'Sesame', ar: 'سمسم', zh: '芝麻' },
-  peanuts:   { tr: 'Fıstık', en: 'Peanuts', ar: 'فول سوداني', zh: '花生' },
-  nuts:      { tr: 'Kuruyemiş', en: 'Nuts', ar: 'مكسرات', zh: '坚果' },
+  gluten:    { tr: 'Glüten', en: 'Gluten', ar: 'جلوتين', ru: 'Глютен', zh: '麸质' },
+  fish:      { tr: 'Balık', en: 'Fish', ar: 'سمك', ru: 'Рыба', zh: '鱼' },
+  shellfish: { tr: 'Kabuklu', en: 'Shellfish', ar: 'محار', ru: 'Морепродукты', zh: '贝壳' },
+  dairy:     { tr: 'Süt', en: 'Dairy', ar: 'ألبان', ru: 'Молочные продукты', zh: '乳制品' },
+  egg:       { tr: 'Yumurta', en: 'Egg', ar: 'بيض', ru: 'Яйца', zh: '蛋' },
+  soy:       { tr: 'Soya', en: 'Soy', ar: 'صويا', ru: 'Соя', zh: '大豆' },
+  sesame:    { tr: 'Susam', en: 'Sesame', ar: 'سمسم', ru: 'Кунжут', zh: '芝麻' },
+  peanuts:   { tr: 'Fıstık', en: 'Peanuts', ar: 'فول سوداني', ru: 'Арахис', zh: '花生' },
+  nuts:      { tr: 'Kuruyemiş', en: 'Nuts', ar: 'مكسرات', ru: 'Орехи', zh: '坚果' },
 };
 
 const TAG_LABELS = {
-  raw:     { tr: 'Çiğ', en: 'Raw', ar: 'نيء', zh: '生食' },
-  cooked:  { tr: 'Pişmiş', en: 'Cooked', ar: 'مطهو', zh: '熟食' },
-  spicy:   { tr: 'Acılı', en: 'Spicy', ar: 'حار', zh: '辣' },
-  vegan:   { tr: 'Vegan', en: 'Vegan', ar: 'نباتي', zh: '纯素' },
-  vegetarian: { tr: 'Vejetaryen', en: 'Vegetarian', ar: 'نباتي', zh: '素食' },
-  sharing: { tr: 'Paylaşım', en: 'Sharing', ar: 'للمشاركة', zh: '分享' },
+  raw:         { tr: 'Çiğ', en: 'Raw', ar: 'نيء', ru: 'Сырое', zh: '生食' },
+  cooked:      { tr: 'Pişmiş', en: 'Cooked', ar: 'مطهو', ru: 'Горячее', zh: '熟食' },
+  spicy:       { tr: 'Acılı', en: 'Spicy', ar: 'حار', ru: 'Острое', zh: '辣' },
+  vegan:       { tr: 'Vegan', en: 'Vegan', ar: 'نباتي صرف', ru: 'Веганское', zh: '纯素' },
+  vegetarian:  { tr: 'Vejetaryen', en: 'Vegetarian', ar: 'نباتي', ru: 'Вегетарианское', zh: '素食' },
+  sharing:     { tr: 'Paylaşım', en: 'Sharing', ar: 'للمشاركة', ru: 'На компанию', zh: '分享' },
 };
 
 export default function DishModal({ item, onClose }) {
@@ -68,6 +68,7 @@ export default function DishModal({ item, onClose }) {
     tr: 'Sepete Ekle',
     en: 'Add to Cart',
     ar: 'أضف للسلة',
+    ru: 'В корзину',
     zh: '加入购物车',
   };
 
@@ -75,6 +76,7 @@ export default function DishModal({ item, onClose }) {
     tr: 'İçindekiler',
     en: 'Ingredients',
     ar: 'المكونات',
+    ru: 'Состав',
     zh: '配料',
   };
 
@@ -82,6 +84,7 @@ export default function DishModal({ item, onClose }) {
     tr: 'Alerjenler',
     en: 'Allergens',
     ar: 'مسببات الحساسية',
+    ru: 'Аллергены',
     zh: '过敏原',
   };
 

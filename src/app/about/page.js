@@ -55,7 +55,12 @@ export default function AboutPage() {
       fr: 'Notre cuisine est active en continu pour vous offrir des sushis frais et des mets chauds jusqu\'aux premières heures du jour.'
     },
     menuCta: { tr: 'Menüyü Keşfedin', en: 'Explore The Menu', ar: 'تصفح المنيو', zh: '探索菜单', ru: 'Посмотреть меню', fa: 'مشاهده منو', fr: 'Explorer le Menu' },
-    contactCta: { tr: 'Şubelerimizi Görün', en: 'View Our Locations', ar: 'فروعنا ومواقعنا', zh: '查看门店', ru: 'Наши филиалы', fa: 'شعبات ما', fr: 'Nos Adresses' }
+    contactCta: { tr: 'Şubelerimizi Görün', en: 'View Our Locations', ar: 'فروعنا ومواقعنا', zh: '查看门店', ru: 'Наши филиалы', fa: 'شعبات ما', fr: 'Nos Adresses' },
+    statFresh: { tr: 'Taze Deniz Mahsulü', en: 'Fresh Seafood', ar: 'مأكولات بحرية طازجة', ru: 'Свежие морепродукты', zh: '新鲜海鲜' },
+    statDishes: { tr: 'Özgün Lezzet Çeşidi', en: 'Curated Menu Items', ar: 'طبقاً آسيوياً مميزاً', ru: 'Разнообразных блюд', zh: '精选特色料理' },
+    statReviews: { tr: 'Google Değerlendirmesi', en: 'Google Reviews (4.6★)', ar: 'تقييمات غوغل (4.6★)', ru: 'Отзывов в Google (4.6★)', zh: '谷歌真实好评 (4.6★)' },
+    galleryBadge: { tr: 'Gastronomi Galerisi', en: 'Culinary Showcase', ar: 'معرض النكهات', ru: 'Галерея вкуса', zh: '美食展' },
+    galleryTitle: { tr: 'Usta Ellerden Masanıza', en: 'Handcrafted From Kitchen to Table', ar: 'من أيدي الطهاة إلى مائدتكم', ru: 'От мастеров к вашему столу', zh: '从大厨之手到您的餐桌' },
   };
 
   const l = (key) => labels[key]?.[lang] || labels[key]?.en || '';
@@ -182,15 +187,15 @@ export default function AboutPage() {
               }}>
                 <div>
                   <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.6rem', color: 'var(--color-brand-primary)', fontWeight: 700 }}>100%</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>Taze Deniz Mahsulü</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>{l('statFresh')}</div>
                 </div>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.6rem', color: 'var(--color-brand-primary)', fontWeight: 700 }}>80+</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>Özgün Lezzet Çeşidi</div>
+                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.6rem', color: 'var(--color-brand-primary)', fontWeight: 700 }}>140+</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>{l('statDishes')}</div>
                 </div>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.6rem', color: 'var(--color-brand-primary)', fontWeight: 700 }}>4.9★</div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>Misafir Memnuniyeti</div>
+                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.6rem', color: 'var(--color-brand-primary)', fontWeight: 700 }}>800+</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>{l('statReviews')}</div>
                 </div>
               </div>
             </div>
@@ -308,10 +313,10 @@ export default function AboutPage() {
           <div style={{ textAlign: 'center', marginBottom: 'var(--sp-8)' }}>
             <span className="home-section-badge">
               <FaStar style={{ marginInlineEnd: '6px' }} aria-hidden="true" />
-              Gastronomi Galerisi
+              {l('galleryBadge')}
             </span>
             <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', color: 'var(--color-text-primary)' }}>
-              Usta Ellerden Masanıza
+              {l('galleryTitle')}
             </h2>
           </div>
 

@@ -7,7 +7,7 @@ import { useCart } from '@/context/CartContext';
 import { restaurantInfo } from '@/data/menuData';
 
 export default function CartDrawer() {
-  const { lang, t } = useLang();
+  const { lang, t, tUI } = useLang();
   const {
     cart, isCartOpen, setIsCartOpen,
     addToCart, removeFromCart, deleteItem, clearCart,
@@ -23,21 +23,29 @@ export default function CartDrawer() {
   }, [isCartOpen]);
 
   const labels = {
-    title: { tr: 'Sepetiniz', en: 'Your Cart', ar: 'سلة الطلب', zh: '购物车' },
-    empty: { tr: 'Sepetiniz boş', en: 'Your cart is empty', ar: 'سلتك فارغة', zh: '购物车为空' },
-    emptyHint: { tr: 'Lezzetleri keşfetmeye başlayın', en: 'Start exploring our dishes', ar: 'ابدأ باستكشاف أطباقنا', zh: '开始探索美食' },
-    subtotal: { tr: 'Ara Toplam', en: 'Subtotal', ar: 'المجموع الفرعي', zh: '小计' },
-    checkout: { tr: 'WhatsApp Sipariş', en: 'Order via WhatsApp', ar: 'اطلب عبر واتساب', zh: 'WhatsApp下单' },
-    minNotice: { tr: `Minimum sipariş: ${minDeliveryTl} ₺`, en: `Minimum order: ${minDeliveryTl} ₺`, ar: `الحد الأدنى للطلب: ${minDeliveryTl} ₺`, zh: `最低订单: ${minDeliveryTl} ₺` },
-    remove: { tr: 'Kaldır', en: 'Remove', ar: 'حذف', zh: '删除' },
-    clear: { tr: 'Tümünü Temizle', en: 'Clear All', ar: 'مسح الكل', zh: '清空' },
+    title: { tr: 'Sepetiniz', en: 'Your Cart', ar: 'سلة الطلب', ru: 'Ваша корзина', zh: '购物车' },
+    empty: { tr: 'Sepetiniz boş', en: 'Your cart is empty', ar: 'سلتك فارغة', ru: 'Корзина пуста', zh: '购物车为空' },
+    emptyHint: { tr: 'Lezzetleri keşfetmeye başlayın', en: 'Start exploring our dishes', ar: 'ابدأ باستكشاف أطباقنا', ru: 'Начните выбирать блюда', zh: '开始探索美食' },
+    subtotal: { tr: 'Ara Toplam', en: 'Subtotal', ar: 'المجموع الفرعي', ru: 'Итого', zh: '小计' },
+    checkout: { tr: 'WhatsApp ile Sipariş Ver', en: 'Order via WhatsApp', ar: 'اطلب عبر واتساب', ru: 'Заказ через WhatsApp', zh: 'WhatsApp下单' },
+    minNotice: { tr: `Minimum paket servis tutarı: ${minDeliveryTl} ₺`, en: `Minimum delivery order: ${minDeliveryTl} ₺`, ar: `الحد الأدنى لطلب التوصيل: ${minDeliveryTl} ₺`, ru: `Минимальная сумма доставки: ${minDeliveryTl} ₺`, zh: `最低外送金额: ${minDeliveryTl} ₺` },
+    remove: { tr: 'Kaldır', en: 'Remove', ar: 'حذف', ru: 'Удалить', zh: '删除' },
+    clear: { tr: 'Tümünü Temizle', en: 'Clear All', ar: 'مسح الكل', ru: 'Очистить всё', zh: '清空' },
   };
 
   const l = (key) => labels[key]?.[lang] || labels[key]?.en || '';
 
-  // Build WhatsApp message
+  // Locale-aware WhatsApp order message
   const buildWhatsAppMsg = () => {
-    let msg = `🍣 Lucky Sushi Chinese — ${tUI('cart_new_order')}\n\n`;
+    const greetings = {
+      tr: 'Merhaba Lucky Sushi & Chinese, yeni bir sipariş vermek istiyorum:',
+      en: 'Hello Lucky Sushi & Chinese, I would like to place an order:',
+      ar: 'مرحباً لاكي سوشي صيني، أود تقديم طلب جديد:',
+      ru: 'Здравствуйте, Lucky Sushi & Chinese! Хочу сделать заказ:',
+      zh: '您好 Lucky Sushi & Chinese，我想点单：',
+    };
+    const greeting = greetings[lang] || greetings.tr;
+    let msg = `🍣 ${greeting}\n\n`;
     cart.forEach(({ item, quantity }) => {
       const name = t(item, 'name');
       msg += `• ${quantity}x ${name} — ${(item.price * quantity).toLocaleString('tr-TR')} ₺\n`;

@@ -560,4 +560,12 @@ export const enProducts = {
     name: "Wasabi",
     description: "Wasabi paste",
   },
+  'set-salmon-lovers': {
+    name: "Salmon Lover's (40 Pcs)",
+    description: "Salmon set (40 pcs): 8 pcs salmon ten roll · 8 pcs Philadelphia roll and more",
+  },
+  'chicken-general-tso': {
+    name: "General Tso's Chicken",
+    description: "Crispy chicken in General Tso sauce with spring onion and sesame",
+  },
 };
