@@ -6,7 +6,6 @@ import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import { restaurantInfo } from '@/data/menuData';
-import { formatPortion } from '@/lib/formatPortion';
 
 import trProducts from '@/i18n/messages/tr/products.json';
 import enProducts from '@/i18n/messages/en/products.json';
@@ -30,6 +29,8 @@ const LANG_NAMES = {
   zh: '中文',
 };
 
+const ADDRESS_STORAGE_KEY = 'lucky_customer_address';
+
 export default function CartDrawer() {
   const { lang, tUI } = useLang();
   const { formatPrice } = useCurrency();
@@ -43,7 +44,36 @@ export default function CartDrawer() {
   // Can be toggled on-the-fly without page reload
   const [cartLang, setCartLang] = useState('tr');
 
+  // Customer Delivery Address state (persisted in localStorage)
+  const [customerAddress, setCustomerAddress] = useState({
+    name: '',
+    address: '',
+    buildingNote: '',
+    phone: '',
+  });
+  const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [addressForm, setAddressForm] = useState({
+    name: '',
+    address: '',
+    buildingNote: '',
+    phone: '',
+  });
+
   const phoneClean = restaurantInfo.phone.replace(/[^0-9]/g, '');
+
+  // Load saved address from localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(ADDRESS_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object') {
+          setCustomerAddress(parsed);
+          setAddressForm(parsed);
+        }
+      }
+    } catch (_) {}
+  }, []);
 
   // Lock scroll when open
   useEffect(() => {
@@ -73,6 +103,70 @@ export default function CartDrawer() {
     },
     remove: { tr: 'Kaldır', en: 'Remove', ar: 'حذف', ru: 'Удалить', zh: '删除' },
     clear: { tr: 'Tümünü Temizle', en: 'Clear All', ar: 'مسح الكل', ru: 'Очистить всё', zh: '清空' },
+    // Address labels
+    addressTitle: {
+      tr: 'Teslimat Adresi',
+      en: 'Delivery Address',
+      ar: 'عنوان التوصيل',
+      ru: 'Адрес доставки',
+      zh: '送餐地址',
+    },
+    addressAddPrompt: {
+      tr: '+ Teslimat Adresi Ekle',
+      en: '+ Add Delivery Address',
+      ar: '+ إضافة عنوان التوصيل',
+      ru: '+ Добавить адрес доставки',
+      zh: '+ 添加送餐地址',
+    },
+    addressEdit: {
+      tr: 'Değiştir',
+      en: 'Change',
+      ar: 'تعديل',
+      ru: 'Изменить',
+      zh: '修改',
+    },
+    addressNamePlaceholder: {
+      tr: 'Adınız Soyadınız',
+      en: 'Your Name',
+      ar: 'الاسم الكريم',
+      ru: 'Ваше имя',
+      zh: '姓名',
+    },
+    addressDetailPlaceholder: {
+      tr: 'Adres (İlçe, Mahalle, Cadde, Sokak)*',
+      en: 'Full Address (District, Street, Building)*',
+      ar: 'العنوان بالتفصيل (المنطقة، الحي، الشارع)*',
+      ru: 'Адрес доставки (район, улица, дом)*',
+      zh: '详细地址（区域、街道、门牌）*',
+    },
+    addressNotesPlaceholder: {
+      tr: 'Bina No, Daire No, Zil / Notlar',
+      en: 'Building No, Apt No, Doorbell / Notes',
+      ar: 'رقم البناء، الشقة، ملاحظات التوصيل',
+      ru: 'Подъезд, этаж, кв., домофон / примечания',
+      zh: '楼号、门牌号、备注',
+    },
+    addressPhonePlaceholder: {
+      tr: 'Telefon Numarası (isteğe bağlı)',
+      en: 'Phone Number (optional)',
+      ar: 'رقم الهاتف للتواصل (اختياري)',
+      ru: 'Номер телефона (необязательно)',
+      zh: '联系电话（选填）',
+    },
+    addressSave: {
+      tr: 'Adresi Kaydet',
+      en: 'Save Address',
+      ar: 'حفظ العنوان',
+      ru: 'Сохранить адрес',
+      zh: '保存地址',
+    },
+    addressCancel: {
+      tr: 'Vazgeç',
+      en: 'Cancel',
+      ar: 'إلغاء',
+      ru: 'Отмена',
+      zh: '取消',
+    },
   };
 
   const l = (key) => labels[key]?.[cartLang] || labels[key]?.tr || '';
@@ -86,7 +180,23 @@ export default function CartDrawer() {
     return item[`name_${targetLang}`] || item.name_tr || item.name_en || item.name || '';
   };
 
-  // Locale-aware WhatsApp order message with both Turkish and client names
+  // Save address handler
+  const handleSaveAddress = (e) => {
+    e.preventDefault();
+    if (!addressForm.address?.trim()) return;
+    setCustomerAddress(addressForm);
+    setIsEditingAddress(false);
+    try {
+      localStorage.setItem(ADDRESS_STORAGE_KEY, JSON.stringify(addressForm));
+    } catch (_) {}
+  };
+
+  const handleCancelAddress = () => {
+    setAddressForm(customerAddress);
+    setIsEditingAddress(false);
+  };
+
+  // Locale-aware WhatsApp order message with both Turkish and client names, plus saved delivery address
   const buildWhatsAppMsg = () => {
     const greetings = {
       tr: 'Merhaba Lucky Sushi & Chinese, yeni bir sipariş vermek istiyorum:',
@@ -106,10 +216,27 @@ export default function CartDrawer() {
       msg += `• ${quantity}x ${nameLine} — ${formatPrice(item.price * quantity)}\n`;
     });
     msg += `\n💰 ${l('subtotal')}: ${formatPrice(cartSubtotal)}`;
+
+    // Append customer delivery address if saved
+    if (customerAddress.address && customerAddress.address.trim()) {
+      msg += `\n\n📍 ${l('addressTitle')}:`;
+      if (customerAddress.name && customerAddress.name.trim()) {
+        msg += `\n👤 ${customerAddress.name.trim()}`;
+      }
+      msg += `\n🏠 ${customerAddress.address.trim()}`;
+      if (customerAddress.buildingNote && customerAddress.buildingNote.trim()) {
+        msg += `\n📝 ${customerAddress.buildingNote.trim()}`;
+      }
+      if (customerAddress.phone && customerAddress.phone.trim()) {
+        msg += `\n📞 ${customerAddress.phone.trim()}`;
+      }
+    }
+
     return msg;
   };
 
   const isRtl = cartLang === 'ar';
+  const hasSavedAddress = Boolean(customerAddress.address && customerAddress.address.trim());
 
   return (
     <>
@@ -128,7 +255,7 @@ export default function CartDrawer() {
         aria-label={l('title')}
         dir={isRtl ? 'rtl' : 'ltr'}
       >
-        {/* Waiter Banner (Image 2 style) */}
+        {/* Waiter Banner */}
         <div
           style={{
             background: '#3e5343',
@@ -248,6 +375,46 @@ export default function CartDrawer() {
               <p style={{ fontSize: '0.85rem', color: 'var(--mist-beige)' }}>
                 {l('emptyHint')}
               </p>
+
+              {/* Show saved address if customer visits empty cart */}
+              {hasSavedAddress && (
+                <div style={{
+                  marginTop: '20px',
+                  padding: '12px 14px',
+                  background: 'rgba(255, 255, 255, 0.04)',
+                  border: '1px solid rgba(246, 241, 232, 0.1)',
+                  borderRadius: '8px',
+                  textAlign: isRtl ? 'right' : 'left',
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span>📍</span>
+                      <strong style={{ fontSize: '0.85rem', color: 'var(--color-brand-light)' }}>
+                        {l('addressTitle')}
+                      </strong>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsEditingAddress(true)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: 'var(--color-accent, #D4A373)',
+                        fontSize: '0.78rem',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                      }}
+                    >
+                      {l('addressEdit')}
+                    </button>
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--mist-beige)', lineHeight: 1.4 }}>
+                    {customerAddress.name && <div style={{ color: '#fff', fontWeight: 600 }}>{customerAddress.name}</div>}
+                    <div>{customerAddress.address}</div>
+                    {customerAddress.buildingNote && <div style={{ opacity: 0.8, fontSize: '0.76rem' }}>{customerAddress.buildingNote}</div>}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             cart.map(({ item, quantity }) => {
@@ -299,11 +466,211 @@ export default function CartDrawer() {
         {/* Footer */}
         {cart.length > 0 && (
           <div className="cart-drawer__footer">
+            {/* Delivery Address Section */}
+            <div style={{ marginBottom: '14px' }}>
+              {isEditingAddress ? (
+                /* Address Edit Form */
+                <form
+                  onSubmit={handleSaveAddress}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '1px solid rgba(246, 241, 232, 0.15)',
+                    borderRadius: '8px',
+                    padding: '12px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
+                    <span>📍</span>
+                    <strong style={{ fontSize: '0.85rem', color: 'var(--color-brand-light)' }}>
+                      {l('addressTitle')}
+                    </strong>
+                  </div>
+
+                  <input
+                    type="text"
+                    placeholder={l('addressNamePlaceholder')}
+                    value={addressForm.name || ''}
+                    onChange={(e) => setAddressForm({ ...addressForm, name: e.target.value })}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.07)',
+                      border: '1px solid rgba(246, 241, 232, 0.15)',
+                      borderRadius: '6px',
+                      padding: '8px 10px',
+                      color: '#ffffff',
+                      fontSize: '0.84rem',
+                      outline: 'none',
+                    }}
+                  />
+
+                  <textarea
+                    rows={2}
+                    placeholder={l('addressDetailPlaceholder')}
+                    value={addressForm.address || ''}
+                    required
+                    onChange={(e) => setAddressForm({ ...addressForm, address: e.target.value })}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.07)',
+                      border: '1px solid rgba(246, 241, 232, 0.15)',
+                      borderRadius: '6px',
+                      padding: '8px 10px',
+                      color: '#ffffff',
+                      fontSize: '0.84rem',
+                      outline: 'none',
+                      resize: 'none',
+                      fontFamily: 'inherit',
+                    }}
+                  />
+
+                  <input
+                    type="text"
+                    placeholder={l('addressNotesPlaceholder')}
+                    value={addressForm.buildingNote || ''}
+                    onChange={(e) => setAddressForm({ ...addressForm, buildingNote: e.target.value })}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.07)',
+                      border: '1px solid rgba(246, 241, 232, 0.15)',
+                      borderRadius: '6px',
+                      padding: '8px 10px',
+                      color: '#ffffff',
+                      fontSize: '0.84rem',
+                      outline: 'none',
+                    }}
+                  />
+
+                  <input
+                    type="tel"
+                    placeholder={l('addressPhonePlaceholder')}
+                    value={addressForm.phone || ''}
+                    onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value })}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.07)',
+                      border: '1px solid rgba(246, 241, 232, 0.15)',
+                      borderRadius: '6px',
+                      padding: '8px 10px',
+                      color: '#ffffff',
+                      fontSize: '0.84rem',
+                      outline: 'none',
+                    }}
+                  />
+
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
+                    <button
+                      type="submit"
+                      style={{
+                        flex: 1,
+                        padding: '8px 12px',
+                        background: '#3e5343',
+                        color: '#ffffff',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontWeight: 700,
+                        fontSize: '0.82rem',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {l('addressSave')}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleCancelAddress}
+                      style={{
+                        padding: '8px 12px',
+                        background: 'rgba(255, 255, 255, 0.08)',
+                        color: 'var(--mist-beige)',
+                        border: 'none',
+                        borderRadius: '6px',
+                        fontSize: '0.82rem',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {l('addressCancel')}
+                    </button>
+                  </div>
+                </form>
+              ) : hasSavedAddress ? (
+                /* Saved Address Display Card */
+                <div
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.04)',
+                    border: '1px solid rgba(246, 241, 232, 0.12)',
+                    borderRadius: '8px',
+                    padding: '10px 12px',
+                    transition: 'border-color 0.2s',
+                  }}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span style={{ fontSize: '0.95rem' }}>📍</span>
+                      <strong style={{ fontSize: '0.85rem', color: 'var(--color-brand-light)' }}>
+                        {l('addressTitle')}
+                      </strong>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setIsEditingAddress(true)}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: 'var(--color-accent, #D4A373)',
+                        fontSize: '0.78rem',
+                        cursor: 'pointer',
+                        fontWeight: 600,
+                        textDecoration: 'underline',
+                      }}
+                    >
+                      {l('addressEdit')}
+                    </button>
+                  </div>
+
+                  <div style={{ fontSize: '0.82rem', color: 'var(--mist-beige)', lineHeight: 1.4 }}>
+                    {customerAddress.name && <div style={{ color: '#fff', fontWeight: 600 }}>{customerAddress.name}</div>}
+                    <div style={{ wordBreak: 'break-word' }}>{customerAddress.address}</div>
+                    {customerAddress.buildingNote && (
+                      <div style={{ fontSize: '0.76rem', opacity: 0.8, marginTop: '2px' }}>{customerAddress.buildingNote}</div>
+                    )}
+                    {customerAddress.phone && (
+                      <div style={{ fontSize: '0.76rem', opacity: 0.8, marginTop: '2px' }}>📞 {customerAddress.phone}</div>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                /* Add Address Prompt Button */
+                <button
+                  type="button"
+                  onClick={() => setIsEditingAddress(true)}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    padding: '9px 12px',
+                    background: 'rgba(255, 255, 255, 0.04)',
+                    border: '1px dashed rgba(246, 241, 232, 0.25)',
+                    borderRadius: '8px',
+                    color: 'var(--color-brand-light)',
+                    fontSize: '0.84rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  <span style={{ fontSize: '0.95rem' }}>📍</span>
+                  <span>{l('addressAddPrompt')}</span>
+                </button>
+              )}
+            </div>
+
+            {/* Subtotal */}
             <div className="cart-drawer__subtotal">
               <span className="cart-drawer__subtotal-label">{l('subtotal')}</span>
               <span className="cart-drawer__subtotal-value">{formatPrice(cartSubtotal)}</span>
             </div>
 
+            {/* WhatsApp Checkout */}
             <a
               href={`https://wa.me/${phoneClean}?text=${encodeURIComponent(buildWhatsAppMsg())}`}
               target="_blank"
