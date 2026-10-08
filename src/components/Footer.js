@@ -54,7 +54,6 @@ export default function Footer() {
           <Link href="/menu" className="main-footer__link">{l('orderMenu')}</Link>
           <Link href="/branches" className="main-footer__link">{tUI('nav_branches') || l('branches')}</Link>
           <Link href="/about" className="main-footer__link">{l('aboutUs')}</Link>
-          <Link href="/contact" className="main-footer__link">{tUI('nav_contact')}</Link>
         </div>
 
         {/* Column 3: Contact & Hours */}

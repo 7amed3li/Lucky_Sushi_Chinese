@@ -91,7 +91,7 @@ export default function Header() {
             </Link>
             <Link
               href="/branches"
-              className={`header__nav-link ${pathname === '/branches' ? 'active' : ''}`}
+              className={`header__nav-link ${pathname === '/branches' || pathname === '/contact' ? 'active' : ''}`}
             >
               {tUI('nav_branches')}
             </Link>
@@ -100,12 +100,6 @@ export default function Header() {
               className={`header__nav-link ${pathname === '/about' ? 'active' : ''}`}
             >
               {tUI('nav_about')}
-            </Link>
-            <Link
-              href="/contact"
-              className={`header__nav-link ${pathname === '/contact' ? 'active' : ''}`}
-            >
-              {tUI('nav_contact')}
             </Link>
           </nav>
 
@@ -287,7 +281,7 @@ export default function Header() {
           <Link
             href="/branches"
             onClick={closeMobile}
-            className={`mobile-drawer__link ${pathname === '/branches' ? 'active' : ''}`}
+            className={`mobile-drawer__link ${pathname === '/branches' || pathname === '/contact' ? 'active' : ''}`}
           >
             {tUI('nav_branches')}
           </Link>
@@ -297,13 +291,6 @@ export default function Header() {
             className={`mobile-drawer__link ${pathname === '/about' ? 'active' : ''}`}
           >
             {tUI('nav_about')}
-          </Link>
-          <Link
-            href="/contact"
-            onClick={closeMobile}
-            className={`mobile-drawer__link ${pathname === '/contact' ? 'active' : ''}`}
-          >
-            {tUI('nav_contact')}
           </Link>
         </nav>
 

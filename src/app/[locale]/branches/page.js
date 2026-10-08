@@ -291,18 +291,18 @@ export default function BranchesPage() {
                     {!branch.allowDirections && (
                       <div
                         style={{
-                          background: 'rgba(230, 57, 70, 0.08)',
-                          border: '1px solid rgba(230, 57, 70, 0.25)',
+                          background: 'rgba(239, 68, 68, 0.1)',
+                          border: '1.5px solid #ef4444',
                           borderRadius: '8px',
-                          padding: '10px 12px',
+                          padding: '11px 13px',
                           display: 'flex',
                           alignItems: 'flex-start',
                           gap: '10px',
                           marginBottom: '16px',
                         }}
                       >
-                        <FaCircleInfo style={{ color: '#f28482', marginTop: '2px', flexShrink: 0 }} size={16} />
-                        <span style={{ fontSize: '0.8rem', color: '#fecdd3', lineHeight: 1.45 }}>
+                        <FaCircleInfo style={{ color: '#dc2626', marginTop: '2px', flexShrink: 0 }} size={17} />
+                        <span style={{ fontSize: '0.84rem', color: '#b91c1c', fontWeight: 600, lineHeight: 1.5 }}>
                           {l('deliveryOnlyNotice')}
                         </span>
                       </div>
@@ -416,8 +416,55 @@ export default function BranchesPage() {
             })}
           </div>
 
+          {/* ── 3. Unified Contact & Hours Bar ── */}
+          <div style={{ marginTop: 'var(--sp-10)' }}>
+            <div style={{ 
+              background: 'var(--color-surface)', 
+              borderRadius: 'var(--radius-lg)', 
+              padding: 'var(--sp-6) var(--sp-8)',
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 'var(--sp-6)',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              boxShadow: 'var(--shadow-sm)',
+              border: '1px solid var(--color-border-light)',
+              maxWidth: '1200px',
+              margin: '0 auto',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(40, 122, 63, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-brand-primary)', fontSize: '1.2rem' }}>
+                  <FaClock />
+                </div>
+                <div>
+                  <h3 style={{ color: 'var(--color-text-primary)', marginBottom: '2px', fontSize: '1.05rem', fontFamily: 'var(--font-serif)' }}>
+                    {lang === 'ar' ? 'ساعات العمل الرسمية' : lang === 'tr' ? 'Çalışma Saatleri' : 'Working Hours'}
+                  </h3>
+                  <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem' }}>{t(restaurantInfo, 'hours')}</p>
+                </div>
+              </div>
+              
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(40, 122, 63, 0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-brand-primary)', fontSize: '1.2rem' }}>
+                  <FaWhatsapp />
+                </div>
+                <div>
+                  <h3 style={{ color: 'var(--color-text-primary)', marginBottom: '2px', fontSize: '1.05rem', fontFamily: 'var(--font-serif)' }}>
+                    {lang === 'ar' ? 'المركز الرئيسي' : lang === 'tr' ? 'Merkez Şube' : 'Headquarters'}
+                  </h3>
+                  <a
+                    href={`tel:${restaurantInfo.phone.replace(/[^0-9]/g, '')}`}
+                    style={{ color: 'var(--color-brand-primary)', fontWeight: 600, fontSize: '0.9rem', textDecoration: 'none' }}
+                  >
+                    {restaurantInfo.phone}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Bottom Menu Navigation CTA */}
-          <div style={{ textAlign: 'center', marginTop: 'var(--sp-12)' }}>
+          <div style={{ textAlign: 'center', marginTop: 'var(--sp-10)' }}>
             <Link
               href="/menu"
               className="btn-primary"
