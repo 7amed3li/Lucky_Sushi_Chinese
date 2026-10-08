@@ -45,19 +45,24 @@ export default function CartDrawer() {
   const [cartLang, setCartLang] = useState('tr');
 
   // Customer Delivery Address state (persisted in localStorage)
-  const [customerAddress, setCustomerAddress] = useState({
+  // Fields: name, city (İl), district (İlçe), neighborhood (Mahalle), street (Cadde/Sokak), buildingNo (Bina No), floor (Kat), apartmentNo (Daire No), note (Not), phone (Telefon)
+  const initialAddressState = {
     name: '',
-    address: '',
-    buildingNote: '',
+    city: 'İstanbul',
+    district: '',
+    neighborhood: '',
+    street: '',
+    buildingNo: '',
+    floor: '',
+    apartmentNo: '',
+    note: '',
     phone: '',
-  });
+    address: '',
+  };
+
+  const [customerAddress, setCustomerAddress] = useState(initialAddressState);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
-  const [addressForm, setAddressForm] = useState({
-    name: '',
-    address: '',
-    buildingNote: '',
-    phone: '',
-  });
+  const [addressForm, setAddressForm] = useState(initialAddressState);
 
   const phoneClean = restaurantInfo.phone.replace(/[^0-9]/g, '');
 
@@ -68,8 +73,9 @@ export default function CartDrawer() {
       if (saved) {
         const parsed = JSON.parse(saved);
         if (parsed && typeof parsed === 'object') {
-          setCustomerAddress(parsed);
-          setAddressForm(parsed);
+          const merged = { ...initialAddressState, ...parsed };
+          setCustomerAddress(merged);
+          setAddressForm(merged);
         }
       }
     } catch (_) {}
@@ -107,7 +113,7 @@ export default function CartDrawer() {
     addressTitle: {
       tr: 'Teslimat Adresi',
       en: 'Delivery Address',
-      ar: 'عنوان التوصيل',
+      ar: 'عنوان التوصيل (Teslimat Adresi)',
       ru: 'Адрес доставки',
       zh: '送餐地址',
     },
@@ -126,33 +132,21 @@ export default function CartDrawer() {
       zh: '修改',
     },
     addressNamePlaceholder: {
-      tr: 'Adınız Soyadınız',
-      en: 'Your Name',
-      ar: 'الاسم الكريم',
-      ru: 'Ваше имя',
+      tr: 'Ad Soyad',
+      en: 'Full Name',
+      ar: 'الاسم (Ad Soyad)',
+      ru: 'Имя Фамилия',
       zh: '姓名',
     },
-    addressDetailPlaceholder: {
-      tr: 'Adres (İlçe, Mahalle, Cadde, Sokak)*',
-      en: 'Full Address (District, Street, Building)*',
-      ar: 'العنوان بالتفصيل (المنطقة، الحي، الشارع)*',
-      ru: 'Адрес доставки (район, улица, дом)*',
-      zh: '详细地址（区域、街道、门牌）*',
-    },
-    addressNotesPlaceholder: {
-      tr: 'Bina No, Daire No, Zil / Notlar',
-      en: 'Building No, Apt No, Doorbell / Notes',
-      ar: 'رقم البناء، الشقة، ملاحظات التوصيل',
-      ru: 'Подъезд, этаж, кв., домофон / примечания',
-      zh: '楼号、门牌号、备注',
-    },
-    addressPhonePlaceholder: {
-      tr: 'Telefon Numarası (isteğe bağlı)',
-      en: 'Phone Number (optional)',
-      ar: 'رقم الهاتف للتواصل (اختياري)',
-      ru: 'Номер телефона (необязательно)',
-      zh: '联系电话（选填）',
-    },
+    cityLabel: { tr: 'Şehir / İl', en: 'City (İl)', ar: 'المدينة (İl / Şehir)', ru: 'Город', zh: '城市' },
+    districtLabel: { tr: 'İlçe', en: 'District (İlçe)', ar: 'المنطقة (İlçe)', ru: 'Район', zh: '区/县' },
+    neighborhoodLabel: { tr: 'Mahalle', en: 'Neighborhood (Mahalle)', ar: 'الحي (Mahalle)', ru: 'Микрорайон', zh: '街区' },
+    streetLabel: { tr: 'Cadde / Sokak', en: 'Street (Cadde/Sokak)', ar: 'الشارع (Cadde / Sokak)', ru: 'Улица', zh: '街道' },
+    buildingLabel: { tr: 'Bina No', en: 'Building No', ar: 'رقم المبنى (Bina No)', ru: 'Дом', zh: '楼号' },
+    floorLabel: { tr: 'Kat', en: 'Floor (Kat)', ar: 'الدور / الطابق (Kat)', ru: 'Этаж', zh: '楼层' },
+    aptLabel: { tr: 'Daire No', en: 'Apt No (Daire)', ar: 'رقم الشقة (Daire No)', ru: 'Квартира', zh: '门牌号' },
+    noteLabel: { tr: 'Sipariş / Adres Notu', en: 'Note', ar: 'ملاحظة (Not)', ru: 'Примечания', zh: '备注' },
+    phoneLabel: { tr: 'Telefon Numarası', en: 'Phone', ar: 'رقم الهاتف (Telefon)', ru: 'Телефон', zh: '电话' },
     addressSave: {
       tr: 'Adresi Kaydet',
       en: 'Save Address',
@@ -180,10 +174,19 @@ export default function CartDrawer() {
     return item[`name_${targetLang}`] || item.name_tr || item.name_en || item.name || '';
   };
 
+  // Helper: check if valid address exists
+  const hasSavedAddress = Boolean(
+    (customerAddress.district && customerAddress.district.trim()) ||
+    (customerAddress.street && customerAddress.street.trim()) ||
+    (customerAddress.address && customerAddress.address.trim())
+  );
+
   // Save address handler
   const handleSaveAddress = (e) => {
     e.preventDefault();
-    if (!addressForm.address?.trim()) return;
+    if (!addressForm.district?.trim() && !addressForm.street?.trim() && !addressForm.address?.trim()) {
+      return;
+    }
     setCustomerAddress(addressForm);
     setIsEditingAddress(false);
     try {
@@ -196,7 +199,7 @@ export default function CartDrawer() {
     setIsEditingAddress(false);
   };
 
-  // Locale-aware WhatsApp order message with both Turkish and client names, plus saved delivery address
+  // Locale-aware WhatsApp order message with Turkish delivery address format
   const buildWhatsAppMsg = () => {
     const greetings = {
       tr: 'Merhaba Lucky Sushi & Chinese, yeni bir sipariş vermek istiyorum:',
@@ -217,18 +220,43 @@ export default function CartDrawer() {
     });
     msg += `\n💰 ${l('subtotal')}: ${formatPrice(cartSubtotal)}`;
 
-    // Append customer delivery address if saved
-    if (customerAddress.address && customerAddress.address.trim()) {
-      msg += `\n\n📍 ${l('addressTitle')}:`;
+    // Append Turkish structured customer delivery address if saved
+    if (hasSavedAddress) {
+      msg += `\n\n📍 Teslimat Adresi:`;
       if (customerAddress.name && customerAddress.name.trim()) {
-        msg += `\n👤 ${customerAddress.name.trim()}`;
+        msg += `\n👤 İsim: ${customerAddress.name.trim()}`;
       }
-      msg += `\n🏠 ${customerAddress.address.trim()}`;
-      if (customerAddress.buildingNote && customerAddress.buildingNote.trim()) {
-        msg += `\n📝 ${customerAddress.buildingNote.trim()}`;
+      if (customerAddress.city && customerAddress.city.trim()) {
+        msg += `\n🏙️ Şehir: ${customerAddress.city.trim()}`;
+      }
+      if (customerAddress.district && customerAddress.district.trim()) {
+        msg += `\n📍 İlçe: ${customerAddress.district.trim()}`;
+      }
+      if (customerAddress.neighborhood && customerAddress.neighborhood.trim()) {
+        msg += `\n🏘️ Mahalle: ${customerAddress.neighborhood.trim()}`;
+      }
+      if (customerAddress.street && customerAddress.street.trim()) {
+        msg += `\n🛣️ Cadde / Sokak: ${customerAddress.street.trim()}`;
+      }
+      if (customerAddress.buildingNo && customerAddress.buildingNo.trim()) {
+        msg += `\n🏠 Bina No: ${customerAddress.buildingNo.trim()}`;
+      }
+      if (customerAddress.floor && customerAddress.floor.trim()) {
+        msg += `\n🪜 Kat: ${customerAddress.floor.trim()}`;
+      }
+      if (customerAddress.apartmentNo && customerAddress.apartmentNo.trim()) {
+        msg += `\n🚪 Daire No: ${customerAddress.apartmentNo.trim()}`;
+      }
+      // If legacy single address exists
+      if (customerAddress.address && customerAddress.address.trim() && !customerAddress.street && !customerAddress.district) {
+        msg += `\n🏠 Adres: ${customerAddress.address.trim()}`;
+      }
+      const finalNote = (customerAddress.note || customerAddress.buildingNote || '').trim();
+      if (finalNote) {
+        msg += `\n📝 Not: ${finalNote}`;
       }
       if (customerAddress.phone && customerAddress.phone.trim()) {
-        msg += `\n📞 ${customerAddress.phone.trim()}`;
+        msg += `\n📞 Tel: ${customerAddress.phone.trim()}`;
       }
     }
 
@@ -236,7 +264,6 @@ export default function CartDrawer() {
   };
 
   const isRtl = cartLang === 'ar';
-  const hasSavedAddress = Boolean(customerAddress.address && customerAddress.address.trim());
 
   return (
     <>
@@ -469,7 +496,7 @@ export default function CartDrawer() {
             {/* Delivery Address Section */}
             <div style={{ marginBottom: '14px' }}>
               {isEditingAddress ? (
-                /* Address Edit Form */
+                /* Address Edit Form - Detailed Turkish Structure */
                 <form
                   onSubmit={handleSaveAddress}
                   style={{
@@ -489,6 +516,7 @@ export default function CartDrawer() {
                     </strong>
                   </div>
 
+                  {/* Name */}
                   <input
                     type="text"
                     placeholder={l('addressNamePlaceholder')}
@@ -498,60 +526,162 @@ export default function CartDrawer() {
                       background: 'rgba(255, 255, 255, 0.07)',
                       border: '1px solid rgba(246, 241, 232, 0.15)',
                       borderRadius: '6px',
-                      padding: '8px 10px',
+                      padding: '7px 10px',
                       color: '#ffffff',
-                      fontSize: '0.84rem',
+                      fontSize: '0.82rem',
                       outline: 'none',
                     }}
                   />
 
-                  <textarea
-                    rows={2}
-                    placeholder={l('addressDetailPlaceholder')}
-                    value={addressForm.address || ''}
-                    required
-                    onChange={(e) => setAddressForm({ ...addressForm, address: e.target.value })}
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.07)',
-                      border: '1px solid rgba(246, 241, 232, 0.15)',
-                      borderRadius: '6px',
-                      padding: '8px 10px',
-                      color: '#ffffff',
-                      fontSize: '0.84rem',
-                      outline: 'none',
-                      resize: 'none',
-                      fontFamily: 'inherit',
-                    }}
-                  />
+                  {/* Şehir (İl) & İlçe */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    <input
+                      type="text"
+                      placeholder={l('cityLabel')}
+                      value={addressForm.city || ''}
+                      onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.07)',
+                        border: '1px solid rgba(246, 241, 232, 0.15)',
+                        borderRadius: '6px',
+                        padding: '7px 10px',
+                        color: '#ffffff',
+                        fontSize: '0.82rem',
+                        outline: 'none',
+                      }}
+                    />
+                    <input
+                      type="text"
+                      placeholder={l('districtLabel')}
+                      value={addressForm.district || ''}
+                      required
+                      onChange={(e) => setAddressForm({ ...addressForm, district: e.target.value })}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.07)',
+                        border: '1px solid rgba(246, 241, 232, 0.15)',
+                        borderRadius: '6px',
+                        padding: '7px 10px',
+                        color: '#ffffff',
+                        fontSize: '0.82rem',
+                        outline: 'none',
+                      }}
+                    />
+                  </div>
 
+                  {/* Mahalle & Cadde/Sokak */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    <input
+                      type="text"
+                      placeholder={l('neighborhoodLabel')}
+                      value={addressForm.neighborhood || ''}
+                      onChange={(e) => setAddressForm({ ...addressForm, neighborhood: e.target.value })}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.07)',
+                        border: '1px solid rgba(246, 241, 232, 0.15)',
+                        borderRadius: '6px',
+                        padding: '7px 10px',
+                        color: '#ffffff',
+                        fontSize: '0.82rem',
+                        outline: 'none',
+                      }}
+                    />
+                    <input
+                      type="text"
+                      placeholder={l('streetLabel')}
+                      value={addressForm.street || ''}
+                      required
+                      onChange={(e) => setAddressForm({ ...addressForm, street: e.target.value })}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.07)',
+                        border: '1px solid rgba(246, 241, 232, 0.15)',
+                        borderRadius: '6px',
+                        padding: '7px 10px',
+                        color: '#ffffff',
+                        fontSize: '0.82rem',
+                        outline: 'none',
+                      }}
+                    />
+                  </div>
+
+                  {/* Bina No, Kat, Daire No */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
+                    <input
+                      type="text"
+                      placeholder={l('buildingLabel')}
+                      value={addressForm.buildingNo || ''}
+                      onChange={(e) => setAddressForm({ ...addressForm, buildingNo: e.target.value })}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.07)',
+                        border: '1px solid rgba(246, 241, 232, 0.15)',
+                        borderRadius: '6px',
+                        padding: '7px 10px',
+                        color: '#ffffff',
+                        fontSize: '0.82rem',
+                        outline: 'none',
+                      }}
+                    />
+                    <input
+                      type="text"
+                      placeholder={l('floorLabel')}
+                      value={addressForm.floor || ''}
+                      onChange={(e) => setAddressForm({ ...addressForm, floor: e.target.value })}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.07)',
+                        border: '1px solid rgba(246, 241, 232, 0.15)',
+                        borderRadius: '6px',
+                        padding: '7px 10px',
+                        color: '#ffffff',
+                        fontSize: '0.82rem',
+                        outline: 'none',
+                      }}
+                    />
+                    <input
+                      type="text"
+                      placeholder={l('aptLabel')}
+                      value={addressForm.apartmentNo || ''}
+                      onChange={(e) => setAddressForm({ ...addressForm, apartmentNo: e.target.value })}
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.07)',
+                        border: '1px solid rgba(246, 241, 232, 0.15)',
+                        borderRadius: '6px',
+                        padding: '7px 10px',
+                        color: '#ffffff',
+                        fontSize: '0.82rem',
+                        outline: 'none',
+                      }}
+                    />
+                  </div>
+
+                  {/* Note */}
                   <input
                     type="text"
-                    placeholder={l('addressNotesPlaceholder')}
-                    value={addressForm.buildingNote || ''}
-                    onChange={(e) => setAddressForm({ ...addressForm, buildingNote: e.target.value })}
+                    placeholder={l('noteLabel')}
+                    value={addressForm.note || addressForm.buildingNote || ''}
+                    onChange={(e) => setAddressForm({ ...addressForm, note: e.target.value, buildingNote: e.target.value })}
                     style={{
                       background: 'rgba(255, 255, 255, 0.07)',
                       border: '1px solid rgba(246, 241, 232, 0.15)',
                       borderRadius: '6px',
-                      padding: '8px 10px',
+                      padding: '7px 10px',
                       color: '#ffffff',
-                      fontSize: '0.84rem',
+                      fontSize: '0.82rem',
                       outline: 'none',
                     }}
                   />
 
+                  {/* Phone */}
                   <input
                     type="tel"
-                    placeholder={l('addressPhonePlaceholder')}
+                    placeholder={l('phoneLabel')}
                     value={addressForm.phone || ''}
                     onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value })}
                     style={{
                       background: 'rgba(255, 255, 255, 0.07)',
                       border: '1px solid rgba(246, 241, 232, 0.15)',
                       borderRadius: '6px',
-                      padding: '8px 10px',
+                      padding: '7px 10px',
                       color: '#ffffff',
-                      fontSize: '0.84rem',
+                      fontSize: '0.82rem',
                       outline: 'none',
                     }}
                   />
@@ -601,7 +731,7 @@ export default function CartDrawer() {
                     transition: 'border-color 0.2s',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                       <span style={{ fontSize: '0.95rem' }}>📍</span>
                       <strong style={{ fontSize: '0.85rem', color: 'var(--color-brand-light)' }}>
@@ -625,14 +755,43 @@ export default function CartDrawer() {
                     </button>
                   </div>
 
-                  <div style={{ fontSize: '0.82rem', color: 'var(--mist-beige)', lineHeight: 1.4 }}>
-                    {customerAddress.name && <div style={{ color: '#fff', fontWeight: 600 }}>{customerAddress.name}</div>}
-                    <div style={{ wordBreak: 'break-word' }}>{customerAddress.address}</div>
-                    {customerAddress.buildingNote && (
-                      <div style={{ fontSize: '0.76rem', opacity: 0.8, marginTop: '2px' }}>{customerAddress.buildingNote}</div>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--mist-beige)', lineHeight: 1.45 }}>
+                    {customerAddress.name && (
+                      <div style={{ color: '#fff', fontWeight: 600 }}>👤 {customerAddress.name}</div>
+                    )}
+                    <div>
+                      {[
+                        customerAddress.district && `${customerAddress.district}`,
+                        customerAddress.city && `${customerAddress.city}`,
+                      ].filter(Boolean).join(' / ')}
+                    </div>
+                    <div>
+                      {[
+                        customerAddress.neighborhood && `${customerAddress.neighborhood} Mah.`,
+                        customerAddress.street && `${customerAddress.street}`,
+                      ].filter(Boolean).join(', ')}
+                    </div>
+                    {(customerAddress.buildingNo || customerAddress.floor || customerAddress.apartmentNo) && (
+                      <div style={{ fontSize: '0.78rem', opacity: 0.9 }}>
+                        {[
+                          customerAddress.buildingNo && `Bina: ${customerAddress.buildingNo}`,
+                          customerAddress.floor && `Kat: ${customerAddress.floor}`,
+                          customerAddress.apartmentNo && `Daire: ${customerAddress.apartmentNo}`,
+                        ].filter(Boolean).join(' • ')}
+                      </div>
+                    )}
+                    {customerAddress.address && !customerAddress.street && (
+                      <div style={{ wordBreak: 'break-word' }}>{customerAddress.address}</div>
+                    )}
+                    {(customerAddress.note || customerAddress.buildingNote) && (
+                      <div style={{ fontSize: '0.76rem', color: '#ffd166', marginTop: '2px' }}>
+                        📝 {customerAddress.note || customerAddress.buildingNote}
+                      </div>
                     )}
                     {customerAddress.phone && (
-                      <div style={{ fontSize: '0.76rem', opacity: 0.8, marginTop: '2px' }}>📞 {customerAddress.phone}</div>
+                      <div style={{ fontSize: '0.76rem', opacity: 0.85, marginTop: '2px' }}>
+                        📞 {customerAddress.phone}
+                      </div>
                     )}
                   </div>
                 </div>
