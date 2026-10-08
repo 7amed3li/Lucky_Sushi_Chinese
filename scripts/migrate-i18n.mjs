@@ -18,8 +18,8 @@ const menuItems = [...menuSource.matchAll(/\r?\n  \{\r?\n    id: "([^"]+)",([\s\
 });
 const productModules = Object.fromEntries(
   await Promise.all(locales.map(async (locale) => {
-    const module = await import(pathToFileURL(join(root, `src/i18n/content/${locale}-products.js`)));
-    const products = module[`${locale}Products`] ?? module.default ?? {};
+    const productModule = await import(pathToFileURL(join(root, `src/i18n/content/${locale}-products.js`)));
+    const products = productModule[`${locale}Products`] ?? productModule.default ?? {};
     return [locale, products];
   }))
 );
