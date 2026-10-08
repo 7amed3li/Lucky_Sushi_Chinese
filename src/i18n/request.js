@@ -1,18 +1,36 @@
 import { getRequestConfig } from 'next-intl/server';
 import { routing } from './routing';
-import { uiTranslations } from '@/data/translations';
-import { ACTIVE_LOCALE_CODES } from '@/i18n/config/locales';
 
-const legacyMessages = Object.fromEntries(
-  ACTIVE_LOCALE_CODES.map((locale) => [
-    locale,
-    {
-      ui: Object.fromEntries(
-        Object.entries(uiTranslations).map(([key, values]) => [key, values[locale] ?? values.en ?? values.tr ?? ''])
-      ),
-    },
-  ])
-);
+const messageCache = new Map();
+
+function deepMerge(...objects) {
+  return objects.reduce((result, source) => {
+    for (const [key, value] of Object.entries(source ?? {})) {
+      if (value && typeof value === 'object' && !Array.isArray(value)) {
+        result[key] = deepMerge(result[key], value);
+      } else if (value !== undefined) {
+        result[key] = value;
+      }
+    }
+    return result;
+  }, {});
+}
+
+async function loadMessages(locale) {
+  if (!messageCache.has(locale)) {
+    const [tr, en, current] = await Promise.all(
+      ['tr', 'en', locale].map(async (code) => {
+        const [ui, products] = await Promise.all([
+          import(`../../messages/${code}/ui.json`),
+          import(`../../messages/${code}/products.json`),
+        ]);
+        return { ui: ui.default, products: products.default };
+      })
+    );
+    messageCache.set(locale, deepMerge(tr, en, current));
+  }
+  return messageCache.get(locale);
+}
 
 export default getRequestConfig(async ({ requestLocale }) => {
   const requestedLocale = await requestLocale;
@@ -20,6 +38,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
-    messages: legacyMessages[locale],
+    messages: await loadMessages(locale),
   };
 });
