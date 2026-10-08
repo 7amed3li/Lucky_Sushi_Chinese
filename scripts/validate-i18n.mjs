@@ -7,7 +7,7 @@ async function loadProductTranslations(locales) {
   const products = {};
   for (const locale of locales) {
     products[locale.code] = JSON.parse(
-      await readFile(join(process.cwd(), 'messages', locale.code, 'products.json'), 'utf8')
+      await readFile(join(process.cwd(), 'src', 'i18n', 'messages', locale.code, 'products.json'), 'utf8')
     );
   }
   return products;
@@ -29,7 +29,7 @@ async function validate() {
   const uiTranslations = {};
   for (const locale of activeLocales) {
     uiTranslations[locale.code] = JSON.parse(
-      await readFile(join(process.cwd(), 'messages', locale.code, 'ui.json'), 'utf8')
+      await readFile(join(process.cwd(), 'src', 'i18n', 'messages', locale.code, 'ui.json'), 'utf8')
     );
   }
   const referenceKeys = Object.keys(uiTranslations[activeLocales[0].code]);

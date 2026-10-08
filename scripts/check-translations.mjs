@@ -5,7 +5,7 @@ import { ACTIVE_LOCALE_CODES } from '../src/i18n/config/locales.js';
 const root = process.cwd();
 
 async function readMessages(locale, name) {
-  return JSON.parse(await readFile(join(root, 'messages', locale, `${name}.json`), 'utf8'));
+  return JSON.parse(await readFile(join(root, 'src', 'i18n', 'messages', locale, `${name}.json`), 'utf8'));
 }
 
 function flatten(value, prefix = '') {

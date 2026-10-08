@@ -21,8 +21,8 @@ async function loadMessages(locale) {
     const [tr, en, current] = await Promise.all(
       ['tr', 'en', locale].map(async (code) => {
         const [ui, products] = await Promise.all([
-          import(`../../messages/${code}/ui.json`),
-          import(`../../messages/${code}/products.json`),
+          import(`./messages/${code}/ui.json`),
+          import(`./messages/${code}/products.json`),
         ]);
         return { ui: ui.default, products: products.default };
       })

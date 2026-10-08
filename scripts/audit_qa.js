@@ -10,7 +10,7 @@ console.log(`Total menuItems in database: ${itemIds.length}`);
 const registries = Object.fromEntries(
   ['tr', 'en', 'ar', 'ru', 'zh'].map((locale) => [
     locale.toUpperCase(),
-    JSON.parse(fs.readFileSync(path.join(__dirname, `../messages/${locale}/products.json`), 'utf8')),
+    JSON.parse(fs.readFileSync(path.join(__dirname, `../src/i18n/messages/${locale}/products.json`), 'utf8')),
   ])
 );
 
