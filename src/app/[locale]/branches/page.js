@@ -4,7 +4,6 @@ import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { useLang } from '@/context/LangContext';
 import Header from '@/components/Header';
-import Footer from '@/components/Footer';
 import CartDrawer from '@/components/CartDrawer';
 import { restaurantInfo } from '@/data/menuData';
 import { 
@@ -487,7 +486,6 @@ export default function BranchesPage() {
         </section>
       </main>
 
-      <Footer />
       <CartDrawer />
     </>
   );
