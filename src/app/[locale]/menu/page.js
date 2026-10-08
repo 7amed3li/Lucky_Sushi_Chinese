@@ -72,7 +72,7 @@ export default function MenuPage() {
   };
 
   const scrollToGrid = () => {
-    menuGridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Center active category tab
