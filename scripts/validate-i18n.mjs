@@ -1,17 +1,14 @@
 import { LOCALES } from '../src/i18n/config/locales.js';
-import { uiTranslations } from '../src/data/translations.js';
 import { menuItems } from '../src/data/menuData.js';
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 
-// Dynamically load product translations based on active locales
 async function loadProductTranslations(locales) {
   const products = {};
   for (const locale of locales) {
-    try {
-      const mod = await import(`../src/i18n/content/${locale.code}-products.js`);
-      products[locale.code] = mod[`${locale.code}Products`];
-    } catch (err) {
-      products[locale.code] = null;
-    }
+    products[locale.code] = JSON.parse(
+      await readFile(join(process.cwd(), 'messages', locale.code, 'products.json'), 'utf8')
+    );
   }
   return products;
 }
@@ -29,9 +26,16 @@ async function validate() {
 
   // 1. VALIDATE UI TRANSLATIONS
   console.log('🔍 Validating UI Translations...');
-  for (const [key, translations] of Object.entries(uiTranslations)) {
-    for (const locale of activeLocales) {
-      if (!translations[locale.code]) {
+  const uiTranslations = {};
+  for (const locale of activeLocales) {
+    uiTranslations[locale.code] = JSON.parse(
+      await readFile(join(process.cwd(), 'messages', locale.code, 'ui.json'), 'utf8')
+    );
+  }
+  const referenceKeys = Object.keys(uiTranslations[activeLocales[0].code]);
+  for (const locale of activeLocales) {
+    for (const key of referenceKeys) {
+      if (!uiTranslations[locale.code][key]) {
         console.error(`❌ [UI Error] Missing translation for key '${key}' in locale '${locale.code}'`);
         errors++;
       }
