@@ -3137,10 +3137,6 @@ p {
   right: auto;
 }
 
-[dir="rtl"] .btn-hero-primary span:last-child {
-  transform: scaleX(-1);
-}
-
 /* Mobile Sticky Action Bar */
 .mobile-bottom-bar {
   display: none;
