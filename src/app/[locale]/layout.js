@@ -1,12 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getMessages, setRequestLocale } from 'next-intl/server';
-import { NextIntlClientProvider } from 'next-intl';
 import { routing } from '@/i18n/routing';
-import { getLocale } from '@/i18n/config/locales';
-import { CartProvider } from '@/context/CartContext';
-import { CurrencyProvider } from '@/context/CurrencyContext';
-import Footer from '@/components/Footer';
-import MobileBottomBar from '@/components/MobileBottomBar';
+import { getLocale as getLocaleConfig } from '@/i18n/config/locales';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -31,23 +26,11 @@ export async function generateMetadata({ params }) {
 
 export default async function LocaleLayout({ children, params }) {
   const { locale } = await params;
-  const localeConfig = getLocale(locale);
+  const localeConfig = getLocaleConfig(locale);
   if (!localeConfig) notFound();
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} dir={localeConfig.dir}>
-      <body>
-        <NextIntlClientProvider locale={locale} messages={await getMessages()}>
-          <CurrencyProvider>
-            <CartProvider>
-              {children}
-              <Footer />
-              <MobileBottomBar />
-            </CartProvider>
-          </CurrencyProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
+    <>{children}</>
   );
 }
