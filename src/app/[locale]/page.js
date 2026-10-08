@@ -351,7 +351,7 @@ export default function HomePage() {
                     >
                       <FaWhatsapp aria-hidden="true" /> WhatsApp
                     </a>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: branch.allowDirections ? '1fr 1fr' : '1fr', gap: '8px' }}>
                       <a
                         href={`tel:${branchPhoneClean}`}
                         style={{
@@ -363,24 +363,44 @@ export default function HomePage() {
                       >
                         <FaPhone aria-hidden="true" /> {tUI('branch_call_btn') || 'Ara'}
                       </a>
-                      <a
-                        href={branch.map}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
-                          border: '1px solid var(--color-border)', background: 'var(--color-surface)',
-                          color: 'var(--color-text-primary)', padding: '9px', borderRadius: 'var(--btn-radius)',
-                          textAlign: 'center', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none'
-                        }}
-                      >
-                        <FaMapLocationDot aria-hidden="true" /> {tUI('branch_map_btn') || 'Harita'}
-                      </a>
+                      {branch.allowDirections && (
+                        <a
+                          href={branch.map}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
+                            border: '1px solid var(--color-border)', background: 'var(--color-surface)',
+                            color: 'var(--color-text-primary)', padding: '9px', borderRadius: 'var(--btn-radius)',
+                            textAlign: 'center', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none'
+                          }}
+                        >
+                          <FaMapLocationDot aria-hidden="true" /> {tUI('branch_map_btn') || 'Harita'}
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
               );
             })}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: 'var(--sp-6)' }}>
+            <Link
+              href="/branches"
+              className="btn-secondary"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 20px',
+                fontSize: '0.9rem',
+                textDecoration: 'none',
+              }}
+            >
+              <span>{tUI('nav_branches')}</span>
+              <span aria-hidden="true">→</span>
+            </Link>
           </div>
         </section>
       </main>

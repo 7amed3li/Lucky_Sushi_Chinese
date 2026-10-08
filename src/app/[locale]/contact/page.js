@@ -176,7 +176,7 @@ export default function ContactPage() {
                       <FaWhatsapp size={18} /> WhatsApp: {branch.whatsapp}
                     </a>
                     
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: branch.allowDirections ? '1fr 1fr' : '1fr', gap: '10px' }}>
                       <a 
                         href={`tel:${phoneClean}`}
                         style={{
@@ -197,28 +197,30 @@ export default function ContactPage() {
                       >
                         <FaPhone /> {l('call')}
                       </a>
-                      <a 
-                        href={branch.map}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          gap: '6px',
-                          border: '1px solid var(--color-border)',
-                          color: 'var(--color-text-primary)',
-                          background: 'var(--color-surface)',
-                          padding: '10px',
-                          borderRadius: 'var(--btn-radius)',
-                          fontWeight: 600,
-                          fontSize: '0.85rem',
-                          textDecoration: 'none',
-                          transition: 'all var(--transition-fast)'
-                        }}
-                      >
-                        <FaMapLocationDot /> {l('map')}
-                      </a>
+                      {branch.allowDirections && (
+                        <a 
+                          href={branch.map}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '6px',
+                            border: '1px solid var(--color-border)',
+                            color: 'var(--color-text-primary)',
+                            background: 'var(--color-surface)',
+                            padding: '10px',
+                            borderRadius: 'var(--btn-radius)',
+                            fontWeight: 600,
+                            fontSize: '0.85rem',
+                            textDecoration: 'none',
+                            transition: 'all var(--transition-fast)'
+                          }}
+                        >
+                          <FaMapLocationDot /> {l('map')}
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
