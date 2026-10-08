@@ -366,11 +366,11 @@ export default function MenuPage() {
           )}
         </div>
 
-        {/* Scroll anchor */}
-        <div ref={menuGridRef} style={{ height: '8px' }} />
-
         {/* ── 3. Products Grid (Light/Hybrid Cards) ── */}
-        <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '6px var(--page-pad) 24px var(--page-pad)' }}>
+        <div
+          ref={menuGridRef}
+          style={{ maxWidth: '1024px', margin: '0 auto', padding: '6px var(--page-pad) 24px var(--page-pad)' }}
+        >
           {filteredItems.length > 0 ? (
             <div className="kardeshler-products-grid">
               {filteredItems.map((item) => (

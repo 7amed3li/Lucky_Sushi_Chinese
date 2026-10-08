@@ -31,7 +31,7 @@ function getBadge(tags, lang) {
 }
 
 export default function DishCard({ item, onClick }) {
-  const { lang, t, tUI } = useLang();
+  const { lang, dir, t, tUI } = useLang();
   const { addToCart, removeFromCart, getItemQuantity } = useCart();
   const { formatPrice } = useCurrency();
 
@@ -113,7 +113,7 @@ export default function DishCard({ item, onClick }) {
           <div className="kardeshler-food-card__header">
             <h3 className="kardeshler-food-card__title">{name}</h3>
             <div className="kardeshler-food-card__chevron" aria-hidden="true">
-              ›
+              {dir === 'rtl' ? '‹' : '›'}
             </div>
           </div>
           {desc && <p className="kardeshler-food-card__desc">{desc}</p>}
