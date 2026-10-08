@@ -199,26 +199,15 @@ export default function CartDrawer() {
     setIsEditingAddress(false);
   };
 
-  // Locale-aware WhatsApp order message with Turkish delivery address format
+  // 100% Turkish WhatsApp order message with Turkish Lira (₺) so restaurant and courier receive exact official TRY prices
   const buildWhatsAppMsg = () => {
-    const greetings = {
-      tr: 'Merhaba Lucky Sushi & Chinese, yeni bir sipariş vermek istiyorum:',
-      en: 'Hello Lucky Sushi & Chinese, I would like to place an order:',
-      ar: 'مرحباً لاكي سوشي صيني، أود تقديم طلب جديد:',
-      ru: 'Здравствуйте, Lucky Sushi & Chinese! Хочу сделать заказ:',
-      zh: '您好 Lucky Sushi & Chinese，我想点单：',
-    };
-    const greeting = greetings[lang] || greetings.tr;
-    let msg = `🍣 ${greeting}\n\n`;
+    let msg = `🍣 Merhaba Lucky Sushi & Chinese, yeni bir sipariş vermek istiyorum:\n\n`;
     cart.forEach(({ item, quantity }) => {
       const trName = getItemName(item, 'tr');
-      const clientName = lang !== 'tr' ? getItemName(item, lang) : '';
-      const nameLine = clientName && clientName !== trName
-        ? `${trName} (${clientName})`
-        : trName;
-      msg += `• ${quantity}x ${nameLine} — ${formatPrice(item.price * quantity)}\n`;
+      const itemTotalTl = (item.price * quantity).toFixed(0);
+      msg += `• ${quantity}x ${trName} — ${itemTotalTl} ₺\n`;
     });
-    msg += `\n💰 ${l('subtotal')}: ${formatPrice(cartSubtotal)}`;
+    msg += `\n💰 Toplam Tutar: ${cartSubtotal.toFixed(0)} ₺`;
 
     // Append Turkish structured customer delivery address if saved
     if (hasSavedAddress) {
@@ -523,6 +512,8 @@ export default function CartDrawer() {
                     value={addressForm.name || ''}
                     onChange={(e) => setAddressForm({ ...addressForm, name: e.target.value })}
                     style={{
+                      width: '100%',
+                      boxSizing: 'border-box',
                       background: 'rgba(255, 255, 255, 0.07)',
                       border: '1px solid rgba(246, 241, 232, 0.15)',
                       borderRadius: '6px',
@@ -534,19 +525,22 @@ export default function CartDrawer() {
                   />
 
                   {/* Şehir (İl) & İlçe */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', width: '100%', boxSizing: 'border-box' }}>
                     <input
                       type="text"
                       placeholder={l('cityLabel')}
                       value={addressForm.city || ''}
                       onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })}
                       style={{
+                        width: '100%',
+                        minWidth: 0,
+                        boxSizing: 'border-box',
                         background: 'rgba(255, 255, 255, 0.07)',
                         border: '1px solid rgba(246, 241, 232, 0.15)',
                         borderRadius: '6px',
-                        padding: '7px 10px',
+                        padding: '7px 8px',
                         color: '#ffffff',
-                        fontSize: '0.82rem',
+                        fontSize: '0.8rem',
                         outline: 'none',
                       }}
                     />
@@ -557,31 +551,37 @@ export default function CartDrawer() {
                       required
                       onChange={(e) => setAddressForm({ ...addressForm, district: e.target.value })}
                       style={{
+                        width: '100%',
+                        minWidth: 0,
+                        boxSizing: 'border-box',
                         background: 'rgba(255, 255, 255, 0.07)',
                         border: '1px solid rgba(246, 241, 232, 0.15)',
                         borderRadius: '6px',
-                        padding: '7px 10px',
+                        padding: '7px 8px',
                         color: '#ffffff',
-                        fontSize: '0.82rem',
+                        fontSize: '0.8rem',
                         outline: 'none',
                       }}
                     />
                   </div>
 
                   {/* Mahalle & Cadde/Sokak */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', width: '100%', boxSizing: 'border-box' }}>
                     <input
                       type="text"
                       placeholder={l('neighborhoodLabel')}
                       value={addressForm.neighborhood || ''}
                       onChange={(e) => setAddressForm({ ...addressForm, neighborhood: e.target.value })}
                       style={{
+                        width: '100%',
+                        minWidth: 0,
+                        boxSizing: 'border-box',
                         background: 'rgba(255, 255, 255, 0.07)',
                         border: '1px solid rgba(246, 241, 232, 0.15)',
                         borderRadius: '6px',
-                        padding: '7px 10px',
+                        padding: '7px 8px',
                         color: '#ffffff',
-                        fontSize: '0.82rem',
+                        fontSize: '0.8rem',
                         outline: 'none',
                       }}
                     />
@@ -592,32 +592,39 @@ export default function CartDrawer() {
                       required
                       onChange={(e) => setAddressForm({ ...addressForm, street: e.target.value })}
                       style={{
+                        width: '100%',
+                        minWidth: 0,
+                        boxSizing: 'border-box',
                         background: 'rgba(255, 255, 255, 0.07)',
                         border: '1px solid rgba(246, 241, 232, 0.15)',
                         borderRadius: '6px',
-                        padding: '7px 10px',
+                        padding: '7px 8px',
                         color: '#ffffff',
-                        fontSize: '0.82rem',
+                        fontSize: '0.8rem',
                         outline: 'none',
                       }}
                     />
                   </div>
 
                   {/* Bina No, Kat, Daire No */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '6px', width: '100%', boxSizing: 'border-box' }}>
                     <input
                       type="text"
                       placeholder={l('buildingLabel')}
                       value={addressForm.buildingNo || ''}
                       onChange={(e) => setAddressForm({ ...addressForm, buildingNo: e.target.value })}
                       style={{
+                        width: '100%',
+                        minWidth: 0,
+                        boxSizing: 'border-box',
                         background: 'rgba(255, 255, 255, 0.07)',
                         border: '1px solid rgba(246, 241, 232, 0.15)',
                         borderRadius: '6px',
-                        padding: '7px 10px',
+                        padding: '7px 6px',
                         color: '#ffffff',
-                        fontSize: '0.82rem',
+                        fontSize: '0.78rem',
                         outline: 'none',
+                        textAlign: 'center',
                       }}
                     />
                     <input
@@ -626,13 +633,17 @@ export default function CartDrawer() {
                       value={addressForm.floor || ''}
                       onChange={(e) => setAddressForm({ ...addressForm, floor: e.target.value })}
                       style={{
+                        width: '100%',
+                        minWidth: 0,
+                        boxSizing: 'border-box',
                         background: 'rgba(255, 255, 255, 0.07)',
                         border: '1px solid rgba(246, 241, 232, 0.15)',
                         borderRadius: '6px',
-                        padding: '7px 10px',
+                        padding: '7px 6px',
                         color: '#ffffff',
-                        fontSize: '0.82rem',
+                        fontSize: '0.78rem',
                         outline: 'none',
+                        textAlign: 'center',
                       }}
                     />
                     <input
@@ -641,13 +652,17 @@ export default function CartDrawer() {
                       value={addressForm.apartmentNo || ''}
                       onChange={(e) => setAddressForm({ ...addressForm, apartmentNo: e.target.value })}
                       style={{
+                        width: '100%',
+                        minWidth: 0,
+                        boxSizing: 'border-box',
                         background: 'rgba(255, 255, 255, 0.07)',
                         border: '1px solid rgba(246, 241, 232, 0.15)',
                         borderRadius: '6px',
-                        padding: '7px 10px',
+                        padding: '7px 6px',
                         color: '#ffffff',
-                        fontSize: '0.82rem',
+                        fontSize: '0.78rem',
                         outline: 'none',
+                        textAlign: 'center',
                       }}
                     />
                   </div>
@@ -659,6 +674,8 @@ export default function CartDrawer() {
                     value={addressForm.note || addressForm.buildingNote || ''}
                     onChange={(e) => setAddressForm({ ...addressForm, note: e.target.value, buildingNote: e.target.value })}
                     style={{
+                      width: '100%',
+                      boxSizing: 'border-box',
                       background: 'rgba(255, 255, 255, 0.07)',
                       border: '1px solid rgba(246, 241, 232, 0.15)',
                       borderRadius: '6px',
@@ -676,6 +693,8 @@ export default function CartDrawer() {
                     value={addressForm.phone || ''}
                     onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value })}
                     style={{
+                      width: '100%',
+                      boxSizing: 'border-box',
                       background: 'rgba(255, 255, 255, 0.07)',
                       border: '1px solid rgba(246, 241, 232, 0.15)',
                       borderRadius: '6px',
