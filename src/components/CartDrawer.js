@@ -62,6 +62,7 @@ export default function CartDrawer() {
 
   const [customerAddress, setCustomerAddress] = useState(initialAddressState);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const [isAddressExpanded, setIsAddressExpanded] = useState(false);
   const [addressForm, setAddressForm] = useState(initialAddressState);
 
   const phoneClean = restaurantInfo.phone.replace(/[^0-9]/g, '');
@@ -92,7 +93,7 @@ export default function CartDrawer() {
       tr: 'Siparişinizi vermek için bu listeyi garsona gösterin veya WhatsApp ile sipariş verin',
       en: 'Show this list to the waiter or order via WhatsApp',
       ar: 'اعرض هذه القائمة للنادل لتقديم طلبك أو اطلب عبر واتساب',
-      ru: 'Покажите этот список официанту или закажите через WhatsApp',
+      ru: 'Покажите этот список официانту или закажите через WhatsApp',
       zh: '请向服务员出示此清单或通过WhatsApp下单',
     },
     title: { tr: 'Siparişiniz', en: 'Your Cart', ar: 'سلة الطلب', ru: 'Ваша корзина', zh: '购物车' },
@@ -117,12 +118,19 @@ export default function CartDrawer() {
       ru: 'Адрес доставки',
       zh: '送餐地址',
     },
+    addressRequiredNotice: {
+      tr: 'Sipariş vermeden önce lütfen teslimat adresinizi girin',
+      en: 'Please add your delivery address before ordering',
+      ar: 'يرجى إدخال عنوان التوصيل أولاً قبل إرسال الطلب',
+      ru: 'Пожалуйста, введите адрес доставки перед заказом',
+      zh: '下单前请输入送餐地址',
+    },
     addressAddPrompt: {
-      tr: '+ Teslimat Adresi Ekle',
-      en: '+ Add Delivery Address',
-      ar: '+ إضافة عنوان التوصيل',
-      ru: '+ Добавить адрес доставки',
-      zh: '+ 添加送餐地址',
+      tr: '📍 Teslimat Adresi Girin (Zorunlu)',
+      en: '📍 Add Delivery Address (Required)',
+      ar: '📍 إضافة عنوان التوصيل (إجباري للطلب)',
+      ru: '📍 Введите адрес доставки (обязательно)',
+      zh: '📍 添加送餐地址（必填）',
     },
     addressEdit: {
       tr: 'Değiştir',
@@ -142,7 +150,7 @@ export default function CartDrawer() {
     districtLabel: { tr: 'İlçe', en: 'District (İlçe)', ar: 'المنطقة (İlçe)', ru: 'Район', zh: '区/县' },
     neighborhoodLabel: { tr: 'Mahalle', en: 'Neighborhood (Mahalle)', ar: 'الحي (Mahalle)', ru: 'Микрорайон', zh: '街区' },
     streetLabel: { tr: 'Cadde / Sokak', en: 'Street (Cadde/Sokak)', ar: 'الشارع (Cadde / Sokak)', ru: 'Улица', zh: '街道' },
-    buildingLabel: { tr: 'Bina No', en: 'Building No', ar: 'رقم المبنى (Bina No)', ru: 'Дом', zh: '楼号' },
+    buildingLabel: { tr: 'Bina No', en: 'Building No', ar: 'رقم المبنى (Bina No)', ru: 'Доم', zh: '楼号' },
     floorLabel: { tr: 'Kat', en: 'Floor (Kat)', ar: 'الدور / الطابق (Kat)', ru: 'Этаж', zh: '楼层' },
     aptLabel: { tr: 'Daire No', en: 'Apt No (Daire)', ar: 'رقم الشقة (Daire No)', ru: 'Квартира', zh: '门牌号' },
     noteLabel: { tr: 'Sipariş / Adres Notu', en: 'Note', ar: 'ملاحظة (Not)', ru: 'Примечания', zh: '备注' },
@@ -740,82 +748,133 @@ export default function CartDrawer() {
                   </div>
                 </form>
               ) : hasSavedAddress ? (
-                /* Saved Address Display Card */
+                /* Collapsible / Expandable Saved Address Card */
                 <div
                   style={{
                     background: 'rgba(255, 255, 255, 0.04)',
-                    border: '1px solid rgba(246, 241, 232, 0.12)',
+                    border: '1px solid rgba(246, 241, 232, 0.14)',
                     borderRadius: '8px',
-                    padding: '10px 12px',
-                    transition: 'border-color 0.2s',
+                    overflow: 'hidden',
+                    transition: 'all 0.2s ease',
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span style={{ fontSize: '0.95rem' }}>📍</span>
-                      <strong style={{ fontSize: '0.85rem', color: 'var(--color-brand-light)' }}>
-                        {l('addressTitle')}
-                      </strong>
+                  {/* Header / Clickable Label */}
+                  <div
+                    onClick={() => setIsAddressExpanded(!isAddressExpanded)}
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      padding: '10px 12px',
+                      cursor: 'pointer',
+                      userSelect: 'none',
+                      background: isAddressExpanded ? 'rgba(255, 255, 255, 0.03)' : 'transparent',
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '1rem' }}>📍</span>
+                      <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <strong style={{ fontSize: '0.84rem', color: 'var(--color-brand-light)' }}>
+                          {l('addressTitle')}
+                        </strong>
+                        {!isAddressExpanded && (
+                          <span style={{ fontSize: '0.74rem', color: 'rgba(255, 255, 255, 0.6)', maxWidth: '210px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                            {[customerAddress.district, customerAddress.city].filter(Boolean).join(', ')}
+                            {customerAddress.street ? ` • ${customerAddress.street}` : ''}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => setIsEditingAddress(true)}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: 'var(--color-accent, #D4A373)',
-                        fontSize: '0.78rem',
-                        cursor: 'pointer',
-                        fontWeight: 600,
-                        textDecoration: 'underline',
-                      }}
-                    >
-                      {l('addressEdit')}
-                    </button>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setIsEditingAddress(true);
+                        }}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: 'var(--color-accent, #D4A373)',
+                          fontSize: '0.78rem',
+                          cursor: 'pointer',
+                          fontWeight: 600,
+                          textDecoration: 'underline',
+                          padding: 0,
+                        }}
+                      >
+                        {l('addressEdit')}
+                      </button>
+                      <span
+                        style={{
+                          fontSize: '0.75rem',
+                          color: 'var(--mist-beige)',
+                          transition: 'transform 0.2s ease',
+                          transform: isAddressExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                          display: 'inline-block',
+                        }}
+                      >
+                        ▼
+                      </span>
+                    </div>
                   </div>
 
-                  <div style={{ fontSize: '0.82rem', color: 'var(--mist-beige)', lineHeight: 1.45 }}>
-                    {customerAddress.name && (
-                      <div style={{ color: '#fff', fontWeight: 600 }}>👤 {customerAddress.name}</div>
-                    )}
-                    <div>
-                      {[
-                        customerAddress.district && `${customerAddress.district}`,
-                        customerAddress.city && `${customerAddress.city}`,
-                      ].filter(Boolean).join(' / ')}
-                    </div>
-                    <div>
-                      {[
-                        customerAddress.neighborhood && `${customerAddress.neighborhood} Mah.`,
-                        customerAddress.street && `${customerAddress.street}`,
-                      ].filter(Boolean).join(', ')}
-                    </div>
-                    {(customerAddress.buildingNo || customerAddress.floor || customerAddress.apartmentNo) && (
-                      <div style={{ fontSize: '0.78rem', opacity: 0.9 }}>
+                  {/* Expandable Content Body */}
+                  {isAddressExpanded && (
+                    <div
+                      style={{
+                        padding: '8px 12px 12px 12px',
+                        borderTop: '1px solid rgba(246, 241, 232, 0.08)',
+                        fontSize: '0.82rem',
+                        color: 'var(--mist-beige)',
+                        lineHeight: 1.45,
+                      }}
+                    >
+                      {customerAddress.name && (
+                        <div style={{ color: '#fff', fontWeight: 600, marginBottom: '2px' }}>
+                          👤 {customerAddress.name}
+                        </div>
+                      )}
+                      <div>
                         {[
-                          customerAddress.buildingNo && `Bina: ${customerAddress.buildingNo}`,
-                          customerAddress.floor && `Kat: ${customerAddress.floor}`,
-                          customerAddress.apartmentNo && `Daire: ${customerAddress.apartmentNo}`,
-                        ].filter(Boolean).join(' • ')}
+                          customerAddress.district && `${customerAddress.district}`,
+                          customerAddress.city && `${customerAddress.city}`,
+                        ].filter(Boolean).join(' / ')}
                       </div>
-                    )}
-                    {customerAddress.address && !customerAddress.street && (
-                      <div style={{ wordBreak: 'break-word' }}>{customerAddress.address}</div>
-                    )}
-                    {(customerAddress.note || customerAddress.buildingNote) && (
-                      <div style={{ fontSize: '0.76rem', color: '#ffd166', marginTop: '2px' }}>
-                        📝 {customerAddress.note || customerAddress.buildingNote}
+                      <div>
+                        {[
+                          customerAddress.neighborhood && `${customerAddress.neighborhood} Mah.`,
+                          customerAddress.street && `${customerAddress.street}`,
+                        ].filter(Boolean).join(', ')}
                       </div>
-                    )}
-                    {customerAddress.phone && (
-                      <div style={{ fontSize: '0.76rem', opacity: 0.85, marginTop: '2px' }}>
-                        📞 {customerAddress.phone}
-                      </div>
-                    )}
-                  </div>
+                      {(customerAddress.buildingNo || customerAddress.floor || customerAddress.apartmentNo) && (
+                        <div style={{ fontSize: '0.78rem', opacity: 0.9, marginTop: '2px' }}>
+                          {[
+                            customerAddress.buildingNo && `Bina: ${customerAddress.buildingNo}`,
+                            customerAddress.floor && `Kat: ${customerAddress.floor}`,
+                            customerAddress.apartmentNo && `Daire: ${customerAddress.apartmentNo}`,
+                          ].filter(Boolean).join(' • ')}
+                        </div>
+                      )}
+                      {customerAddress.address && !customerAddress.street && (
+                        <div style={{ wordBreak: 'break-word', marginTop: '2px' }}>{customerAddress.address}</div>
+                      )}
+                      {(customerAddress.note || customerAddress.buildingNote) && (
+                        <div style={{ fontSize: '0.76rem', color: '#ffd166', marginTop: '3px' }}>
+                          📝 {customerAddress.note || customerAddress.buildingNote}
+                        </div>
+                      )}
+                      {customerAddress.phone && (
+                        <div style={{ fontSize: '0.76rem', opacity: 0.85, marginTop: '3px' }}>
+                          📞 {customerAddress.phone}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               ) : (
-                /* Add Address Prompt Button */
+                /* Add Address Prompt Button (Highlighted because address is required) */
                 <button
                   type="button"
                   onClick={() => setIsEditingAddress(true)}
@@ -825,18 +884,17 @@ export default function CartDrawer() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    padding: '9px 12px',
-                    background: 'rgba(255, 255, 255, 0.04)',
-                    border: '1px dashed rgba(246, 241, 232, 0.25)',
+                    padding: '11px 12px',
+                    background: 'rgba(230, 57, 70, 0.12)',
+                    border: '1.5px dashed rgba(230, 57, 70, 0.55)',
                     borderRadius: '8px',
-                    color: 'var(--color-brand-light)',
+                    color: '#ffb4a2',
                     fontSize: '0.84rem',
-                    fontWeight: 600,
+                    fontWeight: 700,
                     cursor: 'pointer',
                     transition: 'all 0.15s ease',
                   }}
                 >
-                  <span style={{ fontSize: '0.95rem' }}>📍</span>
                   <span>{l('addressAddPrompt')}</span>
                 </button>
               )}
@@ -848,15 +906,40 @@ export default function CartDrawer() {
               <span className="cart-drawer__subtotal-value">{formatPrice(cartSubtotal)}</span>
             </div>
 
-            {/* WhatsApp Checkout */}
-            <a
-              href={`https://wa.me/${phoneClean}?text=${encodeURIComponent(buildWhatsAppMsg())}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cart-drawer__checkout"
-            >
-              {l('checkout')}
-            </a>
+            {/* WhatsApp Checkout - Blocked if address is missing */}
+            {hasSavedAddress ? (
+              <a
+                href={`https://wa.me/${phoneClean}?text=${encodeURIComponent(buildWhatsAppMsg())}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cart-drawer__checkout"
+              >
+                {l('checkout')}
+              </a>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setIsEditingAddress(true)}
+                className="cart-drawer__checkout"
+                style={{
+                  width: '100%',
+                  opacity: 0.7,
+                  cursor: 'pointer',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '2px',
+                  padding: '10px 14px',
+                }}
+              >
+                <span style={{ fontWeight: 700 }}>{l('checkout')}</span>
+                <span style={{ fontSize: '0.72rem', opacity: 0.9, color: '#ffccd5' }}>
+                  ⚠️ {l('addressRequiredNotice')}
+                </span>
+              </button>
+            )}
 
             {!isMinDeliveryReached && (
               <p className="cart-drawer__min-notice">{l('minNotice')}</p>
