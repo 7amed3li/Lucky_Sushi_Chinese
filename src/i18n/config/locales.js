@@ -1,9 +1,9 @@
 /**
  * Lucky Sushi Chinese — Locale Configuration
  * Single source of truth for all supported languages.
- * To add a new language: add a new entry here, create /locales/<code>.js,
- * add product translations in /content/ru-products.js pattern,
- * then set active: true when translations are complete.
+ * To add a new language: add a new entry here, create i18n/messages/<code>/ui.json
+ * and i18n/messages/<code>/products.json, then set active: true when
+ * translations are complete.
  */
 
 export const LOCALES = [

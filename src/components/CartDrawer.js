@@ -9,6 +9,7 @@ import { restaurantInfo } from '@/data/menuData';
 
 export default function CartDrawer() {
   const { lang, t, tUI } = useLang();
+  const { formatPrice } = useCurrency();
   const {
     cart, isCartOpen, setIsCartOpen,
     addToCart, removeFromCart, deleteItem, clearCart,

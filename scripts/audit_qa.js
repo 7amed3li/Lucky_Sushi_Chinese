@@ -5,15 +5,14 @@ const menuDataContent = fs.readFileSync(path.join(__dirname, '../src/data/menuDa
 const menuItemsBlock = menuDataContent.split('export const menuCategories =')[0];
 const itemIds = [...menuItemsBlock.matchAll(/id:\s*["']([^"']+)["']/g)].map(m => m[1]);
 
-const { trProducts } = require('../src/i18n/content/tr-products.js');
-const { enProducts } = require('../src/i18n/content/en-products.js');
-const { arProducts } = require('../src/i18n/content/ar-products.js');
-const { ruProducts } = require('../src/i18n/content/ru-products.js');
-const { zhProducts } = require('../src/i18n/content/zh-products.js');
-
 console.log(`Total menuItems in database: ${itemIds.length}`);
 
-const registries = { TR: trProducts, EN: enProducts, AR: arProducts, RU: ruProducts, ZH: zhProducts };
+const registries = Object.fromEntries(
+  ['tr', 'en', 'ar', 'ru', 'zh'].map((locale) => [
+    locale.toUpperCase(),
+    JSON.parse(fs.readFileSync(path.join(__dirname, `../src/i18n/messages/${locale}/products.json`), 'utf8')),
+  ])
+);
 
 let hasErrors = false;
 Object.entries(registries).forEach(([code, reg]) => {

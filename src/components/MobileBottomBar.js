@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link } from '@/i18n/navigation';
+import { usePathname } from '@/i18n/navigation';
 import { GiSushis } from 'react-icons/gi';
 import { FaWhatsapp, FaMapLocationDot, FaBagShopping } from 'react-icons/fa6';
 import { useLang } from '@/context/LangContext';

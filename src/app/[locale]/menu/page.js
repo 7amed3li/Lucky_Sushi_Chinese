@@ -1,19 +1,14 @@
-const fs = require('fs');
-const path = require('path');
-
-const menuPath = path.join(__dirname, '../src/app/menu/page.js');
-
-const newMenuContent = `'use client';
+'use client';
 
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { useLang } from '@/context/LangContext';
 import { menuItems, menuCategories, quickFilters } from '@/data/menuData';
-import { trProducts } from '@/i18n/content/tr-products';
-import { enProducts } from '@/i18n/content/en-products';
-import { arProducts } from '@/i18n/content/ar-products';
-import { ruProducts } from '@/i18n/content/ru-products';
-import { zhProducts } from '@/i18n/content/zh-products';
+import trProducts from '../../../i18n/messages/tr/products.json';
+import enProducts from '../../../i18n/messages/en/products.json';
+import arProducts from '../../../i18n/messages/ar/products.json';
+import ruProducts from '../../../i18n/messages/ru/products.json';
+import zhProducts from '../../../i18n/messages/zh/products.json';
 import Header from '@/components/Header';
 import DishCard from '@/components/DishCard';
 import DishModal from '@/components/DishModal';
@@ -77,14 +72,14 @@ export default function MenuPage() {
   };
 
   const scrollToGrid = () => {
-    menuGridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Center active category tab
   useEffect(() => {
     const el = categoryScrollRef.current;
     if (!el) return;
-    const activeBtn = el.querySelector(\`[data-cat="\${activeCategory}"]\`);
+    const activeBtn = el.querySelector(`[data-cat="${activeCategory}"]`);
     if (activeBtn) {
       const containerRect = el.getBoundingClientRect();
       const btnRect = activeBtn.getBoundingClientRect();
@@ -138,7 +133,7 @@ export default function MenuPage() {
         const ruDesc = ruProducts[item.id]?.description?.toLowerCase() || '';
         const zhDesc = zhProducts[item.id]?.description?.toLowerCase() || item.description_zh?.toLowerCase() || '';
 
-        const combinedText = \`\${trName} \${enName} \${arName} \${ruName} \${zhName} \${trDesc} \${enDesc} \${arDesc} \${ruDesc} \${zhDesc} \${(item.ingredients || []).join(' ')} \${(item.tags || []).join(' ')} \${item.category}\`;
+        const combinedText = `${trName} ${enName} ${arName} ${ruName} ${zhName} ${trDesc} ${enDesc} ${arDesc} ${ruDesc} ${zhDesc} ${(item.ingredients || []).join(' ')} ${(item.tags || []).join(' ')} ${item.category}`;
 
         return searchTerms.some(term => combinedText.includes(term));
       });
@@ -276,7 +271,7 @@ export default function MenuPage() {
                 >
                   {menuCategories.map((cat) => {
                     const isActive = activeCategory === cat.id && !searchQuery;
-                    const catName = cat[\`label_\${lang}\`] || cat.label_en;
+                    const catName = cat[`label_${lang}`] || cat.label_en;
                     const catImg = categoryImages[cat.id];
 
                     return (
@@ -284,7 +279,7 @@ export default function MenuPage() {
                         key={cat.id}
                         data-cat={cat.id}
                         type="button"
-                        className={\`kardeshler-cat-item \${isActive ? 'active' : ''}\`}
+                        className={`kardeshler-cat-item ${isActive ? 'active' : ''}`}
                         onClick={() => {
                           setSearchQuery('');
                           setActiveCategory(cat.id);
@@ -345,7 +340,7 @@ export default function MenuPage() {
             <div className="kardeshler-filter-row">
               {quickFilters.map((filter) => {
                 const isActive = activeFilter === filter.id;
-                const filterName = filter[\`label_\${lang}\`] || filter.label_en;
+                const filterName = filter[`label_${lang}`] || filter.label_en;
                 return (
                   <button
                     key={filter.id}
@@ -358,7 +353,7 @@ export default function MenuPage() {
                       }
                       scrollToGrid();
                     }}
-                    className={\`kardeshler-filter-pill \${isActive ? 'active' : ''}\`}
+                    className={`kardeshler-filter-pill ${isActive ? 'active' : ''}`}
                   >
                     <span>{filterName}</span>
                     {isActive && filter.id !== 'all' && (
@@ -371,11 +366,11 @@ export default function MenuPage() {
           )}
         </div>
 
-        {/* Scroll anchor */}
-        <div ref={menuGridRef} style={{ height: '8px' }} />
-
         {/* ── 3. Products Grid (Light/Hybrid Cards) ── */}
-        <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '6px var(--page-pad) 24px var(--page-pad)' }}>
+        <div
+          ref={menuGridRef}
+          style={{ maxWidth: '1024px', margin: '0 auto', padding: '6px var(--page-pad) 24px var(--page-pad)' }}
+        >
           {filteredItems.length > 0 ? (
             <div className="kardeshler-products-grid">
               {filteredItems.map((item) => (
@@ -434,7 +429,3 @@ export default function MenuPage() {
     </>
   );
 }
-`;
-
-fs.writeFileSync(menuPath, newMenuContent, 'utf8');
-console.log('Successfully updated src/app/menu/page.js with smart multilingual search.');

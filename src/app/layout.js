@@ -1,9 +1,11 @@
 import { Noto_Sans, Noto_Serif } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale, getMessages } from "next-intl/server";
 import "./globals.css";
 import "./footer.css";
-import { LangProvider } from "@/context/LangContext";
 import { CartProvider } from "@/context/CartContext";
 import { CurrencyProvider } from "@/context/CurrencyContext";
+import { getDir } from "@/i18n/config/locales";
 import Footer from "@/components/Footer";
 import MobileBottomBar from "@/components/MobileBottomBar";
 import { generateRestaurantJsonLd } from "@/lib/structuredData";
@@ -93,11 +95,12 @@ export const viewport = {
   themeColor: '#F6F1E8',
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   const restaurantJsonLd = generateRestaurantJsonLd();
+  const locale = await getLocale();
 
   return (
-    <html lang="tr" dir="ltr" className={`${notoSerif.variable} ${notoSans.variable}`}>
+    <html lang={locale} dir={getDir(locale)} className={`${notoSerif.variable} ${notoSans.variable}`}>
       <head>
         {/* Structured Data: Restaurant */}
         <script
@@ -108,15 +111,15 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <a href="#main-content" className="skip-link">Skip to content</a>
-        <LangProvider defaultLang="tr">
+        <NextIntlClientProvider locale={locale} messages={await getMessages()}>
           <CurrencyProvider>
             <CartProvider>
-            {children}
-            <Footer />
-            <MobileBottomBar />
-          </CartProvider>
+              {children}
+              <Footer />
+              <MobileBottomBar />
+            </CartProvider>
           </CurrencyProvider>
-        </LangProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
