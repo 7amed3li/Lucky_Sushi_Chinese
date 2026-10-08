@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
+import { formatPortion } from '@/lib/formatPortion';
 
 const BADGE_MAP = {
   'bestseller':        { label_tr: 'Çok Satan', label_en: 'Best Seller', label_ar: 'الأكثر طلباً', label_ru: 'Хит продаж', label_zh: '热卖', bg: 'var(--color-brand-primary)', color: '#FFFFFF' },
@@ -122,7 +123,7 @@ export default function DishCard({ item, onClick }) {
         {/* Footer with pieces and + button / inline counter */}
         <div className="kardeshler-food-card__footer">
           <span className="kardeshler-food-card__pieces">
-            {item.portion_or_pieces || ''}
+            {formatPortion(item.portion_or_pieces, lang)}
           </span>
 
           {qty === 0 ? (
