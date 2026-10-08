@@ -93,13 +93,6 @@ export default function DishModal({ item, onClose }) {
   return (
     <div className="modal-overlay" onClick={handleOverlayClick} role="dialog" aria-modal="true" aria-label={name}>
       <div className="modal-panel">
-        <button className="modal-panel__close" onClick={onClose} aria-label="Close">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-
         {/* Image */}
         <div className="modal-panel__img-wrap" style={{ position: 'relative', background: 'var(--color-surface-secondary)' }}>
           {hasImage ? (
@@ -112,6 +105,12 @@ export default function DishModal({ item, onClose }) {
                 style={{ objectFit: 'contain' }}
                 priority
               />
+                <button className="modal-panel__close" onClick={onClose} aria-label="Close">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                </button>
               <button 
                 onClick={(e) => {
                   e.stopPropagation();

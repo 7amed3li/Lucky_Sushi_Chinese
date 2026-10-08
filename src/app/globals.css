@@ -2495,7 +2495,7 @@ p {
 .modal-panel__close {
   position: absolute;
   top: var(--sp-2);
-  right: var(--sp-2);
+  inset-inline-end: var(--sp-2);
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -2514,7 +2514,6 @@ p {
 
 [dir="rtl"] .modal-panel__close {
   right: auto;
-  left: var(--sp-2);
 }
 
 .modal-panel__close:hover {
