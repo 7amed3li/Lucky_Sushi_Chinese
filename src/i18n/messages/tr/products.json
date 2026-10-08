@@ -1,50 +1,50 @@
 {
   "set-canada": {
-    "name": "Canada Set (32 Pcs)",
-    "description": "Philadelphia roll (8 pcs.), California roll (8 pcs.), Kappa maki (8 pcs.), Avokado maki roll (8 pcs.)"
+    "name": "Canada Set (32 Adet)",
+    "description": "Philadelphia roll (8 adet) · California roll (8 adet) · Kappa maki (8 adet) · Avokado maki (8 adet)"
   },
   "set-combo-crunchy": {
-    "name": "Combo Crunchy Set Menü (24 Pcs)",
-    "description": "Crispy crunchy ebi ten (8 pcs.) · Crispy crunchy philadelphia roll (8 pcs.) · Crispy crunchy california roll (8 pcs.)"
+    "name": "Combo Crunchy Sushi Seti (24 Adet)",
+    "description": "Crispy crunchy ebi ten (8 adet) · Crispy crunchy philadelphia roll (8 adet) · Crispy crunchy california roll (8 adet)"
   },
   "set-salmon-lovers": {
-    "name": "Salmon Lover's (40 Pcs)",
-    "description": "Somon set (40 pcs): 8 pcs salmon ten roll · 8 pcs philadelphia roll ve daha fazlası"
+    "name": "Somon Severler Seti (40 Adet)",
+    "description": "Somon seti (40 adet): 8 adet somon ten roll · 8 adet philadelphia roll"
   },
   "set-cooked-mix": {
-    "name": "Cooked Mix (24 Pcs)",
-    "description": "8 pcs salmon tempura roll · 8 pcs ebi tempura roll · 8 pcs kalamar tempura roll"
+    "name": "Pişmiş Karışık Set (24 Adet)",
+    "description": "Somon tempura roll (8 adet) · Ebi tempura roll (8 adet) · Kalamar tempura roll (8 adet)"
   },
   "set-moriawase": {
-    "name": "Moriawase Set (20 Pcs)",
-    "description": "4 pcs california roll · 8 pcs kani maki roll · 8 pcs sake maki roll"
+    "name": "Moriawase Set (20 Adet)",
+    "description": "California roll (4 adet) · Kani maki roll (8 adet) · Sake maki roll (8 adet)"
   },
   "set-istanbul": {
-    "name": "İstanbul Set (32 Pcs)",
-    "description": "California roll (8 pcs.) · Philadelphia roll (8 pcs.) · Somon tempura roll (8 pcs.) · Osaka roll (8 pcs.)"
+    "name": "İstanbul Set (32 Adet)",
+    "description": "California roll (8 adet) · Philadelphia roll (8 adet) · Somon tempura roll (8 adet) · Osaka roll (8 adet)"
   },
   "set-lucky": {
-    "name": "Lucky Set",
-    "description": "California roll 8 pcs · Philadelphia roll 8 pcs · Sake maki 8 pcs"
+    "name": "Lucky Set (24 Adet)",
+    "description": "California roll (8 adet) · Philadelphia roll (8 adet) · Sake maki (8 adet)"
   },
   "set-chicken-lovers": {
-    "name": "Chicken Lovers (40 Pcs)",
-    "description": "Chicken california roll · Chicken tempura roll · Dynamite chicken roll · Chicken philadelphia roll · Chicken maki"
+    "name": "Tavuk Severler Seti (40 Adet)",
+    "description": "Tavuklu california roll · Tavuk tempura roll · Dinamit tavuk roll · Tavuklu philadelphia roll · Tavuklu maki (40 adet)"
   },
   "set-lucky-prestige": {
-    "name": "Lucky Prestige Roll Set (56 Pcs)",
-    "description": "Dynamite karides roll · Crazy salmon · Crazy tuna · Dragon roll · Osaka roll · Avokado sake maki · California (4) · Philadelphia (4)"
+    "name": "Lucky Prestige Roll Seti (56 Adet)",
+    "description": "Dinamit karides roll · Crazy salmon · Crazy tuna · Dragon roll · Osaka roll · Avokado sake maki · California (4 adet) · Philadelphia (4 adet)"
   },
   "set-california-sushi": {
-    "name": "California Sushi Set (16 Pcs)",
-    "description": "Yengeç, Avokado, Salatalık, Krem Peynir, Tobiko"
+    "name": "California Sushi Seti (16 Adet)",
+    "description": "Yengeç, avokado, salatalık, krem peynir, tobiko"
   },
   "set-philadelphia-sushi": {
-    "name": "Philadelphia Sushi Set (16 Pcs)",
-    "description": "Somon, Avokado, Salatalık, Krem Peynir, Susam"
+    "name": "Philadelphia Sushi Seti (16 Adet)",
+    "description": "Somon, avokado, salatalık, krem peynir, susam"
   },
   "set-sakura-maki": {
-    "name": "Sakura Maki Set (40 Pcs)",
+    "name": "Sakura Maki Seti (40 Adet)",
     "description": "8 kani maki · 8 kappa maki · 8 avokado sake maki · 8 spicy tuna maki · 8 ebi maki"
   },
   "soup-acili-eksi": {
@@ -73,7 +73,7 @@
   },
   "soup-tavuklu-misir": {
     "name": "Tavuklu Mısır Çorbası",
-    "description": "Tane mısır, yumurta"
+    "description": "Tavuk, tane mısır, yumurta"
   },
   "soup-tavuklu-udon": {
     "name": "Tavuklu Udon Çorbası",
@@ -89,34 +89,34 @@
   },
   "soup-tom-yum": {
     "name": "Tom Yum Çorbası",
-    "description": "Geleneksel Tayland usulü ekşi acılı çorba"
+    "description": ""
   },
   "soup-sebzeli-ramen": {
     "name": "Sebzeli Ramen",
-    "description": "Sebzeli zengin ramen"
+    "description": ""
   },
   "soup-deniz-mahsulleri": {
     "name": "Deniz Mahsülleri Çorbası",
-    "description": "Karışık deniz mahsulleri ile hazırlanan zengin çorba"
+    "description": ""
   },
   "soup-sebzeli-udon": {
     "name": "Sebzeli Udon Çorbası",
-    "description": "Sebzeli udon çorbası"
+    "description": ""
   },
   "start-steamed-dumpling": {
     "name": "Steamed Dumpling (4 Adet)",
-    "description": "Mantar, havuç, kabak, kıyma, yeşil soğan, soya sos, oyster sos"
+    "description": "Mantar, havuç, kabak, kıyma, taze soğan, soya sosu, istiridye sosu"
   },
   "start-gyoza": {
-    "name": "Dana Etli Gyoza",
+    "name": "Dana Etli Gyoza (6 Adet)",
     "description": "Kıyma, havuç, kabak, taze soğan, yumurta"
   },
   "start-shanghai": {
-    "name": "Shanghai Mantı Tabağı (6 Pcs.)",
-    "description": "Özel Asya sosu ile harmanlanmış, el yapımı Çin mantısı. Hafif acılı, aromatik ve bol lezzetli."
+    "name": "Shanghai Mantı Tabağı (6 Adet)",
+    "description": "Özel Asya sosu ile harmanlanmış el yapımı Çin mantısı. Hafif acılı, aromatik ve lezzetli."
   },
   "start-dynamite-shrimp": {
-    "name": "Dynamite Shrimp (6 Adet)",
+    "name": "Dinamit Karides (6 Adet)",
     "description": "Acılı karides tempura"
   },
   "start-edamame": {
@@ -133,199 +133,31 @@
   },
   "start-citir-tavuk": {
     "name": "Çıtır Tavuk",
-    "description": "Sweet chili ve dynamite sos yanında"
+    "description": "Sweet chili ve dinamit sos yanında"
   },
   "start-spring-rolls": {
-    "name": "Sebzeli Çin Böreği (Spring Rolls) 2 Pcs",
+    "name": "Sebzeli Çin Böreği (Spring Rolls) (2 Adet)",
     "description": "Beyaz lahana, havuç, erişte"
   },
   "start-prawn-crackers": {
-    "name": "Prown Crackers (Karides Cips)",
-    "description": "Hafif ve çıtır karides cipsleri"
+    "name": "Karides Krakeri",
+    "description": "Hafif ve çıtır karides krakerleri"
   },
   "start-karides-shots": {
-    "name": "Karides Shots (3 Pcs)",
+    "name": "Karides Shots (3 Adet)",
     "description": "Çıtır karides topları"
   },
   "start-dynamite-chicken": {
-    "name": "Dynamite Chicken",
-    "description": "Acılı dynamite soslu çıtır tavuk"
+    "name": "Dinamit Tavuk",
+    "description": "Acılı dinamit soslu çıtır tavuk"
   },
   "start-tempura-karides": {
-    "name": "Tempura Karides (6 Pcs)",
+    "name": "Tempura Karides (6 Adet)",
     "description": "6 adet çıtır karides tempura"
-  },
-  "sr-california-8": {
-    "name": "California Roll (8 Pcs)",
-    "description": "Yengeç, avokado, krem peynir, salatalık, tobiko"
-  },
-  "sr-california-4": {
-    "name": "California Roll (4 Pcs)",
-    "description": "Yengeç, avokado, salatalık, krem peynir, havyar tobiko"
-  },
-  "sr-philadelphia-8": {
-    "name": "Philadelphia Roll (8 Pcs)",
-    "description": "Somon, avokado, salatalık, krem peynir, susam"
-  },
-  "sr-philadelphia-4": {
-    "name": "Philadelphia Roll (4 Pcs)",
-    "description": "Somon, avokado, salatalık, krem peynir, susam"
-  },
-  "sr-green-dragon": {
-    "name": "Green Dragon Roll (8 Pcs)",
-    "description": "Yılan balığı, salatalık, avokado"
-  },
-  "sr-crazy-salmon": {
-    "name": "Crazy Salmon Roll (8 Pcs)",
-    "description": "Salatalık, avokado, krem peynir, tütsülenmiş somon, acı mayonez"
-  },
-  "sr-crazy-tuna": {
-    "name": "Crazy Tuna Roll (8 Pcs)",
-    "description": "Tuna balığı, avokado, krem peyniri, salatalık"
-  },
-  "sr-ebi-tempura": {
-    "name": "Ebi Tempura Roll (8 Pcs)",
-    "description": "Karides tempura, avokado, salatalık, krem peynir, dynamite sos, teriyaki sos"
-  },
-  "sr-salmon-tempura": {
-    "name": "Somon Tempura Roll (8 Pcs)",
-    "description": "Somon tempura, avokado, salatalık, krem peynir, teriyaki sos"
-  },
-  "sr-calamari-tempura": {
-    "name": "Calamar Tempura Roll (8 Pcs)",
-    "description": "Kalamar tempura, avokado, salatalık, krem peynir, panko, dynamite sos, teriyaki sos"
-  },
-  "sr-canadian": {
-    "name": "Canadian Roll (8 Pcs)",
-    "description": "Yengeç, krem peyniri, avokado, salatalık, somon"
-  },
-  "sr-dragon": {
-    "name": "Dragon Roll (8 Pcs)",
-    "description": "Avokado, teriyaki sos, salatalık, yılan balığı, susam"
-  },
-  "sr-dynamite-karides": {
-    "name": "Dynamite Karides Roll (8 Pcs)",
-    "description": "Avokado, salatalık, krem peynir, susam, karides, acılı dynamite sos, teriyaki sos"
-  },
-  "sr-rainbow": {
-    "name": "Rainbow Roll (8 Pcs)",
-    "description": "Yengeç, avokado, krem peynir, salatalık, somon, levrek"
-  },
-  "sr-vegan": {
-    "name": "Vegan Roll",
-    "description": "Tamamen bitkisel malzemelerle hazırlanmış rulo"
-  },
-  "sr-grabi": {
-    "name": "Grabi Roll (8 Pcs)",
-    "description": "Özel Grabi rulosu"
-  },
-  "sr-chicken-california": {
-    "name": "Chicken California Roll",
-    "description": "Tavuk, krem peyniri, avokado, salatalık, tobiko"
-  },
-  "sr-wakame": {
-    "name": "Wakame Roll",
-    "description": "Wakame deniz yosunu ile hazırlanan özel rulo"
-  },
-  "sr-osaka": {
-    "name": "Osaka Roll",
-    "description": "Osaka usulü özel rulo"
-  },
-  "cr-california": {
-    "name": "Crispy Crunchy California (8 Pcs)",
-    "description": "Yengeç tempura, avokado, salatalık, krem peynir, teriyaki sos, tatlı acı sos, dynamite sos"
-  },
-  "cr-philadelphia": {
-    "name": "Crispy Crunchy Philadelphia (8 Pcs)",
-    "description": "Somon tempura, avokado, salatalık, teriyaki sos, dynamite sos, tatlı ekşi sos"
-  },
-  "cr-shrimp": {
-    "name": "Crispy Crunchy Shrimp (8 Pcs)",
-    "description": "Karides tempura, avokado, salatalık, krem peynir, teriyaki sos, dynamite sos, tatlı acı sos"
-  },
-  "cr-dragon": {
-    "name": "Crispy Crunchy Dragon (8 Pcs)",
-    "description": "Yılan balığı, avokado, salatalık, teriyaki sos, dynamite sos"
-  },
-  "cr-calamari": {
-    "name": "Crispy Crunchy Calamari (8 Pcs)",
-    "description": "Kızarmış kalamar, avokado, salatalık, teriyaki sos, dynamite sos"
-  },
-  "cr-chicken": {
-    "name": "Crispy Crunchy Chicken",
-    "description": "Tavuklu çıtır rulo"
-  },
-  "maki-kani": {
-    "name": "Kani Maki (8 Pcs)",
-    "description": "Yengeç, krem peynir"
-  },
-  "maki-sake": {
-    "name": "Sake Maki (8 Pcs)",
-    "description": "Somon, krem peynir"
-  },
-  "maki-kappa": {
-    "name": "Kappa Maki (8 Pcs)",
-    "description": "Salatalık"
-  },
-  "maki-avokado-sake": {
-    "name": "Avokado Sake Maki (8 Pcs)",
-    "description": "Somon, avokado"
-  },
-  "maki-ebi": {
-    "name": "Ebi Maki (8 Pcs)",
-    "description": "Kızarmış karides, krem peynir"
-  },
-  "maki-avokado": {
-    "name": "Avokado Maki (8 Pcs)",
-    "description": "Avokado"
-  },
-  "maki-spicy-tuna": {
-    "name": "Spicy Tuna Maki (8 Pcs)",
-    "description": "Acılı tuna maki"
-  },
-  "nigiri-sake": {
-    "name": "Sake Nigiri (2 Pcs)",
-    "description": "Somon"
-  },
-  "nigiri-unagi": {
-    "name": "Unagi Nigiri (2 Pcs)",
-    "description": "Yılan balığı"
-  },
-  "nigiri-ebi": {
-    "name": "Ebi Nigiri (2 Pcs)",
-    "description": "Karides"
-  },
-  "nigiri-suzuki": {
-    "name": "Suzuki Nigiri (2 Pcs)",
-    "description": "Levrek"
-  },
-  "sashimi-sake": {
-    "name": "Sake Sashimi (4 Pcs)",
-    "description": "Somon"
-  },
-  "sashimi-tataki-salmon": {
-    "name": "Tataki Salmon Sashimi",
-    "description": "Tütsülenmiş somon"
-  },
-  "sashimi-ebi": {
-    "name": "Ebi Sashimi",
-    "description": "Karides"
-  },
-  "sashimi-unagi": {
-    "name": "Unagi Sashimi",
-    "description": "Yılan balığı"
-  },
-  "sashimi-tuna": {
-    "name": "Tuna Sashimi",
-    "description": "Orkinos"
-  },
-  "sashimi-levrek": {
-    "name": "Levrek Sashimi",
-    "description": "Levrek"
   },
   "seafood-tatli-eksi-karides": {
     "name": "Tatlı Ekşi Soslu Karides",
-    "description": "Karides, havuç, kuru soğan, dolma biber, kapya biber, ananas"
+    "description": "Karides, havuç, kuru soğan, dolmalık biber, kapya biber, ananas"
   },
   "seafood-acili-kalamar": {
     "name": "Acılı Kalamar",
@@ -333,7 +165,11 @@
   },
   "seafood-karisik-karides": {
     "name": "Karışık Sebzeli Karides",
-    "description": "Karides, kuru soğan, dolma biber, kapya biber, brokoli, kabak, havuç, mantar, beyaz lahana, soya filizi"
+    "description": "Karides, kuru soğan, dolma biber, kapya biber, brokoli, kabak, havuç, kültür mantarı, beyaz lahana, soya filizi"
+  },
+  "seafood-aci-soslu-karides": {
+    "name": "Acı Soslu Karides",
+    "description": "Karides, kabak, sivri biber, kültür mantarı, kapya biber, fıstık, havuç, soya filizi"
   },
   "seafood-tatli-eksi-somon": {
     "name": "Tatlı Ekşi Soslu Somon",
@@ -345,7 +181,7 @@
   },
   "udon-etli": {
     "name": "Etli Udon Noodle",
-    "description": "Dana eti, beyaz lahana, havuç, soya filizi, taze soğan"
+    "description": "Etli beyaz lahana, havuç, soya filizi, taze soğan"
   },
   "udon-tavuklu": {
     "name": "Tavuklu Udon Noodle",
@@ -359,9 +195,21 @@
     "name": "Sebzeli Udon Noodle",
     "description": "Beyaz lahana, havuç, soya filizi, taze soğan"
   },
+  "udon-deniz-mahsulleri": {
+    "name": "Deniz Mahsülleri Udon",
+    "description": ""
+  },
+  "udon-kalamarli": {
+    "name": "Kalamarlı Udon Noodle",
+    "description": ""
+  },
   "noodle-sebzeli": {
     "name": "Sebzeli Noodle",
     "description": "Taze soğan, havuç, soya filizi, beyaz lahana"
+  },
+  "noodle-kalamar": {
+    "name": "Kalamar Noodle",
+    "description": "Kalamar, beyaz lahana, taze yeşil soğan, havuç, soya filizi"
   },
   "noodle-tavuklu": {
     "name": "Tavuklu Noodle",
@@ -375,49 +223,85 @@
     "name": "Karidesli Noodle",
     "description": "Karides, beyaz lahana, taze soğan, soya filizi, havuç"
   },
+  "noodle-deniz-mahsulleri": {
+    "name": "Deniz Mahsülleri Noodle",
+    "description": "Beyaz lahana, taze soğan, soya filizi, havuç"
+  },
   "noodle-singapur": {
     "name": "Singapur Noodle",
-    "description": "Singapur usulü özel noodle"
+    "description": ""
   },
   "noodle-teriyaki-brokoli-et": {
     "name": "Teriyaki Soslu Brokolili Etli Noodle",
     "description": "Kırmızı et, beyaz lahana, havuç, yeşil soğan, brokoli, teriyaki sos"
   },
-  "padthai-chicken": {
-    "name": "Pad Thai Chicken",
-    "description": "Yumurta, havuç, taze soğan, soya filizi, beyaz lahana"
+  "noodle-teriyaki-brokoli-tavuk": {
+    "name": "Teriyaki Soslu Brokolili Tavuklu Noodle",
+    "description": ""
   },
-  "padthai-dana": {
-    "name": "Pad Thai Dana",
-    "description": "Pirinç eriştesi, dana eti, soya filizi, fıstık, taze soğan, yumurta sarısı, pul biber, soya sos"
+  "rice-sebzeli-yumurtali": {
+    "name": "Sebzeli Yumurtalı Pilav",
+    "description": "Yumurta, bezelye, havuç, mısır, yeşil soğan"
   },
-  "padthai-karides": {
-    "name": "Pad Thai Karides",
-    "description": "Pirinç eriştesi, karides, soya filizi, kişniş, taze soğan, yumurta sarısı, fıstık, pul biber, soya sos"
+  "rice-tavuklu": {
+    "name": "Tavuklu Pilav",
+    "description": "Tavuk, yumurta, bezelye, havuç, mısır, yeşil soğan"
   },
-  "padthai-sebzeli": {
-    "name": "Pad Thai Sebzeli",
-    "description": "Pirinç erişteleri, soya filizi, kişniş, taze soğan, yumurta sarısı, fıstık, pul biber, soya sos"
+  "rice-etli": {
+    "name": "Etli Pilav",
+    "description": "Et, yumurta, bezelye, havuç, mısır, yeşil soğan"
+  },
+  "rice-karidesli": {
+    "name": "Karidesli Pilav",
+    "description": "Karides, yumurta, bezelye, havuç, mısır, yeşil soğan"
+  },
+  "rice-stim": {
+    "name": "Stim Rice",
+    "description": "Sade pilav"
+  },
+  "rice-deniz-mahsulleri": {
+    "name": "Deniz Mahsülleri Pilav",
+    "description": ""
+  },
+  "rice-dana-etli-korili": {
+    "name": "Dana Etli Körili Pilav",
+    "description": ""
+  },
+  "rice-thai-ananas": {
+    "name": "Thai Usulü Ananaslı Pilav",
+    "description": ""
   },
   "poke-shrimp": {
     "name": "Poke Bowl Shrimp",
-    "description": "Sushi pirinci, kızartılmış karides, avokado, edamame, sweet chili ve dynamite sos ile"
+    "description": "Sushi pirinci, kızartılmış karides, avokado, edamame, yanında sweet chili ve dynamite sos ile birlikte servis edilir."
   },
   "poke-salmon": {
     "name": "Salmon Poke Bowl",
-    "description": "Sushi pirinci, somon, avokado, edamame, wakame, sweet chili ve dynamite sos ile"
+    "description": "Sushi pirinci, somon, avokado, edamame, wakame, yanında sweet chili ve dynamite sos ile birlikte servis edilir."
   },
   "poke-maguro": {
     "name": "Maguro Poke Bowl",
-    "description": "Sushi pirinci, tuna balığı, avokado, salatalık, wakame, edamame, sweet chili ve dynamite sos ile"
+    "description": "Sushi pirinci, tuna ton balığı, avokado, salatalık, wakame, edamame, yanında sweet chili ve dynamite sos ile birlikte servis edilir."
   },
   "poke-vegetarian": {
     "name": "Vegetarian Poke Bowl",
-    "description": "Sushi pirinci, tofu, edamame, avokado, sweet chili ve dynamite sos ile"
+    "description": "Sushi pirinç, tofu peynir, edamame, avokado, yanında sweet chili ve dynamite sos ile birlikte servis edilir."
+  },
+  "poke-salmon-tempura": {
+    "name": "Salmon Tempura Poke Bowl",
+    "description": "Sushi pirinci, somon tempura, wakame, edamame, avokado, yanında sweet chili ve dynamite sos ile birlikte servis edilir."
   },
   "poke-chicken": {
     "name": "Chicken Poke Bowl",
-    "description": "Sushi pirinci, çıtır tavuk, wakame, edamame, avokado, sweet chili ve dynamite sos ile"
+    "description": "Sushi pirinci, çıtır tavuk, wakame, edamame, avokado, yanında sweet chili ve dynamite sos ile birlikte servis edilir."
+  },
+  "poke-grabi": {
+    "name": "Grabi Poke Bowl",
+    "description": "Sushi pirinci, yengeç, hardal, teriyaki sosu, dynamite sos, edamame, avokado, yanında sweet chili ve dynamite sos ile birlikte servis edilir."
+  },
+  "poke-tso": {
+    "name": "General Tso Poke Bowl",
+    "description": "Sushi pirinci, General Tso tavuk, edamame, wakame, avokado, yanında sweet chili ve dynamite sos ile birlikte servis edilir."
   },
   "beef-tatli-eksi": {
     "name": "Tatlı Ekşi Soslu Dana Eti",
@@ -431,9 +315,21 @@
     "name": "Brokolili Dana Eti",
     "description": "Brokoli, havuç"
   },
+  "beef-karisik-sebzeli": {
+    "name": "Karışık Sebzeli Dana Eti",
+    "description": "Havuç, soya filizi, kuru soğan, yeşil biber, kırmızı biber, baby mısır"
+  },
+  "beef-yesil-biberli": {
+    "name": "Yeşil Biberli Dana Eti",
+    "description": "Yeşil biber, havuç, taze soğan"
+  },
+  "chicken-brokoli": {
+    "name": "Brokoli Tavuk",
+    "description": "Brokoli, havuç, tavuk"
+  },
   "chicken-general-tso": {
-    "name": "General Tso Tavuk",
-    "description": "Özel General Tso sosunda çıtır tavuk parçaları, taze soğan ve susam"
+    "name": "General Tso Tavuğu",
+    "description": "Taze soğan, susam"
   },
   "chicken-manchurian": {
     "name": "Mançuryan Usulü Tavuk",
@@ -443,6 +339,10 @@
     "name": "Tatlı Ekşi Soslu Tavuk",
     "description": "Dolmalık biber, kapya biber, ananas, taze soğan"
   },
+  "chicken-aci-biberli": {
+    "name": "Acı Biberli Tavuk",
+    "description": "Kapya biberi, yeşil biber, havuç, taze soğan"
+  },
   "chicken-teriyaki": {
     "name": "Teriyaki Soslu Tavuk",
     "description": "Kapya biber, yeşil biber, kuru soğan, taze soğan, susam"
@@ -451,37 +351,317 @@
     "name": "Moğol Usulü Tavuk",
     "description": "Sarımsak acı biberli sos"
   },
-  "chicken-brokoli": {
-    "name": "Brokoli Tavuk",
-    "description": "Brokoli, havuç, tavuk"
+  "chicken-portion-1-5": {
+    "name": "1.5 Porsiyon Eki",
+    "description": ""
   },
-  "rice-sebzeli-yumurtali": {
-    "name": "Sebzeli Yumurtalı Pilav",
-    "description": "Yumurta, bezelye, havuç, mısır, yeşil soğan"
+  "sr-california-8": {
+    "name": "California Roll (8 Adet)",
+    "description": "Yengeç, avokado, krem peynir, salatalık, tobiko"
   },
-  "rice-tavuklu": {
-    "name": "Tavuklu Pilav",
-    "description": "Tavuk, yumurta, bezelye, havuç, mısır, yeşil soğan"
+  "sr-philadelphia-8": {
+    "name": "Philadelphia Roll (8 Adet)",
+    "description": "Somon, avokado, salatalık, krem peynir, susam"
   },
-  "rice-karidesli": {
-    "name": "Karidesli Pilav",
-    "description": "Karides, yumurta, bezelye, havuç, mısır, yeşil soğan"
+  "sr-philadelphia-4": {
+    "name": "Philadelphia Roll (4 Adet)",
+    "description": "Somon, avokado, salatalık, krem peynir, susam"
   },
-  "rice-stim": {
-    "name": "Steam Rice",
-    "description": "Sade pilav"
+  "sr-california-4": {
+    "name": "California Roll (4 Adet)",
+    "description": "Yengeç, avokado, salatalık, krem peynir, havyar tobiko"
   },
-  "rice-thai-ananas": {
-    "name": "Thai Usulü Ananaslı Pilav",
-    "description": "Tayland usulü ananaslı pilav"
+  "sr-green-dragon": {
+    "name": "Green Dragon Roll (8 Adet)",
+    "description": "Yılan balığı, salatalık, avokado"
   },
-  "veg-brokoli-sarmisak": {
-    "name": "Sarımsak Soslu Brokoli",
-    "description": "Brokoli, havuç"
+  "sr-crazy-salmon": {
+    "name": "Crazy Salmon Roll (8 Adet)",
+    "description": "Salatalık, avokado, krem peynir, tütsülenmiş somon, acılı mayonez"
   },
-  "veg-karisik": {
-    "name": "Karışık Sebze",
-    "description": "Mantar, havuç, kuru soğan, yeşil biber, kırmızı biber, beyaz lahana, kabak, brokoli, koçan mısır"
+  "sr-crazy-tuna": {
+    "name": "Crazy Tuna Roll (8 Adet)",
+    "description": "Tuna balığı, avokado, krem peynir, salatalık"
+  },
+  "sr-ebi-tempura": {
+    "name": "Ebi Tempura Roll (8 Adet)",
+    "description": "Karides tempura, avokado, salatalık, krem peynir, dinamit sosu, teriyaki sosu"
+  },
+  "sr-salmon-tempura": {
+    "name": "Somon Tempura Roll (8 Adet)",
+    "description": "Somon tempura, avokado, salatalık, krem peynir, teriyaki sos"
+  },
+  "sr-calamari-tempura": {
+    "name": "Kalamar Tempura Roll (8 Adet)",
+    "description": "Kalamar tempura, avokado, salatalık, krem peynir, panko, dinamit sosu, teriyaki sosu"
+  },
+  "sr-canadian": {
+    "name": "Canadian Roll (8 Adet)",
+    "description": "Yengeç, krem peynir, avokado, salatalık, somon"
+  },
+  "sr-dragon": {
+    "name": "Dragon Roll (8 Adet)",
+    "description": "Avokado, teriyaki sos, salatalık, yılan balığı, susam"
+  },
+  "sr-dynamite-karides": {
+    "name": "Dinamit Karides Roll (8 Adet)",
+    "description": "Avokado, salatalık, krem peynir, susam, karides, acılı dinamit sosu, teriyaki sosu"
+  },
+  "sr-crazy-philadelphia": {
+    "name": "Crazy Philadelphia Roll (8 Adet)",
+    "description": "Avokado, salatalık, krem peynir, somon"
+  },
+  "sr-philly-roll": {
+    "name": "Philly Roll (8 Adet)",
+    "description": "Avokado, salatalık, krem peynir, ton balığı, acı mayonez, teriyaki"
+  },
+  "sr-rainbow": {
+    "name": "Rainbow Roll (8 Adet)",
+    "description": "Yengeç, avokado, krem peynir, salatalık, somon, levrek"
+  },
+  "sr-vegan": {
+    "name": "Vegan Roll (8 Adet)",
+    "description": "%100 bitki bazlı roll"
+  },
+  "sr-grabi": {
+    "name": "Grabi Roll (8 Adet)",
+    "description": ""
+  },
+  "sr-ekstra": {
+    "name": "Ekstra Malzeme",
+    "description": ""
+  },
+  "sr-chicken-california": {
+    "name": "Tavuklu California Roll (8 Adet)",
+    "description": "Tavuk, krem peynir, avokado, salatalık, tobiko"
+  },
+  "sr-dynamite-chicken": {
+    "name": "Dinamit Tavuk Roll (8 Adet)",
+    "description": ""
+  },
+  "sr-wakame": {
+    "name": "Wakame Roll (8 Adet)",
+    "description": ""
+  },
+  "sr-osaka": {
+    "name": "Osaka Roll (8 Adet)",
+    "description": ""
+  },
+  "sr-chicken-philadelphia": {
+    "name": "Tavuklu Philadelphia Roll (8 Adet)",
+    "description": ""
+  },
+  "sr-chicken-tempura": {
+    "name": "Tavuk Tempura Roll (8 Adet)",
+    "description": ""
+  },
+  "cr-california": {
+    "name": "Crispy Crunchy California (8 Adet)",
+    "description": "Yengeç tempura, avokado, salatalık, krem peynir, teriyaki sos, tatlı acı sos, dinamit sos"
+  },
+  "cr-philadelphia": {
+    "name": "Crispy Crunchy Philadelphia (8 Adet)",
+    "description": "Somon tempura, avokado, salatalık, teriyaki sos, dinamit sos, tatlı ekşi sos"
+  },
+  "cr-shrimp": {
+    "name": "Crispy Crunchy Shrimp (8 Adet)",
+    "description": "Karides tempura, avokado, salatalık, krem peynir, teriyaki sos, dinamit sos, tatlı acı sos"
+  },
+  "cr-dragon": {
+    "name": "Crispy Crunchy Dragon (8 Adet)",
+    "description": "Yılan balığı, avokado, salatalık, teriyaki sos, dinamit sos"
+  },
+  "cr-calamari": {
+    "name": "Crispy Crunchy Calamari (8 Adet)",
+    "description": "Kızarmış kalamar, avokado, salatalık, teriyaki sos, dinamit sos"
+  },
+  "cr-chicken": {
+    "name": "Crispy Crunchy Chicken (8 Adet)",
+    "description": "Tavuklu"
+  },
+  "maki-kani": {
+    "name": "Kani Maki (8 Adet)",
+    "description": "Yengeç, krem peynir"
+  },
+  "maki-sake": {
+    "name": "Sake Maki (8 Adet)",
+    "description": "Somon, krem peynir"
+  },
+  "maki-kappa": {
+    "name": "Kappa Maki (8 Adet)",
+    "description": "Salatalık"
+  },
+  "maki-avokado-sake": {
+    "name": "Avokado Sake Maki (8 Adet)",
+    "description": "Somon, avokado"
+  },
+  "maki-ebi": {
+    "name": "Ebi Maki (8 Adet)",
+    "description": "Kızarmış karides, krem peynir"
+  },
+  "maki-avokado": {
+    "name": "Avokado Maki (8 Adet)",
+    "description": "Avokado"
+  },
+  "maki-spicy-tuna": {
+    "name": "Spicy Tuna Maki (8 Adet)",
+    "description": "Acılı tuna maki"
+  },
+  "maki-chicken": {
+    "name": "Chicken Maki (8 Adet)",
+    "description": ""
+  },
+  "sashimi-sake": {
+    "name": "Sake Sashimi (4 Adet)",
+    "description": "Somon"
+  },
+  "sashimi-tataki-salmon": {
+    "name": "Tataki Salmon Sashimi (4 Adet)",
+    "description": "Tütsülenmiş somon"
+  },
+  "sashimi-ebi": {
+    "name": "Ebi Sashimi (4 Adet)",
+    "description": "Karides"
+  },
+  "sashimi-unagi": {
+    "name": "Unagi Sashimi (4 Adet)",
+    "description": "Yılan balığı"
+  },
+  "sashimi-tuna": {
+    "name": "Tuna Sashimi (4 Adet)",
+    "description": ""
+  },
+  "sashimi-levrek": {
+    "name": "Levrek Sashimi (4 Adet)",
+    "description": ""
+  },
+  "padthai-chicken": {
+    "name": "Pad Thai Chicken",
+    "description": "Yumurta, havuç, taze soğan, soya filizi, beyaz lahana"
+  },
+  "padthai-dana": {
+    "name": "Pad Thai Dana",
+    "description": "Pirinç erişteleri, dana eti, soya filizi, fıstık, taze soğan"
+  },
+  "padthai-karides": {
+    "name": "Pad Thai Karides",
+    "description": "Pirinç erişteleri, karides, soya filizi, kişniş, taze soğan, yer fıstığı"
+  },
+  "padthai-sebzeli": {
+    "name": "Pad Thai Sebzeli",
+    "description": "Pirinç erişteleri, soya filizi, kişniş, taze soğan, yumurta sarısı"
+  },
+  "nigiri-sake": {
+    "name": "Sake Nigiri (2 Adet)",
+    "description": "Somon"
+  },
+  "nigiri-unagi": {
+    "name": "Unagi Nigiri (2 Adet)",
+    "description": "Yılan balığı"
+  },
+  "nigiri-ebi": {
+    "name": "Ebi Nigiri (2 Adet)",
+    "description": "Karides"
+  },
+  "nigiri-suzuki": {
+    "name": "Suzuki Nigiri (2 Adet)",
+    "description": "Levrek"
+  },
+  "sauce-chili-flake": {
+    "name": "Acılı Pul Biber Sosu",
+    "description": ""
+  },
+  "sauce-dynamite": {
+    "name": "Dynamite Sos",
+    "description": ""
+  },
+  "sauce-sriracha": {
+    "name": "Sriracha Sos",
+    "description": ""
+  },
+  "sauce-teriyaki": {
+    "name": "Teriyaki Sos",
+    "description": ""
+  },
+  "sauce-sweet-chili": {
+    "name": "Sweet Chili Sos",
+    "description": ""
+  },
+  "sauce-wasabi": {
+    "name": "Wasabi",
+    "description": ""
+  },
+  "sauce-ginger": {
+    "name": "Zencefil Sos",
+    "description": ""
+  },
+  "sauce-soya": {
+    "name": "Soya Sos",
+    "description": ""
+  },
+  "drink-pepsi": {
+    "name": "Pepsi Cola (330 ml)",
+    "description": ""
+  },
+  "drink-pepsi-zero": {
+    "name": "Pepsi Zero Sugar (330 ml)",
+    "description": ""
+  },
+  "drink-fanta": {
+    "name": "Fanta (330 ml)",
+    "description": ""
+  },
+  "drink-fuse-tea": {
+    "name": "Fuse Tea (330 ml)",
+    "description": ""
+  },
+  "drink-soda": {
+    "name": "Soda (200 ml)",
+    "description": ""
+  },
+  "drink-su": {
+    "name": "Su (330 ml)",
+    "description": ""
+  },
+  "drink-cola-turka": {
+    "name": "Cola Turka (330 ml)",
+    "description": ""
+  },
+  "drink-coca-cola-zero": {
+    "name": "Coca Cola Zero Sugar (330 ml)",
+    "description": ""
+  },
+  "drink-coca-cola": {
+    "name": "Coca Cola (330 ml)",
+    "description": ""
+  },
+  "drink-lipton-lemon": {
+    "name": "Lipton Ice Tea Limon (330 ml)",
+    "description": ""
+  },
+  "drink-lipton-peach": {
+    "name": "Lipton Ice Tea Şeftali (330 ml)",
+    "description": ""
+  },
+  "drink-seven-up": {
+    "name": "Seven Up (330 ml)",
+    "description": ""
+  },
+  "drink-yedigun": {
+    "name": "Yedigün (330 ml)",
+    "description": ""
+  },
+  "drink-tropicana-peach": {
+    "name": "Tropicana Şeftali (330 ml)",
+    "description": ""
+  },
+  "drink-tropicana-cherry": {
+    "name": "Tropicana Vişne (330 ml)",
+    "description": ""
+  },
+  "drink-tropicana-mixed": {
+    "name": "Tropicana Karışık (330 ml)",
+    "description": ""
   },
   "salad-cin": {
     "name": "Çin Salatası",
@@ -493,78 +673,54 @@
   },
   "salad-wakame": {
     "name": "Wakame Salad",
-    "description": "Wakame deniz yosunu salatası"
+    "description": ""
+  },
+  "veg-brokoli-sarmisak": {
+    "name": "Sarımsak Soslu Brokoli",
+    "description": "Brokoli, havuç"
+  },
+  "veg-karisik": {
+    "name": "Karışık Sebze",
+    "description": "Mantar, havuç, kuru soğan, yeşil biber, kırmızı biber, beyaz lahana"
+  },
+  "veg-acili-karisik": {
+    "name": "Acılı Karışık Sebze",
+    "description": ""
   },
   "dessert-kizarmis-ananas": {
     "name": "Kızarmış Ananas",
-    "description": "Kızarmış ananas"
+    "description": ""
   },
   "dessert-kizarmis-dondurma": {
     "name": "Kızarmış Dondurma",
-    "description": "Çıtır kaplamalı dondurma"
+    "description": ""
   },
   "dessert-nutella-roll": {
     "name": "Nutella Roll",
-    "description": "Nutella dolgulu özel rulo"
+    "description": ""
   },
   "dessert-kizarmis-muz": {
     "name": "Kızarmış Muz",
-    "description": "Çıtır kaplama ile kızartılmış muz"
+    "description": ""
   },
   "dessert-balli-ceviz": {
     "name": "Ballı Kızarmış Ceviz",
-    "description": "Ballı kızarmış ceviz"
+    "description": ""
   },
   "bento-vegan": {
     "name": "Bento Menü Vegan",
-    "description": "Sebzeli noodle · Vegan roll · Çin böreği"
+    "description": "Sebzeli noodle, vegan roll, Çin böreği"
   },
   "bento-1": {
-    "name": "Bento Menü 1",
-    "description": "General Tso tavuk · Sebzeli noodle · Philadelphia roll (4 pcs.)"
+    "name": "Bento 1",
+    "description": "General Tso, sebzeli noodle, 4 adet philadelphia roll"
   },
   "bento-2": {
     "name": "Bento Menü 2",
-    "description": "Teriyaki soslu tavuk · Sebzeli noodle · Edamame"
+    "description": "1 adet teriyaki soslu tavuk, 1 adet sebzeli noodle, 1 adet edamame"
   },
   "bento-3": {
     "name": "Bento Menü 3",
-    "description": "Sebzeli pilav · Tatlı ekşi tavuk · California roll (4 pcs.)"
-  },
-  "drink-pepsi": {
-    "name": "Pepsi Cola (330 ml)",
-    "description": "Soğuk Pepsi Cola"
-  },
-  "drink-coca-cola": {
-    "name": "Coca Cola (330 ml)",
-    "description": "Soğuk Coca Cola"
-  },
-  "drink-fanta": {
-    "name": "Fanta (330 ml)",
-    "description": "Soğuk Fanta"
-  },
-  "drink-su": {
-    "name": "Su (330 ml)",
-    "description": "Soğuk su"
-  },
-  "drink-soda": {
-    "name": "Soda (200 ml)",
-    "description": "Soğuk soda"
-  },
-  "sauce-dynamite": {
-    "name": "Dynamite Sos",
-    "description": "Acılı dynamite sos"
-  },
-  "sauce-sweet-chili": {
-    "name": "Sweet Chili Sos",
-    "description": "Tatlı acı sos"
-  },
-  "sauce-soya": {
-    "name": "Soya Sos",
-    "description": "Soya sos"
-  },
-  "sauce-wasabi": {
-    "name": "Wasabi",
-    "description": "Wasabi"
+    "description": "Sebzeli pilav, 1 adet tatlı ekşi tavuk, 4 adet california roll"
   }
 }

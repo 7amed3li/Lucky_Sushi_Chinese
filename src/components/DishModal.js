@@ -6,6 +6,8 @@ import { FaExpand, FaXmark } from 'react-icons/fa6';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
+import { formatPortion } from '@/lib/formatPortion';
+import { translateIngredientsList } from '@/lib/translateIngredient';
 
 const ALLERGEN_LABELS = {
   gluten:    { tr: 'Glüten', en: 'Gluten', ar: 'جلوتين', ru: 'Глютен', zh: '麸质' },
@@ -36,6 +38,7 @@ export default function DishModal({ item, onClose }) {
 
   const name = t(item, 'name');
   const desc = t(item, 'description');
+  const ingredientsContent = desc || (item.ingredients?.length > 0 ? translateIngredientsList(item.ingredients, lang) : '');
   const hasImage = item.image && item.image !== '/images/placeholder.jpg';
 
   // Close on escape
@@ -159,25 +162,23 @@ export default function DishModal({ item, onClose }) {
         {/* Body */}
         <div className="modal-panel__body">
           <h2 className="modal-panel__name">{name}</h2>
-          {desc && <p className="modal-panel__desc">{desc}</p>}
-
           {/* Meta Tags */}
-          {displayTags.length > 0 && (
+          {(displayTags.length > 0 || item.portion_or_pieces) && (
             <div className="modal-panel__meta">
               {displayTags.map((tag, i) => (
                 <span key={i} className="modal-panel__meta-tag">{tag}</span>
               ))}
               {item.portion_or_pieces && (
-                <span className="modal-panel__meta-tag">{item.portion_or_pieces}</span>
+                <span className="modal-panel__meta-tag">{formatPortion(item.portion_or_pieces, lang)}</span>
               )}
             </div>
           )}
 
-          {/* Ingredients */}
-          {item.ingredients?.length > 0 && (
+          {/* Localized Ingredients */}
+          {ingredientsContent && (
             <p className="modal-panel__ingredients">
               <strong>{ingredientsLabel[lang] || ingredientsLabel.en}:</strong>{' '}
-              {item.ingredients.join(' · ')}
+              {ingredientsContent}
             </p>
           )}
 
