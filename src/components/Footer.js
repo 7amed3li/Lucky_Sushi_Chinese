@@ -52,8 +52,8 @@ export default function Footer() {
         <div className="main-footer__col main-footer__col--links">
           <Link href="/" className="main-footer__link">{tUI('nav_home')}</Link>
           <Link href="/menu" className="main-footer__link">{l('orderMenu')}</Link>
+          <Link href="/branches" className="main-footer__link">{tUI('nav_branches') || l('branches')}</Link>
           <Link href="/about" className="main-footer__link">{l('aboutUs')}</Link>
-          <Link href="/contact" className="main-footer__link">{l('branches')}</Link>
         </div>
 
         {/* Column 3: Contact & Hours */}
