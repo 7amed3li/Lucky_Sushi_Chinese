@@ -5,7 +5,10 @@ import { useEffect, useState } from 'react';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
+import { useBranch } from '@/context/BranchContext';
 import { restaurantInfo } from '@/data/menuData';
+import KVKKModal from '@/components/KVKKModal';
+import { FaShieldHalved, FaLocationDot, FaCircleInfo, FaRotate } from 'react-icons/fa6';
 
 import trProducts from '@/i18n/messages/tr/products.json';
 import enProducts from '@/i18n/messages/en/products.json';
@@ -34,18 +37,18 @@ const ADDRESS_STORAGE_KEY = 'lucky_customer_address';
 export default function CartDrawer() {
   const { lang, tUI } = useLang();
   const { formatPrice } = useCurrency();
+  const { selectedBranch, selectedBranchId, openBranchModal } = useBranch();
   const {
     cart, isCartOpen, setIsCartOpen,
     addToCart, removeFromCart, deleteItem, clearCart,
     cartCount, cartSubtotal, isMinDeliveryReached, minDeliveryTl,
   } = useCart();
 
-  // Cart language state: defaults to 'tr' so the waiter in the restaurant can read it immediately
-  // Can be toggled on-the-fly without page reload
+  // Cart language state
   const [cartLang, setCartLang] = useState('tr');
+  const [isKvkkOpen, setIsKvkkOpen] = useState(false);
 
-  // Customer Delivery Address state (persisted in localStorage)
-  // Fields: name, city (İl), district (İlçe), neighborhood (Mahalle), street (Cadde/Sokak), buildingNo (Bina No), floor (Kat), apartmentNo (Daire No), note (Not), phone (Telefon)
+  // Customer Delivery Address state
   const initialAddressState = {
     name: '',
     city: 'İstanbul',
@@ -64,8 +67,6 @@ export default function CartDrawer() {
   const [isEditingAddress, setIsEditingAddress] = useState(false);
   const [isAddressExpanded, setIsAddressExpanded] = useState(false);
   const [addressForm, setAddressForm] = useState(initialAddressState);
-
-  const phoneClean = restaurantInfo.phone.replace(/[^0-9]/g, '');
 
   // Load saved address from localStorage
   useEffect(() => {
@@ -110,6 +111,27 @@ export default function CartDrawer() {
     },
     remove: { tr: 'Kaldır', en: 'Remove', ar: 'حذف', ru: 'Удалить', zh: '删除' },
     clear: { tr: 'Tümünü Temizle', en: 'Clear All', ar: 'مسح الكل', ru: 'Очистить всё', zh: '清空' },
+    branchTitle: {
+      tr: 'Sipariş Şubesi',
+      en: 'Ordering Branch',
+      ar: 'فرع الطلب والتوصيل',
+      ru: 'Филиал заказа',
+      zh: '订餐分店',
+    },
+    branchSelectPrompt: {
+      tr: '📍 Lütfen Önce Şube Seçin (Zorunlu)',
+      en: '📍 Please Select Branch (Required)',
+      ar: '📍 يرجى اختيار الفرع أولاً (إجباري)',
+      ru: '📍 Пожалуйста, выберите филиал (обязательно)',
+      zh: '📍 请先选择分店（必选）',
+    },
+    branchChange: {
+      tr: 'Değiştir',
+      en: 'Change',
+      ar: 'تعديل',
+      ru: 'Изменить',
+      zh: '修改',
+    },
     // Address labels
     addressTitle: {
       tr: 'Teslimat Adresi',
@@ -150,7 +172,7 @@ export default function CartDrawer() {
     districtLabel: { tr: 'İlçe', en: 'District (İlçe)', ar: 'المنطقة (İlçe)', ru: 'Район', zh: '区/县' },
     neighborhoodLabel: { tr: 'Mahalle', en: 'Neighborhood (Mahalle)', ar: 'الحي (Mahalle)', ru: 'Микрорайон', zh: '街区' },
     streetLabel: { tr: 'Cadde / Sokak', en: 'Street (Cadde/Sokak)', ar: 'الشارع (Cadde / Sokak)', ru: 'Улица', zh: '街道' },
-    buildingLabel: { tr: 'Bina No', en: 'Building No', ar: 'رقم المبنى (Bina No)', ru: 'Доم', zh: '楼号' },
+    buildingLabel: { tr: 'Bina No', en: 'Building No', ar: 'رقم المبنى (Bina No)', ru: 'Дом', zh: '楼号' },
     floorLabel: { tr: 'Kat', en: 'Floor (Kat)', ar: 'الدور / الطابق (Kat)', ru: 'Этаж', zh: '楼层' },
     aptLabel: { tr: 'Daire No', en: 'Apt No (Daire)', ar: 'رقم الشقة (Daire No)', ru: 'Квартира', zh: '门牌号' },
     noteLabel: { tr: 'Sipariş / Adres Notu', en: 'Note', ar: 'ملاحظة (Not)', ru: 'Примечания', zh: '备注' },
@@ -168,6 +190,20 @@ export default function CartDrawer() {
       ar: 'إلغاء',
       ru: 'Отмена',
       zh: '取消',
+    },
+    kvkkNotice: {
+      tr: 'Verileriniz KVKK kapsamında yalnızca sipariş teslimatı için kullanılır; WhatsApp üzerinden seçtiğiniz şubeye iletilir.',
+      en: 'Your data is solely processed for delivery and forwarded directly to your chosen branch via WhatsApp.',
+      ar: 'تُستخدم بياناتكم حصراً لتجهيز الطلب وتوصيله وتُرسل مباشرة للفرع المختار عبر واتساب.',
+      ru: 'Ваши данные используются исключительно для доставки и передаются в выбранный филиал через WhatsApp.',
+      zh: '您的信息仅用于餐品配送，并通过WhatsApp直接发送至您所选的分店。',
+    },
+    kvkkLink: {
+      tr: 'Aydınlatma Metni & Gizlilik Bildirimi (KVKK)',
+      en: 'Privacy Notice (KVKK)',
+      ar: 'إشعار الخصوصية وحماية البيانات (KVKK)',
+      ru: 'Положение о конфиденциальности',
+      zh: '隐私保护声明 (KVKK)',
     },
   };
 
@@ -207,15 +243,21 @@ export default function CartDrawer() {
     setIsEditingAddress(false);
   };
 
-  // 100% Turkish WhatsApp order message with Turkish Lira (₺) so restaurant and courier receive exact official TRY prices
+  // WhatsApp order message with selected branch name and Turkish Lira (₺)
   const buildWhatsAppMsg = () => {
-    let msg = `🍣 Merhaba Lucky Sushi & Chinese, yeni bir sipariş vermek istiyorum:\n\n`;
+    const branchName = selectedBranch ? selectedBranch.name_tr : 'Alibeyköy (Merkez)';
+    let msg = `🍣 Merhaba Lucky Sushi & Chinese (${branchName}), yeni bir sipariş vermek istiyorum:\n\n`;
     cart.forEach(({ item, quantity }) => {
       const trName = getItemName(item, 'tr');
       const itemTotalTl = (item.price * quantity).toFixed(0);
       msg += `• ${quantity}x ${trName} — ${itemTotalTl} ₺\n`;
     });
     msg += `\n💰 Toplam Tutar: ${cartSubtotal.toFixed(0)} ₺`;
+
+    // Append branch details
+    if (selectedBranch) {
+      msg += `\n📍 Seçilen Şube: ${selectedBranch.name_tr} (${selectedBranch.badge_tr})`;
+    }
 
     // Append Turkish structured customer delivery address if saved
     if (hasSavedAddress) {
@@ -244,7 +286,6 @@ export default function CartDrawer() {
       if (customerAddress.apartmentNo && customerAddress.apartmentNo.trim()) {
         msg += `\n🚪 Daire No: ${customerAddress.apartmentNo.trim()}`;
       }
-      // If legacy single address exists
       if (customerAddress.address && customerAddress.address.trim() && !customerAddress.street && !customerAddress.district) {
         msg += `\n🏠 Adres: ${customerAddress.address.trim()}`;
       }
@@ -258,6 +299,27 @@ export default function CartDrawer() {
     }
 
     return msg;
+  };
+
+  const handleCheckoutClick = (e) => {
+    e.preventDefault();
+    if (!selectedBranch) {
+      openBranchModal((branch) => {
+        const cleanPhone = (branch.whatsapp || branch.phone).replace(/[^0-9]/g, '');
+        const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(buildWhatsAppMsg())}`;
+        window.open(url, '_blank');
+      });
+      return;
+    }
+
+    if (!hasSavedAddress) {
+      setIsEditingAddress(true);
+      return;
+    }
+
+    const cleanPhone = (selectedBranch.whatsapp || selectedBranch.phone).replace(/[^0-9]/g, '');
+    const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(buildWhatsAppMsg())}`;
+    window.open(url, '_blank');
   };
 
   const isRtl = cartLang === 'ar';
@@ -278,14 +340,19 @@ export default function CartDrawer() {
         aria-modal="true"
         aria-label={l('title')}
         dir={isRtl ? 'rtl' : 'ltr'}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          maxHeight: '100vh',
+        }}
       >
-        {/* Waiter Banner */}
+        {/* Waiter / Online Banner */}
         <div
           style={{
             background: '#3e5343',
             color: '#FFFFFF',
             padding: '10px 16px',
-            fontSize: '0.88rem',
+            fontSize: '0.86rem',
             fontWeight: 700,
             textAlign: 'center',
             display: 'flex',
@@ -389,7 +456,7 @@ export default function CartDrawer() {
         )}
 
         {/* Body */}
-        <div className="cart-drawer__body">
+        <div className="cart-drawer__body" style={{ flex: 1, overflowY: 'auto' }}>
           {cart.length === 0 ? (
             <div className="cart-drawer__empty">
               <div className="cart-drawer__empty-icon">🥢</div>
@@ -464,7 +531,6 @@ export default function CartDrawer() {
                       {primaryName}
                     </span>
 
-                    {/* Show secondary language for clear understanding by both waiter and customer */}
                     {secondaryName && secondaryName !== primaryName && (
                       <span style={{ fontSize: '0.78rem', color: 'var(--mist-beige)', opacity: 0.75, display: 'block', marginTop: '1px' }}>
                         {secondaryName}
@@ -489,11 +555,81 @@ export default function CartDrawer() {
 
         {/* Footer */}
         {cart.length > 0 && (
-          <div className="cart-drawer__footer">
-            {/* Delivery Address Section */}
-            <div style={{ marginBottom: '14px' }}>
+          <div className="cart-drawer__footer" style={{ paddingBottom: 'calc(20px + env(safe-area-inset-bottom, 0px))' }}>
+            
+            {/* ── 1. Selected Branch Indicator / Prompt ── */}
+            <div style={{ marginBottom: '10px' }}>
+              {selectedBranch ? (
+                <div
+                  style={{
+                    background: 'rgba(45, 106, 79, 0.16)',
+                    border: '1px solid #2D6A4F',
+                    borderRadius: '8px',
+                    padding: '9px 12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: '8px',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ fontSize: '1rem' }}>📍</span>
+                    <div>
+                      <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#4ade80' }}>
+                        {selectedBranch[`name_${lang}`] || selectedBranch.name_tr}
+                      </div>
+                      <div style={{ fontSize: '0.72rem', color: 'var(--mist-beige)', opacity: 0.85 }}>
+                        {selectedBranch[`badge_${lang}`] || selectedBranch.badge_tr}
+                        {selectedBranch.type === 'delivery-only' && ' • (Sadece Paket Servis)'}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => openBranchModal()}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--color-accent, #D4A373)',
+                      fontSize: '0.76rem',
+                      fontWeight: 700,
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                      padding: 0,
+                    }}
+                  >
+                    {l('branchChange')}
+                  </button>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => openBranchModal()}
+                  style={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    padding: '10px 12px',
+                    background: 'rgba(212, 163, 115, 0.16)',
+                    border: '1.5px dashed #D4A373',
+                    borderRadius: '8px',
+                    color: '#ffd166',
+                    fontSize: '0.84rem',
+                    fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  <span>{l('branchSelectPrompt')}</span>
+                </button>
+              )}
+            </div>
+
+            {/* ── 2. Delivery Address Section ── */}
+            <div style={{ marginBottom: '10px' }}>
               {isEditingAddress ? (
-                /* Address Edit Form - Detailed Turkish Structure */
+                /* Address Edit Form */
                 <form
                   onSubmit={handleSaveAddress}
                   style={{
@@ -532,7 +668,7 @@ export default function CartDrawer() {
                     }}
                   />
 
-                  {/* Şehir (İl) & İlçe */}
+                  {/* City & District */}
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', width: '100%', boxSizing: 'border-box' }}>
                     <input
                       type="text"
@@ -573,7 +709,7 @@ export default function CartDrawer() {
                     />
                   </div>
 
-                  {/* Mahalle & Cadde/Sokak */}
+                  {/* Neighborhood & Street */}
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', width: '100%', boxSizing: 'border-box' }}>
                     <input
                       type="text"
@@ -614,7 +750,7 @@ export default function CartDrawer() {
                     />
                   </div>
 
-                  {/* Bina No, Kat, Daire No */}
+                  {/* Building No, Floor, Apt No */}
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '6px', width: '100%', boxSizing: 'border-box' }}>
                     <input
                       type="text"
@@ -748,7 +884,7 @@ export default function CartDrawer() {
                   </div>
                 </form>
               ) : hasSavedAddress ? (
-                /* Collapsible / Expandable Saved Address Card */
+                /* Collapsible Saved Address Card */
                 <div
                   style={{
                     background: 'rgba(255, 255, 255, 0.04)',
@@ -758,7 +894,6 @@ export default function CartDrawer() {
                     transition: 'all 0.2s ease',
                   }}
                 >
-                  {/* Header / Clickable Label */}
                   <div
                     onClick={() => setIsAddressExpanded(!isAddressExpanded)}
                     style={{
@@ -820,7 +955,6 @@ export default function CartDrawer() {
                     </div>
                   </div>
 
-                  {/* Expandable Content Body */}
                   {isAddressExpanded && (
                     <div
                       style={{
@@ -857,9 +991,6 @@ export default function CartDrawer() {
                           ].filter(Boolean).join(' • ')}
                         </div>
                       )}
-                      {customerAddress.address && !customerAddress.street && (
-                        <div style={{ wordBreak: 'break-word', marginTop: '2px' }}>{customerAddress.address}</div>
-                      )}
                       {(customerAddress.note || customerAddress.buildingNote) && (
                         <div style={{ fontSize: '0.76rem', color: '#ffd166', marginTop: '3px' }}>
                           📝 {customerAddress.note || customerAddress.buildingNote}
@@ -874,7 +1005,7 @@ export default function CartDrawer() {
                   )}
                 </div>
               ) : (
-                /* Add Address Prompt Button (Highlighted because address is required) */
+                /* Add Address Prompt Button */
                 <button
                   type="button"
                   onClick={() => setIsEditingAddress(true)}
@@ -900,46 +1031,85 @@ export default function CartDrawer() {
               )}
             </div>
 
+            {/* ── 3. KVKK / Privacy Notice Link ── */}
+            <div
+              style={{
+                marginBottom: '12px',
+                fontSize: '0.74rem',
+                color: 'var(--mist-beige)',
+                lineHeight: 1.4,
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '6px',
+                opacity: 0.88,
+              }}
+            >
+              <FaShieldHalved size={13} style={{ color: '#4ade80', flexShrink: 0, marginTop: '2px' }} />
+              <div>
+                <span>{l('kvkkNotice')} </span>
+                <button
+                  type="button"
+                  onClick={() => setIsKvkkOpen(true)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: '#ffd166',
+                    textDecoration: 'underline',
+                    cursor: 'pointer',
+                    padding: 0,
+                    fontSize: 'inherit',
+                    fontWeight: 600,
+                  }}
+                >
+                  {l('kvkkLink')}
+                </button>
+              </div>
+            </div>
+
             {/* Subtotal */}
             <div className="cart-drawer__subtotal">
               <span className="cart-drawer__subtotal-label">{l('subtotal')}</span>
               <span className="cart-drawer__subtotal-value">{formatPrice(cartSubtotal)}</span>
             </div>
 
-            {/* WhatsApp Checkout - Blocked if address is missing */}
-            {hasSavedAddress ? (
-              <a
-                href={`https://wa.me/${phoneClean}?text=${encodeURIComponent(buildWhatsAppMsg())}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cart-drawer__checkout"
-              >
-                {l('checkout')}
-              </a>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setIsEditingAddress(true)}
-                className="cart-drawer__checkout"
-                style={{
-                  width: '100%',
-                  opacity: 0.7,
-                  cursor: 'pointer',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '2px',
-                  padding: '10px 14px',
-                }}
-              >
-                <span style={{ fontWeight: 700 }}>{l('checkout')}</span>
-                <span style={{ fontSize: '0.72rem', opacity: 0.9, color: '#ffccd5' }}>
+            {/* WhatsApp Checkout Button */}
+            <button
+              type="button"
+              onClick={handleCheckoutClick}
+              className="cart-drawer__checkout"
+              style={{
+                width: '100%',
+                cursor: 'pointer',
+                border: 'none',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '2px',
+                padding: '12px 14px',
+                borderRadius: '8px',
+                background: '#25D366',
+                color: '#ffffff',
+                fontWeight: 700,
+                fontSize: '0.95rem',
+                boxShadow: '0 4px 12px rgba(37, 211, 102, 0.25)',
+              }}
+            >
+              <span>{l('checkout')}</span>
+              {!selectedBranch ? (
+                <span style={{ fontSize: '0.72rem', opacity: 0.95, color: '#fef08a' }}>
+                  ⚠️ {l('branchSelectPrompt')}
+                </span>
+              ) : !hasSavedAddress ? (
+                <span style={{ fontSize: '0.72rem', opacity: 0.95, color: '#ffccd5' }}>
                   ⚠️ {l('addressRequiredNotice')}
                 </span>
-              </button>
-            )}
+              ) : (
+                <span style={{ fontSize: '0.72rem', opacity: 0.95 }}>
+                  📍 {selectedBranch.name_tr} ({selectedBranch.phone})
+                </span>
+              )}
+            </button>
 
             {!isMinDeliveryReached && (
               <p className="cart-drawer__min-notice">{l('minNotice')}</p>
@@ -947,6 +1117,9 @@ export default function CartDrawer() {
           </div>
         )}
       </aside>
+
+      {/* KVKK Modal */}
+      <KVKKModal isOpen={isKvkkOpen} onClose={() => setIsKvkkOpen(false)} />
     </>
   );
 }

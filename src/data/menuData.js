@@ -4,12 +4,15 @@
  * الأسعار يجب تأكيدها من صاحب المطعم قبل الإطلاق النهائي.
  */
 import React from 'react';
+import { branchesData } from './branchesData';
 import { 
   FaBowlRice, FaFish, FaShrimp, FaPepperHot, FaBowlFood, 
   FaUtensils, FaGlassWater, FaFire, FaThumbsUp, FaLeaf, 
   FaBox, FaBoxOpen, FaStar, FaGift, FaSun, FaBacon, FaCakeCandles
 } from 'react-icons/fa6';
 import { GiSushis, GiChopsticks, GiNoodles, GiDumpling } from 'react-icons/gi';
+
+export { branchesData };
 
 export const menuItems = [
 
@@ -44,15 +47,17 @@ export const menuItems = [
   },
   {
     id: "set-salmon-lovers",
-    name_tr: "Salmon Lover's (40 Pcs)",
-    name_en: "Salmon Lover's (40 Pcs)",
-    name_ar: "عشاق السلمون (40 قطعة)",
+    name_tr: "Somon Severler Seti (40 Adet)",
+    name_en: "Salmon Lovers Set (40 Pcs)",
+    name_ar: "طقم عشاق السلمون (40 قطعة)",
     name_zh: "三文鱼爱好者套餐 (40件)",
-    description_tr: "Somon set (40 pcs): 8 pcs salmon ten roll · 8 pcs philadelphia roll ve daha fazlası",
-    description_en: "Salmon set (40 pcs): 8 pcs salmon ten roll · 8 pcs Philadelphia roll and more",
-    description_ar: "طقم سلمون (40 ق): 8 ق سالمون تن رول · 8 ق فيلادلفيا وأكثر",
-    description_zh: "三文鱼套餐(40件)：三文鱼天妇罗卷(8件)·费城卷(8件)等",
-    ingredients: ["salmon ten roll", "philadelphia roll", "sake maki"],
+    name_ru: "Сет для любителей лосося (40 шт)",
+    description_tr: "Somon severler için 40 parçalık zengin sushi seti. (Detaylı parça dağılımı restoran teyidi bekliyor - TODO)",
+    description_en: "Special 40-piece sushi set for salmon lovers. (Detailed piece breakdown pending restaurant confirmation - TODO)",
+    description_ar: "طقم سوشي غني من 40 قطعة لعشاق السلمون. (تفاصيل توزيع القطع قيد تأكيد المطعم - TODO)",
+    description_zh: "40件精选三文鱼寿司组合套餐。(具体搭配待餐厅确认 - TODO)",
+    description_ru: "Набор суши из 40 кусочков для любителей лосося. (Детализация состава ожидает подтверждения - TODO)",
+    ingredients: ["salmon ten roll", "philadelphia roll", "sake maki", "salmon nigiri", "salmon sashimi"],
     portion_or_pieces: "40 pcs",
     price: 1999,
     currency: "TL",
@@ -2040,88 +2045,6 @@ export const restaurantInfo = {
     platformsCombined: { score: 4.6, count: "2000+" },
   },
 
-  // Clearly Distinguished Branches
-  branches: [
-    {
-      id: "alibeykoy",
-      name: "Alibeyköy (Merkez)",
-      type: "restaurant", // Restoran & Paket Servis (Dine-in, Takeaway, Delivery)
-      allowDirections: true,
-      image: "/images/floter.jpg", // Storefront
-      badge_tr: "Restoran & Paket Servis",
-      badge_en: "Restaurant & Delivery",
-      badge_ar: "مطعم وتوصيل",
-      badge_ru: "Ресторан и доставка",
-      badge_zh: "餐厅堂食与外送 (总店)",
-      desc_tr: "Geniş oturma alanı, masada servis ve gece geç saatlere kadar paket servis.",
-      desc_en: "Dine-in seating, table service, and late-night delivery directly to your door.",
-      desc_ar: "جلسات داخلية مريحة، خدمة طاولات، وتوصيل سريع حتى وقت متأخر من الليل.",
-      desc_ru: "Уютный зал, обслуживание за столиками и доставка до поздней ночи.",
-      desc_zh: "宽敞堂食坐席、堂食点餐服务及深夜外送。",
-      address_tr: "Alibeyköy, Çırçır Cd. 25 A, 34060 Eyüpsultan/İstanbul",
-      address_en: "Alibeyköy, Çırçır Cd. 25 A, 34060 Eyüpsultan/Istanbul",
-      address_ar: "أليبي كوي، شارع تشيرتشير 25 أ، 34060 أيوب سلطان/إسطنبول",
-      address_ru: "Алибейкёй, ул. Чырчыр 25 A, 34060 Эйюпсултан/Стамбул",
-      address_zh: "伊斯坦布尔埃于普苏丹区阿里贝科伊 Çırçır街 25 A号 (34060)",
-      address: "Alibeyköy, Çırçır Cd. 25 A, 34060 Eyüpsultan/İstanbul",
-      phone: "+90 531 486 34 04",
-      whatsapp: "+90 531 486 34 04",
-      map: "https://maps.app.goo.gl/FYJRC83umT6g6diYA?g_st=ic",
-      hours: "10:45 — 04:00",
-    },
-    {
-      id: "zeytinburnu",
-      name: "Zeytinburnu",
-      type: "pickup-delivery", // Gel-Al & Paket Servis (Takeaway & Delivery)
-      allowDirections: true,
-      image: "/images/bento-1.jpg", // Distinct placeholder
-      badge_tr: "Gel-Al & Paket Servis",
-      badge_en: "Takeaway & Delivery",
-      badge_ar: "استلام وتوصيل",
-      badge_ru: "Самовывоз и доставка",
-      badge_zh: "外送与自提",
-      desc_tr: "Hızlı gel-al noktası ve Zeytinburnu ile çevresine hızlı paket servis.",
-      desc_en: "Convenient takeaway pickup counter and rapid delivery covering Zeytinburnu and surroundings.",
-      desc_ar: "نقطة استلام سريعة وتوصيل طلبات مغطى لمنطقة زيتون بورنو والمناطق المجاورة.",
-      desc_ru: "Удобный пункт самовывоза и быстрая доставка по району Зейтинбурну.",
-      desc_zh: "便捷自提点及辐射周边的高效外送服务。",
-      address_tr: "Zeytinburnu, İstanbul",
-      address_en: "Zeytinburnu, Istanbul",
-      address_ar: "زيتون بورنو، إسطنبول",
-      address_ru: "Зейтинбурну, Стамбул",
-      address_zh: "伊斯坦布尔 宰廷布尔努区",
-      address: "Zeytinburnu, İstanbul",
-      phone: "+90 544 217 98 57",
-      whatsapp: "+90 544 217 98 57",
-      map: "https://maps.app.goo.gl/1bUYKe45ERSb8HWo7?g_st=ic",
-      hours: "11:00 — 03:00",
-    },
-    {
-      id: "resitpasa",
-      name: "Reşitpaşa (Paket Servis)",
-      type: "delivery-only", // Sadece Paket Servis (Cloud Kitchen / Delivery Only)
-      allowDirections: false, // NO directions/dine-in invitation!
-      image: "/images/lucky-set.png", // Distinct placeholder
-      badge_tr: "Sadece Paket Servis (Mutfak)",
-      badge_en: "Delivery Kitchen Only (No Dine-In)",
-      badge_ar: "مطبخ توصيل فقط (بدون صالة جلوس)",
-      badge_ru: "Только доставка (Кухня без зала)",
-      badge_zh: "仅限外送厨房 (无堂食)",
-      desc_tr: "Sarıyer ve Reşitpaşa çevresine sıcak ve taze Asya lezzetlerini en hızlı şekilde ulaştıran özel mutfağımız.",
-      desc_en: "Dedicated cloud kitchen providing fast delivery of fresh sushi and Asian dishes across Sarıyer and surrounding areas.",
-      desc_ar: "مطبخنا المتخصص لتغطية منطقة ساريير وريشيت باشا وتقديم توصيل سريع للسوشي والأطباق الآسيوية الساخنة.",
-      desc_ru: "Специализированная кухня для быстрой доставки свежих суши и горячих азиатских блюд по району Сарыер.",
-      desc_zh: "为萨勒耶尔及周边区域提供高效外送的专属亚洲美食厨房。",
-      address_tr: "Reşitpaşa, Sarıyer, İstanbul",
-      address_en: "Reşitpaşa, Sarıyer, Istanbul",
-      address_ar: "ريشيت باشا، ساريير، إسطنبول",
-      address_ru: "Решитпаша, Сарыер, Стамбул",
-      address_zh: "伊斯坦布尔 萨勒耶尔区 赖希特帕夏",
-      address: "Reşitpaşa, Sarıyer, İstanbul",
-      phone: "+90 555 995 34 04",
-      whatsapp: "+90 555 995 34 04",
-      map: "https://maps.app.goo.gl/dNb9zXpej65MLyyH9?g_st=ic",
-      hours: "11:00 — 03:00",
-    },
-  ],
+  // Clearly Distinguished Branches (Single Source of Truth)
+  branches: branchesData,
 };

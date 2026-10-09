@@ -10,6 +10,7 @@ import {
 } from 'react-icons/fa6';
 import { GiChopsticks, GiSushis } from 'react-icons/gi';
 import { useLang } from '@/context/LangContext';
+import { useBranch } from '@/context/BranchContext';
 import { restaurantInfo, menuItems } from '@/data/menuData';
 import Header from '@/components/Header';
 import RotatingDishShowcase from '@/components/RotatingDishShowcase';
@@ -29,6 +30,7 @@ const CURATED_BESTSELLER_IDS = [
 
 export default function HomePage() {
   const { lang, t, tUI, dir } = useLang();
+  const { selectedBranch, openBranchModal } = useBranch();
   const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
@@ -40,7 +42,34 @@ export default function HomePage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const phoneClean = restaurantInfo.phone.replace(/[^0-9]/g, '');
+  const handleHeroOrderClick = (e) => {
+    e.preventDefault();
+    if (!selectedBranch) {
+      openBranchModal((branch) => {
+        const clean = (branch.whatsapp || branch.phone).replace(/[^0-9]/g, '');
+        const branchTitle = branch[`name_${lang}`] || branch.name_tr;
+        const msg = encodeURIComponent(
+          lang === 'ar' ? `مرحباً لاكي سوشي صيني (${branchTitle})، أود تقديم طلب من المنيو.` :
+          lang === 'en' ? `Hello Lucky Sushi & Chinese (${branchTitle}), I would like to place an order from the menu.` :
+          lang === 'ru' ? `Здравствуйте, Lucky Sushi & Chinese (${branchTitle})! Хочу сделать заказ по меню.` :
+          lang === 'zh' ? `您好 Lucky Sushi & Chinese (${branchTitle})，我想根据菜单点餐。` :
+          `Merhaba Lucky Sushi & Chinese (${branchTitle}), menüden sipariş vermek istiyorum.`
+        );
+        window.open(`https://wa.me/${clean}?text=${msg}`, '_blank');
+      });
+    } else {
+      const clean = (selectedBranch.whatsapp || selectedBranch.phone).replace(/[^0-9]/g, '');
+      const branchTitle = selectedBranch[`name_${lang}`] || selectedBranch.name_tr;
+      const msg = encodeURIComponent(
+        lang === 'ar' ? `مرحباً لاكي سوشي صيني (${branchTitle})، أود تقديم طلب من المنيو.` :
+        lang === 'en' ? `Hello Lucky Sushi & Chinese (${branchTitle}), I would like to place an order from the menu.` :
+        lang === 'ru' ? `Здравствуйте, Lucky Sushi & Chinese (${branchTitle})! Хочу сделать заказ по меню.` :
+        lang === 'zh' ? `您好 Lucky Sushi & Chinese (${branchTitle})，我想根据菜单点餐。` :
+        `Merhaba Lucky Sushi & Chinese (${branchTitle}), menüden sipariş vermek istiyorum.`
+      );
+      window.open(`https://wa.me/${clean}?text=${msg}`, '_blank');
+    }
+  };
 
   const whatsappGreetings = {
     tr: 'Merhaba Lucky Sushi & Chinese, menüden sipariş vermek istiyorum.',
@@ -103,21 +132,19 @@ export default function HomePage() {
                 <span aria-hidden="true">{dir === 'rtl' ? '←' : '→'}</span>
               </Link>
 
-              <a
-                href={`https://wa.me/${phoneClean}?text=${waHeroText}`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={handleHeroOrderClick}
                 className="btn-hero-secondary"
                 id="hero-whatsapp-cta"
+                style={{ cursor: 'pointer', border: 'none' }}
               >
                 <FaWhatsapp aria-hidden="true" />
                 <span>{tUI('order_now_btn')}</span>
-              </a>
+              </button>
 
-              <a
-                href={restaurantInfo.google_maps_url}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/branches"
                 className="btn-hero-tertiary"
                 id="hero-map-cta"
                 style={{
@@ -138,7 +165,7 @@ export default function HomePage() {
               >
                 <FaMapLocationDot aria-hidden="true" />
                 <span>{tUI('home_hero_location_cta')}</span>
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -319,28 +346,58 @@ export default function HomePage() {
               const whatsappClean = branch.whatsapp.replace(/[^0-9]/g, '');
               const branchPhoneClean = branch.phone.replace(/[^0-9]/g, '');
               const branchBadge = branch[`badge_${lang}`] || branch.badge_tr;
+              const branchName = branch[`name_${lang}`] || branch.name_tr || branch.name;
+              const branchAddress = branch[`address_${lang}`] || branch.address;
+              const branchHours = branch[`hours_${lang}`] || branch.hours_tr;
+              const branchCoverage = branch[`coverage_${lang}`] || branch.coverage_tr;
+              
+              const branchMsg = encodeURIComponent(
+                lang === 'ar' ? `مرحباً لاكي سوشي صيني (${branchName})، أود تقديم طلب من المنيو.` :
+                lang === 'en' ? `Hello Lucky Sushi & Chinese (${branchName}), I would like to place an order from the menu.` :
+                lang === 'ru' ? `Здравствуйте, Lucky Sushi & Chinese (${branchName})! Хочу сделать заказ по меню.` :
+                lang === 'zh' ? `您好 Lucky Sushi & Chinese (${branchName})，我想根据菜单点餐。` :
+                `Merhaba Lucky Sushi & Chinese (${branchName}), menüden sipariş vermek istiyorum.`
+              );
               
               return (
-                <div key={branch.id} className="home-visit-card" style={{ display: 'flex', flexDirection: 'column' }}>
+                <div key={branch.id} className="home-visit-card" style={{ display: 'flex', flexDirection: 'column', borderRadius: '12px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                     <span className="home-visit-icon" aria-hidden="true"><FaHouse /></span>
                     <span style={{
                       fontSize: '0.74rem',
                       fontWeight: 700,
-                      background: 'rgba(40, 122, 63, 0.1)',
-                      color: 'var(--color-brand-primary)',
+                      background: branch.type === 'delivery-only' ? 'rgba(239, 68, 68, 0.12)' : 'rgba(40, 122, 63, 0.1)',
+                      color: branch.type === 'delivery-only' ? '#ef4444' : 'var(--color-brand-primary)',
                       padding: '3px 8px',
                       borderRadius: '4px'
                     }}>
                       {branchBadge}
                     </span>
                   </div>
-                  <h3 className="home-visit-name">{branch.name}</h3>
-                  <p className="home-visit-text" style={{ flex: 1, marginBottom: 'var(--sp-3)' }}>{branch.address}</p>
+                  <h3 className="home-visit-name" style={{ marginBottom: '4px' }}>{branchName}</h3>
+                  
+                  {branch.type === 'delivery-only' && (
+                    <div style={{ fontSize: '0.75rem', color: '#ffb4a2', background: 'rgba(239, 68, 68, 0.1)', padding: '4px 8px', borderRadius: '4px', marginBottom: '8px', fontWeight: 600 }}>
+                      ⚠️ {lang === 'ar' ? 'مطبخ توصيل فقط (بدون صالة جلوس)' : lang === 'tr' ? 'Sadece Paket Servis (Masa Servisi Yoktur)' : 'Delivery Kitchen Only (No Dine-in)'}
+                    </div>
+                  )}
+
+                  <p className="home-visit-text" style={{ fontSize: '0.86rem', marginBottom: '6px' }}>{branchAddress}</p>
+                  
+                  {branchCoverage && (
+                    <p style={{ fontSize: '0.76rem', color: 'var(--mist-beige)', opacity: 0.85, marginBottom: '8px' }}>
+                      📍 <strong>{lang === 'ar' ? 'التغطية:' : lang === 'tr' ? 'Bölge:' : 'Coverage:'}</strong> {branchCoverage}
+                    </p>
+                  )}
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#4ade80', fontWeight: 600, marginBottom: 'var(--sp-3)', marginTop: 'auto' }}>
+                    <FaClock size={12} aria-hidden="true" />
+                    <span>{branchHours}</span>
+                  </div>
                   
                   <div className="home-visit-actions" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <a
-                      href={`https://wa.me/${whatsappClean}?text=${waHeroText}`}
+                      href={`https://wa.me/${whatsappClean}?text=${branchMsg}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
@@ -349,7 +406,7 @@ export default function HomePage() {
                         fontWeight: 600, fontSize: '0.88rem', textDecoration: 'none', transition: 'background var(--transition-fast)'
                       }}
                     >
-                      <FaWhatsapp aria-hidden="true" /> WhatsApp
+                      <FaWhatsapp aria-hidden="true" /> WhatsApp ({branch.phone})
                     </a>
                     <div style={{ display: 'grid', gridTemplateColumns: branch.allowDirections ? '1fr 1fr' : '1fr', gap: '8px' }}>
                       <a

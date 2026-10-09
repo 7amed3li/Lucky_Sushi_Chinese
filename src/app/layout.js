@@ -5,9 +5,11 @@ import "./globals.css";
 import "./footer.css";
 import { CartProvider } from "@/context/CartContext";
 import { CurrencyProvider } from "@/context/CurrencyContext";
+import { BranchProvider } from "@/context/BranchContext";
 import { getDir } from "@/i18n/config/locales";
 import Footer from "@/components/Footer";
 import MobileBottomBar from "@/components/MobileBottomBar";
+import BranchModal from "@/components/BranchModal";
 import { generateRestaurantJsonLd } from "@/lib/structuredData";
 
 const notoSans = Noto_Sans({
@@ -112,13 +114,16 @@ export default async function RootLayout({ children }) {
       <body>
         <a href="#main-content" className="skip-link">Skip to content</a>
         <NextIntlClientProvider locale={locale} messages={await getMessages()}>
-          <CurrencyProvider>
-            <CartProvider>
-              {children}
-              <Footer />
-              <MobileBottomBar />
-            </CartProvider>
-          </CurrencyProvider>
+          <BranchProvider>
+            <CurrencyProvider>
+              <CartProvider>
+                {children}
+                <Footer />
+                <MobileBottomBar />
+                <BranchModal />
+              </CartProvider>
+            </CurrencyProvider>
+          </BranchProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -6,23 +6,50 @@ import { GiSushis } from 'react-icons/gi';
 import { FaWhatsapp, FaMapLocationDot, FaBagShopping } from 'react-icons/fa6';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
+import { useBranch } from '@/context/BranchContext';
 import { restaurantInfo } from '@/data/menuData';
 
 export default function MobileBottomBar() {
   const pathname = usePathname();
   const { lang, tUI } = useLang();
   const { cartCount, setIsCartOpen } = useCart();
+  const { selectedBranch, openBranchModal } = useBranch();
 
-  const phoneClean = restaurantInfo.phone.replace(/[^0-9]/g, '');
-
-  const whatsappGreetings = {
-    tr: 'Merhaba Lucky Sushi & Chinese, menüden sipariş vermek istiyorum.',
-    en: 'Hello Lucky Sushi & Chinese, I would like to place an order from the menu.',
-    ar: 'مرحباً لاكي سوشي صيني، أود تقديم طلب من المنيو.',
-    ru: 'Здравствуйте, Lucky Sushi & Chinese! Хочу сделать заказ по меню.',
-    zh: '您好 Lucky Sushi & Chinese，我想根据菜单点餐。',
+  const handleWhatsAppClick = (e) => {
+    e.preventDefault();
+    if (!selectedBranch) {
+      openBranchModal((branch) => {
+        const clean = (branch.whatsapp || branch.phone).replace(/[^0-9]/g, '');
+        const branchTitle = branch[`name_${lang}`] || branch.name_tr;
+        const msg = encodeURIComponent(
+          lang === 'ar' ? `مرحباً لاكي سوشي صيني (${branchTitle})، أود تقديم طلب من المنيو.` :
+          lang === 'en' ? `Hello Lucky Sushi & Chinese (${branchTitle}), I would like to place an order from the menu.` :
+          lang === 'ru' ? `Здравствуйте, Lucky Sushi & Chinese (${branchTitle})! Хочу сделать заказ по меню.` :
+          lang === 'zh' ? `您好 Lucky Sushi & Chinese (${branchTitle})，我想根据菜单点餐。` :
+          `Merhaba Lucky Sushi & Chinese (${branchTitle}), menüden sipariş vermek istiyorum.`
+        );
+        window.open(`https://wa.me/${clean}?text=${msg}`, '_blank');
+      });
+    } else {
+      const clean = (selectedBranch.whatsapp || selectedBranch.phone).replace(/[^0-9]/g, '');
+      const branchTitle = selectedBranch[`name_${lang}`] || selectedBranch.name_tr;
+      const msg = encodeURIComponent(
+        lang === 'ar' ? `مرحباً لاكي سوشي صيني (${branchTitle})، أود تقديم طلب من المنيو.` :
+        lang === 'en' ? `Hello Lucky Sushi & Chinese (${branchTitle}), I would like to place an order from the menu.` :
+        lang === 'ru' ? `Здравствуйте, Lucky Sushi & Chinese (${branchTitle})! Хочу сделать заказ по меню.` :
+        lang === 'zh' ? `您好 Lucky Sushi & Chinese (${branchTitle})，我想根据菜单点餐。` :
+        `Merhaba Lucky Sushi & Chinese (${branchTitle}), menüden sipariş vermek istiyorum.`
+      );
+      window.open(`https://wa.me/${clean}?text=${msg}`, '_blank');
+    }
   };
-  const waText = encodeURIComponent(whatsappGreetings[lang] || whatsappGreetings.tr);
+
+  const getMapHref = () => {
+    if (selectedBranch && selectedBranch.map) {
+      return selectedBranch.map;
+    }
+    return '/branches';
+  };
 
   return (
     <nav className="mobile-bottom-bar" aria-label="Mobile quick actions">
@@ -50,29 +77,40 @@ export default function MobileBottomBar() {
         )}
       </button>
 
-      {/* 3. WhatsApp Order */}
-      <a
-        href={`https://wa.me/${phoneClean}?text=${waText}`}
-        target="_blank"
-        rel="noopener noreferrer"
+      {/* 3. WhatsApp Order (Branch-aware) */}
+      <button
+        type="button"
+        onClick={handleWhatsAppClick}
         className="mobile-bottom-bar__item mobile-bottom-bar__item--whatsapp"
         aria-label="Order via WhatsApp"
+        style={{ background: 'none', border: 'none', cursor: 'pointer' }}
       >
         <FaWhatsapp size={20} aria-hidden="true" />
         <span>WhatsApp</span>
-      </a>
+      </button>
 
-      {/* 4. Google Maps */}
-      <a
-        href={restaurantInfo.google_maps_url || restaurantInfo.branches[0].map}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mobile-bottom-bar__item"
-        aria-label={tUI('bar_map') || 'Location'}
-      >
-        <FaMapLocationDot size={18} aria-hidden="true" />
-        <span>{tUI('bar_map') || 'Konum'}</span>
-      </a>
+      {/* 4. Google Maps / Branches */}
+      {selectedBranch && selectedBranch.map ? (
+        <a
+          href={selectedBranch.map}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mobile-bottom-bar__item"
+          aria-label={tUI('bar_map') || 'Location'}
+        >
+          <FaMapLocationDot size={18} aria-hidden="true" />
+          <span>{tUI('bar_map') || 'Konum'}</span>
+        </a>
+      ) : (
+        <Link
+          href="/branches"
+          className={`mobile-bottom-bar__item ${pathname === '/branches' ? 'active' : ''}`}
+          aria-label={tUI('bar_map') || 'Branches'}
+        >
+          <FaMapLocationDot size={18} aria-hidden="true" />
+          <span>{tUI('bar_map') || 'Şubeler'}</span>
+        </Link>
+      )}
     </nav>
   );
 }

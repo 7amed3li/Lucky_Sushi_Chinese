@@ -7,6 +7,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
+import { useBranch } from '@/context/BranchContext';
 import CurrencySwitcher from '@/components/CurrencySwitcher';
 import SvgFlag from '@/components/SvgFlag';
 import { restaurantInfo } from '@/data/menuData';
@@ -18,11 +19,12 @@ export default function Header() {
   const { lang, switchLang, tUI, dir, SUPPORTED_LANGS, getLocale } = useLang();
   const { cartCount, setIsCartOpen } = useCart();
   const { currency, changeCurrency, currencies } = useCurrency();
+  const { selectedBranch, selectedBranchId, openBranchModal } = useBranch();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
 
-  const phoneClean = restaurantInfo.phone.replace(/[^0-9]/g, '');
+  const activeBranchPhoneClean = (selectedBranch ? selectedBranch.whatsapp : restaurantInfo.phone).replace(/[^0-9]/g, '');
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -105,7 +107,7 @@ export default function Header() {
 
           {/* Actions */}
           <div className="header__actions">
-            {/* Minimal Language Dropdown */}
+            {/* Currency Switcher */}
             <CurrencySwitcher />
             <div className="header__lang-container">
               <button
@@ -294,6 +296,51 @@ export default function Header() {
           </Link>
         </nav>
 
+        {/* Mobile Branch Selector */}
+        <div className="mobile-drawer__section-title">
+          {lang === 'ar' ? 'الفرع المحدد للطلب' : lang === 'tr' ? 'Sipariş Şubesi' : 'Ordering Branch'}
+        </div>
+        <div style={{ padding: '0 4px', marginBottom: '14px' }}>
+          <button
+            type="button"
+            onClick={() => {
+              closeMobile();
+              openBranchModal();
+            }}
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: '11px 14px',
+              background: selectedBranch ? 'rgba(45, 106, 79, 0.22)' : 'rgba(255, 255, 255, 0.05)',
+              border: selectedBranch ? '1.5px solid #2D6A4F' : '1.5px dashed rgba(255, 255, 255, 0.25)',
+              borderRadius: '8px',
+              color: '#FFFFFF',
+              fontSize: '0.85rem',
+              cursor: 'pointer',
+              textAlign: dir === 'rtl' ? 'right' : 'left',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '1.1rem' }}>📍</span>
+              <div>
+                <div style={{ fontWeight: 700, color: selectedBranch ? '#4ade80' : '#F6F1E8' }}>
+                  {selectedBranch ? (selectedBranch[`name_${lang}`] || selectedBranch.name_tr) : (lang === 'ar' ? 'يرجى اختيار الفرع' : lang === 'tr' ? 'Lütfen Şube Seçin' : 'Select Branch')}
+                </div>
+                {selectedBranch && (
+                  <div style={{ fontSize: '0.72rem', opacity: 0.8, color: 'var(--mist-beige)' }}>
+                    {selectedBranch[`badge_${lang}`] || selectedBranch.badge_tr}
+                  </div>
+                )}
+              </div>
+            </div>
+            <span style={{ fontSize: '0.76rem', color: 'var(--color-accent, #D4A373)', textDecoration: 'underline', fontWeight: 600 }}>
+              {lang === 'ar' ? 'تعديل' : lang === 'tr' ? 'Değiştir' : 'Change'}
+            </span>
+          </button>
+        </div>
+
         {/* Mobile Language Switcher */}
         <div className="mobile-drawer__section-title">
           {tUI('nav_language') || 'Language'}
@@ -342,21 +389,41 @@ export default function Header() {
         </div>
 
         {/* WhatsApp Direct Order CTA */}
-        <a
-          href={`https://wa.me/${phoneClean}?text=${encodeURIComponent(
-            lang === 'ar' ? 'مرحباً لاكي سوشي صيني، أود تقديم طلب من المنيو.' :
-            lang === 'en' ? 'Hello Lucky Sushi & Chinese, I would like to place an order from the menu.' :
-            lang === 'ru' ? 'Здравствуйте, Lucky Sushi & Chinese! Хочу сделать заказ по меню.' :
-            lang === 'zh' ? '您好 Lucky Sushi & Chinese，我想根据菜单点餐。' :
-            'Merhaba Lucky Sushi & Chinese, menüden sipariş vermek istiyorum.'
-          )}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={closeMobile}
+        <button
+          type="button"
+          onClick={() => {
+            closeMobile();
+            if (!selectedBranch) {
+              openBranchModal((branch) => {
+                const clean = (branch.whatsapp || branch.phone).replace(/[^0-9]/g, '');
+                const branchTitle = branch[`name_${lang}`] || branch.name_tr;
+                const msg = encodeURIComponent(
+                  lang === 'ar' ? `مرحباً لاكي سوشي صيني (${branchTitle})، أود تقديم طلب من المنيو.` :
+                  lang === 'en' ? `Hello Lucky Sushi & Chinese (${branchTitle}), I would like to place an order from the menu.` :
+                  lang === 'ru' ? `Здравствуйте, Lucky Sushi & Chinese (${branchTitle})! Хочу сделать заказ по меню.` :
+                  lang === 'zh' ? `您好 Lucky Sushi & Chinese (${branchTitle})，我想根据菜单点餐。` :
+                  `Merhaba Lucky Sushi & Chinese (${branchTitle}), menüden sipariş vermek istiyorum.`
+                );
+                window.open(`https://wa.me/${clean}?text=${msg}`, '_blank');
+              });
+            } else {
+              const clean = (selectedBranch.whatsapp || selectedBranch.phone).replace(/[^0-9]/g, '');
+              const branchTitle = selectedBranch[`name_${lang}`] || selectedBranch.name_tr;
+              const msg = encodeURIComponent(
+                lang === 'ar' ? `مرحباً لاكي سوشي صيني (${branchTitle})، أود تقديم طلب من المنيو.` :
+                lang === 'en' ? `Hello Lucky Sushi & Chinese (${branchTitle}), I would like to place an order from the menu.` :
+                lang === 'ru' ? `Здравствуйте, Lucky Sushi & Chinese (${branchTitle})! Хочу сделать заказ по меню.` :
+                lang === 'zh' ? `您好 Lucky Sushi & Chinese (${branchTitle})，我想根据菜单点餐。` :
+                `Merhaba Lucky Sushi & Chinese (${branchTitle}), menüden sipariş vermek istiyorum.`
+              );
+              window.open(`https://wa.me/${clean}?text=${msg}`, '_blank');
+            }
+          }}
           className="mobile-drawer__order-btn"
+          style={{ width: '100%', border: 'none', cursor: 'pointer', textAlign: 'center', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
           <span>{tUI('order_now_btn')} (WhatsApp)</span>
-        </a>
+        </button>
       </aside>
     </>
   );
