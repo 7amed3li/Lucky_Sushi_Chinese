@@ -480,7 +480,7 @@ export default function CartDrawer() {
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <FaLocationDot size={14} aria-hidden="true" />
+                      <FaLocationDot size={14} style={{ color: 'var(--color-accent, #D4A373)', flexShrink: 0 }} aria-hidden="true" />
                       <strong style={{ fontSize: '0.85rem', color: 'var(--color-brand-light)' }}>
                         {l('addressTitle')}
                       </strong>
@@ -574,7 +574,7 @@ export default function CartDrawer() {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <FaLocationDot size={15} aria-hidden="true" />
+                    <FaLocationDot size={15} style={{ color: '#4ade80', flexShrink: 0 }} aria-hidden="true" />
                     <div>
                       <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#4ade80' }}>
                         {selectedBranch[`name_${lang}`] || selectedBranch.name_tr}
@@ -644,7 +644,7 @@ export default function CartDrawer() {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
-                    <FaLocationDot size={14} aria-hidden="true" />
+                    <FaLocationDot size={14} style={{ color: 'var(--color-accent, #D4A373)', flexShrink: 0 }} aria-hidden="true" />
                     <strong style={{ fontSize: '0.85rem', color: 'var(--color-brand-light)' }}>
                       {l('addressTitle')}
                     </strong>
@@ -908,7 +908,7 @@ export default function CartDrawer() {
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <FaLocationDot size={15} aria-hidden="true" />
+                      <FaLocationDot size={15} style={{ color: 'var(--color-accent, #D4A373)', flexShrink: 0 }} aria-hidden="true" />
                       <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <strong style={{ fontSize: '0.84rem', color: 'var(--color-brand-light)' }}>
                           {l('addressTitle')}
@@ -1107,7 +1107,7 @@ export default function CartDrawer() {
                 </span>
               ) : (
                 <span style={{ fontSize: '0.72rem', opacity: 0.95 }}>
-                  <FaLocationDot aria-hidden="true" /> {selectedBranch.name_tr} ({selectedBranch.phone})
+                  <FaLocationDot style={{ color: '#4ade80' }} aria-hidden="true" /> {selectedBranch.name_tr} ({selectedBranch.phone})
                 </span>
               )}
             </button>
