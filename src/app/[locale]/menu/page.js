@@ -15,6 +15,7 @@ import DishModal from '@/components/DishModal';
 import CartDrawer from '@/components/CartDrawer';
 import TrendingBar from '@/components/TrendingBar';
 import { GiSushis } from 'react-icons/gi';
+import { FaMagnifyingGlass } from 'react-icons/fa6';
 
 // Multilingual synonym map for cross-lingual restaurant search
 const MULTILINGUAL_SYNONYMS = [
@@ -315,7 +316,7 @@ export default function MenuPage() {
 
           {/* Quick Search with Multilingual Support */}
           <div className="menu-search-wrap">
-            <span className="menu-search-icon" aria-hidden="true">🔍</span>
+            <FaMagnifyingGlass className="menu-search-icon" aria-hidden="true" />
             <input
               type="text"
               className="menu-search-input"

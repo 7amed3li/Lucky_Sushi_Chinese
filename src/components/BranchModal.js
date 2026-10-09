@@ -323,7 +323,7 @@ export default function BranchModal() {
                           gap: '4px',
                         }}
                       >
-                        ✓ {l('selectedBadge')}
+                        {l('selectedBadge')}
                       </span>
                     )}
                   </div>
@@ -409,7 +409,7 @@ export default function BranchModal() {
                       gap: '6px',
                     }}
                   >
-                    <span>{isSelected ? `✓ ${l('selectedBadge')}` : l('selectBtn')}</span>
+                    <span>{isSelected ? l('selectedBadge') : l('selectBtn')}</span>
                   </button>
                 </div>
               </div>

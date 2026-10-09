@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useCurrency } from '@/context/CurrencyContext';
 import SaudiRiyalIcon from './SaudiRiyalIcon';
+import { FaCheck } from 'react-icons/fa6';
 
 export default function CurrencySwitcher() {
   const { currency, changeCurrency, currencies } = useCurrency();
@@ -85,7 +86,7 @@ export default function CurrencySwitcher() {
                     <span className="header__currency-item-code">{c.code}</span>
                     <span className="header__currency-item-name">{c.label}</span>
                   </div>
-                  {isSelected && <span className="header__currency-check" aria-hidden="true">✓</span>}
+                  {isSelected && <FaCheck className="header__currency-check" aria-hidden="true" />}
                 </button>
               );
             })}

@@ -8,8 +8,9 @@ import { useCurrency } from '@/context/CurrencyContext';
 import { useBranch } from '@/context/BranchContext';
 import { restaurantInfo } from '@/data/menuData';
 import KVKKModal from '@/components/KVKKModal';
-import { FaShieldHalved, FaLocationDot, FaCircleInfo, FaRotate, FaTriangleExclamation, FaGlobe, FaPhone } from 'react-icons/fa6';
+import { FaShieldHalved, FaLocationDot, FaCircleInfo, FaRotate, FaTriangleExclamation, FaGlobe, FaPhone, FaClipboardList, FaUser, FaPen } from 'react-icons/fa6';
 import { GiSushis } from 'react-icons/gi';
+import SvgFlag from '@/components/SvgFlag';
 
 import trProducts from '@/i18n/messages/tr/products.json';
 import enProducts from '@/i18n/messages/en/products.json';
@@ -253,7 +254,7 @@ export default function CartDrawer() {
       const itemTotalTl = (item.price * quantity).toFixed(0);
       msg += `• ${quantity}x ${trName} — ${itemTotalTl} ₺\n`;
     });
-    msg += `\n💰 Toplam Tutar: ${cartSubtotal.toFixed(0)} ₺`;
+    msg += `\nToplam Tutar: ${cartSubtotal.toFixed(0)} ₺`;
 
     // Append branch details
     if (selectedBranch) {
@@ -264,35 +265,35 @@ export default function CartDrawer() {
     if (hasSavedAddress) {
       msg += `\n\nTeslimat Adresi:`;
       if (customerAddress.name && customerAddress.name.trim()) {
-        msg += `\n👤 İsim: ${customerAddress.name.trim()}`;
+        msg += `\nİsim: ${customerAddress.name.trim()}`;
       }
       if (customerAddress.city && customerAddress.city.trim()) {
-        msg += `\n🏙️ Şehir: ${customerAddress.city.trim()}`;
+        msg += `\nŞehir: ${customerAddress.city.trim()}`;
       }
       if (customerAddress.district && customerAddress.district.trim()) {
         msg += `\nİlçe: ${customerAddress.district.trim()}`;
       }
       if (customerAddress.neighborhood && customerAddress.neighborhood.trim()) {
-        msg += `\n🏘️ Mahalle: ${customerAddress.neighborhood.trim()}`;
+        msg += `\nMahalle: ${customerAddress.neighborhood.trim()}`;
       }
       if (customerAddress.street && customerAddress.street.trim()) {
-        msg += `\n🛣️ Cadde / Sokak: ${customerAddress.street.trim()}`;
+        msg += `\nCadde / Sokak: ${customerAddress.street.trim()}`;
       }
       if (customerAddress.buildingNo && customerAddress.buildingNo.trim()) {
-        msg += `\n🏠 Bina No: ${customerAddress.buildingNo.trim()}`;
+        msg += `\nBina No: ${customerAddress.buildingNo.trim()}`;
       }
       if (customerAddress.floor && customerAddress.floor.trim()) {
-        msg += `\n🪜 Kat: ${customerAddress.floor.trim()}`;
+        msg += `\nKat: ${customerAddress.floor.trim()}`;
       }
       if (customerAddress.apartmentNo && customerAddress.apartmentNo.trim()) {
-        msg += `\n🚪 Daire No: ${customerAddress.apartmentNo.trim()}`;
+        msg += `\nDaire No: ${customerAddress.apartmentNo.trim()}`;
       }
       if (customerAddress.address && customerAddress.address.trim() && !customerAddress.street && !customerAddress.district) {
-        msg += `\n🏠 Adres: ${customerAddress.address.trim()}`;
+        msg += `\nAdres: ${customerAddress.address.trim()}`;
       }
       const finalNote = (customerAddress.note || customerAddress.buildingNote || '').trim();
       if (finalNote) {
-        msg += `\n📝 Not: ${finalNote}`;
+        msg += `\nNot: ${finalNote}`;
       }
       if (customerAddress.phone && customerAddress.phone.trim()) {
         msg += `\nTel: ${customerAddress.phone.trim()}`;
@@ -364,7 +365,7 @@ export default function CartDrawer() {
             boxShadow: '0 2px 6px rgba(0, 0, 0, 0.15)',
           }}
         >
-          <span style={{ fontSize: '1rem' }} aria-hidden="true">📋</span>
+          <FaClipboardList size={16} aria-hidden="true" />
           <span>{l('banner')}</span>
         </div>
 
@@ -426,7 +427,7 @@ export default function CartDrawer() {
                 gap: '6px',
               }}
             >
-              <span>🇹🇷</span>
+              <SvgFlag code="tr" size={15} />
               <span>Garson Modu (Türkçe)</span>
             </button>
 
@@ -968,7 +969,7 @@ export default function CartDrawer() {
                     >
                       {customerAddress.name && (
                         <div style={{ color: '#fff', fontWeight: 600, marginBottom: '2px' }}>
-                          👤 {customerAddress.name}
+                          <FaUser aria-hidden="true" /> {customerAddress.name}
                         </div>
                       )}
                       <div>
@@ -994,7 +995,7 @@ export default function CartDrawer() {
                       )}
                       {(customerAddress.note || customerAddress.buildingNote) && (
                         <div style={{ fontSize: '0.76rem', color: '#ffd166', marginTop: '3px' }}>
-                          📝 {customerAddress.note || customerAddress.buildingNote}
+                          <FaPen aria-hidden="true" /> {customerAddress.note || customerAddress.buildingNote}
                         </div>
                       )}
                       {customerAddress.phone && (

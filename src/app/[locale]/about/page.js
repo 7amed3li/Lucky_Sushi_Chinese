@@ -58,7 +58,7 @@ export default function AboutPage() {
     contactCta: { tr: 'Şubelerimizi Görün', en: 'View Our Locations', ar: 'فروعنا ومواقعنا', zh: '查看门店', ru: 'Наши филиалы', fa: 'شعبات ما', fr: 'Nos Adresses' },
     statFresh: { tr: 'Taze Deniz Mahsulü', en: 'Fresh Seafood', ar: 'مأكولات بحرية طازجة', ru: 'Свежие морепродукты', zh: '新鲜海鲜' },
     statDishes: { tr: 'Özgün Lezzet Çeşidi', en: 'Curated Menu Items', ar: 'طبقاً آسيوياً مميزاً', ru: 'Разнообразных блюд', zh: '精选特色料理' },
-    statReviews: { tr: 'Google Değerlendirmesi', en: 'Google Reviews (4.6★)', ar: 'تقييمات غوغل (4.6★)', ru: 'Отзывов в Google (4.6★)', zh: '谷歌真实好评 (4.6★)' },
+    statReviews: { tr: 'Google Değerlendirmesi', en: 'Google Reviews (4.6 / 5)', ar: 'تقييمات غوغل (4.6 / 5)', ru: 'Отзывов в Google (4.6 / 5)', zh: '谷歌真实好评 (4.6 / 5)' },
     galleryBadge: { tr: 'Gastronomi Galerisi', en: 'Culinary Showcase', ar: 'معرض النكهات', ru: 'Галерея вкуса', zh: '美食展' },
     galleryTitle: { tr: 'Usta Ellerden Masanıza', en: 'Handcrafted From Kitchen to Table', ar: 'من أيدي الطهاة إلى مائدتكم', ru: 'От мастеров к вашему столу', zh: '从大厨之手到您的餐桌' },
   };
