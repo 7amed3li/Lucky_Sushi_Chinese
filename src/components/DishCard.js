@@ -5,6 +5,7 @@ import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import { formatPortion } from '@/lib/formatPortion';
+import { GiSushis } from 'react-icons/gi';
 
 const BADGE_MAP = {
   'bestseller':        { label_tr: 'Çok Satan', label_en: 'Best Seller', label_ar: 'الأكثر طلباً', label_ru: 'Хит продаж', label_zh: '热卖', bg: 'var(--color-brand-primary)', color: '#FFFFFF' },
@@ -86,7 +87,7 @@ export default function DishCard({ item, onClick }) {
             }}
             aria-hidden="true"
           >
-            🥢
+            <GiSushis aria-hidden="true" />
           </div>
         )}
 

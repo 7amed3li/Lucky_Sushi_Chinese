@@ -395,7 +395,7 @@ export default function BranchesPage() {
                           transition: 'all 0.15s ease',
                         }}
                       >
-                        {isSelected ? <FaCheck size={14} /> : <span>📍</span>}
+                        {isSelected ? <FaCheck size={14} /> : <FaLocationDot size={14} aria-hidden="true" />}
                         <span>{isSelected ? l('selectedBadge') : l('selectBranchBtn')}</span>
                       </button>
 

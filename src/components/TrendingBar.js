@@ -90,7 +90,7 @@ export default function TrendingBar({ onOpen }) {
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         fontSize: '1.4rem', color: 'var(--color-brand-primary)', opacity: 0.6,
                       }}>
-                        🥢
+                        <GiSushis aria-hidden="true" />
                       </div>
                     )}
                   </div>

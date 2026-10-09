@@ -14,6 +14,7 @@ import DishCard from '@/components/DishCard';
 import DishModal from '@/components/DishModal';
 import CartDrawer from '@/components/CartDrawer';
 import TrendingBar from '@/components/TrendingBar';
+import { GiSushis } from 'react-icons/gi';
 
 // Multilingual synonym map for cross-lingual restaurant search
 const MULTILINGUAL_SYNONYMS = [
@@ -391,7 +392,7 @@ export default function MenuPage() {
               border: '1px solid var(--color-border-light)',
               boxShadow: 'var(--shadow-sm)'
             }}>
-              <div style={{ fontSize: '2.5rem', marginBottom: '12px', color: 'var(--color-brand-primary)' }} aria-hidden="true">🥢</div>
+              <div style={{ fontSize: '2.5rem', marginBottom: '12px', color: 'var(--color-brand-primary)' }} aria-hidden="true"><GiSushis /></div>
               <h3 style={{ fontSize: '1.1rem', fontWeight: '700', color: 'var(--color-text-primary)', marginBottom: '8px' }}>
                 {l('noResults')}
               </h3>

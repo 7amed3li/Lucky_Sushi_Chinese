@@ -8,7 +8,8 @@ import { useCurrency } from '@/context/CurrencyContext';
 import { useBranch } from '@/context/BranchContext';
 import { restaurantInfo } from '@/data/menuData';
 import KVKKModal from '@/components/KVKKModal';
-import { FaShieldHalved, FaLocationDot, FaCircleInfo, FaRotate } from 'react-icons/fa6';
+import { FaShieldHalved, FaLocationDot, FaCircleInfo, FaRotate, FaTriangleExclamation, FaGlobe, FaPhone } from 'react-icons/fa6';
+import { GiSushis } from 'react-icons/gi';
 
 import trProducts from '@/i18n/messages/tr/products.json';
 import enProducts from '@/i18n/messages/en/products.json';
@@ -119,11 +120,11 @@ export default function CartDrawer() {
       zh: '订餐分店',
     },
     branchSelectPrompt: {
-      tr: '📍 Lütfen Önce Şube Seçin (Zorunlu)',
-      en: '📍 Please Select Branch (Required)',
-      ar: '📍 يرجى اختيار الفرع أولاً (إجباري)',
-      ru: '📍 Пожалуйста, выберите филиал (обязательно)',
-      zh: '📍 请先选择分店（必选）',
+      tr: 'Lütfen Önce Şube Seçin (Zorunlu)',
+      en: 'Please Select Branch (Required)',
+      ar: 'يرجى اختيار الفرع أولاً (إجباري)',
+      ru: 'Пожалуйста, выберите филиал (обязательно)',
+      zh: '请先选择分店（必选）',
     },
     branchChange: {
       tr: 'Değiştir',
@@ -148,11 +149,11 @@ export default function CartDrawer() {
       zh: '下单前请输入送餐地址',
     },
     addressAddPrompt: {
-      tr: '📍 Teslimat Adresi Girin (Zorunlu)',
-      en: '📍 Add Delivery Address (Required)',
-      ar: '📍 إضافة عنوان التوصيل (إجباري للطلب)',
-      ru: '📍 Введите адрес доставки (обязательно)',
-      zh: '📍 添加送餐地址（必填）',
+      tr: 'Teslimat Adresi Girin (Zorunlu)',
+      en: 'Add Delivery Address (Required)',
+      ar: 'إضافة عنوان التوصيل (إجباري للطلب)',
+      ru: 'Введите адрес доставки (обязательно)',
+      zh: '添加送餐地址（必填）',
     },
     addressEdit: {
       tr: 'Değiştir',
@@ -246,7 +247,7 @@ export default function CartDrawer() {
   // WhatsApp order message with selected branch name and Turkish Lira (₺)
   const buildWhatsAppMsg = () => {
     const branchName = selectedBranch ? selectedBranch.name_tr : 'Alibeyköy (Merkez)';
-    let msg = `🍣 Merhaba Lucky Sushi & Chinese (${branchName}), yeni bir sipariş vermek istiyorum:\n\n`;
+    let msg = `Merhaba Lucky Sushi & Chinese (${branchName}), yeni bir sipariş vermek istiyorum:\n\n`;
     cart.forEach(({ item, quantity }) => {
       const trName = getItemName(item, 'tr');
       const itemTotalTl = (item.price * quantity).toFixed(0);
@@ -256,12 +257,12 @@ export default function CartDrawer() {
 
     // Append branch details
     if (selectedBranch) {
-      msg += `\n📍 Seçilen Şube: ${selectedBranch.name_tr} (${selectedBranch.badge_tr})`;
+      msg += `\nSeçilen Şube: ${selectedBranch.name_tr} (${selectedBranch.badge_tr})`;
     }
 
     // Append Turkish structured customer delivery address if saved
     if (hasSavedAddress) {
-      msg += `\n\n📍 Teslimat Adresi:`;
+      msg += `\n\nTeslimat Adresi:`;
       if (customerAddress.name && customerAddress.name.trim()) {
         msg += `\n👤 İsim: ${customerAddress.name.trim()}`;
       }
@@ -269,7 +270,7 @@ export default function CartDrawer() {
         msg += `\n🏙️ Şehir: ${customerAddress.city.trim()}`;
       }
       if (customerAddress.district && customerAddress.district.trim()) {
-        msg += `\n📍 İlçe: ${customerAddress.district.trim()}`;
+        msg += `\nİlçe: ${customerAddress.district.trim()}`;
       }
       if (customerAddress.neighborhood && customerAddress.neighborhood.trim()) {
         msg += `\n🏘️ Mahalle: ${customerAddress.neighborhood.trim()}`;
@@ -294,7 +295,7 @@ export default function CartDrawer() {
         msg += `\n📝 Not: ${finalNote}`;
       }
       if (customerAddress.phone && customerAddress.phone.trim()) {
-        msg += `\n📞 Tel: ${customerAddress.phone.trim()}`;
+        msg += `\nTel: ${customerAddress.phone.trim()}`;
       }
     }
 
@@ -449,7 +450,7 @@ export default function CartDrawer() {
                 gap: '6px',
               }}
             >
-              <span>🌐</span>
+              <FaGlobe size={15} aria-hidden="true" />
               <span>{LANG_NAMES[lang] || lang.toUpperCase()}</span>
             </button>
           </div>
@@ -459,7 +460,7 @@ export default function CartDrawer() {
         <div className="cart-drawer__body" style={{ flex: 1, overflowY: 'auto' }}>
           {cart.length === 0 ? (
             <div className="cart-drawer__empty">
-              <div className="cart-drawer__empty-icon">🥢</div>
+              <div className="cart-drawer__empty-icon"><GiSushis aria-hidden="true" /></div>
               <p style={{ fontSize: '1rem', color: 'var(--color-brand-light)', marginBottom: '4px', fontWeight: 600 }}>
                 {l('empty')}
               </p>
@@ -479,7 +480,7 @@ export default function CartDrawer() {
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <span>📍</span>
+                      <FaLocationDot size={14} aria-hidden="true" />
                       <strong style={{ fontSize: '0.85rem', color: 'var(--color-brand-light)' }}>
                         {l('addressTitle')}
                       </strong>
@@ -523,7 +524,7 @@ export default function CartDrawer() {
                         width: '100%', height: '100%',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         background: 'rgba(246, 241, 232, 0.08)', fontSize: '1.4rem', color: 'var(--color-brand-primary)'
-                      }}>🥢</div>
+                      }}><GiSushis aria-hidden="true" /></div>
                     )}
                   </div>
                   <div className="cart-item__info">
@@ -573,7 +574,7 @@ export default function CartDrawer() {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <span style={{ fontSize: '1rem' }}>📍</span>
+                    <FaLocationDot size={15} aria-hidden="true" />
                     <div>
                       <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#4ade80' }}>
                         {selectedBranch[`name_${lang}`] || selectedBranch.name_tr}
@@ -643,7 +644,7 @@ export default function CartDrawer() {
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
-                    <span>📍</span>
+                    <FaLocationDot size={14} aria-hidden="true" />
                     <strong style={{ fontSize: '0.85rem', color: 'var(--color-brand-light)' }}>
                       {l('addressTitle')}
                     </strong>
@@ -907,7 +908,7 @@ export default function CartDrawer() {
                     }}
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '1rem' }}>📍</span>
+                      <FaLocationDot size={15} aria-hidden="true" />
                       <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <strong style={{ fontSize: '0.84rem', color: 'var(--color-brand-light)' }}>
                           {l('addressTitle')}
@@ -998,7 +999,7 @@ export default function CartDrawer() {
                       )}
                       {customerAddress.phone && (
                         <div style={{ fontSize: '0.76rem', opacity: 0.85, marginTop: '3px' }}>
-                          📞 {customerAddress.phone}
+                          <FaPhone aria-hidden="true" /> {customerAddress.phone}
                         </div>
                       )}
                     </div>
@@ -1098,15 +1099,15 @@ export default function CartDrawer() {
               <span>{l('checkout')}</span>
               {!selectedBranch ? (
                 <span style={{ fontSize: '0.72rem', opacity: 0.95, color: '#fef08a' }}>
-                  ⚠️ {l('branchSelectPrompt')}
+                  <FaTriangleExclamation aria-hidden="true" /> {l('branchSelectPrompt')}
                 </span>
               ) : !hasSavedAddress ? (
                 <span style={{ fontSize: '0.72rem', opacity: 0.95, color: '#ffccd5' }}>
-                  ⚠️ {l('addressRequiredNotice')}
+                  <FaTriangleExclamation aria-hidden="true" /> {l('addressRequiredNotice')}
                 </span>
               ) : (
                 <span style={{ fontSize: '0.72rem', opacity: 0.95 }}>
-                  📍 {selectedBranch.name_tr} ({selectedBranch.phone})
+                  <FaLocationDot aria-hidden="true" /> {selectedBranch.name_tr} ({selectedBranch.phone})
                 </span>
               )}
             </button>

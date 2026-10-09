@@ -11,6 +11,7 @@ import { useBranch } from '@/context/BranchContext';
 import CurrencySwitcher from '@/components/CurrencySwitcher';
 import SvgFlag from '@/components/SvgFlag';
 import { restaurantInfo } from '@/data/menuData';
+import { FaLocationDot } from 'react-icons/fa6';
 
 
 
@@ -323,7 +324,7 @@ export default function Header() {
             }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '1.1rem' }}>📍</span>
+              <FaLocationDot size={16} aria-hidden="true" />
               <div>
                 <div style={{ fontWeight: 700, color: selectedBranch ? '#4ade80' : '#F6F1E8' }}>
                   {selectedBranch ? (selectedBranch[`name_${lang}`] || selectedBranch.name_tr) : (lang === 'ar' ? 'يرجى اختيار الفرع' : lang === 'tr' ? 'Lütfen Şube Seçin' : 'Select Branch')}

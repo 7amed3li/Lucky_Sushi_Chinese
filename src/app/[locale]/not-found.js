@@ -3,6 +3,7 @@
 import { Link } from '@/i18n/navigation';
 import Header from '@/components/Header';
 import { useLang } from '@/context/LangContext';
+import { GiSushis } from 'react-icons/gi';
 
 export default function NotFound() {
   const { lang, dir } = useLang();
@@ -61,7 +62,7 @@ export default function NotFound() {
           style={{ fontSize: '4.5rem', marginBottom: 'var(--sp-3)', color: 'var(--color-brand-primary)' }}
           aria-hidden="true"
         >
-          🥢
+          <GiSushis aria-hidden="true" />
         </div>
         <h1
           style={{

@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useEffect, useCallback, useState } from 'react';
 import { FaExpand, FaXmark } from 'react-icons/fa6';
+import { GiSushis } from 'react-icons/gi';
 import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
@@ -154,7 +155,7 @@ export default function DishModal({ item, onClose }) {
               color: 'var(--color-brand-primary)',
               opacity: 0.5,
             }}>
-              🥢
+              <GiSushis aria-hidden="true" />
             </div>
           )}
         </div>

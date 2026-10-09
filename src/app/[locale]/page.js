@@ -5,7 +5,7 @@ import { Link } from '@/i18n/navigation';
 import { useState, useEffect } from 'react';
 import { 
   FaWhatsapp, FaMoon, FaStar, FaMotorcycle, FaFire, 
-  FaFish, FaBookOpen, FaLocationDot, FaHouse, 
+  FaFish, FaBookOpen, FaLocationDot, FaCircleInfo, FaHouse,
   FaPhone, FaMapLocationDot, FaClock, FaBagShopping
 } from 'react-icons/fa6';
 import { GiChopsticks, GiSushis } from 'react-icons/gi';
@@ -378,7 +378,7 @@ export default function HomePage() {
                   
                   {branch.type === 'delivery-only' && (
                     <div style={{ fontSize: '0.75rem', color: '#ffb4a2', background: 'rgba(239, 68, 68, 0.1)', padding: '4px 8px', borderRadius: '4px', marginBottom: '8px', fontWeight: 600 }}>
-                      ⚠️ {lang === 'ar' ? 'مطبخ توصيل فقط (بدون صالة جلوس)' : lang === 'tr' ? 'Sadece Paket Servis (Masa Servisi Yoktur)' : 'Delivery Kitchen Only (No Dine-in)'}
+                      <FaCircleInfo aria-hidden="true" /> {lang === 'ar' ? 'مطبخ توصيل فقط (بدون صالة جلوس)' : lang === 'tr' ? 'Sadece Paket Servis (Masa Servisi Yoktur)' : 'Delivery Kitchen Only (No Dine-in)'}
                     </div>
                   )}
 
@@ -386,7 +386,7 @@ export default function HomePage() {
                   
                   {branchCoverage && (
                     <p style={{ fontSize: '0.76rem', color: 'var(--mist-beige)', opacity: 0.85, marginBottom: '8px' }}>
-                      📍 <strong>{lang === 'ar' ? 'التغطية:' : lang === 'tr' ? 'Bölge:' : 'Coverage:'}</strong> {branchCoverage}
+                      <FaLocationDot aria-hidden="true" /> <strong>{lang === 'ar' ? 'التغطية:' : lang === 'tr' ? 'Bölge:' : 'Coverage:'}</strong> {branchCoverage}
                     </p>
                   )}
 

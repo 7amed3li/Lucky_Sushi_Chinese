@@ -6,7 +6,7 @@ import { useBranch } from '@/context/BranchContext';
 import { useLang } from '@/context/LangContext';
 import { 
   FaUtensils, FaMotorcycle, FaKitchenSet, FaClock, 
-  FaLocationDot, FaCheck, FaXmark, FaCircleInfo 
+  FaLocationDot, FaPhone, FaCheck, FaXmark, FaCircleInfo
 } from 'react-icons/fa6';
 
 export default function BranchModal() {
@@ -140,7 +140,7 @@ export default function BranchModal() {
         >
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-              <span style={{ fontSize: '1.25rem' }}>📍</span>
+              <FaLocationDot size={18} aria-hidden="true" />
               <h2
                 id="branch-modal-title"
                 style={{
@@ -380,7 +380,7 @@ export default function BranchModal() {
                     <div>
                       <span style={{ color: 'var(--color-brand-primary, #287A3F)', fontWeight: 700 }}>{branchHours}</span>
                       <div style={{ fontSize: '0.78rem', color: 'var(--color-text-primary, #17151A)', marginTop: '2px', fontWeight: 600 }}>
-                        📞 {branch.phone}
+                        <FaPhone size={12} aria-hidden="true" /> {branch.phone}
                       </div>
                     </div>
                   </div>
