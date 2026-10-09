@@ -1,106 +1,76 @@
-import React, { useId } from 'react';
+import React from 'react';
 
 /**
- * Universal SVG Flags for 100% reliable cross-platform rendering
- * (Fixes Windows emoji limitation where flags show as text 'TR', 'GB', etc.)
+ * Compact, consistent SVG flags for the language controls.
+ * A fixed 3:2 frame keeps the header polished across platforms.
  */
 export default function SvgFlag({ code, size = 16, style = {} }) {
-  const s = size;
-  const idPrefix = useId().replace(/:/g, '');
-  const clipId = `${idPrefix}-clip`;
-  const unionClipId = `${idPrefix}-union`;
   const flagStyle = {
     display: 'inline-block',
-    width: `${s}px`,
-    height: `${s}px`,
-    borderRadius: '50%',
-    objectFit: 'cover',
+    width: `${Math.round(size * 1.5)}px`,
+    height: `${size}px`,
+    borderRadius: '4px',
+    overflow: 'hidden',
     flexShrink: 0,
     verticalAlign: 'middle',
-    boxShadow: '0 0 0 1px rgba(0, 0, 0, 0.08)',
+    boxShadow: '0 0 0 1px rgba(23, 21, 26, 0.16), 0 2px 5px rgba(23, 21, 26, 0.12)',
     ...style,
   };
 
   switch (code?.toLowerCase()) {
     case 'tr':
-      // Turkey: Red with White Crescent & Star
       return (
-        <svg viewBox="0 0 1200 800" style={flagStyle} aria-label="Turkey Flag">
-          <rect width="1200" height="800" fill="#E30A17" />
-          <circle cx="425" cy="400" r="200" fill="#FFFFFF" />
-          <circle cx="475" cy="400" r="160" fill="#E30A17" />
+        <svg viewBox="0 0 3 2" style={flagStyle} aria-label="Turkey Flag" preserveAspectRatio="none">
+          <rect width="3" height="2" fill="#E30A17" />
+          <circle cx="1.08" cy="1" r=".52" fill="#FFFFFF" />
+          <circle cx="1.22" cy="1" r=".42" fill="#E30A17" />
           <polygon
-            points="583,400 706,440 630,335 630,465 706,360"
+            points="1.8,1 2.12,1.1 1.93,.84 1.93,1.16 2.12,.9"
             fill="#FFFFFF"
           />
         </svg>
       );
 
     case 'en':
-      // UK: Union Jack
       return (
-        <svg viewBox="0 0 60 30" style={flagStyle} aria-label="English / UK Flag">
-          <clipPath id={clipId}>
-            <path d="M0,0 v30 h60 v-30 z"/>
-          </clipPath>
-          <clipPath id={unionClipId}>
-            <path d="M30,15 h30 v15 z v15 h-30 z h-30 v-15 z v-15 h30 z"/>
-          </clipPath>
-          <g clipPath={`url(#${clipId})`}>
-            <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
-            <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" strokeWidth="6"/>
-            <path d="M0,0 L60,30 M60,0 L0,30" clipPath={`url(#${unionClipId})`} stroke="#C8102E" strokeWidth="4"/>
-            <path d="M30,0 v30 M0,15 h60" stroke="#fff" strokeWidth="10"/>
-            <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" strokeWidth="6"/>
-          </g>
+        <svg viewBox="0 0 3 2" style={flagStyle} aria-label="English / UK Flag" preserveAspectRatio="none">
+          <rect width="3" height="2" fill="#012169" />
+          <path d="M0 0 L3 2 M3 0 L0 2" stroke="#FFFFFF" strokeWidth=".42" />
+          <path d="M0 0 L3 2 M3 0 L0 2" stroke="#C8102E" strokeWidth=".18" />
+          <path d="M1.5 0 V2 M0 1 H3" stroke="#FFFFFF" strokeWidth=".62" />
+          <path d="M1.5 0 V2 M0 1 H3" stroke="#C8102E" strokeWidth=".34" />
         </svg>
       );
 
     case 'ar':
-      // Saudi Arabia / Arabic
       return (
-        <svg viewBox="0 0 900 600" style={flagStyle} aria-label="Arabic Flag">
-          <rect width="900" height="600" fill="#006C35" />
-          <text
-            x="450"
-            y="310"
-            fill="#FFFFFF"
-            fontSize="140"
-            fontWeight="bold"
-            fontFamily="sans-serif"
-            textAnchor="middle"
-          >
-            العربية
-          </text>
-          <path d="M 280,380 L 620,380 L 600,400 L 280,400 Z" fill="#FFFFFF" />
+        <svg viewBox="0 0 3 2" style={flagStyle} aria-label="Arabic Flag" preserveAspectRatio="none">
+          <rect width="3" height="2" fill="#006C35" />
+          <path d="M.58 .76 C.95 .61 1.52 .62 2.34 .76" fill="none" stroke="#FFFFFF" strokeWidth=".08" strokeLinecap="round" />
+          <path d="M.7 .94 H2.28" stroke="#FFFFFF" strokeWidth=".08" strokeLinecap="round" />
+          <path d="M.72 1.28 H2.28" stroke="#FFFFFF" strokeWidth=".1" strokeLinecap="round" />
+          <path d="M.72 1.36 H2.02" stroke="#FFFFFF" strokeWidth=".06" strokeLinecap="round" />
         </svg>
       );
 
     case 'ru':
-      // Russia: White, Blue, Red
       return (
-        <svg viewBox="0 0 900 600" style={flagStyle} aria-label="Russian Flag">
-          <rect width="900" height="200" y="0" fill="#FFFFFF" />
-          <rect width="900" height="200" y="200" fill="#0039A6" />
-          <rect width="900" height="200" y="400" fill="#D52B1E" />
+        <svg viewBox="0 0 3 2" style={flagStyle} aria-label="Russian Flag" preserveAspectRatio="none">
+          <rect width="3" height=".667" fill="#FFFFFF" />
+          <rect width="3" y=".667" height=".666" fill="#0039A6" />
+          <rect width="3" y="1.333" height=".667" fill="#D52B1E" />
         </svg>
       );
 
     case 'zh':
-      // China: Red with Gold Stars
       return (
-        <svg viewBox="0 0 900 600" style={flagStyle} aria-label="Chinese Flag">
-          <rect width="900" height="600" fill="#DE2910" />
-          {/* Big star */}
-          <polygon
-            points="150,55 185,164 93,97 207,97 115,164"
-            fill="#FFDE00"
-          />
-          {/* 4 small stars */}
-          <polygon points="300,50 307,72 289,58 311,58 293,72" fill="#FFDE00" />
-          <polygon points="360,100 367,122 349,108 371,108 353,122" fill="#FFDE00" />
-          <polygon points="360,180 367,202 349,188 371,188 353,202" fill="#FFDE00" />
-          <polygon points="300,230 307,252 289,238 311,238 293,252" fill="#FFDE00" />
+        <svg viewBox="0 0 3 2" style={flagStyle} aria-label="Chinese Flag" preserveAspectRatio="none">
+          <rect width="3" height="2" fill="#DE2910" />
+          <polygon points=".55,.32 .61,.49 .79,.49 .65,.6 .7,.78 .55,.67 .4,.78 .45,.6 .31,.49 .49,.49" fill="#FFDE00" />
+          <circle cx="1.03" cy=".3" r=".045" fill="#FFDE00" />
+          <circle cx="1.25" cy=".48" r=".045" fill="#FFDE00" />
+          <circle cx="1.25" cy=".75" r=".045" fill="#FFDE00" />
+          <circle cx="1.03" cy=".93" r=".045" fill="#FFDE00" />
         </svg>
       );
 
