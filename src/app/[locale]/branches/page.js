@@ -8,10 +8,11 @@ import Header from '@/components/Header';
 import CartDrawer from '@/components/CartDrawer';
 import { branchesData } from '@/data/branchesData';
 import { 
-  FaWhatsapp, FaPhone, FaMapLocationDot, FaLocationDot, 
-  FaUtensils, FaMotorcycle, FaKitchenSet, FaCircleInfo, FaArrowRight, FaClock, FaCheck
+  FaWhatsapp, FaPhone, FaMapLocationDot, FaLocationDot,
+  FaArrowRight, FaCheck
 } from 'react-icons/fa6';
 import { GiSushis } from 'react-icons/gi';
+import { LuStore, LuBike, LuChefHat, LuClock, LuMapPin, LuInfo } from 'react-icons/lu';
 
 export default function BranchesPage() {
   const { lang, dir } = useLang();
@@ -123,7 +124,7 @@ export default function BranchesPage() {
   const getTypeMeta = (branch) => {
     if (branch.type === 'restaurant') {
       return {
-        icon: <FaUtensils aria-hidden="true" />,
+        icon: <LuStore aria-hidden="true" />,
         badgeColor: 'rgba(40, 122, 63, 0.12)',
         textColor: '#4ade80',
         borderColor: 'rgba(74, 222, 128, 0.3)',
@@ -131,14 +132,14 @@ export default function BranchesPage() {
     }
     if (branch.type === 'pickup-delivery') {
       return {
-        icon: <FaMotorcycle aria-hidden="true" />,
+        icon: <LuBike aria-hidden="true" />,
         badgeColor: 'rgba(212, 163, 115, 0.12)',
         textColor: '#e9c46a',
         borderColor: 'rgba(233, 196, 106, 0.3)',
       };
     }
     return {
-      icon: <FaKitchenSet aria-hidden="true" />,
+      icon: <LuChefHat aria-hidden="true" />,
       badgeColor: 'rgba(230, 57, 70, 0.12)',
       textColor: '#f28482',
       borderColor: 'rgba(242, 132, 130, 0.3)',
@@ -303,7 +304,7 @@ export default function BranchesPage() {
                       </h2>
                       {branchHours && (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#2D6A4F', fontSize: '0.86rem', fontWeight: 700 }}>
-                          <FaClock size={13} aria-hidden="true" />
+                          <LuClock size={14} aria-hidden="true" />
                           <span>{branchHours}</span>
                         </div>
                       )}
@@ -333,7 +334,7 @@ export default function BranchesPage() {
                           marginBottom: '16px',
                         }}
                       >
-                        <FaCircleInfo style={{ color: '#dc2626', marginTop: '2px', flexShrink: 0 }} size={17} />
+                        <LuInfo style={{ color: '#dc2626', marginTop: '2px', flexShrink: 0 }} size={17} />
                         <span style={{ fontSize: '0.84rem', color: '#991b1b', fontWeight: 600, lineHeight: 1.5 }}>
                           {l('deliveryOnlyNotice')}
                         </span>
@@ -353,7 +354,7 @@ export default function BranchesPage() {
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                        <FaLocationDot style={{ color: 'var(--color-brand-primary, #2D6A4F)', marginTop: '3px', flexShrink: 0 }} size={14} />
+                        <LuMapPin style={{ color: 'var(--color-brand-primary, #2D6A4F)', marginTop: '3px', flexShrink: 0 }} size={15} />
                         <div style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', lineHeight: 1.45 }}>
                           <strong style={{ color: 'var(--color-text-primary)', display: 'block', fontSize: '0.76rem', textTransform: 'uppercase', letterSpacing: '0.04em', opacity: 0.8 }}>
                             {l('addressLabel')}
@@ -395,7 +396,7 @@ export default function BranchesPage() {
                           transition: 'all 0.15s ease',
                         }}
                       >
-                        {isSelected ? <FaCheck size={14} /> : <FaLocationDot size={14} aria-hidden="true" />}
+                        {isSelected ? <FaCheck size={14} /> : <LuMapPin size={15} aria-hidden="true" />}
                         <span>{isSelected ? l('selectedBadge') : l('selectBranchBtn')}</span>
                       </button>
 

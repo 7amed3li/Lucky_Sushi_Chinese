@@ -7,7 +7,8 @@ import Header from '@/components/Header';
 import CartDrawer from '@/components/CartDrawer';
 import { restaurantInfo } from '@/data/menuData';
 import { GiSushis, GiChopsticks } from 'react-icons/gi';
-import { FaMoon, FaStar, FaFire, FaFish, FaHeart } from 'react-icons/fa6';
+import { FaStar, FaHeart } from 'react-icons/fa6';
+import { LuMoon, LuFlame } from 'react-icons/lu';
 
 export default function AboutPage() {
   const { lang, t, dir } = useLang();
@@ -212,7 +213,7 @@ export default function AboutPage() {
             {/* Text: Wok */}
             <div style={{ order: 1 }}>
               <span className="home-section-badge">
-                <FaFire style={{ marginInlineEnd: '6px' }} aria-hidden="true" />
+                <LuFlame style={{ marginInlineEnd: '6px' }} aria-hidden="true" />
                 {l('wokTitle')}
               </span>
               <h2 style={{
@@ -279,7 +280,7 @@ export default function AboutPage() {
               fontWeight: 700,
               marginBottom: 'var(--sp-3)'
             }}>
-              <FaMoon aria-hidden="true" /> 04:00
+              <LuMoon aria-hidden="true" /> 04:00
             </span>
             <h2 style={{
               fontFamily: 'var(--font-serif)',

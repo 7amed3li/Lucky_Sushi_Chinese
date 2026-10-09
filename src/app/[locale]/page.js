@@ -4,11 +4,12 @@ import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
 import { useState, useEffect } from 'react';
 import { 
-  FaWhatsapp, FaMoon, FaStar, FaMotorcycle, FaFire, 
-  FaFish, FaBookOpen, FaLocationDot, FaCircleInfo, FaHouse,
+  FaWhatsapp, FaStar, FaMotorcycle,
+  FaBookOpen, FaLocationDot, FaCircleInfo,
   FaPhone, FaMapLocationDot, FaClock, FaBagShopping
 } from 'react-icons/fa6';
 import { GiChopsticks, GiSushis } from 'react-icons/gi';
+import { LuFish, LuFlame, LuMapPinHouse, LuMoon } from 'react-icons/lu';
 import { useLang } from '@/context/LangContext';
 import { useBranch } from '@/context/BranchContext';
 import { restaurantInfo, menuItems } from '@/data/menuData';
@@ -174,7 +175,7 @@ export default function HomePage() {
         <div className="home-stats-wrapper">
           <div className="home-stats-strip">
             <div className="home-stat-item">
-              <span className="home-stat-icon" aria-hidden="true"><FaMoon /></span>
+              <span className="home-stat-icon" aria-hidden="true"><LuMoon /></span>
               <span className="home-stat-val">{tUI('home_stats_hours')}</span>
             </div>
             <div className="home-stat-divider" aria-hidden="true" />
@@ -202,13 +203,13 @@ export default function HomePage() {
               <div key={i} className="home-marquee-item">
                 <GiSushis />
                 <span>PREMIUM SUSHI</span>
-                <FaFire />
+                <LuFlame />
                 <span>HOT WOK & RAMEN</span>
-                <FaMoon />
+                <LuMoon />
                 <span>OPEN UNTIL 04:00</span>
                 <FaStar />
                 <span>GOOD FOOD · GOOD FORTUNE</span>
-                <FaFish />
+                <LuFish />
                 <span>FRESH EVERY DAY</span>
                 <GiChopsticks />
                 <span>LUCKY SUSHI & CHINESE</span>
@@ -281,19 +282,19 @@ export default function HomePage() {
 
           <div className="home-features-grid">
             <div className="home-feature-card">
-              <span className="home-feature-icon" aria-hidden="true"><FaFish /></span>
+              <span className="home-feature-icon" aria-hidden="true"><LuFish /></span>
               <h3 className="home-feature-title">{tUI('feature_fresh_title')}</h3>
               <p className="home-feature-desc">{tUI('feature_fresh_desc')}</p>
             </div>
 
             <div className="home-feature-card">
-              <span className="home-feature-icon" aria-hidden="true"><FaFire /></span>
+              <span className="home-feature-icon" aria-hidden="true"><LuFlame /></span>
               <h3 className="home-feature-title">{tUI('feature_wok_title')}</h3>
               <p className="home-feature-desc">{tUI('feature_wok_desc')}</p>
             </div>
 
             <div className="home-feature-card">
-              <span className="home-feature-icon" aria-hidden="true"><FaMoon /></span>
+              <span className="home-feature-icon" aria-hidden="true"><LuMoon /></span>
               <h3 className="home-feature-title">{tUI('feature_night_title')}</h3>
               <p className="home-feature-desc">{tUI('feature_night_desc')}</p>
             </div>
@@ -362,7 +363,7 @@ export default function HomePage() {
               return (
                 <div key={branch.id} className="home-visit-card" style={{ display: 'flex', flexDirection: 'column', borderRadius: '12px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                    <span className="home-visit-icon" aria-hidden="true"><FaHouse /></span>
+                    <span className="home-visit-icon" aria-hidden="true"><LuMapPinHouse /></span>
                     <span style={{
                       fontSize: '0.74rem',
                       fontWeight: 700,
