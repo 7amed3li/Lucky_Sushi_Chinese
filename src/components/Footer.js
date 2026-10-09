@@ -3,7 +3,7 @@ import { Link } from '@/i18n/navigation';
 import Image from 'next/image';
 import { useLang } from '@/context/LangContext';
 import { restaurantInfo } from '@/data/menuData';
-import { FaInstagram, FaWhatsapp, FaMapLocationDot } from 'react-icons/fa6';
+import { FaInstagram, FaWhatsapp, FaMapLocationDot, FaPhone } from 'react-icons/fa6';
 
 export default function Footer() {
   const { lang, t, tUI } = useLang();
