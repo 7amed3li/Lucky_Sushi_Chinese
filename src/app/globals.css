@@ -1865,10 +1865,24 @@ p {
 }
 
 .home-visit-icon {
-  font-size: 2rem;
+  width: 52px;
+  height: 52px;
+  font-size: 1.35rem;
   color: var(--color-brand-primary);
   margin-bottom: var(--sp-3);
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(40, 122, 63, 0.22);
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(40, 122, 63, 0.14), rgba(40, 122, 63, 0.04));
+  box-shadow: 0 8px 18px rgba(40, 122, 63, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.home-visit-icon svg {
+  width: 1em;
+  height: 1em;
+  color: currentColor;
 }
 
 .home-visit-name {
