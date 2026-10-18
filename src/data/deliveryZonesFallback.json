@@ -1,0 +1,165 @@
+{
+  "city": "İstanbul",
+  "districts": [
+    {
+      "id": "eyupsultan",
+      "name_tr": "Eyüpsultan",
+      "name_en": "Eyupsultan",
+      "name_ar": "أيوب سلطان",
+      "name_ru": "Эйюпсултан",
+      "name_zh": "埃于普苏丹",
+      "neighborhoods": [
+        { "id": "alibeykoy", "name_tr": "Alibeyköy Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "circir", "name_tr": "Çırçır Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "yesilpinar", "name_tr": "Yeşilpınar Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "aksemsettin", "name_tr": "Akşemsettin Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "guzeltepe", "name_tr": "Güzeltepe Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "eyup-merkez", "name_tr": "Merkez Mah. (Eyüp)", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "islam-bey", "name_tr": "İslambey Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "rami-cuma", "name_tr": "Rami Cuma Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "rami-yeni", "name_tr": "Rami Yeni Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "silahdaraga", "name_tr": "Silahtarağa Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "sakarya", "name_tr": "Sakarya Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "topcular", "name_tr": "Topçular Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "nisanca", "name_tr": "Nişanca Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "emniyettepe", "name_tr": "Emniyettepe Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 }
+      ]
+    },
+    {
+      "id": "gaziosmanpasa",
+      "name_tr": "Gaziosmanpaşa",
+      "name_en": "Gaziosmanpasa",
+      "name_ar": "غازي عثمان باشا",
+      "name_ru": "Газиосманпаша",
+      "name_zh": "加济奥斯曼帕夏",
+      "neighborhoods": [
+        { "id": "merkez-gop", "name_tr": "Merkez Mah. (GOP)", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "baglarbasi", "name_tr": "Bağlarbaşı Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "hurriyet", "name_tr": "Hürriyet Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "karadeniz", "name_tr": "Karadeniz Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "karlitepe", "name_tr": "Karlıtepe Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "kazim-karabekir", "name_tr": "Kâzım Karabekir Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "mevlana", "name_tr": "Mevlana Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "pazariçi", "name_tr": "Pazariçi Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "sarigol", "name_tr": "Sarıgöl Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "yenicami", "name_tr": "Yeni Mahalle", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "yildiztabya", "name_tr": "Yıldıztabya Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 }
+      ]
+    },
+    {
+      "id": "kagithane",
+      "name_tr": "Kağıthane",
+      "name_en": "Kagithane",
+      "name_ar": "كاغد خانه",
+      "name_ru": "Кягытхане",
+      "name_zh": "卡厄特哈内",
+      "neighborhoods": [
+        { "id": "hamidiye", "name_tr": "Hamidiye Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "cendere", "name_tr": "Cendere / Vadistanbul Çevresi", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "merkez-kagithane", "name_tr": "Merkez Mah. (Kağıthane)", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "nurtepe", "name_tr": "Nurtepe Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "seyrantepe", "name_tr": "Seyrantepe Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "talatpasa", "name_tr": "Talatpaşa Mah.", "branch_id": "alibeykoy", "min_order_tl": 500, "delivery_fee_tl": 0 }
+      ]
+    },
+    {
+      "id": "zeytinburnu",
+      "name_tr": "Zeytinburnu",
+      "name_en": "Zeytinburnu",
+      "name_ar": "زيتون بورنو",
+      "name_ru": "Зейтинбурну",
+      "name_zh": "宰廷布尔努",
+      "neighborhoods": [
+        { "id": "sumer", "name_tr": "Sümer Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "merkezefendi", "name_tr": "Merkezefendi Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "bestelsiz", "name_tr": "Beştelsiz Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "cirpici", "name_tr": "Çırpıcı Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "gokalp", "name_tr": "Gökalp Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "kazlicesme", "name_tr": "Kazlıçeşme Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "maltepe-zb", "name_tr": "Maltepe Mah. (Topkapı)", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "nuripasa", "name_tr": "Nuripaşa Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "telsiz", "name_tr": "Telsiz Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "veliefendi", "name_tr": "Veliefendi Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "yenidogan", "name_tr": "Yenidoğan Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "yesiltepe", "name_tr": "Yeşiltepe Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 }
+      ]
+    },
+    {
+      "id": "bakirkoy",
+      "name_tr": "Bakırköy",
+      "name_en": "Bakirkoy",
+      "name_ar": "باكركوي",
+      "name_ru": "Бакыркёй",
+      "name_zh": "巴克尔柯伊",
+      "neighborhoods": [
+        { "id": "atakoy-1", "name_tr": "Ataköy 1. Kısım Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "atakoy-2-5-6", "name_tr": "Ataköy 2-5-6. Kısım Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "atakoy-3-4-11", "name_tr": "Ataköy 3-4-11. Kısım Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "atakoy-7-8-9-10", "name_tr": "Ataköy 7-8-9-10. Kısım Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "cevizlik", "name_tr": "Cevizlik Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "kartaltepe", "name_tr": "Kartaltepe Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "osmaniye", "name_tr": "Osmaniye Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "sakizagaci", "name_tr": "Sakızağacı Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "yenimahalle-bk", "name_tr": "Yenimahalle Mah. (Bakırköy)", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "yesilkoy", "name_tr": "Yeşilköy Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 }
+      ]
+    },
+    {
+      "id": "fatih",
+      "name_tr": "Fatih",
+      "name_en": "Fatih",
+      "name_ar": "الفاتح",
+      "name_ru": "Фатих",
+      "name_zh": "法蒂赫",
+      "neighborhoods": [
+        { "id": "topkapi", "name_tr": "Topkapı Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "sehremini", "name_tr": "Şehremini Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "kocamustafapasa", "name_tr": "Kocamustafapaşa Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "fındıkzade", "name_tr": "Fındıkzade / Haseki Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "aksaray", "name_tr": "Aksaray Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "yedikule", "name_tr": "Yedikule Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "silivrikapi", "name_tr": "Silivrikapı Mah.", "branch_id": "zeytinburnu", "min_order_tl": 500, "delivery_fee_tl": 0 }
+      ]
+    },
+    {
+      "id": "sariyer",
+      "name_tr": "Sarıyer",
+      "name_en": "Sariyer",
+      "name_ar": "ساريير",
+      "name_ru": "Сарыер",
+      "name_zh": "萨勒耶尔",
+      "neighborhoods": [
+        { "id": "resitpasa", "name_tr": "Reşitpaşa Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "maslak", "name_tr": "Maslak Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "istinye", "name_tr": "İstinye Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "emirgan", "name_tr": "Emirgan Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "tarabya", "name_tr": "Tarabya Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "yenikoy", "name_tr": "Yeniköy Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "fatih-sultan-mehmet", "name_tr": "Fatih Sultan Mehmet Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "pinar", "name_tr": "Pınar Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "poligon", "name_tr": "Poligon Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "darussafaka", "name_tr": "Darüşşafaka Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "ayasaga", "name_tr": "Ayazağa Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "haciosman", "name_tr": "Hacıosman / Çamlıtepe Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 }
+      ]
+    },
+    {
+      "id": "besiktas",
+      "name_tr": "Beşiktaş",
+      "name_en": "Besiktas",
+      "name_ar": "بشكتاش",
+      "name_ru": "Бешикташ",
+      "name_zh": "贝希克塔什",
+      "neighborhoods": [
+        { "id": "levent", "name_tr": "Levent Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "etiler", "name_tr": "Etiler Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "akatlar", "name_tr": "Akatlar Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "nisbetiye", "name_tr": "Nisbetiye Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "bebek", "name_tr": "Bebek Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "kuruçesme", "name_tr": "Kuruçeşme Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "ortakoy", "name_tr": "Ortaköy Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 },
+        { "id": "ulus", "name_tr": "Ulus / Kültür Mah.", "branch_id": "resitpasa", "min_order_tl": 500, "delivery_fee_tl": 0 }
+      ]
+    }
+  ]
+}

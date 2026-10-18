@@ -6,6 +6,9 @@ import { useLang } from '@/context/LangContext';
 import { useCart } from '@/context/CartContext';
 import { useCurrency } from '@/context/CurrencyContext';
 import { useBranch } from '@/context/BranchContext';
+import { useDelivery } from '@/context/DeliveryContext';
+import AddressModal from '@/components/checkout/AddressModal';
+import { validateCartPrices, buildWhatsAppOrderUrl } from '@/services/orderValidationService';
 import { restaurantInfo } from '@/data/menuData';
 import KVKKModal from '@/components/KVKKModal';
 import { FaShieldHalved, FaLocationDot, FaCircleInfo, FaRotate, FaTriangleExclamation, FaGlobe, FaPhone, FaClipboardList, FaUser, FaPen } from 'react-icons/fa6';
@@ -49,41 +52,25 @@ export default function CartDrawer() {
   // Cart language state
   const [cartLang, setCartLang] = useState('tr');
   const [isKvkkOpen, setIsKvkkOpen] = useState(false);
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
 
-  // Customer Delivery Address state
-  const initialAddressState = {
-    name: '',
-    city: 'İstanbul',
-    district: '',
-    neighborhood: '',
-    street: '',
-    buildingNo: '',
-    floor: '',
-    apartmentNo: '',
-    note: '',
-    phone: '',
-    address: '',
-  };
+  // Delivery Context state
+  const {
+    districtId,
+    neighborhoodId,
+    streetDetails,
+    validationState,
+  } = useDelivery();
 
-  const [customerAddress, setCustomerAddress] = useState(initialAddressState);
-  const [isEditingAddress, setIsEditingAddress] = useState(false);
-  const [isAddressExpanded, setIsAddressExpanded] = useState(false);
-  const [addressForm, setAddressForm] = useState(initialAddressState);
+  const [checkoutNotice, setCheckoutNotice] = useState('');
 
-  // Load saved address from localStorage
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(ADDRESS_STORAGE_KEY);
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed && typeof parsed === 'object') {
-          const merged = { ...initialAddressState, ...parsed };
-          setCustomerAddress(merged);
-          setAddressForm(merged);
-        }
-      }
-    } catch (_) {}
-  }, []);
+  const hasValidDeliveryAddress = Boolean(
+    validationState?.isValid &&
+    streetDetails?.street?.trim() &&
+    streetDetails?.buildingNo?.trim() &&
+    streetDetails?.name?.trim() &&
+    streetDetails?.phone?.trim()
+  );
 
   // Lock scroll when open
   useEffect(() => {
@@ -220,107 +207,69 @@ export default function CartDrawer() {
     return item[`name_${targetLang}`] || item.name_tr || item.name_en || item.name || '';
   };
 
-  // Helper: check if valid address exists
-  const hasSavedAddress = Boolean(
-    (customerAddress.district && customerAddress.district.trim()) ||
-    (customerAddress.street && customerAddress.street.trim()) ||
-    (customerAddress.address && customerAddress.address.trim())
-  );
-
-  // Save address handler
-  const handleSaveAddress = (e) => {
-    e.preventDefault();
-    if (!addressForm.district?.trim() && !addressForm.street?.trim() && !addressForm.address?.trim()) {
-      return;
-    }
-    setCustomerAddress(addressForm);
-    setIsEditingAddress(false);
-    try {
-      localStorage.setItem(ADDRESS_STORAGE_KEY, JSON.stringify(addressForm));
-    } catch (_) {}
-  };
-
-  const handleCancelAddress = () => {
-    setAddressForm(customerAddress);
-    setIsEditingAddress(false);
-  };
-
-  // WhatsApp order message with selected branch name and Turkish Lira (₺)
-  const buildWhatsAppMsg = () => {
-    const branchName = selectedBranch ? selectedBranch.name_tr : 'Alibeyköy (Merkez)';
-    let msg = `Merhaba Lucky Sushi & Chinese (${branchName}), yeni bir sipariş vermek istiyorum:\n\n`;
-    cart.forEach(({ item, quantity }) => {
-      const trName = getItemName(item, 'tr');
-      const itemTotalTl = (item.price * quantity).toFixed(0);
-      msg += `• ${quantity}x ${trName} — ${itemTotalTl} ₺\n`;
-    });
-    msg += `\nToplam Tutar: ${cartSubtotal.toFixed(0)} ₺`;
-
-    // Append branch details
-    if (selectedBranch) {
-      msg += `\nSeçilen Şube: ${selectedBranch.name_tr} (${selectedBranch.badge_tr})`;
-    }
-
-    // Append Turkish structured customer delivery address if saved
-    if (hasSavedAddress) {
-      msg += `\n\nTeslimat Adresi:`;
-      if (customerAddress.name && customerAddress.name.trim()) {
-        msg += `\nİsim: ${customerAddress.name.trim()}`;
-      }
-      if (customerAddress.city && customerAddress.city.trim()) {
-        msg += `\nŞehir: ${customerAddress.city.trim()}`;
-      }
-      if (customerAddress.district && customerAddress.district.trim()) {
-        msg += `\nİlçe: ${customerAddress.district.trim()}`;
-      }
-      if (customerAddress.neighborhood && customerAddress.neighborhood.trim()) {
-        msg += `\nMahalle: ${customerAddress.neighborhood.trim()}`;
-      }
-      if (customerAddress.street && customerAddress.street.trim()) {
-        msg += `\nCadde / Sokak: ${customerAddress.street.trim()}`;
-      }
-      if (customerAddress.buildingNo && customerAddress.buildingNo.trim()) {
-        msg += `\nBina No: ${customerAddress.buildingNo.trim()}`;
-      }
-      if (customerAddress.floor && customerAddress.floor.trim()) {
-        msg += `\nKat: ${customerAddress.floor.trim()}`;
-      }
-      if (customerAddress.apartmentNo && customerAddress.apartmentNo.trim()) {
-        msg += `\nDaire No: ${customerAddress.apartmentNo.trim()}`;
-      }
-      if (customerAddress.address && customerAddress.address.trim() && !customerAddress.street && !customerAddress.district) {
-        msg += `\nAdres: ${customerAddress.address.trim()}`;
-      }
-      const finalNote = (customerAddress.note || customerAddress.buildingNote || '').trim();
-      if (finalNote) {
-        msg += `\nNot: ${finalNote}`;
-      }
-      if (customerAddress.phone && customerAddress.phone.trim()) {
-        msg += `\nTel: ${customerAddress.phone.trim()}`;
-      }
-    }
-
-    return msg;
-  };
-
   const handleCheckoutClick = (e) => {
     e.preventDefault();
+    setCheckoutNotice('');
+
+    // 1. Minimum order check (500 TL)
+    if (cartSubtotal < minDeliveryTl) {
+      setCheckoutNotice(
+        cartLang === 'ar' ? `الحد الأدنى لطلب التوصيل هو ${formatPrice(minDeliveryTl)}` :
+        cartLang === 'en' ? `Minimum delivery order is ${formatPrice(minDeliveryTl)}` :
+        cartLang === 'ru' ? `Минимальная сумма доставки: ${formatPrice(minDeliveryTl)}` :
+        cartLang === 'zh' ? `最低外送金额为 ${formatPrice(minDeliveryTl)}` :
+        `Minimum paket servis tutarı: ${formatPrice(minDeliveryTl)}`
+      );
+      return;
+    }
+
+    // 2. Branch selection
     if (!selectedBranch) {
-      openBranchModal((branch) => {
-        const cleanPhone = (branch.whatsapp || branch.phone).replace(/[^0-9]/g, '');
-        const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(buildWhatsAppMsg())}`;
-        window.open(url, '_blank');
-      });
+      openBranchModal();
       return;
     }
 
-    if (!hasSavedAddress) {
-      setIsEditingAddress(true);
+    // 3. Delivery Address validation
+    if (!hasValidDeliveryAddress) {
+      setIsAddressModalOpen(true);
       return;
     }
 
-    const cleanPhone = (selectedBranch.whatsapp || selectedBranch.phone).replace(/[^0-9]/g, '');
-    const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(buildWhatsAppMsg())}`;
+    // 5. Price freshness verification
+    const { isFresh } = validateCartPrices(cart);
+    if (!isFresh) {
+      setCheckoutNotice(
+        cartLang === 'ar' ? 'تم تحديث أسعار المنتجات في القائمة. يرجى مراجعة الإجمالي ثم إرسال الطلب.' :
+        cartLang === 'en' ? 'Product prices were updated. Please review the total and order again.' :
+        cartLang === 'ru' ? 'Цены меню обновились. Проверьте итоговую сумму и отправьте заказ снова.' :
+        cartLang === 'zh' ? '菜单价格已更新，请确认新总额后再次下单。' :
+        'Menü fiyatlarımız güncellendi. Lütfen yeni toplamı kontrol edip siparişi tekrar gönderiniz.'
+      );
+      return;
+    }
+
+    // 6. Build WhatsApp URL and handoff
+    const deliveryAddress = {
+      name: streetDetails?.name,
+      phone: streetDetails?.phone,
+      city: 'İstanbul',
+      district: districtId,
+      neighborhood: validationState?.neighborhoodName,
+      street: streetDetails?.street,
+      buildingNo: streetDetails?.buildingNo,
+      floor: streetDetails?.floor,
+      apartmentNo: streetDetails?.apartmentNo,
+      note: streetDetails?.note,
+    };
+
+    const url = buildWhatsAppOrderUrl({
+      branch: selectedBranch,
+      cart,
+      cartSubtotal,
+      deliveryAddress,
+      paymentMethod: 'Kapıda Nakit',
+    });
+
     window.open(url, '_blank');
   };
 
@@ -470,7 +419,7 @@ export default function CartDrawer() {
               </p>
 
               {/* Show saved address if customer visits empty cart */}
-              {hasSavedAddress && (
+              {hasValidDeliveryAddress && (
                 <div style={{
                   marginTop: '20px',
                   padding: '12px 14px',
@@ -479,32 +428,17 @@ export default function CartDrawer() {
                   borderRadius: '8px',
                   textAlign: isRtl ? 'right' : 'left',
                 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <FaLocationDot size={14} style={{ color: 'var(--color-accent, #D4A373)', flexShrink: 0 }} aria-hidden="true" />
-                      <strong style={{ fontSize: '0.85rem', color: 'var(--color-brand-light)' }}>
-                        {l('addressTitle')}
-                      </strong>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setIsEditingAddress(true)}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: 'var(--color-accent, #D4A373)',
-                        fontSize: '0.78rem',
-                        cursor: 'pointer',
-                        fontWeight: 600,
-                      }}
-                    >
-                      {l('addressEdit')}
-                    </button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                    <FaLocationDot size={14} style={{ color: 'var(--color-accent, #D4A373)', flexShrink: 0 }} aria-hidden="true" />
+                    <strong style={{ fontSize: '0.85rem', color: 'var(--color-brand-light)' }}>
+                      {l('addressTitle')}
+                    </strong>
                   </div>
                   <div style={{ fontSize: '0.82rem', color: 'var(--mist-beige)', lineHeight: 1.4 }}>
-                    {customerAddress.name && <div style={{ color: '#fff', fontWeight: 600 }}>{customerAddress.name}</div>}
-                    <div>{customerAddress.address}</div>
-                    {customerAddress.buildingNote && <div style={{ opacity: 0.8, fontSize: '0.76rem' }}>{customerAddress.buildingNote}</div>}
+                    {streetDetails?.name && <div style={{ color: '#fff', fontWeight: 600 }}>{streetDetails.name}</div>}
+                    <div>{[validationState?.neighborhoodName, districtId, 'İstanbul'].filter(Boolean).join(', ')}</div>
+                    <div>{[streetDetails?.street, streetDetails?.buildingNo && `No: ${streetDetails.buildingNo}`].filter(Boolean).join(' ')}</div>
+                    {streetDetails?.note && <div style={{ opacity: 0.8, fontSize: '0.76rem' }}>{streetDetails.note}</div>}
                   </div>
                 </div>
               )}
@@ -628,409 +562,94 @@ export default function CartDrawer() {
               )}
             </div>
 
-            {/* ── 2. Delivery Address Section ── */}
-            <div style={{ marginBottom: '10px' }}>
-              {isEditingAddress ? (
-                /* Address Edit Form */
-                <form
-                  onSubmit={handleSaveAddress}
+            {/* ── 2. Compact Delivery Address Card ── */}
+            <div style={{ marginBottom: '8px' }}>
+              {hasValidDeliveryAddress ? (
+                <div
                   style={{
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    border: '1px solid rgba(246, 241, 232, 0.15)',
-                    borderRadius: '8px',
-                    padding: '12px',
                     display: 'flex',
-                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    padding: '8px 12px',
+                    backgroundColor: 'rgba(34, 197, 94, 0.08)',
+                    border: '1px solid rgba(34, 197, 94, 0.3)',
+                    borderRadius: '8px',
                     gap: '8px',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
-                    <FaLocationDot size={14} style={{ color: 'var(--color-accent, #D4A373)', flexShrink: 0 }} aria-hidden="true" />
-                    <strong style={{ fontSize: '0.85rem', color: 'var(--color-brand-light)' }}>
-                      {l('addressTitle')}
-                    </strong>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
+                    <FaLocationDot size={14} style={{ color: '#22c55e', flexShrink: 0 }} />
+                    <div style={{ minWidth: 0, fontSize: '0.8rem', lineHeight: 1.3 }}>
+                      <div style={{ fontWeight: 700, color: '#f5f5f5', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {validationState?.neighborhoodName || districtId}
+                      </div>
+                      <div style={{ color: '#a3a3a3', fontSize: '0.74rem', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {streetDetails?.street} No: {streetDetails?.buildingNo}
+                      </div>
+                    </div>
                   </div>
-
-                  {/* Name */}
-                  <input
-                    type="text"
-                    placeholder={l('addressNamePlaceholder')}
-                    value={addressForm.name || ''}
-                    onChange={(e) => setAddressForm({ ...addressForm, name: e.target.value })}
+                  <button
+                    type="button"
+                    onClick={() => setIsAddressModalOpen(true)}
                     style={{
-                      width: '100%',
-                      boxSizing: 'border-box',
-                      background: 'rgba(255, 255, 255, 0.07)',
-                      border: '1px solid rgba(246, 241, 232, 0.15)',
-                      borderRadius: '6px',
-                      padding: '7px 10px',
-                      color: '#ffffff',
-                      fontSize: '0.82rem',
-                      outline: 'none',
-                    }}
-                  />
-
-                  {/* City & District */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', width: '100%', boxSizing: 'border-box' }}>
-                    <input
-                      type="text"
-                      placeholder={l('cityLabel')}
-                      value={addressForm.city || ''}
-                      onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })}
-                      style={{
-                        width: '100%',
-                        minWidth: 0,
-                        boxSizing: 'border-box',
-                        background: 'rgba(255, 255, 255, 0.07)',
-                        border: '1px solid rgba(246, 241, 232, 0.15)',
-                        borderRadius: '6px',
-                        padding: '7px 8px',
-                        color: '#ffffff',
-                        fontSize: '0.8rem',
-                        outline: 'none',
-                      }}
-                    />
-                    <input
-                      type="text"
-                      placeholder={l('districtLabel')}
-                      value={addressForm.district || ''}
-                      required
-                      onChange={(e) => setAddressForm({ ...addressForm, district: e.target.value })}
-                      style={{
-                        width: '100%',
-                        minWidth: 0,
-                        boxSizing: 'border-box',
-                        background: 'rgba(255, 255, 255, 0.07)',
-                        border: '1px solid rgba(246, 241, 232, 0.15)',
-                        borderRadius: '6px',
-                        padding: '7px 8px',
-                        color: '#ffffff',
-                        fontSize: '0.8rem',
-                        outline: 'none',
-                      }}
-                    />
-                  </div>
-
-                  {/* Neighborhood & Street */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', width: '100%', boxSizing: 'border-box' }}>
-                    <input
-                      type="text"
-                      placeholder={l('neighborhoodLabel')}
-                      value={addressForm.neighborhood || ''}
-                      onChange={(e) => setAddressForm({ ...addressForm, neighborhood: e.target.value })}
-                      style={{
-                        width: '100%',
-                        minWidth: 0,
-                        boxSizing: 'border-box',
-                        background: 'rgba(255, 255, 255, 0.07)',
-                        border: '1px solid rgba(246, 241, 232, 0.15)',
-                        borderRadius: '6px',
-                        padding: '7px 8px',
-                        color: '#ffffff',
-                        fontSize: '0.8rem',
-                        outline: 'none',
-                      }}
-                    />
-                    <input
-                      type="text"
-                      placeholder={l('streetLabel')}
-                      value={addressForm.street || ''}
-                      required
-                      onChange={(e) => setAddressForm({ ...addressForm, street: e.target.value })}
-                      style={{
-                        width: '100%',
-                        minWidth: 0,
-                        boxSizing: 'border-box',
-                        background: 'rgba(255, 255, 255, 0.07)',
-                        border: '1px solid rgba(246, 241, 232, 0.15)',
-                        borderRadius: '6px',
-                        padding: '7px 8px',
-                        color: '#ffffff',
-                        fontSize: '0.8rem',
-                        outline: 'none',
-                      }}
-                    />
-                  </div>
-
-                  {/* Building No, Floor, Apt No */}
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '6px', width: '100%', boxSizing: 'border-box' }}>
-                    <input
-                      type="text"
-                      placeholder={l('buildingLabel')}
-                      value={addressForm.buildingNo || ''}
-                      onChange={(e) => setAddressForm({ ...addressForm, buildingNo: e.target.value })}
-                      style={{
-                        width: '100%',
-                        minWidth: 0,
-                        boxSizing: 'border-box',
-                        background: 'rgba(255, 255, 255, 0.07)',
-                        border: '1px solid rgba(246, 241, 232, 0.15)',
-                        borderRadius: '6px',
-                        padding: '7px 6px',
-                        color: '#ffffff',
-                        fontSize: '0.78rem',
-                        outline: 'none',
-                        textAlign: 'center',
-                      }}
-                    />
-                    <input
-                      type="text"
-                      placeholder={l('floorLabel')}
-                      value={addressForm.floor || ''}
-                      onChange={(e) => setAddressForm({ ...addressForm, floor: e.target.value })}
-                      style={{
-                        width: '100%',
-                        minWidth: 0,
-                        boxSizing: 'border-box',
-                        background: 'rgba(255, 255, 255, 0.07)',
-                        border: '1px solid rgba(246, 241, 232, 0.15)',
-                        borderRadius: '6px',
-                        padding: '7px 6px',
-                        color: '#ffffff',
-                        fontSize: '0.78rem',
-                        outline: 'none',
-                        textAlign: 'center',
-                      }}
-                    />
-                    <input
-                      type="text"
-                      placeholder={l('aptLabel')}
-                      value={addressForm.apartmentNo || ''}
-                      onChange={(e) => setAddressForm({ ...addressForm, apartmentNo: e.target.value })}
-                      style={{
-                        width: '100%',
-                        minWidth: 0,
-                        boxSizing: 'border-box',
-                        background: 'rgba(255, 255, 255, 0.07)',
-                        border: '1px solid rgba(246, 241, 232, 0.15)',
-                        borderRadius: '6px',
-                        padding: '7px 6px',
-                        color: '#ffffff',
-                        fontSize: '0.78rem',
-                        outline: 'none',
-                        textAlign: 'center',
-                      }}
-                    />
-                  </div>
-
-                  {/* Note */}
-                  <input
-                    type="text"
-                    placeholder={l('noteLabel')}
-                    value={addressForm.note || addressForm.buildingNote || ''}
-                    onChange={(e) => setAddressForm({ ...addressForm, note: e.target.value, buildingNote: e.target.value })}
-                    style={{
-                      width: '100%',
-                      boxSizing: 'border-box',
-                      background: 'rgba(255, 255, 255, 0.07)',
-                      border: '1px solid rgba(246, 241, 232, 0.15)',
-                      borderRadius: '6px',
-                      padding: '7px 10px',
-                      color: '#ffffff',
-                      fontSize: '0.82rem',
-                      outline: 'none',
-                    }}
-                  />
-
-                  {/* Phone */}
-                  <input
-                    type="tel"
-                    placeholder={l('phoneLabel')}
-                    value={addressForm.phone || ''}
-                    onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value })}
-                    style={{
-                      width: '100%',
-                      boxSizing: 'border-box',
-                      background: 'rgba(255, 255, 255, 0.07)',
-                      border: '1px solid rgba(246, 241, 232, 0.15)',
-                      borderRadius: '6px',
-                      padding: '7px 10px',
-                      color: '#ffffff',
-                      fontSize: '0.82rem',
-                      outline: 'none',
-                    }}
-                  />
-
-                  <div style={{ display: 'flex', gap: '8px', marginTop: '4px' }}>
-                    <button
-                      type="submit"
-                      style={{
-                        flex: 1,
-                        padding: '8px 12px',
-                        background: '#3e5343',
-                        color: '#ffffff',
-                        border: 'none',
-                        borderRadius: '6px',
-                        fontWeight: 700,
-                        fontSize: '0.82rem',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {l('addressSave')}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleCancelAddress}
-                      style={{
-                        padding: '8px 12px',
-                        background: 'rgba(255, 255, 255, 0.08)',
-                        color: 'var(--mist-beige)',
-                        border: 'none',
-                        borderRadius: '6px',
-                        fontSize: '0.82rem',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {l('addressCancel')}
-                    </button>
-                  </div>
-                </form>
-              ) : hasSavedAddress ? (
-                /* Collapsible Saved Address Card */
-                <div
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.04)',
-                    border: '1px solid rgba(246, 241, 232, 0.14)',
-                    borderRadius: '8px',
-                    overflow: 'hidden',
-                    transition: 'all 0.2s ease',
-                  }}
-                >
-                  <div
-                    onClick={() => setIsAddressExpanded(!isAddressExpanded)}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      padding: '10px 12px',
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--color-accent, #D4A373)',
+                      fontSize: '0.76rem',
+                      fontWeight: 700,
                       cursor: 'pointer',
-                      userSelect: 'none',
-                      background: isAddressExpanded ? 'rgba(255, 255, 255, 0.03)' : 'transparent',
+                      textDecoration: 'underline',
+                      flexShrink: 0,
                     }}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <FaLocationDot size={15} style={{ color: 'var(--color-accent, #D4A373)', flexShrink: 0 }} aria-hidden="true" />
-                      <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <strong style={{ fontSize: '0.84rem', color: 'var(--color-brand-light)' }}>
-                          {l('addressTitle')}
-                        </strong>
-                        {!isAddressExpanded && (
-                          <span style={{ fontSize: '0.74rem', color: 'rgba(255, 255, 255, 0.6)', maxWidth: '210px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                            {[customerAddress.district, customerAddress.city].filter(Boolean).join(', ')}
-                            {customerAddress.street ? ` • ${customerAddress.street}` : ''}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setIsEditingAddress(true);
-                        }}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: 'var(--color-accent, #D4A373)',
-                          fontSize: '0.78rem',
-                          cursor: 'pointer',
-                          fontWeight: 600,
-                          textDecoration: 'underline',
-                          padding: 0,
-                        }}
-                      >
-                        {l('addressEdit')}
-                      </button>
-                      <span
-                        style={{
-                          fontSize: '0.75rem',
-                          color: 'var(--mist-beige)',
-                          transition: 'transform 0.2s ease',
-                          transform: isAddressExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                          display: 'inline-block',
-                        }}
-                      >
-                        ▼
-                      </span>
-                    </div>
-                  </div>
-
-                  {isAddressExpanded && (
-                    <div
-                      style={{
-                        padding: '8px 12px 12px 12px',
-                        borderTop: '1px solid rgba(246, 241, 232, 0.08)',
-                        fontSize: '0.82rem',
-                        color: 'var(--mist-beige)',
-                        lineHeight: 1.45,
-                      }}
-                    >
-                      {customerAddress.name && (
-                        <div style={{ color: '#fff', fontWeight: 600, marginBottom: '2px' }}>
-                          <FaUser aria-hidden="true" /> {customerAddress.name}
-                        </div>
-                      )}
-                      <div>
-                        {[
-                          customerAddress.district && `${customerAddress.district}`,
-                          customerAddress.city && `${customerAddress.city}`,
-                        ].filter(Boolean).join(' / ')}
-                      </div>
-                      <div>
-                        {[
-                          customerAddress.neighborhood && `${customerAddress.neighborhood} Mah.`,
-                          customerAddress.street && `${customerAddress.street}`,
-                        ].filter(Boolean).join(', ')}
-                      </div>
-                      {(customerAddress.buildingNo || customerAddress.floor || customerAddress.apartmentNo) && (
-                        <div style={{ fontSize: '0.78rem', opacity: 0.9, marginTop: '2px' }}>
-                          {[
-                            customerAddress.buildingNo && `Bina: ${customerAddress.buildingNo}`,
-                            customerAddress.floor && `Kat: ${customerAddress.floor}`,
-                            customerAddress.apartmentNo && `Daire: ${customerAddress.apartmentNo}`,
-                          ].filter(Boolean).join(' • ')}
-                        </div>
-                      )}
-                      {(customerAddress.note || customerAddress.buildingNote) && (
-                        <div style={{ fontSize: '0.76rem', color: '#ffd166', marginTop: '3px' }}>
-                          <FaPen aria-hidden="true" /> {customerAddress.note || customerAddress.buildingNote}
-                        </div>
-                      )}
-                      {customerAddress.phone && (
-                        <div style={{ fontSize: '0.76rem', opacity: 0.85, marginTop: '3px' }}>
-                          <FaPhone aria-hidden="true" /> {customerAddress.phone}
-                        </div>
-                      )}
-                    </div>
-                  )}
+                    {l('addressEdit')}
+                  </button>
                 </div>
               ) : (
-                /* Add Address Prompt Button */
                 <button
                   type="button"
-                  onClick={() => setIsEditingAddress(true)}
+                  onClick={() => setIsAddressModalOpen(true)}
                   style={{
                     width: '100%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    padding: '11px 12px',
-                    background: 'rgba(230, 57, 70, 0.12)',
-                    border: '1.5px dashed rgba(230, 57, 70, 0.55)',
+                    padding: '9px 12px',
+                    backgroundColor: 'rgba(234, 179, 8, 0.12)',
+                    border: '1.5px dashed rgba(234, 179, 8, 0.5)',
                     borderRadius: '8px',
-                    color: '#ffb4a2',
-                    fontSize: '0.84rem',
+                    color: '#ffd166',
+                    fontSize: '0.82rem',
                     fontWeight: 700,
                     cursor: 'pointer',
-                    transition: 'all 0.15s ease',
                   }}
                 >
+                  <FaLocationDot size={13} />
                   <span>{l('addressAddPrompt')}</span>
                 </button>
               )}
+            </div>
+
+            {/* ── 3. Payment Method Badge ── */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '6px 10px',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                borderRadius: '6px',
+                marginBottom: '8px',
+                fontSize: '0.76rem',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#f5f5f5' }}>
+                <span style={{ color: '#22c55e', fontWeight: 600 }}>💵 Kapıda Nakit</span>
+                <span style={{ fontSize: '0.68rem', backgroundColor: 'rgba(34, 197, 94, 0.2)', color: '#4ade80', padding: '1px 5px', borderRadius: '3px' }}>Aktif</span>
+              </div>
+              <span style={{ color: '#737373', fontSize: '0.72rem' }}>🔒 Online Kart (Yakında)</span>
             </div>
 
             {/* ── 3. KVKK / Privacy Notice Link ── */}
@@ -1069,10 +688,62 @@ export default function CartDrawer() {
             </div>
 
             {/* Subtotal */}
-            <div className="cart-drawer__subtotal">
+            <div className="cart-drawer__subtotal" style={{ marginBottom: '6px' }}>
               <span className="cart-drawer__subtotal-label">{l('subtotal')}</span>
               <span className="cart-drawer__subtotal-value">{formatPrice(cartSubtotal)}</span>
             </div>
+
+            {/* Free Delivery Status Row */}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '6px 12px',
+                background: 'rgba(34, 197, 94, 0.08)',
+                border: '1px solid rgba(34, 197, 94, 0.25)',
+                borderRadius: '6px',
+                marginBottom: '10px',
+                fontSize: '0.82rem',
+              }}
+            >
+              <span style={{ color: '#a3a3a3' }}>
+                {cartLang === 'ar' ? 'رسوم التوصيل:' :
+                 cartLang === 'en' ? 'Delivery Fee:' :
+                 cartLang === 'ru' ? 'Стоимость доставки:' :
+                 cartLang === 'zh' ? '配送费:' :
+                 'Teslimat Ücreti:'}
+              </span>
+              <span style={{ color: '#22c55e', fontWeight: 700 }}>
+                {cartLang === 'ar' ? 'مجاني (0 ₺)' :
+                 cartLang === 'en' ? 'FREE (0 ₺)' :
+                 cartLang === 'ru' ? 'БЕСПЛАТНО (0 ₺)' :
+                 cartLang === 'zh' ? '免费 (0 ₺)' :
+                 'ÜCRETSİZ (0 ₺)'}
+              </span>
+            </div>
+
+            {/* Validation Notice Banner */}
+            {checkoutNotice && (
+              <div
+                style={{
+                  padding: '8px 12px',
+                  backgroundColor: 'rgba(239, 68, 68, 0.15)',
+                  border: '1px solid rgba(239, 68, 68, 0.4)',
+                  borderRadius: '8px',
+                  marginBottom: '10px',
+                  color: '#fca5a5',
+                  fontSize: '0.82rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  lineHeight: 1.35,
+                }}
+              >
+                <FaTriangleExclamation size={14} style={{ flexShrink: 0, color: '#ef4444' }} />
+                <span>{checkoutNotice}</span>
+              </div>
+            )}
 
             {/* WhatsApp Checkout Button */}
             <button
@@ -1090,11 +761,12 @@ export default function CartDrawer() {
                 gap: '2px',
                 padding: '12px 14px',
                 borderRadius: '8px',
-                background: '#25D366',
+                background: cartSubtotal < minDeliveryTl ? '#4b5563' : '#25D366',
                 color: '#ffffff',
                 fontWeight: 700,
                 fontSize: '0.95rem',
-                boxShadow: '0 4px 12px rgba(37, 211, 102, 0.25)',
+                boxShadow: cartSubtotal < minDeliveryTl ? 'none' : '0 4px 12px rgba(37, 211, 102, 0.25)',
+                opacity: cartSubtotal < minDeliveryTl ? 0.75 : 1,
               }}
             >
               <span>{l('checkout')}</span>
@@ -1102,7 +774,7 @@ export default function CartDrawer() {
                 <span style={{ fontSize: '0.72rem', opacity: 0.95, color: '#fef08a' }}>
                   <FaTriangleExclamation aria-hidden="true" /> {l('branchSelectPrompt')}
                 </span>
-              ) : !hasSavedAddress ? (
+              ) : !hasValidDeliveryAddress ? (
                 <span style={{ fontSize: '0.72rem', opacity: 0.95, color: '#ffccd5' }}>
                   <FaTriangleExclamation aria-hidden="true" /> {l('addressRequiredNotice')}
                 </span>
@@ -1114,7 +786,16 @@ export default function CartDrawer() {
             </button>
 
             {!isMinDeliveryReached && (
-              <p className="cart-drawer__min-notice">{l('minNotice')}</p>
+              <p className="cart-drawer__min-notice">
+                {l('minNotice')}
+                <span style={{ display: 'block', fontSize: '0.76rem', color: '#eab308', marginTop: '2px' }}>
+                  {cartLang === 'ar' ? `أضف بقيمة ${formatPrice(minDeliveryTl - cartSubtotal)} للوصول للحد الأدنى (500 ₺)` :
+                   cartLang === 'en' ? `Add ${formatPrice(minDeliveryTl - cartSubtotal)} more to reach minimum (500 ₺)` :
+                   cartLang === 'ru' ? `Добавьте еще ${formatPrice(minDeliveryTl - cartSubtotal)} до минимума (500 ₺)` :
+                   cartLang === 'zh' ? `还需添加 ${formatPrice(minDeliveryTl - cartSubtotal)} 达到起送额 (500 ₺)` :
+                   `Minimum 500 ₺ için ${formatPrice(minDeliveryTl - cartSubtotal)} daha ekleyin`}
+                </span>
+              </p>
             )}
           </div>
         )}
@@ -1122,6 +803,13 @@ export default function CartDrawer() {
 
       {/* KVKK Modal */}
       <KVKKModal isOpen={isKvkkOpen} onClose={() => setIsKvkkOpen(false)} />
+
+      {/* Delivery Address Modal */}
+      <AddressModal
+        isOpen={isAddressModalOpen}
+        onClose={() => setIsAddressModalOpen(false)}
+        lang={cartLang}
+      />
     </>
   );
 }

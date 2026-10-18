@@ -6,6 +6,7 @@ import "./footer.css";
 import { CartProvider } from "@/context/CartContext";
 import { CurrencyProvider } from "@/context/CurrencyContext";
 import { BranchProvider } from "@/context/BranchContext";
+import { DeliveryProvider } from "@/context/DeliveryContext";
 import { getDir } from "@/i18n/config/locales";
 import Footer from "@/components/Footer";
 import MobileBottomBar from "@/components/MobileBottomBar";
@@ -117,10 +118,12 @@ export default async function RootLayout({ children }) {
           <BranchProvider>
             <CurrencyProvider>
               <CartProvider>
-                {children}
-                <Footer />
-                <MobileBottomBar />
-                <BranchModal />
+                <DeliveryProvider>
+                  {children}
+                  <Footer />
+                  <MobileBottomBar />
+                  <BranchModal />
+                </DeliveryProvider>
               </CartProvider>
             </CurrencyProvider>
           </BranchProvider>

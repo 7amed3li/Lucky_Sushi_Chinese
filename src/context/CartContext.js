@@ -5,7 +5,7 @@ import { createContext, useContext, useState, useEffect, useCallback, useMemo } 
 const CartContext = createContext(null);
 
 const STORAGE_KEY = 'lucky_sushi_cart_v1';
-const MIN_DELIVERY_TL = 399;
+const MIN_DELIVERY_TL = 500;
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);

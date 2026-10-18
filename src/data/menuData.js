@@ -2032,7 +2032,7 @@ export const restaurantInfo = {
   hours_ru: "Ежедневно: 10:45 — 04:00",
   hours_zh: "每天: 10:45 — 次日04:00",
   
-  delivery_min_tl: 399,
+  delivery_min_tl: 500,
   instagram: "@lucky.sushi_chinese",
   instagram_url: "https://www.instagram.com/lucky.sushi_chinese/",
   google_maps_url: "https://www.google.com/maps/place/Lucky+sushi+%26+Chinese/@41.0756836,28.9421,17z",
