@@ -135,16 +135,16 @@ export default function Footer() {
       {/* Copyright & Developer Credit */}
       <div className="main-footer__bottom" style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'center', textAlign: 'center' }}>
         <p style={{ margin: 0 }}>© {new Date().getFullYear()} Lucky Sushi & Chinese. {l('rights')}</p>
-        <p style={{ fontSize: '0.8rem', color: '#a3a3a3', display: 'flex', alignItems: 'center', gap: '6px', margin: 0, flexWrap: 'wrap', justifyContent: 'center' }}>
+        <p style={{ fontSize: '0.8rem', color: 'var(--mist-beige)', display: 'flex', alignItems: 'center', gap: '6px', margin: 0, flexWrap: 'wrap', justifyContent: 'center' }}>
           <span>{l('madeBy')}</span>
           <Link 
             href="/tasarim-gelistirme" 
             style={{ 
-              color: '#d4af37', 
-              fontWeight: 700, 
+              color: 'var(--color-brand-primary)', 
+              fontWeight: 600, 
               textDecoration: 'underline', 
               textUnderlineOffset: '3px',
-              transition: 'color 0.2s ease' 
+              transition: 'opacity 0.2s ease' 
             }}
           >
             {l('devName')}

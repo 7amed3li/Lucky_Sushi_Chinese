@@ -2,57 +2,80 @@
 
 import React from 'react';
 import { Link } from '@/i18n/navigation';
-import { 
-  FaCode, FaWhatsapp, FaEnvelope, FaArrowRight, FaArrowLeft, 
-  FaCheck, FaMobileScreen, FaBolt, FaGlobe, FaArrowUpRightFromSquare
-} from 'react-icons/fa6';
+import { LuCode, LuMail, LuArrowRight, LuArrowLeft } from 'react-icons/lu';
+import { FaWhatsapp } from 'react-icons/fa6';
 
 export default function DeveloperProfile({ content, isRTL, lang }) {
   const { hero, proof, services, whyMe, process: workProcess, cta } = content;
 
+  const trackEvent = (eventName) => {
+    if (typeof window !== 'undefined' && window.dataLayer) {
+      window.dataLayer.push({ event: eventName });
+    }
+  };
+
+  const returnHomeText = {
+    tr: 'Lucky Sushi & Chinese Ana Sayfasına Dön',
+    en: 'Return to Lucky Sushi & Chinese',
+    ar: 'العودة إلى الصفحة الرئيسية لـ Lucky Sushi & Chinese',
+    ru: 'Вернуться на главную Lucky Sushi & Chinese',
+    zh: '返回 Lucky Sushi & Chinese 首页',
+  };
+
+  const ArrowIcon = isRTL ? LuArrowLeft : LuArrowRight;
+
   return (
     <div
-      style={{
-        backgroundColor: '#0a0a0c',
-        color: '#f5f5f5',
-        minHeight: '100vh',
-        padding: '3rem 1.25rem 5rem 1.25rem',
-      }}
+      className={`developer-profile ${isRTL ? 'rtl' : 'ltr'}`}
       dir={isRTL ? 'rtl' : 'ltr'}
+      style={{
+        backgroundColor: 'var(--color-background)',
+        color: 'var(--color-text-primary)',
+        minHeight: '100vh',
+        padding: 'clamp(40px, 6vw, 72px) var(--page-pad) clamp(60px, 8vw, 96px)',
+      }}
     >
-      <div style={{ maxWidth: '920px', margin: '0 auto' }}>
-        
+      <div
+        style={{
+          maxWidth: '860px',
+          margin: '0 auto',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'clamp(44px, 6vw, 64px)',
+        }}
+      >
         {/* 1. HERO SECTION */}
-        <section style={{ textAlign: 'center', marginBottom: '4rem', paddingTop: '1rem' }}>
+        <section style={{ textAlign: 'center', paddingTop: '8px' }}>
           <div
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.5rem',
-              padding: '0.45rem 1.1rem',
+              gap: '8px',
+              padding: '6px 16px',
               borderRadius: '9999px',
-              backgroundColor: 'rgba(234, 179, 8, 0.12)',
-              border: '1px solid rgba(234, 179, 8, 0.35)',
-              color: '#eab308',
+              backgroundColor: 'rgba(40, 122, 63, 0.1)',
+              border: '1px solid rgba(40, 122, 63, 0.25)',
+              color: 'var(--color-brand-primary)',
               fontSize: '0.8rem',
               fontWeight: 700,
               textTransform: 'uppercase',
-              letterSpacing: '0.05em',
-              marginBottom: '1.25rem',
+              letterSpacing: '0.08em',
+              marginBottom: '20px',
             }}
           >
-            <FaCode size={13} />
+            <LuCode size={14} />
             <span>{hero.role}</span>
           </div>
 
           <h1
             style={{
+              fontFamily: isRTL ? 'var(--font-ar-serif)' : 'var(--font-serif)',
               fontSize: 'clamp(2.4rem, 5vw, 3.8rem)',
-              fontWeight: 900,
-              color: '#ffffff',
+              fontWeight: 800,
+              color: 'var(--color-text-primary)',
               letterSpacing: '-0.02em',
-              margin: '0 0 1rem 0',
-              lineHeight: 1.15,
+              margin: '0 0 16px 0',
+              lineHeight: 1.18,
             }}
           >
             {hero.name}
@@ -60,12 +83,12 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
 
           <p
             style={{
-              fontSize: 'clamp(1.05rem, 2.5vw, 1.25rem)',
-              color: '#a3a3a3',
+              fontSize: 'clamp(1.05rem, 2.2vw, 1.25rem)',
+              color: 'var(--color-text-secondary)',
               maxWidth: '720px',
-              margin: '0 auto 2.2rem auto',
-              lineHeight: 1.6,
-              fontWeight: 400,
+              margin: '0 auto 28px auto',
+              lineHeight: 1.65,
+              fontWeight: 500,
             }}
           >
             {hero.headline}
@@ -75,115 +98,133 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
             style={{
               display: 'flex',
               flexWrap: 'wrap',
-              gap: '1rem',
+              gap: '14px',
               justifyContent: 'center',
             }}
           >
             <a
               href={cta.whatsappLink}
+              onClick={() => trackEvent('cta_whatsapp_click')}
               target="_blank"
               rel="noopener noreferrer"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.6rem',
-                padding: '0.85rem 1.8rem',
-                backgroundColor: '#22c55e',
-                color: '#000000',
-                fontWeight: 800,
-                fontSize: '0.95rem',
+                justifyContent: 'center',
+                gap: '8px',
+                padding: '14px 28px',
+                backgroundColor: 'var(--color-brand-primary)',
+                color: '#ffffff',
+                fontWeight: 700,
+                fontSize: '0.98rem',
                 borderRadius: '12px',
                 textDecoration: 'none',
-                boxShadow: '0 8px 24px rgba(34, 197, 94, 0.25)',
-                transition: 'transform 0.15s ease',
+                boxShadow: '0 4px 14px rgba(40, 122, 63, 0.25)',
+                transition: 'all 0.2s ease',
               }}
             >
-              <FaWhatsapp size={18} />
-              <span>{hero.ctaQuote}</span>
+              {hero.ctaQuote}
             </a>
 
             <a
               href={cta.portfolioLink}
+              onClick={() => trackEvent('cta_portfolio_click')}
               target="_blank"
               rel="noopener noreferrer"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.6rem',
-                padding: '0.85rem 1.8rem',
-                backgroundColor: '#17171a',
-                border: '1.5px solid #eab308',
-                color: '#eab308',
+                justifyContent: 'center',
+                gap: '8px',
+                padding: '12px 28px',
+                backgroundColor: 'transparent',
+                border: '2px solid var(--color-brand-primary)',
+                color: 'var(--color-brand-primary)',
                 fontWeight: 700,
-                fontSize: '0.95rem',
+                fontSize: '0.98rem',
                 borderRadius: '12px',
                 textDecoration: 'none',
-                transition: 'background-color 0.15s ease',
+                transition: 'all 0.2s ease',
               }}
             >
               <span>{hero.ctaWork}</span>
-              <FaArrowUpRightFromSquare size={13} />
             </a>
           </div>
         </section>
 
-        {/* 2. REAL PROOF (Case Study Badge) */}
+        {/* 2. REAL PROOF (Case Study Style) */}
         <section
           style={{
-            background: 'linear-gradient(135deg, #18221b 0%, #121814 100%)',
-            border: '1.5px solid #2d6a4f',
-            borderRadius: '20px',
-            padding: '2.5rem 2rem',
-            marginBottom: '4rem',
+            backgroundColor: 'var(--color-brand-dark)',
+            color: 'var(--color-brand-light)',
+            borderRadius: '24px',
+            padding: 'clamp(28px, 5vw, 44px)',
             position: 'relative',
             overflow: 'hidden',
-            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)',
+            boxShadow: 'var(--shadow-lg)',
           }}
         >
-          <div style={{ position: 'relative', zIndex: 1 }}>
-            <span
-              style={{
-                display: 'inline-block',
-                color: '#4ade80',
-                fontSize: '0.8rem',
-                fontWeight: 800,
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                marginBottom: '0.5rem',
-              }}
-            >
-              {proof.title}
-            </span>
+          {/* Subtle brand glow overlay */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              width: '280px',
+              height: '280px',
+              background: 'radial-gradient(circle, rgba(40, 122, 63, 0.22) 0%, transparent 70%)',
+              pointerEvents: 'none',
+            }}
+            aria-hidden="true"
+          />
 
-            <h2
-              style={{
-                fontSize: 'clamp(1.4rem, 3vw, 1.85rem)',
-                fontWeight: 800,
-                color: '#ffffff',
-                margin: '0 0 1.8rem 0',
-                lineHeight: 1.35,
-              }}
-            >
-              {proof.subtitle}
-            </h2>
+          <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div>
+              <span
+                style={{
+                  color: 'var(--color-brand-primary)',
+                  fontSize: '0.82rem',
+                  fontWeight: 700,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  display: 'block',
+                  marginBottom: '8px',
+                }}
+              >
+                {proof.title}
+              </span>
+              <h2
+                style={{
+                  fontFamily: isRTL ? 'var(--font-ar-serif)' : 'var(--font-serif)',
+                  fontSize: 'clamp(1.4rem, 3vw, 1.9rem)',
+                  fontWeight: 700,
+                  color: 'var(--color-brand-light)',
+                  lineHeight: 1.35,
+                  margin: 0,
+                }}
+              >
+                {proof.subtitle}
+              </h2>
+            </div>
 
             <div
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                gap: '1.5rem',
-                borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-                paddingTop: '1.5rem',
+                gap: '20px 32px',
+                paddingTop: '20px',
+                borderTop: '1px solid rgba(246, 241, 232, 0.1)',
               }}
             >
               {proof.points.map((point, index) => (
-                <div key={index} style={{ display: 'flex', gap: '0.85rem', alignItems: 'flex-start' }}>
+                <div key={index} style={{ display: 'flex', gap: '14px', alignItems: 'flex-start' }}>
                   <span
                     style={{
-                      color: '#eab308',
-                      fontWeight: 900,
-                      fontSize: '1.1rem',
+                      color: 'var(--color-brand-primary)',
+                      fontWeight: 800,
+                      fontSize: '1.15rem',
                       lineHeight: 1,
+                      paddingTop: '3px',
                       flexShrink: 0,
                     }}
                   >
@@ -191,10 +232,11 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
                   </span>
                   <p
                     style={{
+                      fontSize: '0.92rem',
+                      fontWeight: 400,
+                      lineHeight: 1.65,
                       margin: 0,
-                      fontSize: '0.9rem',
-                      color: '#d4d4d8',
-                      lineHeight: 1.55,
+                      color: 'rgba(246, 241, 232, 0.88)',
                     }}
                   >
                     {point}
@@ -206,14 +248,15 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
         </section>
 
         {/* 3. SERVICES */}
-        <section style={{ marginBottom: '4rem' }}>
+        <section style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
           <h2
             style={{
+              fontFamily: isRTL ? 'var(--font-ar-serif)' : 'var(--font-serif)',
               fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)',
-              fontWeight: 800,
-              color: '#ffffff',
+              fontWeight: 700,
+              color: 'var(--color-text-primary)',
               textAlign: 'center',
-              marginBottom: '2rem',
+              margin: 0,
             }}
           >
             {services.title}
@@ -223,28 +266,29 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '1.25rem',
+              gap: '20px',
             }}
           >
             {services.items.map((item, index) => (
               <div
                 key={index}
                 style={{
-                  backgroundColor: '#141417',
-                  border: '1px solid #27272a',
+                  backgroundColor: 'var(--color-surface)',
+                  padding: '24px',
                   borderRadius: '16px',
-                  padding: '1.75rem',
+                  border: '1px solid var(--color-border)',
+                  boxShadow: 'var(--shadow-sm)',
                   transition: 'border-color 0.2s ease, transform 0.2s ease',
                 }}
               >
                 <div
                   style={{
-                    color: '#eab308',
-                    fontWeight: 900,
-                    fontSize: '1.2rem',
-                    marginBottom: '0.85rem',
-                    paddingBottom: '0.4rem',
-                    borderBottom: '1px solid rgba(234, 179, 8, 0.2)',
+                    color: 'var(--color-brand-primary)',
+                    fontWeight: 800,
+                    fontSize: '1.25rem',
+                    marginBottom: '12px',
+                    borderBottom: '1px solid rgba(40, 122, 63, 0.2)',
+                    paddingBottom: '6px',
                     display: 'inline-block',
                   }}
                 >
@@ -252,20 +296,21 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
                 </div>
                 <h3
                   style={{
-                    fontSize: '1.15rem',
+                    fontSize: '1.1rem',
                     fontWeight: 700,
-                    color: '#ffffff',
-                    margin: '0 0 0.5rem 0',
+                    color: 'var(--color-text-primary)',
+                    margin: '0 0 8px 0',
                   }}
                 >
                   {item.title}
                 </h3>
                 <p
                   style={{
+                    fontSize: '0.92rem',
+                    color: 'var(--color-text-secondary)',
+                    lineHeight: 1.6,
                     margin: 0,
-                    fontSize: '0.88rem',
-                    color: '#a1a1aa',
-                    lineHeight: 1.55,
+                    fontWeight: 500,
                   }}
                 >
                   {item.desc}
@@ -278,61 +323,68 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
         {/* 4. WHY ME */}
         <section
           style={{
-            borderTop: '1px solid #27272a',
-            borderBottom: '1px solid #27272a',
-            padding: '3rem 0',
-            marginBottom: '4rem',
+            borderTop: '1px solid var(--color-border)',
+            borderBottom: '1px solid var(--color-border)',
+            padding: '36px 0',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '24px',
           }}
         >
           <h2
             style={{
+              fontFamily: isRTL ? 'var(--font-ar-serif)' : 'var(--font-serif)',
               fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)',
-              fontWeight: 800,
-              color: '#ffffff',
+              fontWeight: 700,
+              color: 'var(--color-text-primary)',
               textAlign: 'center',
-              marginBottom: '2rem',
+              margin: 0,
             }}
           >
             {whyMe.title}
           </h2>
 
-          <div style={{ maxWidth: '680px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '14px',
+              maxWidth: '680px',
+              margin: '0 auto',
+              width: '100%',
+            }}
+          >
             {whyMe.items.map((item, index) => (
               <div
                 key={index}
                 style={{
                   display: 'flex',
                   alignItems: 'flex-start',
-                  gap: '1rem',
-                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid #26262a',
+                  gap: '14px',
+                  backgroundColor: 'var(--color-surface)',
+                  padding: '18px 22px',
                   borderRadius: '12px',
-                  padding: '1.25rem 1.4rem',
+                  border: '1px solid rgba(216, 206, 192, 0.7)',
+                  boxShadow: 'var(--shadow-sm)',
                 }}
               >
                 <div
                   style={{
-                    width: '24px',
-                    height: '24px',
+                    width: '8px',
+                    height: '8px',
                     borderRadius: '50%',
-                    backgroundColor: 'rgba(34, 197, 94, 0.15)',
-                    color: '#22c55e',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    backgroundColor: 'var(--color-brand-primary)',
                     flexShrink: 0,
-                    marginTop: '2px',
+                    marginTop: '8px',
                   }}
-                >
-                  <FaCheck size={11} />
-                </div>
+                />
                 <p
                   style={{
-                    margin: 0,
-                    fontSize: '0.95rem',
-                    color: '#e4e4e7',
-                    lineHeight: 1.55,
+                    fontSize: '0.98rem',
+                    color: 'var(--color-text-primary)',
                     fontWeight: 500,
+                    lineHeight: 1.6,
+                    margin: 0,
                   }}
                 >
                   {item}
@@ -343,14 +395,15 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
         </section>
 
         {/* 5. THE PROCESS */}
-        <section style={{ marginBottom: '4rem' }}>
+        <section style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
           <h2
             style={{
+              fontFamily: isRTL ? 'var(--font-ar-serif)' : 'var(--font-serif)',
               fontSize: 'clamp(1.6rem, 3.5vw, 2.2rem)',
-              fontWeight: 800,
-              color: '#ffffff',
+              fontWeight: 700,
+              color: 'var(--color-text-primary)',
               textAlign: 'center',
-              marginBottom: '2.5rem',
+              margin: 0,
             }}
           >
             {workProcess.title}
@@ -359,57 +412,59 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: '1.25rem',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+              gap: '20px',
             }}
           >
             {workProcess.items.map((item, index) => (
               <div
                 key={index}
                 style={{
-                  backgroundColor: '#141417',
-                  border: '1px solid #27272a',
-                  borderRadius: '16px',
-                  padding: '1.5rem',
-                  textAlign: 'center',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
+                  textAlign: 'center',
+                  gap: '12px',
+                  backgroundColor: 'var(--color-surface)',
+                  padding: '22px 16px',
+                  borderRadius: '16px',
+                  border: '1px solid var(--color-border)',
                 }}
               >
                 <div
                   style={{
-                    width: '44px',
-                    height: '44px',
+                    width: '46px',
+                    height: '46px',
                     borderRadius: '50%',
-                    backgroundColor: '#eab308',
-                    color: '#000000',
+                    backgroundColor: 'var(--color-brand-dark)',
+                    color: 'var(--color-brand-light)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    fontWeight: 900,
+                    fontWeight: 800,
                     fontSize: '1.1rem',
-                    marginBottom: '1rem',
+                    boxShadow: 'var(--shadow-sm)',
                   }}
                 >
                   {index + 1}
                 </div>
                 <h3
                   style={{
-                    fontSize: '1.05rem',
+                    fontSize: '1rem',
                     fontWeight: 700,
-                    color: '#ffffff',
-                    margin: '0 0 0.4rem 0',
+                    color: 'var(--color-text-primary)',
+                    margin: 0,
                   }}
                 >
                   {item.title}
                 </h3>
                 <p
                   style={{
+                    fontSize: '0.85rem',
+                    color: 'var(--color-text-secondary)',
+                    lineHeight: 1.55,
                     margin: 0,
-                    fontSize: '0.82rem',
-                    color: '#a1a1aa',
-                    lineHeight: 1.5,
+                    fontWeight: 500,
                   }}
                 >
                   {item.desc}
@@ -422,23 +477,27 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
         {/* 6. FINAL CTA */}
         <section
           style={{
-            background: 'linear-gradient(135deg, #1c1917 0%, #0c0a09 100%)',
-            border: '1.5px solid #eab308',
+            backgroundColor: 'var(--color-brand-dark)',
+            color: 'var(--color-brand-light)',
             borderRadius: '24px',
-            padding: '3rem 2rem',
+            padding: 'clamp(32px, 6vw, 48px)',
             textAlign: 'center',
-            boxShadow: '0 20px 50px rgba(234, 179, 8, 0.1)',
-            marginBottom: '3rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '24px',
+            alignItems: 'center',
+            boxShadow: 'var(--shadow-lg)',
           }}
         >
           <h2
             style={{
-              fontSize: 'clamp(1.5rem, 3.5vw, 2.3rem)',
-              fontWeight: 900,
-              color: '#ffffff',
-              maxWidth: '650px',
-              margin: '0 auto 2rem auto',
-              lineHeight: 1.3,
+              fontFamily: isRTL ? 'var(--font-ar-serif)' : 'var(--font-serif)',
+              fontSize: 'clamp(1.5rem, 3.5vw, 2.2rem)',
+              fontWeight: 700,
+              color: 'var(--color-brand-light)',
+              maxWidth: '640px',
+              margin: 0,
+              lineHeight: 1.35,
             }}
           >
             {cta.title}
@@ -448,94 +507,99 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
             style={{
               display: 'flex',
               flexWrap: 'wrap',
-              gap: '1rem',
+              gap: '14px',
               justifyContent: 'center',
-              marginBottom: '1.5rem',
             }}
           >
             <a
               href={cta.whatsappLink}
+              onClick={() => trackEvent('cta_whatsapp_click')}
               target="_blank"
               rel="noopener noreferrer"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.65rem',
-                padding: '0.95rem 2rem',
-                backgroundColor: '#22c55e',
+                gap: '8px',
+                padding: '14px 28px',
+                backgroundColor: '#25D366',
                 color: '#ffffff',
-                fontWeight: 800,
-                fontSize: '1rem',
+                fontWeight: 700,
+                fontSize: '0.98rem',
                 borderRadius: '12px',
                 textDecoration: 'none',
-                boxShadow: '0 8px 24px rgba(34, 197, 94, 0.3)',
+                boxShadow: '0 6px 18px rgba(37, 211, 102, 0.25)',
+                transition: 'all 0.2s ease',
               }}
             >
-              <FaWhatsapp size={20} />
+              <FaWhatsapp size={19} />
               <span>{cta.whatsapp}</span>
             </a>
 
             <a
               href={cta.emailLink}
+              onClick={() => trackEvent('cta_email_click')}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '0.65rem',
-                padding: '0.95rem 2rem',
-                backgroundColor: '#26262a',
-                border: '1px solid #3f3f46',
-                color: '#ffffff',
+                gap: '8px',
+                padding: '14px 28px',
+                backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                color: 'var(--color-brand-light)',
                 fontWeight: 700,
-                fontSize: '1rem',
+                fontSize: '0.98rem',
                 borderRadius: '12px',
                 textDecoration: 'none',
+                transition: 'all 0.2s ease',
               }}
             >
-              <FaEnvelope size={18} />
+              <LuMail size={19} />
               <span>{cta.email}</span>
             </a>
           </div>
 
-          <div>
+          <div style={{ paddingTop: '8px' }}>
             <a
               href={cta.portfolioLink}
+              onClick={() => trackEvent('cta_portfolio_click')}
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                color: '#eab308',
-                fontSize: '0.9rem',
-                fontWeight: 700,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                color: 'var(--color-brand-primary)',
                 textDecoration: 'underline',
                 textUnderlineOffset: '4px',
+                fontSize: '0.94rem',
+                fontWeight: 600,
+                transition: 'opacity 0.2s ease',
               }}
             >
-              {cta.portfolio}
+              <span>{cta.portfolio}</span>
             </a>
           </div>
         </section>
 
-        {/* 7. RETURN TO HOME */}
-        <div style={{ textAlign: 'center' }}>
+        {/* Return to home link */}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Link
             href="/"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.6rem',
-              color: '#a1a1aa',
+              gap: '8px',
               fontSize: '0.92rem',
-              fontWeight: 600,
+              color: 'var(--color-text-secondary)',
               textDecoration: 'none',
-              padding: '0.5rem 1rem',
-              borderRadius: '8px',
-              backgroundColor: 'rgba(255, 255, 255, 0.04)',
+              fontWeight: 500,
+              transition: 'color 0.2s ease',
             }}
           >
-            {isRTL ? <FaArrowRight size={14} /> : <FaArrowLeft size={14} />}
-            <span>{content.returnHome}</span>
+            <ArrowIcon size={16} />
+            <span>{returnHomeText[lang] || returnHomeText.tr}</span>
           </Link>
         </div>
-
       </div>
     </div>
   );
