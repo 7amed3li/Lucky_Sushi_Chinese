@@ -17,6 +17,8 @@ export default function Footer() {
     branches: { tr: 'Şubelerimiz & İletişim', en: 'Branches & Contact', ar: 'فروعنا وتواصل معنا', zh: '分店与联系', ru: 'Филиалы и контакты' },
     maps: { tr: 'Google Haritalar', en: 'Google Maps', ar: 'خرائط جوجل', zh: '谷歌地图', ru: 'Google Карты' },
     rights: { tr: 'Tüm hakları saklıdır.', en: 'All rights reserved.', ar: 'جميع الحقوق محفوظة.', zh: '版权所有。', ru: 'Все права защищены.' },
+    madeBy: { tr: 'Tasarım & Geliştirme:', en: 'Design & Development:', ar: 'تصميم وبرمجة:', zh: '设计与开发：', ru: 'Дизайн и разработка:' },
+    devName: { tr: 'Hamed Mohamed', en: 'Hamed Mohamed', ar: 'حامد محمد', zh: 'Hamed Mohamed', ru: 'Хамед Мохамед' },
     tagline: { 
       tr: 'Eyüpsultan’ın Asya Gece Mutfağı. Taze sushi ve sıcak Asya lezzetleri gece 04:00’e kadar.',
       en: "Eyüpsultan's Asian Night Kitchen. Fresh sushi and hot Asian flavors until 04:00 AM.",
@@ -130,9 +132,24 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Copyright */}
-      <div className="main-footer__bottom">
-        <p>© {new Date().getFullYear()} Lucky Sushi & Chinese. {l('rights')}</p>
+      {/* Copyright & Developer Credit */}
+      <div className="main-footer__bottom" style={{ display: 'flex', flexDirection: 'column', gap: '6px', alignItems: 'center', textAlign: 'center' }}>
+        <p style={{ margin: 0 }}>© {new Date().getFullYear()} Lucky Sushi & Chinese. {l('rights')}</p>
+        <p style={{ fontSize: '0.8rem', color: '#a3a3a3', display: 'flex', alignItems: 'center', gap: '6px', margin: 0, flexWrap: 'wrap', justifyContent: 'center' }}>
+          <span>{l('madeBy')}</span>
+          <Link 
+            href="/tasarim-gelistirme" 
+            style={{ 
+              color: '#d4af37', 
+              fontWeight: 700, 
+              textDecoration: 'underline', 
+              textUnderlineOffset: '3px',
+              transition: 'color 0.2s ease' 
+            }}
+          >
+            {l('devName')}
+          </Link>
+        </p>
       </div>
     </footer>
   );
