@@ -1,11 +1,14 @@
 /**
  * Lucky Sushi & Chinese — Single Source of Truth for Branches & Working Hours
  * 
- * TODO: Restaurant owner must confirm:
+ * Owner-supplied references:
+ * - Zeytinburnu and Reşitpaşa addresses, map listings, and Instagram reference phones.
+ * - Alibeyköy map listing and Instagram reference phone.
+ *
+ * Still requires owner confirmation:
  * 1. Exact closing hours for all branches (currently conflicting 03:00 vs 04:00).
- * 2. Zeytinburnu exact street address and building number.
- * 3. Reşitpaşa cloud kitchen exact address and whether any walk-in pickup is allowed.
- * 4. Company official title and tax registration for KVKK/Privacy legal notice.
+ * 2. Reşitpaşa cloud kitchen pickup policy (currently delivery/package only).
+ * 3. Company official title and tax registration for KVKK/Privacy legal notice.
  */
 
 export const branchesData = [
@@ -45,7 +48,7 @@ export const branchesData = [
     phone: "+90 531 486 34 04",
     whatsapp: "+90 531 486 34 04",
     phoneClean: "905314863404",
-    map: "https://maps.app.goo.gl/FYJRC83umT6g6diYA?g_st=ic",
+    map: "https://www.google.com/maps/place/Lucky+sushi+%26+Chinese/@41.0756836,28.9421,17z",
     
     // Working hours (TODO: Confirm closing hour with owner)
     hours_tr: "10:45 — 04:00 (Her gün)",
@@ -89,17 +92,17 @@ export const branchesData = [
     desc_ru: "Удобный пункт самовывоза и быстрая доставка по району Зейтинбурну. (Без зала)",
     desc_zh: "便捷自提点及辐射周边的高效外送服务。(无堂食)",
     
-    address_tr: "Zeytinburnu, İstanbul (Detaylı cadde/kapı bilgisi teyit edilecek - TODO)",
-    address_en: "Zeytinburnu, Istanbul (Exact street address to be confirmed - TODO)",
-    address_ar: "زيتون بورنو، إسطنبول (العنوان التفصيلي قيد تأكيد المالك - TODO)",
-    address_ru: "Зейтинбурну, Стамбул (Точный адрес уточняется - TODO)",
-    address_zh: "伊斯坦布尔 宰廷布尔努 (具体地址待确认 - TODO)",
-    address: "Zeytinburnu, İstanbul",
+    address_tr: "Prof. Dr. Turan Güneş Cd. 57G, Sümer, 34025 Zeytinburnu, İstanbul",
+    address_en: "Prof. Dr. Turan Güneş Cd. 57G, Sümer, 34025 Zeytinburnu, Istanbul",
+    address_ar: "Prof. Dr. Turan Güneş Cd. 57G، Sümer، 34025 Zeytinburnu، İstanbul",
+    address_ru: "Prof. Dr. Turan Güneş Cd. 57G, Sümer, 34025 Zeytinburnu, Стамбул",
+    address_zh: "Prof. Dr. Turan Güneş Cd. 57G，Sümer，34025 Zeytinburnu，伊斯坦布尔",
+    address: "Prof. Dr. Turan Güneş Cd. 57G, Sümer, 34025 Zeytinburnu, İstanbul",
     
     phone: "+90 544 217 98 57",
     whatsapp: "+90 544 217 98 57",
     phoneClean: "905442179857",
-    map: "https://maps.app.goo.gl/1bUYKe45ERSb8HWo7?g_st=ic",
+    map: "https://www.google.com/maps?q=Lucky+Sushi+Zeytinburnu,+S%C3%BCmer,+Prof.+Dr.+Turan+G%C3%BCne%C5%9F+Cd.+57G,+34025+Zeytinburnu/%C4%B0stanbul",
     
     // Working hours (TODO: Confirm closing hour with owner)
     hours_tr: "11:00 — 03:00 (Her gün)",
@@ -143,17 +146,17 @@ export const branchesData = [
     desc_ru: "Специализированная кухня для быстрой доставки суши и горячих блюд по району Сарыер. (Без посадки и самовывоза)",
     desc_zh: "专为萨勒耶尔及周边区域提供高效外送的专属厨房。(无堂食与自提)",
     
-    address_tr: "Reşitpaşa, Sarıyer, İstanbul (Bulut Mutfak - Detaylı adres teyit edilecek - TODO)",
-    address_en: "Reşitpaşa, Sarıyer, Istanbul (Cloud Kitchen - Address to be confirmed - TODO)",
-    address_ar: "ريشيت باشا، ساريير، إسطنبول (مطبخ توصيل - العنوان قيد تأكيد المالك - TODO)",
-    address_ru: "Решитпаша, Сарыер, Стамбул (Кухня доставки - адрес уточняется - TODO)",
-    address_zh: "伊斯坦布尔萨勒耶尔区赖希特帕夏 (外送厨房，地址待确认 - TODO)",
-    address: "Reşitpaşa, Sarıyer, İstanbul",
+    address_tr: "Doğanevler Cd. No:69, Reşitpaşa, 34467 Sarıyer, İstanbul",
+    address_en: "Doğanevler Cd. No:69, Reşitpaşa, 34467 Sarıyer, Istanbul",
+    address_ar: "Doğanevler Cd. No:69، Reşitpaşa، 34467 Sarıyer، İstanbul",
+    address_ru: "Doğanevler Cd. No:69, Reşitpaşa, 34467 Sarıyer, Стамбул",
+    address_zh: "Doğanevler Cd. No:69，Reşitpaşa，34467 Sarıyer，伊斯坦布尔",
+    address: "Doğanevler Cd. No:69, Reşitpaşa, 34467 Sarıyer, İstanbul",
     
     phone: "+90 555 995 34 04",
     whatsapp: "+90 555 995 34 04",
     phoneClean: "905559953404",
-    map: null, // NO map direction link
+    map: "https://www.google.com/maps?q=Lucky+sushi+Re%C5%9Fitpa%C5%9Fa,+Re%C5%9Fitpa%C5%9Fa,+Do%C4%9Fanevler+Cd.+No:69,+34467+Sar%C4%B1yer/%C4%B0stanbul",
     
     // Working hours (TODO: Confirm closing hour with owner)
     hours_tr: "11:00 — 03:00 (Her gün)",

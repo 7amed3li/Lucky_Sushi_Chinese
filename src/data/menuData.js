@@ -2035,7 +2035,7 @@ export const restaurantInfo = {
   delivery_min_tl: 399,
   instagram: "@lucky.sushi_chinese",
   instagram_url: "https://www.instagram.com/lucky.sushi_chinese/",
-  google_maps_url: "https://maps.app.goo.gl/FYJRC83umT6g6diYA?g_st=ic",
+  google_maps_url: "https://www.google.com/maps/place/Lucky+sushi+%26+Chinese/@41.0756836,28.9421,17z",
   menu_url: "https://lucky-sushi-chinese.vercel.app/menu",
   
   // Real Verified Social Proof
