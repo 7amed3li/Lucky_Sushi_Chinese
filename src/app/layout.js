@@ -12,6 +12,7 @@ import Footer from "@/components/Footer";
 import MobileBottomBar from "@/components/MobileBottomBar";
 import BranchModal from "@/components/BranchModal";
 import { generateRestaurantJsonLd } from "@/lib/structuredData";
+import { Analytics } from "@vercel/analytics/next";
 
 const notoSans = Noto_Sans({
   subsets: ["latin", "cyrillic"],
@@ -128,6 +129,7 @@ export default async function RootLayout({ children }) {
             </CurrencyProvider>
           </BranchProvider>
         </NextIntlClientProvider>
+        <Analytics />
       </body>
     </html>
   );
