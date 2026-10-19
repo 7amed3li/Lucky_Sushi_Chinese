@@ -20,20 +20,27 @@ export default function sitemap() {
     return `${baseUrl}/${locale}${pagePath}`;
   };
 
-  return pages.map((page) => {
+  const sitemapEntries = [];
+
+  pages.forEach((page) => {
     const alternatesLanguages = {};
     ACTIVE_LOCALE_CODES.forEach((locale) => {
       alternatesLanguages[locale] = getLocalizedUrl(page.path, locale);
     });
+    alternatesLanguages['x-default'] = getLocalizedUrl(page.path, DEFAULT_LOCALE);
 
-    return {
-      url: getLocalizedUrl(page.path, DEFAULT_LOCALE),
-      lastModified: new Date(),
-      changeFrequency: page.changeFrequency,
-      priority: page.priority,
-      alternates: {
-        languages: alternatesLanguages,
-      },
-    };
+    ACTIVE_LOCALE_CODES.forEach((locale) => {
+      sitemapEntries.push({
+        url: getLocalizedUrl(page.path, locale),
+        lastModified: new Date('2026-10-19T00:00:00.000Z'),
+        changeFrequency: page.changeFrequency,
+        priority: locale === DEFAULT_LOCALE ? page.priority : Math.max(0.3, Number((page.priority - 0.05).toFixed(2))),
+        alternates: {
+          languages: alternatesLanguages,
+        },
+      });
+    });
   });
+
+  return sitemapEntries;
 }

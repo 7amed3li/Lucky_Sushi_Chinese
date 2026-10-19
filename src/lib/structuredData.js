@@ -5,7 +5,7 @@ import { restaurantInfo } from '@/data/menuData';
  * Only uses real data from restaurantInfo — never fabricated values.
  */
 export function generateRestaurantJsonLd() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lucky-sushi-chinese.vercel.app';
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.luckysushichinese.com.tr').replace(/\/$/, '');
   const mainBranch = restaurantInfo.branches[0];
 
   return {
@@ -77,7 +77,7 @@ export function generateRestaurantJsonLd() {
  * @param {Array<{name: string, url: string}>} items
  */
 export function generateBreadcrumbJsonLd(items) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lucky-sushi-chinese.vercel.app';
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.luckysushichinese.com.tr').replace(/\/$/, '');
 
   return {
     '@context': 'https://schema.org',

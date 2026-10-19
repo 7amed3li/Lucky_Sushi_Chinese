@@ -27,7 +27,7 @@ const notoSerif = Noto_Serif({
   display: "swap",
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lucky-sushi-chinese.vercel.app';
+const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.luckysushichinese.com.tr').replace(/\/$/, '');
 
 export const metadata = {
   metadataBase: new URL(baseUrl),
