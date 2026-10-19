@@ -1,7 +1,7 @@
 import { ACTIVE_LOCALE_CODES, DEFAULT_LOCALE } from '@/i18n/config/locales';
 
 export default function sitemap() {
-  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://lucky-sushi-chinese.com.tr').replace(/\/$/, '');
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.luckysushichinese.com.tr').replace(/\/$/, '');
   
   const pages = [
     { path: '', changeFrequency: 'weekly', priority: 1.0 },
