@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from 'next-intl';
 import { routing } from '@/i18n/routing';
 import { getLocale as getLocaleConfig } from '@/i18n/config/locales';
 
+import { getRouteCanonicalAndAlternates } from '@/lib/seo';
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -12,16 +14,10 @@ export async function generateMetadata({ params }) {
   const { locale } = await params;
   if (!routing.locales.includes(locale)) notFound();
 
-  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.luckysushichinese.com.tr').replace(/\/$/, '');
-  const languages = Object.fromEntries(
-    routing.locales.map((code) => [code, code === routing.defaultLocale ? baseUrl : `${baseUrl}/${code}`])
-  );
+  const alternates = getRouteCanonicalAndAlternates('', locale);
 
   return {
-    alternates: {
-      canonical: locale === routing.defaultLocale ? baseUrl : `${baseUrl}/${locale}`,
-      languages: { ...languages, 'x-default': baseUrl },
-    },
+    alternates,
   };
 }
 
