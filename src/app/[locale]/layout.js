@@ -12,7 +12,7 @@ export async function generateMetadata({ params }) {
   const { locale } = await params;
   if (!routing.locales.includes(locale)) notFound();
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://lucky-sushi-chinese.vercel.app';
+  const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://lucky-sushi-chinese.com.tr').replace(/\/$/, '');
   const languages = Object.fromEntries(
     routing.locales.map((code) => [code, code === routing.defaultLocale ? baseUrl : `${baseUrl}/${code}`])
   );
