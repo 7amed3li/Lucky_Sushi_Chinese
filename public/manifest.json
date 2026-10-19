@@ -4,8 +4,8 @@
   "description": "Taze sushi, sıcak Asya yemekleri. Eyüpsultan, İstanbul. Gece 04:00'e kadar açık.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FFFDF8",
-  "theme_color": "#F3E8D2",
+  "background_color": "#F6F1E8",
+  "theme_color": "#F6F1E8",
   "orientation": "portrait-primary",
   "icons": [
     {

@@ -100,8 +100,8 @@ export const viewport = {
 };
 
 export default async function RootLayout({ children }) {
-  const restaurantJsonLd = generateRestaurantJsonLd();
   const locale = await getLocale();
+  const restaurantJsonLd = generateRestaurantJsonLd(locale);
 
   return (
     <html lang={locale} dir={getDir(locale)} className={`${notoSerif.variable} ${notoSans.variable}`}>
