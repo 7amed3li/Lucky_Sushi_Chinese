@@ -52,7 +52,11 @@ export function buildWhatsAppOrderUrl({
   msg += `📋 *Sipariş Kalemleri:*\n`;
 
   cart.forEach(({ item, quantity }) => {
-    const trName = item.name_tr || item.name || '';
+    // Cart entries are persisted in localStorage, so older entries may not
+    // contain the localized name fields. Resolve the current catalog record by
+    // ID before building the customer-facing order message.
+    const catalogItem = menuItems.find((menuItem) => menuItem.id === item.id);
+    const trName = item.name_tr || catalogItem?.name_tr || item.name || catalogItem?.name_en || item.id;
     const itemTotal = (item.price * quantity).toFixed(0);
     msg += `• ${quantity}x ${trName} — ${itemTotal} ₺\n`;
   });
