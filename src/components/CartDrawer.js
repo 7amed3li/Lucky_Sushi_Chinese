@@ -299,6 +299,7 @@ export default function CartDrawer() {
       >
         {/* Waiter / Online Banner */}
         <div
+          className="cart-drawer__banner"
           style={{
             background: '#3e5343',
             color: '#FFFFFF',
@@ -474,14 +475,16 @@ export default function CartDrawer() {
                     )}
 
                     <span className="cart-item__price">{formatPrice(item.price * quantity)}</span>
-                    <div className="cart-item__controls">
-                      <button type="button" className="cart-item__qty-btn" onClick={() => removeFromCart(item.id)} aria-label="Decrease">−</button>
-                      <span className="cart-item__qty">{quantity}</span>
-                      <button type="button" className="cart-item__qty-btn" onClick={() => addToCart(item, 1)} aria-label="Increase">+</button>
+                    <div className="cart-item__actions">
+                      <div className="cart-item__controls">
+                        <button type="button" className="cart-item__qty-btn" onClick={() => removeFromCart(item.id)} aria-label="Decrease">−</button>
+                        <span className="cart-item__qty">{quantity}</span>
+                        <button type="button" className="cart-item__qty-btn" onClick={() => addToCart(item, 1)} aria-label="Increase">+</button>
+                      </div>
+                      <button type="button" className="cart-item__remove" onClick={() => deleteItem(item.id)}>
+                        {l('remove')}
+                      </button>
                     </div>
-                    <button type="button" className="cart-item__remove" onClick={() => deleteItem(item.id)}>
-                      {l('remove')}
-                    </button>
                   </div>
                 </div>
               );
@@ -494,7 +497,7 @@ export default function CartDrawer() {
           <div className="cart-drawer__footer" style={{ paddingBottom: 'calc(20px + env(safe-area-inset-bottom, 0px))' }}>
             
             {/* ── 1. Selected Branch Indicator / Prompt ── */}
-            <div style={{ marginBottom: '10px' }}>
+            <div className="cart-drawer__branch-section" style={{ marginBottom: '10px' }}>
               {selectedBranch ? (
                 <div
                   style={{
@@ -563,7 +566,7 @@ export default function CartDrawer() {
             </div>
 
             {/* ── 2. Compact Delivery Address Card ── */}
-            <div style={{ marginBottom: '8px' }}>
+            <div className="cart-drawer__address-section" style={{ marginBottom: '8px' }}>
               {hasValidDeliveryAddress ? (
                 <div
                   style={{
@@ -633,6 +636,7 @@ export default function CartDrawer() {
 
             {/* ── 3. Payment Method Badge ── */}
             <div
+              className="cart-drawer__payment"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -654,6 +658,7 @@ export default function CartDrawer() {
 
             {/* ── 3. KVKK / Privacy Notice Link ── */}
             <div
+              className="cart-drawer__privacy"
               style={{
                 marginBottom: '12px',
                 fontSize: '0.74rem',
@@ -688,13 +693,19 @@ export default function CartDrawer() {
             </div>
 
             {/* Subtotal */}
-            <div className="cart-drawer__subtotal" style={{ marginBottom: '6px' }}>
-              <span className="cart-drawer__subtotal-label">{l('subtotal')}</span>
-              <span className="cart-drawer__subtotal-value">{formatPrice(cartSubtotal)}</span>
+            <div className="cart-drawer__order-total">
+              <div className="cart-drawer__subtotal" style={{ marginBottom: '6px' }}>
+                <span className="cart-drawer__subtotal-label">{l('subtotal')}</span>
+                <span className="cart-drawer__subtotal-value">{formatPrice(cartSubtotal)}</span>
+              </div>
+              <span className="cart-drawer__delivery-summary">
+                {cartLang === 'ar' ? 'التوصيل مجاني' : cartLang === 'en' ? 'Free delivery' : cartLang === 'ru' ? 'Бесплатная доставка' : cartLang === 'zh' ? '免费配送' : 'Ücretsiz teslimat'}
+              </span>
             </div>
 
             {/* Free Delivery Status Row */}
             <div
+              className="cart-drawer__delivery-row"
               style={{
                 display: 'flex',
                 justifyContent: 'space-between',
