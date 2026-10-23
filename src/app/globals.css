@@ -2806,6 +2806,11 @@ p {
   gap: var(--sp-1);
 }
 
+/* Keep the original desktop flow; mobile turns these into one compact row. */
+.cart-item__actions {
+  display: contents;
+}
+
 .cart-item__qty-btn {
   width: 28px;
   height: 28px;
