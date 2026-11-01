@@ -99,7 +99,7 @@
   "bar_whatsapp": "WhatsApp",
   "bar_map": "Location",
   "branch_call_btn": "Call",
-  "branch_map_btn": "Map",
+  "branch_directions_btn": "Directions",
   "branch_status_active": "● Active Service",
   "home_features_title": "Why Lucky Sushi Chinese?",
   "home_features_sub": "Continuous Asian gastronomy late into the night in the heart of Istanbul",
@@ -148,7 +148,5 @@
   "aria_cart_items": "Cart",
   "aria_main_nav": "Main navigation",
   "aria_mobile_nav": "Mobile menu",
-  "aria_social_media": "Social media",
-  "branch_call_btn": "Call",
-  "branch_directions_btn": "Directions"
+  "aria_social_media": "Social media"
 }

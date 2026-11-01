@@ -99,7 +99,7 @@
   "bar_whatsapp": "WhatsApp",
   "bar_map": "Konum",
   "branch_call_btn": "Ara",
-  "branch_map_btn": "Harita",
+  "branch_directions_btn": "Harita",
   "branch_status_active": "● Aktif Hizmet",
   "home_features_title": "Neden Lucky Sushi Chinese?",
   "home_features_sub": "İstanbul'un kalbinde, gece geç saatlere kadar kesintisiz Asya gastronomisi",
@@ -148,7 +148,5 @@
   "aria_cart_items": "Sepet",
   "aria_main_nav": "Ana gezinti",
   "aria_mobile_nav": "Mobil menü",
-  "aria_social_media": "Sosyal medya",
-  "branch_call_btn": "Ara",
-  "branch_directions_btn": "Harita"
+  "aria_social_media": "Sosyal medya"
 }

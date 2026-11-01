@@ -99,7 +99,7 @@
   "bar_whatsapp": "WhatsApp",
   "bar_map": "导航",
   "branch_call_btn": "电话",
-  "branch_map_btn": "地图",
+  "branch_directions_btn": "导航",
   "branch_status_active": "● 正常营业",
   "home_features_title": "为什么选择幸运餐厅？",
   "home_features_sub": "伊斯坦布尔核心地带，营业至深夜的纯正亚洲美食盛宴",
@@ -148,7 +148,5 @@
   "aria_cart_items": "购物车",
   "aria_main_nav": "主导航",
   "aria_mobile_nav": "移动端菜单",
-  "aria_social_media": "社交媒体",
-  "branch_call_btn": "致电",
-  "branch_directions_btn": "导航"
+  "aria_social_media": "社交媒体"
 }
