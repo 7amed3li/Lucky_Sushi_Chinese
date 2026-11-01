@@ -99,6 +99,7 @@ export default function RotatingDishShowcase({ onOpen }) {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isSwapping, setIsSwapping] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [burstKey, setBurstKey] = useState(0);
 
   const isTransitioningRef = useRef(false);
   const swapTimerRef = useRef(null);
@@ -152,6 +153,7 @@ export default function RotatingDishShowcase({ onOpen }) {
     setIncomingIndex(nextIdx);
     setIsTransitioning(true);
     setIsSwapping(false);
+    setBurstKey((k) => k + 1);
 
     // Step 1: The plate starts rotating circularly at a moderate speed
     // Step 2: At 450ms into the rotation, switch image and card with the animation
@@ -264,7 +266,7 @@ export default function RotatingDishShowcase({ onOpen }) {
             {dir === 'rtl' ? <FaChevronRight /> : <FaChevronLeft />}
           </button>
 
-          {/* ═══ THE SIGNATURE SPINNING PLATE (Ambient circular rotation + smooth animated swap) ═══ */}
+          {/* ═══ THE SIGNATURE SPINNING PLATE (Perpetual non-stop rotation + animated transition) ═══ */}
           <div
             className="dish-showcase__plate-wrapper"
             onClick={() => onOpen?.(displayedDish)}
@@ -273,37 +275,42 @@ export default function RotatingDishShowcase({ onOpen }) {
             aria-label={dishName}
             onKeyDown={(e) => { if (e.key === 'Enter') onOpen?.(displayedDish); }}
           >
-            <div
-              className={`dish-showcase__plate-rim ${isTransitioning ? 'is-spinning' : 'is-ambient'}`}
-            >
-              {/* Active / Outgoing Dish Image Layer */}
+            {/* Perpetual turntable: spins constantly without stopping */}
+            <div className="dish-showcase__plate-turntable">
+              {/* Plate rim: executes the animated transition burst when changing dish */}
               <div
-                className={`dish-showcase__plate-layer ${isSwapping ? 'is-leaving' : 'is-active'}`}
+                className={`dish-showcase__plate-rim ${isTransitioning ? 'is-bursting' : ''}`}
+                key={burstKey}
               >
-                <Image
-                  src={currentDish.image}
-                  alt={t(currentDish, 'name')}
-                  fill
-                  sizes="(max-width: 480px) 270px, 340px"
-                  priority
-                  className="dish-showcase__plate-img"
-                />
-              </div>
-
-              {/* Incoming Dish Image Layer during transition */}
-              {incomingDish && (
+                {/* Active / Outgoing Dish Image Layer */}
                 <div
-                  className={`dish-showcase__plate-layer ${isSwapping ? 'is-entering' : 'is-hidden'}`}
+                  className={`dish-showcase__plate-layer ${isSwapping ? 'is-leaving' : 'is-active'}`}
                 >
                   <Image
-                    src={incomingDish.image}
-                    alt={t(incomingDish, 'name')}
+                    src={currentDish.image}
+                    alt={t(currentDish, 'name')}
                     fill
                     sizes="(max-width: 480px) 270px, 340px"
+                    priority
                     className="dish-showcase__plate-img"
                   />
                 </div>
-              )}
+
+                {/* Incoming Dish Image Layer during transition */}
+                {incomingDish && (
+                  <div
+                    className={`dish-showcase__plate-layer ${isSwapping ? 'is-entering' : 'is-hidden'}`}
+                  >
+                    <Image
+                      src={incomingDish.image}
+                      alt={t(incomingDish, 'name')}
+                      fill
+                      sizes="(max-width: 480px) 270px, 340px"
+                      className="dish-showcase__plate-img"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
