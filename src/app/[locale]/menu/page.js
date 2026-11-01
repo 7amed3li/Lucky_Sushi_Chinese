@@ -197,8 +197,8 @@ export default function MenuPage() {
         >
           {/* Categories Box */}
           <div style={{ maxWidth: '1024px', margin: '0 auto', padding: '0 var(--page-pad)' }}>
-            <div className="kardeshler-cat-box">
-              <div className="kardeshler-cat-title">
+            <div className="lucky-cat-box">
+              <div className="lucky-cat-title">
                 {l('exploreMenu')}
               </div>
 
@@ -281,14 +281,14 @@ export default function MenuPage() {
                         key={cat.id}
                         data-cat={cat.id}
                         type="button"
-                        className={`kardeshler-cat-item ${isActive ? 'active' : ''}`}
+                        className={`lucky-cat-item ${isActive ? 'active' : ''}`}
                         onClick={() => {
                           setSearchQuery('');
                           setActiveCategory(cat.id);
                           scrollToGrid();
                         }}
                       >
-                        <div className="kardeshler-cat-thumb">
+                        <div className="lucky-cat-thumb">
                           {catImg ? (
                             <Image
                               src={catImg}
@@ -303,7 +303,7 @@ export default function MenuPage() {
                             </span>
                           )}
                         </div>
-                        <span className="kardeshler-cat-label">
+                        <span className="lucky-cat-label">
                           {catName}
                         </span>
                       </button>
@@ -339,7 +339,7 @@ export default function MenuPage() {
 
           {/* Quick Filters Row (All, Bestseller, Vegetarian, Cooked, Spicy) */}
           {!searchQuery && (
-            <div className="kardeshler-filter-row">
+            <div className="lucky-filter-row">
               {quickFilters.map((filter) => {
                 const isActive = activeFilter === filter.id;
                 const filterName = filter[`label_${lang}`] || filter.label_en;
@@ -355,7 +355,7 @@ export default function MenuPage() {
                       }
                       scrollToGrid();
                     }}
-                    className={`kardeshler-filter-pill ${isActive ? 'active' : ''}`}
+                    className={`lucky-filter-pill ${isActive ? 'active' : ''}`}
                   >
                     <span>{filterName}</span>
                     {isActive && filter.id !== 'all' && (
@@ -374,7 +374,7 @@ export default function MenuPage() {
           style={{ maxWidth: '1024px', margin: '0 auto', padding: '6px var(--page-pad) 24px var(--page-pad)' }}
         >
           {filteredItems.length > 0 ? (
-            <div className="kardeshler-products-grid">
+            <div className="lucky-products-grid">
               {filteredItems.map((item) => (
                 <DishCard
                   key={item.id}

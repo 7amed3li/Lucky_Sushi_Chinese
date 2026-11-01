@@ -238,7 +238,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="kardeshler-products-grid" style={{ marginBottom: 'var(--sp-6)' }}>
+          <div className="lucky-products-grid" style={{ marginBottom: 'var(--sp-6)' }}>
             {bestsellers.map((item) => (
               <DishCard
                 key={item.id}

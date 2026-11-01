@@ -2072,7 +2072,7 @@ p {
 /* ═══════════════════════════════════════════════════
    CATEGORY NAVIGATION (Menu Page)
    ═══════════════════════════════════════════════════ */
-.kardeshler-cat-box {
+.lucky-cat-box {
   background: var(--color-surface);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-md);
@@ -2081,10 +2081,10 @@ p {
   box-shadow: var(--shadow-sm);
 }
 @media (min-width: 640px) {
-  .kardeshler-cat-box { padding: 12px 16px; }
+  .lucky-cat-box { padding: 12px 16px; }
 }
 
-.kardeshler-cat-title {
+.lucky-cat-title {
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--color-text-secondary);
@@ -2094,7 +2094,7 @@ p {
   font-family: var(--font-primary);
 }
 
-.kardeshler-cat-item {
+.lucky-cat-item {
   width: 70px;
   flex-shrink: 0;
   display: flex;
@@ -2107,10 +2107,10 @@ p {
   padding: 2px;
   transition: transform 0.2s ease;
 }
-@media (min-width: 640px) { .kardeshler-cat-item { width: 80px; } }
-.kardeshler-cat-item:hover { transform: translateY(-2px); }
+@media (min-width: 640px) { .lucky-cat-item { width: 80px; } }
+.lucky-cat-item:hover { transform: translateY(-2px); }
 
-.kardeshler-cat-thumb {
+.lucky-cat-thumb {
   width: 52px;
   height: 52px;
   border-radius: var(--radius-md);
@@ -2124,15 +2124,15 @@ p {
   transition: all 0.2s ease;
 }
 @media (min-width: 640px) {
-  .kardeshler-cat-thumb { width: 62px; height: 62px; border-radius: var(--radius-lg); }
+  .lucky-cat-thumb { width: 62px; height: 62px; border-radius: var(--radius-lg); }
 }
 
-.kardeshler-cat-item.active .kardeshler-cat-thumb {
+.lucky-cat-item.active .lucky-cat-thumb {
   border: 2px solid var(--color-brand-primary);
   box-shadow: 0 3px 8px rgba(40, 122, 63, 0.25);
 }
 
-.kardeshler-cat-label {
+.lucky-cat-label {
   font-size: 11px;
   font-weight: 700;
   color: var(--color-text-secondary);
@@ -2146,8 +2146,8 @@ p {
   padding: 0 2px;
   transition: color 0.2s ease;
 }
-@media (min-width: 640px) { .kardeshler-cat-label { font-size: 12px; } }
-.kardeshler-cat-item.active .kardeshler-cat-label {
+@media (min-width: 640px) { .lucky-cat-label { font-size: 12px; } }
+.lucky-cat-item.active .lucky-cat-label {
   color: var(--color-text-primary);
   font-weight: 800;
 }
@@ -2208,7 +2208,7 @@ p {
 }
 
 /* ── Filter Pills ── */
-.kardeshler-filter-row {
+.lucky-filter-row {
   max-width: 1024px;
   margin: 8px auto 14px auto;
   padding: 0 var(--page-pad);
@@ -2219,15 +2219,15 @@ p {
   scrollbar-width: thin;
   scrollbar-color: rgba(40, 122, 63, 0.25) transparent;
 }
-.kardeshler-filter-row::-webkit-scrollbar {
+.lucky-filter-row::-webkit-scrollbar {
   height: 3px;
 }
-.kardeshler-filter-row::-webkit-scrollbar-thumb {
+.lucky-filter-row::-webkit-scrollbar-thumb {
   background: rgba(40, 122, 63, 0.25);
   border-radius: 3px;
 }
 
-.kardeshler-filter-pill {
+.lucky-filter-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -2246,13 +2246,13 @@ p {
   transition: all 0.18s ease;
 }
 @media (min-width: 640px) {
-  .kardeshler-filter-pill { padding: 8px 16px; font-size: 0.84rem; min-height: 38px; }
+  .lucky-filter-pill { padding: 8px 16px; font-size: 0.84rem; min-height: 38px; }
 }
-.kardeshler-filter-pill:hover {
+.lucky-filter-pill:hover {
   border-color: var(--color-text-secondary);
   background: var(--color-surface);
 }
-.kardeshler-filter-pill.active {
+.lucky-filter-pill.active {
   background: var(--color-brand-dark);
   color: var(--color-brand-light);
   border-color: var(--color-brand-dark);
@@ -2261,16 +2261,16 @@ p {
 /* ═══════════════════════════════════════════════════
    PRODUCT CARDS — Light/Hybrid (CRITICAL)
    ═══════════════════════════════════════════════════ */
-.kardeshler-products-grid {
+.lucky-products-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
 }
 @media (min-width: 640px) {
-  .kardeshler-products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .lucky-products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
 }
 
-.kardeshler-food-card {
+.lucky-food-card {
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -2284,13 +2284,13 @@ p {
   text-align: start;
   position: relative;
 }
-.kardeshler-food-card:hover {
+.lucky-food-card:hover {
   border-color: var(--color-border);
   box-shadow: var(--shadow-md);
   transform: translateY(-3px);
 }
 
-.kardeshler-food-card__img-wrap {
+.lucky-food-card__img-wrap {
   width: 118px;
   min-width: 118px;
   height: 100%;
@@ -2301,20 +2301,20 @@ p {
   overflow: hidden;
 }
 @media (min-width: 640px) {
-  .kardeshler-food-card__img-wrap { width: 135px; min-width: 135px; }
+  .lucky-food-card__img-wrap { width: 135px; min-width: 135px; }
 }
 
-.kardeshler-food-card__img {
+.lucky-food-card__img {
   width: 100%; height: 100%;
   object-fit: contain;
   padding: 4px;
   transition: transform 0.4s ease;
 }
-.kardeshler-food-card:hover .kardeshler-food-card__img {
+.lucky-food-card:hover .lucky-food-card__img {
   transform: scale(1.05);
 }
 
-.kardeshler-food-card__price-badge {
+.lucky-food-card__price-badge {
   position: absolute;
   top: 6px;
   inset-inline-start: 6px;
@@ -2330,7 +2330,7 @@ p {
   pointer-events: none;
 }
 
-.kardeshler-food-card__tag-badge {
+.lucky-food-card__tag-badge {
   position: absolute;
   bottom: 6px;
   inset-inline-start: 6px;
@@ -2347,7 +2347,7 @@ p {
   pointer-events: none;
 }
 
-.kardeshler-food-card__content {
+.lucky-food-card__content {
   flex: 1;
   min-width: 0;
   padding: 10px 12px;
@@ -2358,14 +2358,14 @@ p {
   text-align: start;
 }
 
-.kardeshler-food-card__header {
+.lucky-food-card__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 6px;
 }
 
-.kardeshler-food-card__title {
+.lucky-food-card__title {
   font-family: var(--font-primary);
   font-size: 0.92rem;
   font-weight: 700;
@@ -2379,11 +2379,11 @@ p {
   overflow: hidden;
   text-align: start;
 }
-.kardeshler-food-card:hover .kardeshler-food-card__title {
+.lucky-food-card:hover .lucky-food-card__title {
   color: var(--color-brand-primary);
 }
 
-.kardeshler-food-card__chevron {
+.lucky-food-card__chevron {
   width: 22px;
   height: 22px;
   border-radius: 50%;
@@ -2397,13 +2397,13 @@ p {
   flex-shrink: 0;
   transition: background 0.2s, color 0.2s;
 }
-[dir="rtl"] .kardeshler-food-card__chevron { transform: scaleX(-1); }
-.kardeshler-food-card:hover .kardeshler-food-card__chevron {
+[dir="rtl"] .lucky-food-card__chevron { transform: scaleX(-1); }
+.lucky-food-card:hover .lucky-food-card__chevron {
   background: var(--color-brand-primary);
   color: white;
 }
 
-.kardeshler-food-card__desc {
+.lucky-food-card__desc {
   font-size: 0.74rem;
   color: var(--color-text-secondary);
   line-height: 1.4;
@@ -2416,21 +2416,21 @@ p {
   text-align: start;
 }
 
-.kardeshler-food-card__footer {
+.lucky-food-card__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 6px;
 }
 
-.kardeshler-food-card__pieces {
+.lucky-food-card__pieces {
   font-size: 0.7rem;
   font-weight: 600;
   color: var(--color-text-secondary);
   opacity: 0.85;
 }
 
-.kardeshler-food-card__add-btn {
+.lucky-food-card__add-btn {
   width: 30px;
   height: 30px;
   border-radius: var(--radius-sm);
@@ -2446,12 +2446,12 @@ p {
   transition: all 0.18s ease;
   line-height: 1;
 }
-.kardeshler-food-card__add-btn:hover {
+.lucky-food-card__add-btn:hover {
   background: var(--color-brand-primary);
   color: white;
 }
 
-.kardeshler-food-card__qty-group {
+.lucky-food-card__qty-group {
   display: flex;
   align-items: center;
   gap: 2px;
@@ -2461,7 +2461,7 @@ p {
   padding: 1px 3px;
 }
 
-.kardeshler-food-card__qty-btn {
+.lucky-food-card__qty-btn {
   width: 24px;
   height: 24px;
   border: none;
@@ -2476,12 +2476,12 @@ p {
   border-radius: 4px;
   transition: background 0.15s, color 0.15s;
 }
-.kardeshler-food-card__qty-btn:hover {
+.lucky-food-card__qty-btn:hover {
   background: rgba(40, 122, 63, 0.1);
   color: var(--color-brand-primary);
 }
 
-.kardeshler-food-card__qty-num {
+.lucky-food-card__qty-num {
   min-width: 16px;
   text-align: center;
   font-weight: 800;
@@ -3144,13 +3144,13 @@ p {
 [dir="rtl"] .home-section-badge,
 [dir="rtl"] .home-hero__tag,
 [dir="rtl"] .home-marquee-item,
-[dir="rtl"] .kardeshler-food-card__tag-badge,
-[dir="rtl"] .kardeshler-food-card__price-badge,
+[dir="rtl"] .lucky-food-card__tag-badge,
+[dir="rtl"] .lucky-food-card__price-badge,
 [lang="ar"] .home-section-badge,
 [lang="ar"] .home-hero__tag,
 [lang="ar"] .home-marquee-item,
-[lang="ar"] .kardeshler-food-card__tag-badge,
-[lang="ar"] .kardeshler-food-card__price-badge {
+[lang="ar"] .lucky-food-card__tag-badge,
+[lang="ar"] .lucky-food-card__price-badge {
   letter-spacing: 0 !important;
 }
 
@@ -3461,7 +3461,7 @@ p {
   }
 }
 
-/* ── Currency Selector (Kardeshler Exact Architecture) ── */
+/* ── Currency Selector (lucky Exact Architecture) ── */
 .header__currency-container {
   position: relative;
 }

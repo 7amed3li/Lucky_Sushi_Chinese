@@ -55,7 +55,7 @@ export default function DishCard({ item, onClick }) {
 
   return (
     <article
-      className="kardeshler-food-card"
+      className="lucky-food-card"
       onClick={() => onClick?.(item)}
       role="button"
       tabIndex={0}
@@ -63,7 +63,7 @@ export default function DishCard({ item, onClick }) {
       onKeyDown={(e) => { if (e.key === 'Enter') onClick?.(item); }}
     >
       {/* Image Section */}
-      <div className="kardeshler-food-card__img-wrap">
+      <div className="lucky-food-card__img-wrap">
         {hasImage ? (
           <Image
             src={item.image}
@@ -71,7 +71,7 @@ export default function DishCard({ item, onClick }) {
             fill
             sizes="(max-width: 640px) 120px, 140px"
             loading="lazy"
-            className="kardeshler-food-card__img"
+            className="lucky-food-card__img"
           />
         ) : (
           <div
@@ -93,7 +93,7 @@ export default function DishCard({ item, onClick }) {
 
         {/* Price Tag in top-start */}
         {item.price != null && (
-          <div className="kardeshler-food-card__price-badge">
+          <div className="lucky-food-card__price-badge">
             {formatPrice(item.price)}
           </div>
         )}
@@ -101,7 +101,7 @@ export default function DishCard({ item, onClick }) {
         {/* Tag badge in bottom-start */}
         {badge && (
           <div
-            className="kardeshler-food-card__tag-badge"
+            className="lucky-food-card__tag-badge"
             style={{ backgroundColor: badge.bg, color: badge.color }}
           >
             {badge.label}
@@ -110,27 +110,27 @@ export default function DishCard({ item, onClick }) {
       </div>
 
       {/* Content Section */}
-      <div className="kardeshler-food-card__content">
+      <div className="lucky-food-card__content">
         <div>
-          <div className="kardeshler-food-card__header">
-            <h3 className="kardeshler-food-card__title">{name}</h3>
-            <div className="kardeshler-food-card__chevron" aria-hidden="true">
+          <div className="lucky-food-card__header">
+            <h3 className="lucky-food-card__title">{name}</h3>
+            <div className="lucky-food-card__chevron" aria-hidden="true">
               {dir === 'rtl' ? '‹' : '›'}
             </div>
           </div>
-          {desc && <p className="kardeshler-food-card__desc">{desc}</p>}
+          {desc && <p className="lucky-food-card__desc">{desc}</p>}
         </div>
 
         {/* Footer with pieces and + button / inline counter */}
-        <div className="kardeshler-food-card__footer">
-          <span className="kardeshler-food-card__pieces">
+        <div className="lucky-food-card__footer">
+          <span className="lucky-food-card__pieces">
             {formatPortion(item.portion_or_pieces, lang)}
           </span>
 
           {qty === 0 ? (
             <button
               type="button"
-              className="kardeshler-food-card__add-btn"
+              className="lucky-food-card__add-btn"
               onClick={handleAdd}
               aria-label={`${tUI('dish_add_aria')} ${name}`}
             >
@@ -138,21 +138,21 @@ export default function DishCard({ item, onClick }) {
             </button>
           ) : (
             <div
-              className="kardeshler-food-card__qty-group"
+              className="lucky-food-card__qty-group"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 type="button"
-                className="kardeshler-food-card__qty-btn"
+                className="lucky-food-card__qty-btn"
                 onClick={handleRemove}
                 aria-label="Decrease quantity"
               >
                 −
               </button>
-              <span className="kardeshler-food-card__qty-num">{qty}</span>
+              <span className="lucky-food-card__qty-num">{qty}</span>
               <button
                 type="button"
-                className="kardeshler-food-card__qty-btn"
+                className="lucky-food-card__qty-btn"
                 onClick={handleAdd}
                 aria-label="Increase quantity"
               >
