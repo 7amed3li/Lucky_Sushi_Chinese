@@ -391,8 +391,8 @@ export default function HomePage() {
                     </p>
                   )}
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', color: '#4ade80', fontWeight: 600, marginBottom: 'var(--sp-3)', marginTop: 'auto' }}>
-                    <FaClock size={12} aria-hidden="true" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.84rem', color: '#1f5d30', fontWeight: 700, marginBottom: 'var(--sp-3)', marginTop: 'auto' }}>
+                    <FaClock size={13} aria-hidden="true" />
                     <span>{branchHours}</span>
                   </div>
                   
@@ -403,25 +403,29 @@ export default function HomePage() {
                       rel="noopener noreferrer"
                       style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                        background: 'var(--color-brand-primary)', color: 'white', padding: '11px', borderRadius: 'var(--btn-radius)',
-                        fontWeight: 600, fontSize: '0.88rem', textDecoration: 'none', transition: 'background var(--transition-fast)'
+                        background: '#25D366', color: 'white', padding: '11px 14px', borderRadius: 'var(--btn-radius)',
+                        fontWeight: 700, fontSize: '0.88rem', textDecoration: 'none', transition: 'background var(--transition-fast)',
+                        boxShadow: '0 2px 8px rgba(37, 211, 102, 0.25)'
                       }}
                     >
-                      <FaWhatsapp aria-hidden="true" /> WhatsApp ({branch.phone})
+                      <FaWhatsapp size={16} aria-hidden="true" />
+                      <span>{lang === 'ar' ? 'طلب عبر واتساب' : lang === 'tr' ? 'WhatsApp ile Sipariş' : 'Order via WhatsApp'}</span>
                     </a>
-                    <div style={{ display: 'grid', gridTemplateColumns: branch.allowDirections ? '1fr 1fr' : '1fr', gap: '8px' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: branch.map ? '1fr 1fr' : '1fr', gap: '8px' }}>
                       <a
                         href={`tel:${branchPhoneClean}`}
                         style={{
                           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
                           border: '1px solid var(--color-border)', background: 'var(--color-surface)',
-                          color: 'var(--color-text-primary)', padding: '9px', borderRadius: 'var(--btn-radius)',
-                          textAlign: 'center', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none'
+                          color: 'var(--color-text-primary)', padding: '9px 8px', borderRadius: 'var(--btn-radius)',
+                          textAlign: 'center', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none',
+                          whiteSpace: 'nowrap'
                         }}
                       >
-                        <FaPhone aria-hidden="true" /> {tUI('branch_call_btn') || 'Ara'}
+                        <FaPhone size={12} aria-hidden="true" />
+                        <span>{tUI('branch_call_btn') || (lang === 'ar' ? 'اتصال' : lang === 'tr' ? 'Ara' : 'Call')}</span>
                       </a>
-                      {branch.allowDirections && (
+                      {branch.map && (
                         <a
                           href={branch.map}
                           target="_blank"
@@ -429,11 +433,13 @@ export default function HomePage() {
                           style={{
                             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px',
                             border: '1px solid var(--color-border)', background: 'var(--color-surface)',
-                            color: 'var(--color-text-primary)', padding: '9px', borderRadius: 'var(--btn-radius)',
-                            textAlign: 'center', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none'
+                            color: 'var(--color-text-primary)', padding: '9px 8px', borderRadius: 'var(--btn-radius)',
+                            textAlign: 'center', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none',
+                            whiteSpace: 'nowrap'
                           }}
                         >
-                          <FaMapLocationDot aria-hidden="true" /> {tUI('branch_map_btn') || 'Harita'}
+                          <FaMapLocationDot size={12} aria-hidden="true" />
+                          <span>{tUI('branch_directions_btn') || (lang === 'ar' ? 'الخريطة' : lang === 'tr' ? 'Harita' : 'Map')}</span>
                         </a>
                       )}
                     </div>

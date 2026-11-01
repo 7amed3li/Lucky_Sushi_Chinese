@@ -71,9 +71,22 @@ export default function Footer() {
           </div>
           <div className="main-footer__info-block">
             <h4>{l('hours')}</h4>
-            <p style={{ color: '#4ade80', fontWeight: 600 }}>
-              {t(restaurantInfo, 'hours')}
-            </p>
+            <div style={{ fontSize: '0.84rem', lineHeight: 1.45, marginTop: '4px' }}>
+              <p style={{ color: '#4ade80', fontWeight: 700, margin: '0 0 2px 0' }}>
+                {lang === 'ar' ? 'الفرع الرئيسي (أليبي كوي): 10:45 — 04:00 فجراً (اليوم التالي)' :
+                 lang === 'en' ? 'Main Branch (Alibeyköy): 10:45 AM — 04:00 AM (Next day)' :
+                 lang === 'ru' ? 'Главный (Алибейкёй): 10:45 — 04:00 (след. дня)' :
+                 lang === 'zh' ? '总店 (阿里贝科伊): 10:45 — 次日04:00' :
+                 'Merkez (Alibeyköy): 10:45 — 04:00 (Ertesi gün)'}
+              </p>
+              <p style={{ color: 'rgba(246, 241, 232, 0.75)', margin: 0, fontSize: '0.78rem' }}>
+                {lang === 'ar' ? 'الفروع الأخرى: 11:00 — 03:00 فجراً (اليوم التالي)' :
+                 lang === 'en' ? 'Other Branches: 11:00 AM — 03:00 AM (Next day)' :
+                 lang === 'ru' ? 'Другие филиалы: 11:00 — 03:00 (след. дня)' :
+                 lang === 'zh' ? '其他分店: 11:00 — 次日03:00' :
+                 'Diğer Şubeler: 11:00 — 03:00 (Ertesi gün)'}
+              </p>
+            </div>
           </div>
           <div className="main-footer__info-block">
             <h4>{l('hq')}</h4>

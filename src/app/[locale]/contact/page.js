@@ -175,28 +175,7 @@ export default function ContactPage() {
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                    <a
-                      href={`tel:${branch.phone}`}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '8px',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                        color: '#FFFFFF',
-                        textDecoration: 'none',
-                        fontSize: '0.9rem',
-                        fontWeight: 600,
-                        border: '1px solid rgba(255, 255, 255, 0.15)',
-                      }}
-                    >
-                      <FaPhone size={14} />
-                      <span>{branch.phone}</span>
-                    </a>
-
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <a
                       href={`https://wa.me/${phoneClean}?text=${encodeURIComponent(
                         lang === 'ar' ? 'مرحباً، أود الاستفسار والطلب من لاكي سوشي صيني.' :
@@ -212,7 +191,7 @@ export default function ContactPage() {
                         alignItems: 'center',
                         justifyContent: 'center',
                         gap: '8px',
-                        padding: '12px',
+                        padding: '11px',
                         borderRadius: '8px',
                         backgroundColor: '#25D366',
                         color: '#FFFFFF',
@@ -225,7 +204,52 @@ export default function ContactPage() {
                       <span>{l('whatsappOrder')}</span>
                     </a>
 
-                    {branch.allowDirections && branch.map && (
+                    <a
+                      href={`tel:${phoneClean}`}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '10px 14px',
+                        borderRadius: '8px',
+                        backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                        color: '#FFFFFF',
+                        textDecoration: 'none',
+                        fontSize: '0.86rem',
+                        fontWeight: 600,
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                      }}
+                    >
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+                        <FaPhone size={13} style={{ color: 'var(--color-accent, #D4A373)' }} />
+                        <span>{lang === 'ar' ? 'مباشر' : lang === 'tr' ? 'Direkt' : 'Direct'}</span>
+                      </span>
+                      <span style={{ fontFamily: 'monospace', fontWeight: 700, direction: 'ltr' }}>{branch.phone}</span>
+                    </a>
+
+                    {branch.landline && (
+                      <a
+                        href={`tel:${branch.landlineClean}`}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '9px 14px',
+                          borderRadius: '8px',
+                          backgroundColor: 'transparent',
+                          color: 'rgba(246, 241, 232, 0.85)',
+                          textDecoration: 'none',
+                          fontSize: '0.82rem',
+                          fontWeight: 600,
+                          border: '1px dashed rgba(255, 255, 255, 0.2)',
+                        }}
+                      >
+                        <span>{lang === 'ar' ? 'هاتف أرضي' : lang === 'tr' ? 'Sabit Hat' : 'Landline'}</span>
+                        <span style={{ fontFamily: 'monospace', fontWeight: 700, direction: 'ltr' }}>{branch.landline}</span>
+                      </a>
+                    )}
+
+                    {branch.map && (
                       <a
                         href={branch.map}
                         target="_blank"

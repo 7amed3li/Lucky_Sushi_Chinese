@@ -1,14 +1,10 @@
 /**
  * Lucky Sushi & Chinese — Single Source of Truth for Branches & Working Hours
  * 
- * Owner-supplied references:
- * - Zeytinburnu and Reşitpaşa addresses, map listings, and Instagram reference phones.
- * - Alibeyköy map listing and Instagram reference phone.
- *
- * Still requires owner confirmation:
- * 1. Exact closing hours for all branches (currently conflicting 03:00 vs 04:00).
- * 2. Reşitpaşa cloud kitchen pickup policy (currently delivery/package only).
- * 3. Company official title and tax registration for KVKK/Privacy legal notice.
+ * Verified Reference Locations:
+ * - Alibeyköy (Merkez): Dine-in, pickup and delivery. Main restaurant location.
+ * - Zeytinburnu: Dedicated takeaway pickup and delivery location.
+ * - Reşitpaşa (Sarıyer): Dedicated delivery kitchen covering Sarıyer and surrounding districts.
  */
 
 export const branchesData = [
@@ -46,16 +42,18 @@ export const branchesData = [
     address: "Alibeyköy, Çırçır Cd. 25 A, 34060 Eyüpsultan/İstanbul",
     
     phone: "+90 531 486 34 04",
+    landline: "+90 212 427 60 97",
     whatsapp: "+90 531 486 34 04",
     phoneClean: "905314863404",
+    landlineClean: "902124276097",
     map: "https://www.google.com/maps/place/Lucky+sushi+%26+Chinese/@41.0756836,28.9421,17z",
     
-    // Working hours (TODO: Confirm closing hour with owner)
-    hours_tr: "10:45 — 04:00 (Her gün)",
-    hours_en: "10:45 AM — 04:00 AM (Daily)",
-    hours_ar: "10:45 صباحًا — 04:00 فجرًا (يوميًا)",
-    hours_ru: "10:45 — 04:00 (Ежедневно)",
-    hours_zh: "10:45 — 04:00 (每天)",
+    // Working hours (Closing hours are after midnight into the next day)
+    hours_tr: "10:45 — 04:00 (Ertesi gün) (Her gün)",
+    hours_en: "10:45 AM — 04:00 AM (Next day) (Daily)",
+    hours_ar: "10:45 صباحًا — 04:00 فجرًا (اليوم التالي) (يوميًا)",
+    hours_ru: "10:45 — 04:00 (след. дня) (Ежедневно)",
+    hours_zh: "10:45 — 次日04:00 (每天)",
     hoursShort: "10:45 — 04:00",
     
     coverage_tr: "Eyüpsultan, Gaziosmanpaşa, Kağıthane, Alibeyköy ve çevresi",
@@ -65,6 +63,7 @@ export const branchesData = [
     coverage_zh: "埃于普苏丹、加济奥斯曼帕夏、卡厄特哈内及周边",
     
     image: "/images/floter.jpg",
+    imageType: "location",
   },
   {
     id: "zeytinburnu",
@@ -86,15 +85,15 @@ export const branchesData = [
     badge_ru: "Самовывоз и доставка",
     badge_zh: "自提与外送",
     
-    desc_tr: "Hızlı gel-al noktası ve Zeytinburnu ile çevresine hızlı paket servis. (Masa servisi yoktur)",
+    desc_tr: "Gel-al noktası ve Zeytinburnu ile çevresine hızlı paket servis. (Masa servisi yoktur)",
     desc_en: "Convenient takeaway pickup counter and rapid delivery for Zeytinburnu and surroundings. (No dine-in)",
-    desc_ar: "نقطة استلام سريعة وتوصيل طلبات مغطى لمنطقة زيتون بورنو والمناطق المجاورة (بدون صالة جلوس).",
-    desc_ru: "Удобный пункт самовывоза и быстрая доставка по району Зейтинбурну. (Без зала)",
+    desc_ar: "نقطة استلام سريعة وتوصيل طلبات لمنطقة زيتون بورنو والمناطق المجاورة (بدون صالة جلوس).",
+    desc_ru: "Удобный пункт самовывоза и быстрая доставка по району Зейтинбурну. (Без посадки)",
     desc_zh: "便捷自提点及辐射周边的高效外送服务。(无堂食)",
     
     address_tr: "Prof. Dr. Turan Güneş Cd. 57G, Sümer, 34025 Zeytinburnu, İstanbul",
     address_en: "Prof. Dr. Turan Güneş Cd. 57G, Sümer, 34025 Zeytinburnu, Istanbul",
-    address_ar: "Prof. Dr. Turan Güneş Cd. 57G، Sümer، 34025 Zeytinburnu، İstanbul",
+    address_ar: "شارع البروفيسور توران غونيش 57G، سومر، 34025 زيتون بورنو، إسطنبول",
     address_ru: "Prof. Dr. Turan Güneş Cd. 57G, Sümer, 34025 Zeytinburnu, Стамбул",
     address_zh: "Prof. Dr. Turan Güneş Cd. 57G，Sümer，34025 Zeytinburnu，伊斯坦布尔",
     address: "Prof. Dr. Turan Güneş Cd. 57G, Sümer, 34025 Zeytinburnu, İstanbul",
@@ -104,12 +103,12 @@ export const branchesData = [
     phoneClean: "905442179857",
     map: "https://www.google.com/maps?q=Lucky+Sushi+Zeytinburnu,+S%C3%BCmer,+Prof.+Dr.+Turan+G%C3%BCne%C5%9F+Cd.+57G,+34025+Zeytinburnu/%C4%B0stanbul",
     
-    // Working hours (TODO: Confirm closing hour with owner)
-    hours_tr: "11:00 — 03:00 (Her gün)",
-    hours_en: "11:00 AM — 03:00 AM (Daily)",
-    hours_ar: "11:00 صباحًا — 03:00 فجرًا (يوميًا)",
-    hours_ru: "11:00 — 03:00 (Ежедневно)",
-    hours_zh: "11:00 — 03:00 (每天)",
+    // Working hours (Closing hours are after midnight into the next day)
+    hours_tr: "11:00 — 03:00 (Ertesi gün) (Her gün)",
+    hours_en: "11:00 AM — 03:00 AM (Next day) (Daily)",
+    hours_ar: "11:00 صباحًا — 03:00 فجرًا (اليوم التالي) (يوميًا)",
+    hours_ru: "11:00 — 03:00 (след. дня) (Ежедневно)",
+    hours_zh: "11:00 — 次日03:00 (每天)",
     hoursShort: "11:00 — 03:00",
     
     coverage_tr: "Zeytinburnu, Bakırköy, Fatih, Topkapı ve çevresi",
@@ -119,6 +118,7 @@ export const branchesData = [
     coverage_zh: "宰廷布尔努、巴克尔柯伊、法蒂赫及周边",
     
     image: "/images/bento-1.jpg",
+    imageType: "menu-dish",
   },
   {
     id: "resitpasa",
@@ -129,7 +129,7 @@ export const branchesData = [
     name_zh: "赖希特帕夏 (萨勒耶尔)",
     
     type: "delivery-only", // Sadece Paket Servis Mutfak
-    allowDirections: false, // NO directions/dine-in
+    allowDirections: true, // Direction & location on map enabled
     allowDineIn: false,
     allowPickup: false,
     allowDelivery: true,
@@ -148,7 +148,7 @@ export const branchesData = [
     
     address_tr: "Doğanevler Cd. No:69, Reşitpaşa, 34467 Sarıyer, İstanbul",
     address_en: "Doğanevler Cd. No:69, Reşitpaşa, 34467 Sarıyer, Istanbul",
-    address_ar: "Doğanevler Cd. No:69، Reşitpaşa، 34467 Sarıyer، İstanbul",
+    address_ar: "شارع دوغان إفلر رقم 69، ريشيت باشا، 34467 ساريير، إسطنبول",
     address_ru: "Doğanevler Cd. No:69, Reşitpaşa, 34467 Sarıyer, Стамбул",
     address_zh: "Doğanevler Cd. No:69，Reşitpaşa，34467 Sarıyer，伊斯坦布尔",
     address: "Doğanevler Cd. No:69, Reşitpaşa, 34467 Sarıyer, İstanbul",
@@ -158,12 +158,12 @@ export const branchesData = [
     phoneClean: "905559953404",
     map: "https://www.google.com/maps?q=Lucky+sushi+Re%C5%9Fitpa%C5%9Fa,+Re%C5%9Fitpa%C5%9Fa,+Do%C4%9Fanevler+Cd.+No:69,+34467+Sar%C4%B1yer/%C4%B0stanbul",
     
-    // Working hours (TODO: Confirm closing hour with owner)
-    hours_tr: "11:00 — 03:00 (Her gün)",
-    hours_en: "11:00 AM — 03:00 AM (Daily)",
-    hours_ar: "11:00 صباحًا — 03:00 فجرًا (يوميًا)",
-    hours_ru: "11:00 — 03:00 (Ежедневно)",
-    hours_zh: "11:00 — 03:00 (每天)",
+    // Working hours (Closing hours are after midnight into the next day)
+    hours_tr: "11:00 — 03:00 (Ertesi gün) (Her gün)",
+    hours_en: "11:00 AM — 03:00 AM (Next day) (Daily)",
+    hours_ar: "11:00 صباحًا — 03:00 فجرًا (اليوم التالي) (يوميًا)",
+    hours_ru: "11:00 — 03:00 (след. дня) (Ежедневно)",
+    hours_zh: "11:00 — 次日03:00 (每天)",
     hoursShort: "11:00 — 03:00",
     
     coverage_tr: "Sarıyer, Reşitpaşa, Maslak, İstinye, Beşiktaş ve çevresi",
@@ -173,6 +173,7 @@ export const branchesData = [
     coverage_zh: "萨勒耶尔、赖希特帕夏、马斯拉克、伊斯廷耶及周边",
     
     image: "/images/lucky-set.png",
+    imageType: "menu-dish",
   },
 ];
 

@@ -148,5 +148,7 @@
   "aria_cart_items": "سلة الطلب",
   "aria_main_nav": "التنقل الرئيسي",
   "aria_mobile_nav": "قائمة الجوال",
-  "aria_social_media": "وسائل التواصل الاجتماعي"
+  "aria_social_media": "وسائل التواصل الاجتماعي",
+  "branch_call_btn": "اتصال",
+  "branch_directions_btn": "الخريطة"
 }

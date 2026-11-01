@@ -148,5 +148,7 @@
   "aria_cart_items": "Cart",
   "aria_main_nav": "Main navigation",
   "aria_mobile_nav": "Mobile menu",
-  "aria_social_media": "Social media"
+  "aria_social_media": "Social media",
+  "branch_call_btn": "Call",
+  "branch_directions_btn": "Directions"
 }

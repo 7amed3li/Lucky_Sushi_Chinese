@@ -148,5 +148,7 @@
   "aria_cart_items": "Корзина",
   "aria_main_nav": "Основная навигация",
   "aria_mobile_nav": "Мобильное меню",
-  "aria_social_media": "Социальные сети"
+  "aria_social_media": "Социальные сети",
+  "branch_call_btn": "Позвонить",
+  "branch_directions_btn": "Маршрут"
 }

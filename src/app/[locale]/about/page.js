@@ -302,7 +302,7 @@ export default function AboutPage() {
               <Link href="/menu" className="btn-hero-primary">
                 {l('menuCta')}
               </Link>
-              <Link href="/contact" className="btn-hero-secondary">
+              <Link href="/branches" className="btn-hero-secondary">
                 {l('contactCta')}
               </Link>
             </div>

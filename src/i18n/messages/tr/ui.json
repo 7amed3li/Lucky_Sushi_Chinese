@@ -148,5 +148,7 @@
   "aria_cart_items": "Sepet",
   "aria_main_nav": "Ana gezinti",
   "aria_mobile_nav": "Mobil menü",
-  "aria_social_media": "Sosyal medya"
+  "aria_social_media": "Sosyal medya",
+  "branch_call_btn": "Ara",
+  "branch_directions_btn": "Harita"
 }

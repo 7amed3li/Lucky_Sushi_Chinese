@@ -12,11 +12,12 @@ import {
   FaArrowRight, FaCheck
 } from 'react-icons/fa6';
 import { GiSushis } from 'react-icons/gi';
-import { LuStore, LuBike, LuChefHat, LuClock, LuMapPin, LuInfo } from 'react-icons/lu';
+import { LuStore, LuBike, LuChefHat, LuClock, LuMapPin, LuInfo, LuPhoneCall } from 'react-icons/lu';
 
 export default function BranchesPage() {
   const { lang, dir } = useLang();
   const { selectedBranchId, selectBranch } = useBranch();
+  const isRtl = dir === 'rtl';
 
   const labels = {
     badge: {
@@ -34,18 +35,11 @@ export default function BranchesPage() {
       ru: 'Филиалы Lucky Sushi & Chinese',
     },
     subtitle: {
-      tr: 'İstanbul’da canınız taze sushi ve sıcak Asya lezzetleri çektiğinde size en yakın şubemizden sipariş verebilir veya bizi ziyaret edebilirsiniz.',
+      tr: 'İstanbul’da taze sushi ve sıcak Asya lezzetleri için size en yakın şubemizden sipariş verebilir veya bizi ziyaret edebilirsiniz.',
       en: 'Whenever you crave fresh sushi and sizzling Asian dishes in Istanbul, order from your nearest branch or visit us in person.',
       ar: 'أينما كنتم في إسطنبول، يمكنكم الاستمتاع بأشهى أطباق السوشي والنكهات الآسيوية الساخنة عبر الطلب من أقرب فرع أو زيارتنا.',
       zh: '在伊斯坦布尔，无论何时想品尝新鲜寿司与正宗亚洲风味，都可以前往就近分店或直接在线订餐。',
       ru: 'Когда вам захочется свежих суши и горячих азиатских блюд в Стамбуле, закажите в ближайшем филиале или посетите нас.',
-    },
-    serviceType: {
-      tr: 'Hizmet Türü',
-      en: 'Service Type',
-      ar: 'نوع الخدمة',
-      zh: '服务类型',
-      ru: 'Тип обслуживания',
     },
     addressLabel: {
       tr: 'Adres',
@@ -54,19 +48,33 @@ export default function BranchesPage() {
       zh: '地址',
       ru: 'Адрес',
     },
+    hoursLabel: {
+      tr: 'Çalışma Saatleri',
+      en: 'Working Hours',
+      ar: 'ساعات العمل',
+      zh: '营业时间',
+      ru: 'Часы работы',
+    },
     coverageLabel: {
-      tr: 'Teslimat Alanı',
+      tr: 'Teslimat Bölgesi',
       en: 'Delivery Coverage',
       ar: 'نطاق التوصيل',
       zh: '外送范围',
       ru: 'Зона доставки',
     },
-    callBtn: {
-      tr: 'Ara',
-      en: 'Call',
-      ar: 'اتصال',
-      zh: '致电',
-      ru: 'Позвонить',
+    callOrderBtn: {
+      tr: 'Sipariş Hattı',
+      en: 'Direct Call',
+      ar: 'اتصال مباشر',
+      zh: '直拨热线',
+      ru: 'Звонок в филиал',
+    },
+    landlineBtn: {
+      tr: 'Sabit Hat (Danışma)',
+      en: 'Landline (Info)',
+      ar: 'الهاتف الأرضي (استفسارات)',
+      zh: '座机电话 (咨询)',
+      ru: 'Городской (Справка)',
     },
     whatsappBtn: {
       tr: 'WhatsApp ile Sipariş Ver',
@@ -74,13 +82,6 @@ export default function BranchesPage() {
       ar: 'اطلب عبر واتساب',
       zh: 'WhatsApp 下单',
       ru: 'Заказ через WhatsApp',
-    },
-    whatsappDeliveryBtn: {
-      tr: 'Paket Servis Siparişi (WhatsApp)',
-      en: 'Delivery Order (WhatsApp)',
-      ar: 'طلب توصيل عبر واتساب',
-      zh: '外送下单 (WhatsApp)',
-      ru: 'Заказать доставку (WhatsApp)',
     },
     selectBranchBtn: {
       tr: 'Bu Şubeyi Sipariş İçin Seç',
@@ -96,26 +97,26 @@ export default function BranchesPage() {
       zh: '已选择该分店',
       ru: 'Выбранный филиал',
     },
-    directionsBtn: {
-      tr: 'Yol Tarifi Al',
-      en: 'Get Directions',
-      ar: 'الاتجاهات',
-      zh: '导航路线',
-      ru: 'Маршрут',
+    mapDirectionsBtn: {
+      tr: 'Haritada Gör & Yol Tarifi',
+      en: 'View on Map & Directions',
+      ar: 'الموقع على الخريطة والاتجاهات',
+      zh: '地图定位与路线',
+      ru: 'На карте и маршрут',
     },
-    deliveryOnlyNotice: {
-      tr: 'Bu şube yalnızca paket servis mutfağıdır (Bulut Mutfak); oturma ve masa servisi bulunmamaktadır. Siparişlerinizi WhatsApp veya telefon ile iletebilirsiniz.',
-      en: 'This location is exclusively a delivery cloud kitchen with no dine-in seating. Please place your delivery orders via WhatsApp or phone.',
-      ar: 'هذا الفرع عبارة عن مطبخ توصيل فقط (سحابي) ولا يحتوي على صالة للجلوس. يرجى الطلب عبر واتساب أو الاتصال للاستفسار والتوصيل.',
-      zh: '此分店仅为外送专属厨房，不设堂食坐席。请通过WhatsApp或电话进行外送点餐。',
-      ru: 'Этот филиал работает исключительно как кухня доставки (без посадочных мест). Заказывайте через WhatsApp или по телефону.',
+    menuDishNote: {
+      tr: 'Fotoğraf: Şube Menü Sunumu',
+      en: 'Photo: Menu Presentation',
+      ar: 'صورة توضيحية: تقديم من المنيو',
+      zh: '示意图：特色餐品呈现',
+      ru: 'Фото: Блюдо из меню филиала',
     },
-    viewMenuBtn: {
-      tr: 'Menüyü İncele',
-      en: 'View Menu',
-      ar: 'تصفح المنيو',
-      zh: '浏览菜单',
-      ru: 'Смотреть меню',
+    locationPhotoNote: {
+      tr: 'Fotoğraf: Restoran Girişi',
+      en: 'Photo: Restaurant Storefront',
+      ar: 'صورة: واجهة المطعم',
+      zh: '照片：餐厅实景门头',
+      ru: 'Фото: Фасад ресторана',
     },
   };
 
@@ -125,30 +126,31 @@ export default function BranchesPage() {
     if (branch.type === 'restaurant') {
       return {
         icon: <LuStore aria-hidden="true" />,
-        badgeColor: 'rgba(40, 122, 63, 0.12)',
-        textColor: '#4ade80',
-        borderColor: 'rgba(74, 222, 128, 0.3)',
+        badgeBg: 'rgba(40, 122, 63, 0.14)',
+        textColor: '#1f5d30',
+        borderColor: 'rgba(40, 122, 63, 0.35)',
       };
     }
     if (branch.type === 'pickup-delivery') {
       return {
         icon: <LuBike aria-hidden="true" />,
-        badgeColor: 'rgba(212, 163, 115, 0.12)',
-        textColor: '#e9c46a',
-        borderColor: 'rgba(233, 196, 106, 0.3)',
+        badgeBg: 'rgba(180, 83, 9, 0.12)',
+        textColor: '#92400e',
+        borderColor: 'rgba(180, 83, 9, 0.3)',
       };
     }
     return {
       icon: <LuChefHat aria-hidden="true" />,
-      badgeColor: 'rgba(230, 57, 70, 0.12)',
-      textColor: '#f28482',
-      borderColor: 'rgba(242, 132, 130, 0.3)',
+      badgeBg: 'rgba(190, 24, 93, 0.12)',
+      textColor: '#9d174d',
+      borderColor: 'rgba(190, 24, 93, 0.3)',
     };
   };
 
   return (
     <>
       <Header />
+      <CartDrawer />
 
       <main style={{ background: 'var(--color-background, #F6F1E8)', minHeight: '100vh', paddingBottom: 'var(--sp-12, 60px)' }}>
         
@@ -161,7 +163,7 @@ export default function BranchesPage() {
             </span>
             <h1 style={{ 
               fontFamily: 'var(--font-serif)', 
-              fontSize: 'clamp(2.1rem, 4.8vw, 3.2rem)', 
+              fontSize: 'clamp(2rem, 4.5vw, 3rem)', 
               color: 'var(--color-text-primary)', 
               marginBottom: 'var(--sp-3, 12px)',
               lineHeight: 1.2
@@ -185,13 +187,14 @@ export default function BranchesPage() {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 'var(--sp-8, 32px)',
+            gap: 'var(--sp-8, 30px)',
             maxWidth: '1200px',
             margin: '0 auto'
           }}>
             {branchesData.map((branch, index) => {
               const whatsappClean = branch.whatsapp.replace(/[^0-9]/g, '');
-              const phoneClean = branch.phone.replace(/[^0-9]/g, '');
+              const phoneClean = branch.phoneClean || branch.phone.replace(/[^0-9]/g, '');
+              const landlineClean = branch.landlineClean;
               const typeMeta = getTypeMeta(branch);
               const branchBadge = branch[`badge_${lang}`] || branch.badge_tr;
               const branchDesc = branch[`desc_${lang}`] || branch.desc_tr;
@@ -216,16 +219,16 @@ export default function BranchesPage() {
                   style={{
                     background: 'var(--color-surface, #FFFFFF)',
                     borderRadius: '16px',
-                    border: isSelected ? '2px solid #2D6A4F' : '1px solid var(--color-border, #E6DEC9)',
+                    border: isSelected ? '2px solid #287A3F' : '1px solid var(--color-border, #E6DEC9)',
                     overflow: 'hidden',
                     display: 'flex',
                     flexDirection: 'column',
-                    boxShadow: isSelected ? '0 10px 28px rgba(45, 106, 79, 0.2)' : 'var(--shadow-md, 0 8px 24px rgba(0,0,0,0.08))',
-                    transition: 'transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease',
+                    boxShadow: isSelected ? '0 10px 28px rgba(40, 122, 63, 0.2)' : 'var(--shadow-md, 0 6px 20px rgba(0,0,0,0.06))',
+                    transition: 'all 0.25s ease',
                   }}
                 >
-                  {/* Branch Image with Clean Overlay Badge */}
-                  <div style={{ position: 'relative', width: '100%', height: '220px', background: 'rgba(0,0,0,0.05)' }}>
+                  {/* Branch Visual Banner */}
+                  <div style={{ position: 'relative', width: '100%', height: '200px', background: 'rgba(0,0,0,0.05)' }}>
                     <Image
                       src={branch.image || '/images/floter.jpg'}
                       alt={`${branchName} - Lucky Sushi & Chinese`}
@@ -238,45 +241,39 @@ export default function BranchesPage() {
                       style={{
                         position: 'absolute',
                         inset: 0,
-                        background: 'linear-gradient(to top, rgba(17, 24, 39, 0.85) 0%, rgba(17, 24, 39, 0.2) 60%, transparent 100%)',
+                        background: 'linear-gradient(to top, rgba(22, 20, 26, 0.8) 0%, rgba(22, 20, 26, 0.2) 60%, transparent 100%)',
                       }}
                     />
 
-                    {/* Service Type Badge on Image */}
+                    {/* Image Caption Note: Distinguish restaurant storefront from dish presentation */}
                     <div
                       style={{
                         position: 'absolute',
-                        top: '14px',
-                        insetInlineStart: '14px',
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: '7px',
-                        padding: '6px 12px',
-                        background: 'rgba(15, 23, 42, 0.85)',
-                        backdropFilter: 'blur(8px)',
-                        borderRadius: '20px',
-                        border: `1px solid ${typeMeta.borderColor}`,
-                        color: typeMeta.textColor,
-                        fontSize: '0.8rem',
-                        fontWeight: 700,
+                        bottom: '10px',
+                        insetInlineStart: '12px',
+                        fontSize: '0.72rem',
+                        color: 'rgba(255, 255, 255, 0.9)',
+                        background: 'rgba(0, 0, 0, 0.55)',
+                        padding: '3px 8px',
+                        borderRadius: '4px',
+                        backdropFilter: 'blur(4px)',
                       }}
                     >
-                      {typeMeta.icon}
-                      <span>{branchBadge}</span>
+                      {branch.imageType === 'location' ? l('locationPhotoNote') : l('menuDishNote')}
                     </div>
 
-                    {/* Active Selected Pill if selected */}
+                    {/* Active Selected Pill */}
                     {isSelected && (
                       <div
                         style={{
                           position: 'absolute',
-                          top: '14px',
-                          insetInlineEnd: '14px',
-                          background: '#2D6A4F',
+                          top: '12px',
+                          insetInlineEnd: '12px',
+                          background: '#287A3F',
                           color: '#FFFFFF',
                           padding: '5px 12px',
                           borderRadius: '20px',
-                          fontSize: '0.76rem',
+                          fontSize: '0.78rem',
                           fontWeight: 700,
                           display: 'flex',
                           alignItems: 'center',
@@ -290,93 +287,122 @@ export default function BranchesPage() {
                     )}
                   </div>
 
-                  {/* Branch Body Content */}
-                  <div style={{ padding: 'var(--sp-6, 24px)', display: 'flex', flexDirection: 'column', flex: 1 }}>
-                    {/* Branch Title & Hours */}
-                    <div style={{ marginBottom: '12px' }}>
-                      <h2 style={{ 
-                        fontFamily: 'var(--font-serif)', 
-                        fontSize: '1.4rem', 
-                        color: 'var(--color-text-primary)',
-                        marginBottom: '6px'
+                  {/* Standardized 5-Tier Content Body */}
+                  <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1, gap: '14px' }}>
+                    
+                    {/* 1. Branch Name & Service Type Badge */}
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                        <h2 style={{ 
+                          fontFamily: 'var(--font-serif)', 
+                          fontSize: '1.35rem', 
+                          color: 'var(--color-text-primary)',
+                          margin: 0,
+                          lineHeight: 1.2
+                        }}>
+                          {branchName}
+                        </h2>
+                        
+                        <span
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '5px',
+                            padding: '4px 9px',
+                            background: typeMeta.badgeBg,
+                            borderRadius: '6px',
+                            border: `1px solid ${typeMeta.borderColor}`,
+                            color: typeMeta.textColor,
+                            fontSize: '0.76rem',
+                            fontWeight: 700,
+                          }}
+                        >
+                          {typeMeta.icon}
+                          <span>{branchBadge}</span>
+                        </span>
+                      </div>
+
+                      <p style={{ 
+                        color: 'var(--color-text-secondary)', 
+                        fontSize: '0.86rem', 
+                        lineHeight: 1.5, 
+                        margin: 0 
                       }}>
-                        {branchName}
-                      </h2>
-                      {branchHours && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#2D6A4F', fontSize: '0.86rem', fontWeight: 700 }}>
-                          <LuClock size={14} aria-hidden="true" />
-                          <span>{branchHours}</span>
-                        </div>
-                      )}
+                        {branchDesc}
+                      </p>
                     </div>
 
-                    {/* Service Description */}
-                    <p style={{ 
-                      color: 'var(--color-text-secondary)', 
-                      fontSize: '0.9rem', 
-                      lineHeight: 1.55, 
-                      marginBottom: '14px' 
+                    {/* 2. Working Hours (Standardized with Next Day Notice) */}
+                    <div style={{
+                      background: 'rgba(40, 122, 63, 0.06)',
+                      border: '1px solid rgba(40, 122, 63, 0.18)',
+                      borderRadius: '8px',
+                      padding: '10px 12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '9px',
+                      color: '#1f5d30',
                     }}>
-                      {branchDesc}
-                    </p>
-
-                    {/* Delivery-Only Banner (Clear notice for Reşitpaşa) */}
-                    {branch.type === 'delivery-only' && (
-                      <div
-                        style={{
-                          background: 'rgba(239, 68, 68, 0.08)',
-                          border: '1.5px solid #ef4444',
-                          borderRadius: '8px',
-                          padding: '11px 13px',
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          gap: '10px',
-                          marginBottom: '16px',
-                        }}
-                      >
-                        <LuInfo style={{ color: '#dc2626', marginTop: '2px', flexShrink: 0 }} size={17} />
-                        <span style={{ fontSize: '0.84rem', color: '#991b1b', fontWeight: 600, lineHeight: 1.5 }}>
-                          {l('deliveryOnlyNotice')}
+                      <LuClock size={16} style={{ flexShrink: 0 }} aria-hidden="true" />
+                      <div>
+                        <span style={{ display: 'block', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 700, opacity: 0.85 }}>
+                          {l('hoursLabel')}
                         </span>
+                        <span style={{ fontSize: '0.86rem', fontWeight: 700, lineHeight: 1.3 }}>
+                          {branchHours}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* 3. Address */}
+                    <div style={{
+                      background: 'rgba(0, 0, 0, 0.025)',
+                      borderRadius: '8px',
+                      padding: '10px 12px',
+                      border: '1px solid var(--color-border-light, #EDE6D8)',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '9px',
+                    }}>
+                      <LuMapPin style={{ color: 'var(--color-brand-primary, #287A3F)', marginTop: '2px', flexShrink: 0 }} size={16} />
+                      <div style={{ fontSize: '0.84rem', color: 'var(--color-text-secondary)', lineHeight: 1.45 }}>
+                        <strong style={{ color: 'var(--color-text-primary)', display: 'block', fontSize: '0.74rem', textTransform: 'uppercase', letterSpacing: '0.04em', opacity: 0.8, marginBottom: '2px' }}>
+                          {l('addressLabel')}
+                        </strong>
+                        <span>{branchAddress}</span>
+                      </div>
+                    </div>
+
+                    {/* 4. Delivery Coverage Area (When Available) */}
+                    {branchCoverage && (
+                      <div style={{
+                        background: 'rgba(180, 83, 9, 0.05)',
+                        border: '1px solid rgba(180, 83, 9, 0.18)',
+                        borderRadius: '8px',
+                        padding: '9px 12px',
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '8px',
+                        fontSize: '0.82rem',
+                        color: 'var(--color-text-secondary)',
+                      }}>
+                        <LuBike size={15} style={{ color: '#b45309', flexShrink: 0, marginTop: '2px' }} aria-hidden="true" />
+                        <div>
+                          <strong style={{ color: '#92400e', display: 'block', fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.03em', marginBottom: '2px' }}>
+                            {l('coverageLabel')}
+                          </strong>
+                          <span>{branchCoverage}</span>
+                        </div>
                       </div>
                     )}
 
-                    {/* Address & Coverage Block */}
-                    <div
-                      style={{
-                        background: 'rgba(0, 0, 0, 0.03)',
-                        borderRadius: '8px',
-                        padding: '10px 12px',
-                        marginBottom: '18px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '6px',
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                        <LuMapPin style={{ color: 'var(--color-brand-primary, #2D6A4F)', marginTop: '3px', flexShrink: 0 }} size={15} />
-                        <div style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', lineHeight: 1.45 }}>
-                          <strong style={{ color: 'var(--color-text-primary)', display: 'block', fontSize: '0.76rem', textTransform: 'uppercase', letterSpacing: '0.04em', opacity: 0.8 }}>
-                            {l('addressLabel')}
-                          </strong>
-                          <span>{branchAddress}</span>
-                        </div>
-                      </div>
-
-                      {branchCoverage && (
-                        <div style={{ fontSize: '0.78rem', color: 'var(--color-text-secondary)', paddingInlineStart: '22px' }}>
-                          <strong style={{ color: '#b45309' }}>{l('coverageLabel')}:</strong> {branchCoverage}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Spacer to align buttons at bottom */}
+                    {/* Spacer */}
                     <div style={{ marginTop: 'auto' }} />
 
-                    {/* Action Buttons */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    {/* 5. Standardized Unified Action Buttons */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingTop: '6px' }}>
                       
-                      {/* Select This Branch Button */}
+                      {/* Select This Branch */}
                       <button
                         type="button"
                         onClick={() => selectBranch(branch.id)}
@@ -385,129 +411,134 @@ export default function BranchesPage() {
                           alignItems: 'center',
                           justifyContent: 'center',
                           gap: '8px',
-                          padding: '11px',
+                          padding: '10px',
                           borderRadius: '8px',
-                          border: isSelected ? '1.5px solid #2D6A4F' : '1px solid var(--color-border)',
-                          background: isSelected ? 'rgba(45, 106, 79, 0.12)' : 'rgba(0, 0, 0, 0.04)',
-                          color: isSelected ? '#2D6A4F' : 'var(--color-text-primary)',
+                          border: isSelected ? '1.5px solid #287A3F' : '1px solid var(--color-border)',
+                          background: isSelected ? 'rgba(40, 122, 63, 0.12)' : 'rgba(0, 0, 0, 0.03)',
+                          color: isSelected ? '#1f5d30' : 'var(--color-text-primary)',
                           fontWeight: 700,
-                          fontSize: '0.88rem',
+                          fontSize: '0.86rem',
                           cursor: 'pointer',
                           transition: 'all 0.15s ease',
                         }}
                       >
-                        {isSelected ? <FaCheck size={14} /> : <LuMapPin size={15} aria-hidden="true" />}
+                        {isSelected ? <FaCheck size={13} /> : <LuMapPin size={14} aria-hidden="true" />}
                         <span>{isSelected ? l('selectedBadge') : l('selectBranchBtn')}</span>
                       </button>
 
-                      {/* WhatsApp Primary Order Button */}
+                      {/* Primary WhatsApp Order Button */}
                       <a
                         href={`https://wa.me/${whatsappClean}?text=${whatsappGreeting}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => selectBranch(branch.id)}
-                        className="btn-primary"
                         style={{
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           gap: '8px',
-                          padding: '12px 14px',
-                          fontSize: '0.92rem',
+                          padding: '11px 14px',
+                          fontSize: '0.9rem',
                           fontWeight: 700,
                           textDecoration: 'none',
                           borderRadius: '8px',
                           background: '#25D366',
                           color: '#ffffff',
-                          boxShadow: '0 4px 12px rgba(37, 211, 102, 0.25)',
+                          boxShadow: '0 3px 10px rgba(37, 211, 102, 0.25)',
                         }}
                       >
-                        <FaWhatsapp size={19} aria-hidden="true" />
-                        <span>{branch.allowDirections ? l('whatsappBtn') : l('whatsappDeliveryBtn')}</span>
+                        <FaWhatsapp size={18} aria-hidden="true" />
+                        <span>{l('whatsappBtn')}</span>
                       </a>
 
-                      {/* Secondary Buttons Row: Call & Directions (if applicable) */}
-                      <div style={{ display: 'grid', gridTemplateColumns: branch.allowDirections ? '1fr 1fr' : '1fr', gap: '10px' }}>
+                      {/* Phone Lines Block: Clear distinction between Direct Order & General Info */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                         <a
                           href={`tel:${phoneClean}`}
                           style={{
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '7px',
-                            padding: '10px 12px',
-                            background: 'rgba(0, 0, 0, 0.04)',
+                            justifyContent: 'space-between',
+                            padding: '9px 12px',
+                            background: 'rgba(0, 0, 0, 0.03)',
                             border: '1px solid var(--color-border)',
                             borderRadius: '8px',
                             color: 'var(--color-text-primary)',
-                            fontSize: '0.86rem',
+                            fontSize: '0.84rem',
                             fontWeight: 600,
+                            textDecoration: 'none',
+                          }}
+                        >
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <FaPhone size={13} style={{ color: 'var(--color-brand-primary)' }} aria-hidden="true" />
+                            <span>{l('callOrderBtn')}</span>
+                          </span>
+                          <span style={{ fontFamily: 'monospace', fontWeight: 700, direction: 'ltr' }}>{branch.phone}</span>
+                        </a>
+
+                        {branch.landline && (
+                          <a
+                            href={`tel:${landlineClean}`}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              padding: '8px 12px',
+                              background: 'transparent',
+                              border: '1px dashed var(--color-border)',
+                              borderRadius: '8px',
+                              color: 'var(--color-text-secondary)',
+                              fontSize: '0.8rem',
+                              fontWeight: 600,
+                              textDecoration: 'none',
+                            }}
+                          >
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                              <LuPhoneCall size={13} aria-hidden="true" />
+                              <span>{l('landlineBtn')}</span>
+                            </span>
+                            <span style={{ fontFamily: 'monospace', fontWeight: 700, direction: 'ltr' }}>{branch.landline}</span>
+                          </a>
+                        )}
+                      </div>
+
+                      {/* Map Location Link (Active and available for all branches including Reşitpaşa) */}
+                      {branch.map && (
+                        <a
+                          href={branch.map}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '7px',
+                            padding: '9px 12px',
+                            background: 'rgba(40, 122, 63, 0.06)',
+                            border: '1px solid rgba(40, 122, 63, 0.25)',
+                            borderRadius: '8px',
+                            color: '#1f5d30',
+                            fontSize: '0.84rem',
+                            fontWeight: 700,
                             textDecoration: 'none',
                             transition: 'all 0.15s ease',
                           }}
                         >
-                          <FaPhone size={14} aria-hidden="true" />
-                          <span>{l('callBtn')} ({branch.phone})</span>
+                          <FaMapLocationDot size={15} aria-hidden="true" />
+                          <span>{l('mapDirectionsBtn')}</span>
                         </a>
+                      )}
 
-                        {branch.allowDirections && (
-                          <a
-                            href={branch.map}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              gap: '7px',
-                              padding: '10px 12px',
-                              background: 'rgba(0, 0, 0, 0.04)',
-                              border: '1px solid var(--color-border)',
-                              borderRadius: '8px',
-                              color: 'var(--color-text-primary)',
-                              fontSize: '0.86rem',
-                              fontWeight: 600,
-                              textDecoration: 'none',
-                              transition: 'all 0.15s ease',
-                            }}
-                          >
-                            <FaMapLocationDot size={15} aria-hidden="true" />
-                            <span>{l('directionsBtn')}</span>
-                          </a>
-                        )}
-                      </div>
                     </div>
+
                   </div>
                 </article>
               );
             })}
           </div>
-
-          {/* Bottom Menu Navigation CTA */}
-          <div style={{ textAlign: 'center', marginTop: 'var(--sp-10, 40px)' }}>
-            <Link
-              href="/menu"
-              className="btn-primary"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '14px 28px',
-                fontSize: '1rem',
-                fontWeight: 700,
-                textDecoration: 'none',
-                borderRadius: '8px',
-              }}
-            >
-              <GiSushis size={22} aria-hidden="true" />
-              <span>{l('viewMenuBtn')}</span>
-              <FaArrowRight size={14} aria-hidden="true" />
-            </Link>
-          </div>
         </section>
-      </main>
 
-      <CartDrawer />
+      </main>
     </>
   );
 }

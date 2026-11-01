@@ -650,10 +650,28 @@ export default function CartDrawer() {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#f5f5f5' }}>
-                <span style={{ color: '#22c55e', fontWeight: 600 }}>💵 Kapıda Nakit</span>
-                <span style={{ fontSize: '0.68rem', backgroundColor: 'rgba(34, 197, 94, 0.2)', color: '#4ade80', padding: '1px 5px', borderRadius: '3px' }}>Aktif</span>
+                <span style={{ color: '#22c55e', fontWeight: 600 }}>
+                  {cartLang === 'ar' ? '💵 الدفع نقدًا عند الاستلام' :
+                   cartLang === 'en' ? '💵 Cash on Delivery' :
+                   cartLang === 'ru' ? '💵 Оплата наличными' :
+                   cartLang === 'zh' ? '💵 货到现金付款' :
+                   '💵 Kapıda Nakit'}
+                </span>
+                <span style={{ fontSize: '0.68rem', backgroundColor: 'rgba(34, 197, 94, 0.2)', color: '#4ade80', padding: '1px 5px', borderRadius: '3px' }}>
+                  {cartLang === 'ar' ? 'متاح' :
+                   cartLang === 'en' ? 'Active' :
+                   cartLang === 'ru' ? 'Активно' :
+                   cartLang === 'zh' ? '支持' :
+                   'Aktif'}
+                </span>
               </div>
-              <span style={{ color: '#737373', fontSize: '0.72rem' }}>🔒 Online Kart (Yakında)</span>
+              <span style={{ color: '#737373', fontSize: '0.72rem' }}>
+                {cartLang === 'ar' ? '🔒 بطاقة (قريباً)' :
+                 cartLang === 'en' ? '🔒 Card Online (Soon)' :
+                 cartLang === 'ru' ? '🔒 Карта (скоро)' :
+                 cartLang === 'zh' ? '🔒 在线刷卡 (即将开放)' :
+                 '🔒 Online Kart (Yakında)'}
+              </span>
             </div>
 
             {/* ── 3. KVKK / Privacy Notice Link ── */}
@@ -791,7 +809,7 @@ export default function CartDrawer() {
                 </span>
               ) : (
                 <span style={{ fontSize: '0.72rem', opacity: 0.95 }}>
-                  <FaLocationDot style={{ color: '#4ade80' }} aria-hidden="true" /> {selectedBranch.name_tr} ({selectedBranch.phone})
+                  <FaLocationDot style={{ color: '#4ade80' }} aria-hidden="true" /> {selectedBranch[`name_${cartLang}`] || selectedBranch.name_tr} ({selectedBranch.phone})
                 </span>
               )}
             </button>
