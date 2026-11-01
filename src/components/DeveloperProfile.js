@@ -1,546 +1,497 @@
 'use client';
 
 import React from 'react';
-import { Link } from '@/i18n/navigation';
-import { LuCode, LuMail, LuArrowRight, LuArrowLeft, LuCheck, LuLayers, LuShieldCheck, LuCpu } from 'react-icons/lu';
-import { FaWhatsapp } from 'react-icons/fa6';
+import Image from 'next/image';
+import Link from 'next/link';
+import { FaLaptopCode, FaLocationDot, FaCircleCheck } from 'react-icons/fa6';
+import OrderDemo from '@/components/developer/OrderDemo';
+import LanguageDemo from '@/components/developer/LanguageDemo';
+import '@/app/[locale]/tasarim-gelistirme/case-study.css';
 
 export default function DeveloperProfile({ content, isRTL, lang }) {
-  const { hero, story, project, principles, technologies, cta } = content;
+  const { hero, facts, story, branches, experience, languages, engineering, closing } = content;
 
-  const trackEvent = (eventName) => {
-    if (typeof window !== 'undefined' && window.dataLayer) {
-      window.dataLayer.push({ event: eventName });
-    }
-  };
-
-  const returnHomeText = {
-    tr: '← Lucky Sushi & Chinese Ana Sayfasına Dön',
-    en: '← Return to Lucky Sushi & Chinese Home',
-    ar: 'العودة إلى الصفحة الرئيسية لـ Lucky Sushi & Chinese →',
-    ru: '← Вернуться на главную Lucky Sushi & Chinese',
-    zh: '← 返回 Lucky Sushi & Chinese 首页',
-  };
-
-  const ArrowIcon = isRTL ? LuArrowLeft : LuArrowRight;
+  const menuUrl = lang === 'tr' ? '/menu' : `/${lang}/menu`;
+  const aboutUrl = lang === 'tr' ? '/about' : `/${lang}/about`;
 
   return (
-    <div
-      className={`developer-profile ${isRTL ? 'rtl' : 'ltr'}`}
-      dir={isRTL ? 'rtl' : 'ltr'}
-      style={{
-        backgroundColor: 'var(--color-background, #FDFBF7)',
-        color: 'var(--color-text-primary, #1B1813)',
-        minHeight: '100vh',
-        padding: 'clamp(40px, 6vw, 72px) var(--page-pad) clamp(60px, 8vw, 96px)',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: '860px',
-          margin: '0 auto',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'clamp(40px, 5vw, 60px)',
-        }}
-      >
-        {/* 1. HERO SECTION */}
-        <section style={{ textAlign: 'center', paddingTop: '8px' }}>
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '6px 16px',
-              borderRadius: '9999px',
-              backgroundColor: 'rgba(212, 163, 115, 0.15)',
-              border: '1px solid rgba(212, 163, 115, 0.3)',
-              color: 'var(--color-accent, #B07D4F)',
-              fontSize: '0.82rem',
-              fontWeight: 700,
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              marginBottom: '20px',
-            }}
-          >
-            <LuCode size={15} />
-            <span>{hero.badge || hero.role}</span>
-          </div>
-
-          <h1
-            style={{
-              fontFamily: isRTL ? 'var(--font-ar-serif, serif)' : 'var(--font-serif, serif)',
-              fontSize: 'clamp(2.4rem, 5vw, 3.6rem)',
-              fontWeight: 800,
-              color: 'var(--color-text-primary, #1B1813)',
-              letterSpacing: '-0.02em',
-              margin: '0 0 12px 0',
-              lineHeight: 1.18,
-            }}
-          >
-            {hero.name}
-          </h1>
-
-          <p
-            style={{
-              fontSize: 'clamp(1.1rem, 2.2vw, 1.25rem)',
-              color: 'var(--color-brand-primary, #C8102E)',
-              fontWeight: 700,
-              margin: '0 0 18px 0',
-            }}
-          >
-            {hero.role}
-          </p>
-
-          <p
-            style={{
-              fontSize: 'clamp(1rem, 2vw, 1.12rem)',
-              color: 'var(--color-text-secondary, #5C5549)',
-              maxWidth: '720px',
-              margin: '0 auto 28px auto',
-              lineHeight: 1.65,
-              fontWeight: 500,
-            }}
-          >
-            {hero.headline}
-          </p>
-
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '14px',
-              justifyContent: 'center',
-            }}
-          >
-            <a
-              href={cta.whatsappLink}
-              onClick={() => trackEvent('cta_whatsapp_click')}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                padding: '13px 26px',
-                backgroundColor: '#25D366',
-                color: '#ffffff',
-                fontWeight: 700,
-                fontSize: '0.96rem',
-                borderRadius: '10px',
-                textDecoration: 'none',
-                boxShadow: '0 4px 14px rgba(37, 211, 102, 0.25)',
-                transition: 'transform 0.2s ease',
-              }}
-            >
-              <FaWhatsapp size={17} />
-              <span>{hero.ctaContact || cta.whatsapp}</span>
-            </a>
-
-            <a
-              href={cta.portfolioLink}
-              onClick={() => trackEvent('cta_portfolio_click')}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                padding: '13px 26px',
-                backgroundColor: 'transparent',
-                border: '1.5px solid var(--color-text-primary, #1B1813)',
-                color: 'var(--color-text-primary, #1B1813)',
-                fontWeight: 700,
-                fontSize: '0.96rem',
-                borderRadius: '10px',
-                textDecoration: 'none',
-                transition: 'background 0.2s ease',
-              }}
-            >
-              <span>{hero.ctaPortfolio || cta.portfolio}</span>
-            </a>
-          </div>
-        </section>
-
-        {/* 2. STORY & BACKGROUND */}
-        {story && (
-          <section
-            style={{
-              backgroundColor: 'var(--color-surface, #FFFFFF)',
-              borderRadius: '20px',
-              padding: 'clamp(28px, 4vw, 38px)',
-              border: '1px solid rgba(0, 0, 0, 0.08)',
-              boxShadow: '0 2px 12px rgba(0, 0, 0, 0.04)',
-            }}
-          >
-            <h2
-              style={{
-                fontFamily: isRTL ? 'var(--font-ar-serif, serif)' : 'var(--font-serif, serif)',
-                fontSize: 'clamp(1.4rem, 2.5vw, 1.8rem)',
-                fontWeight: 700,
-                color: 'var(--color-text-primary, #1B1813)',
-                margin: '0 0 16px 0',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-              }}
-            >
-              <LuCpu size={22} color="var(--color-accent, #B07D4F)" />
-              <span>{story.title}</span>
-            </h2>
-
-            <p
-              style={{
-                fontSize: '1.02rem',
-                fontWeight: 600,
-                color: 'var(--color-text-primary, #1B1813)',
-                lineHeight: 1.6,
-                marginBottom: '16px',
-              }}
-            >
-              {story.intro}
+    <article className="dev-case-study" dir={isRTL ? 'rtl' : 'ltr'}>
+      {/* 1. HERO SECTION */}
+      <section className="hero" id="top" aria-label="Lucky Sushi Digital Case Study Hero">
+        <div className="hero-noise" aria-hidden="true" />
+        <div className="hero-inner">
+          <div className="hero-copy">
+            <p className="eyebrow hero-eyebrow">
+              <FaLaptopCode className="eyebrow-icon" /> {hero.eyebrowTag}{' '}
+              <span className="eyebrow-divider">/</span> {hero.eyebrowCity}
             </p>
 
-            {story.paragraphs && story.paragraphs.map((p, idx) => (
-              <p
-                key={idx}
-                style={{
-                  fontSize: '0.96rem',
-                  color: 'var(--color-text-secondary, #5C5549)',
-                  lineHeight: 1.7,
-                  margin: '0 0 14px 0',
-                }}
-              >
-                {p}
-              </p>
-            ))}
-          </section>
-        )}
+            <h1>
+              {hero.titleLine1}
+              <br />
+              {hero.titleLine2}
+              <em>{hero.titleEm}</em>
+              <br />
+              {hero.titleLine3}
+            </h1>
 
-        {/* 3. THE PROJECT — REAL ARCHITECTURE DECISIONS */}
-        {project && (
-          <section
-            style={{
-              backgroundColor: 'var(--color-brand-dark, #1B1813)',
-              color: '#F6F1E8',
-              borderRadius: '20px',
-              padding: 'clamp(28px, 5vw, 40px)',
-              boxShadow: '0 6px 24px rgba(0, 0, 0, 0.2)',
-            }}
-          >
-            <div style={{ marginBottom: '24px' }}>
-              <span
-                style={{
-                  color: 'var(--color-accent, #D4A373)',
-                  fontSize: '0.8rem',
-                  fontWeight: 700,
-                  letterSpacing: '0.12em',
-                  textTransform: 'uppercase',
-                  display: 'block',
-                  marginBottom: '8px',
-                }}
-              >
-                LUCKY SUSHI CHINESE
+            <p className="hero-description">{hero.description}</p>
+
+            <div className="hero-actions">
+              <a className="button button--red" href="#story">
+                {hero.ctaExplore} <span aria-hidden="true">{isRTL ? '↓' : '↓'}</span>
+              </a>
+              <Link className="button button--quiet" href={menuUrl}>
+                {hero.ctaMenu} <span aria-hidden="true">{isRTL ? '↖' : '↗'}</span>
+              </Link>
+            </div>
+
+            <div className="hero-credit">
+              <span className="credit-avatar">{hero.devAvatar}</span>
+              <span>
+                <b>{hero.devName}</b>
+                <small>{hero.devRole}</small>
               </span>
-              <h2
-                style={{
-                  fontFamily: isRTL ? 'var(--font-ar-serif, serif)' : 'var(--font-serif, serif)',
-                  fontSize: 'clamp(1.4rem, 2.8vw, 1.9rem)',
-                  fontWeight: 700,
-                  margin: '0 0 8px 0',
-                  color: '#FFFFFF',
-                }}
-              >
-                {project.title}
-              </h2>
-              <p style={{ fontSize: '0.92rem', color: 'rgba(246, 241, 232, 0.75)', margin: 0 }}>
-                {project.subtitle}
-              </p>
+              <span className="credit-line" aria-hidden="true" />
+              <span className="hero-issue">{hero.devIssue}</span>
+            </div>
+          </div>
+
+          <div
+            className="hero-visual"
+            aria-label="Lucky Sushi rolls and craft presentation"
+          >
+            <div className="hero-image-frame">
+              <Image
+                src="/images/developer/lucky-rolls.jpg"
+                alt="Lucky Sushi rolls on slate plate"
+                className="hero-food-image"
+                width={525}
+                height={520}
+                priority
+              />
+              <div className="image-vignette" aria-hidden="true" />
+              <span className="image-caption">
+                FRESH FROM THE LUCKY KITCHEN <span>ISTANBUL</span>
+              </span>
             </div>
 
             <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                gap: '20px',
-                paddingTop: '20px',
-                borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-              }}
+              className="hero-roundel"
+              aria-label="Alibeyköy branch open until 04:00 every day"
             >
-              {project.items.map((item, index) => (
-                <div
-                  key={index}
-                  style={{
-                    backgroundColor: 'rgba(255, 255, 255, 0.04)',
-                    padding: '20px',
-                    borderRadius: '12px',
-                    border: '1px solid rgba(255, 255, 255, 0.08)',
-                  }}
-                >
-                  <div
-                    style={{
-                      color: 'var(--color-accent, #D4A373)',
-                      fontWeight: 800,
-                      fontSize: '1rem',
-                      marginBottom: '8px',
-                    }}
-                  >
-                    0{index + 1}
-                  </div>
-                  <h3 style={{ fontSize: '1.05rem', fontWeight: 700, margin: '0 0 8px 0', color: '#FFFFFF' }}>
-                    {item.title}
-                  </h3>
-                  <p style={{ fontSize: '0.88rem', color: 'rgba(246, 241, 232, 0.8)', lineHeight: 1.6, margin: 0 }}>
-                    {item.desc}
-                  </p>
-                </div>
-              ))}
+              <span className="roundel-top">{hero.roundelTop}</span>
+              <strong>
+                {hero.roundelHour}
+                <small>:</small>
+                {hero.roundelMinute}
+              </strong>
+              <span className="roundel-bottom">{hero.roundelBottom}</span>
             </div>
-          </section>
-        )}
 
-        {/* 4. PRINCIPLES */}
-        {principles && (
-          <section
-            style={{
-              backgroundColor: 'var(--color-surface, #FFFFFF)',
-              borderRadius: '20px',
-              padding: 'clamp(28px, 4vw, 36px)',
-              border: '1px solid rgba(0, 0, 0, 0.08)',
-            }}
-          >
-            <h2
-              style={{
-                fontFamily: isRTL ? 'var(--font-ar-serif, serif)' : 'var(--font-serif, serif)',
-                fontSize: 'clamp(1.3rem, 2.4vw, 1.7rem)',
-                fontWeight: 700,
-                color: 'var(--color-text-primary, #1B1813)',
-                margin: '0 0 20px 0',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-              }}
-            >
-              <LuShieldCheck size={22} color="var(--color-accent, #B07D4F)" />
-              <span>{principles.title}</span>
-            </h2>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              {principles.items.map((item, idx) => (
-                <div
-                  key={idx}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: '12px',
-                    padding: '12px 16px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(0, 0, 0, 0.02)',
-                    border: '1px solid rgba(0, 0, 0, 0.05)',
-                  }}
-                >
-                  <LuCheck size={18} color="var(--color-brand-primary, #C8102E)" style={{ flexShrink: 0, marginTop: '3px' }} />
-                  <p style={{ fontSize: '0.94rem', color: 'var(--color-text-primary, #1B1813)', lineHeight: 1.6, margin: 0, fontWeight: 500 }}>
-                    {item}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {/* 5. TECHNOLOGIES — CLEARLY SEPARATED */}
-        {technologies && (
-          <section
-            style={{
-              backgroundColor: 'var(--color-surface, #FFFFFF)',
-              borderRadius: '20px',
-              padding: 'clamp(28px, 4vw, 36px)',
-              border: '1px solid rgba(0, 0, 0, 0.08)',
-            }}
-          >
-            <h2
-              style={{
-                fontFamily: isRTL ? 'var(--font-ar-serif, serif)' : 'var(--font-serif, serif)',
-                fontSize: 'clamp(1.3rem, 2.4vw, 1.7rem)',
-                fontWeight: 700,
-                color: 'var(--color-text-primary, #1B1813)',
-                margin: '0 0 20px 0',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-              }}
-            >
-              <LuLayers size={22} color="var(--color-accent, #B07D4F)" />
-              <span>{technologies.title}</span>
-            </h2>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+            <div className="hero-note">
+              <Image
+                src="/images/developer/lucky-logo.png"
+                alt="Lucky Logo"
+                width={40}
+                height={30}
+              />
               <div>
-                <h3 style={{ fontSize: '0.96rem', fontWeight: 700, color: 'var(--color-text-secondary, #5C5549)', margin: '0 0 10px 0' }}>
-                  {technologies.projectTitle}
-                </h3>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {technologies.projectItems.map((tech, idx) => (
-                    <span
-                      key={idx}
-                      style={{
-                        padding: '6px 14px',
-                        borderRadius: '8px',
-                        backgroundColor: 'rgba(200, 16, 46, 0.08)',
-                        color: 'var(--color-brand-primary, #C8102E)',
-                        fontSize: '0.88rem',
-                        fontWeight: 600,
-                        border: '1px solid rgba(200, 16, 46, 0.2)',
-                      }}
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h3 style={{ fontSize: '0.96rem', fontWeight: 700, color: 'var(--color-text-secondary, #5C5549)', margin: '0 0 10px 0' }}>
-                  {technologies.broaderTitle}
-                </h3>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-                  {technologies.broaderItems.map((tech, idx) => (
-                    <span
-                      key={idx}
-                      style={{
-                        padding: '6px 14px',
-                        borderRadius: '8px',
-                        backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                        color: 'var(--color-text-primary, #1B1813)',
-                        fontSize: '0.88rem',
-                        fontWeight: 600,
-                        border: '1px solid rgba(0, 0, 0, 0.1)',
-                      }}
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+                <b>{hero.noteTitle}</b>
+                <br />
+                {hero.noteSubtitle}
               </div>
             </div>
-          </section>
-        )}
 
-        {/* 6. CONTACT & CONNECT */}
-        <section
-          style={{
-            backgroundColor: 'var(--color-brand-dark, #1B1813)',
-            color: '#FFFFFF',
-            borderRadius: '20px',
-            padding: 'clamp(28px, 5vw, 42px)',
-            textAlign: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '20px',
-            alignItems: 'center',
-          }}
-        >
-          <h2
-            style={{
-              fontFamily: isRTL ? 'var(--font-ar-serif, serif)' : 'var(--font-serif, serif)',
-              fontSize: 'clamp(1.3rem, 2.8vw, 1.8rem)',
-              fontWeight: 700,
-              color: '#FFFFFF',
-              margin: 0,
-            }}
-          >
-            {cta.title}
-          </h2>
-
-          <p style={{ fontSize: '0.94rem', color: 'rgba(246, 241, 232, 0.75)', margin: 0, maxWidth: '580px' }}>
-            {cta.subtitle}
-          </p>
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px', justifyContent: 'center' }}>
-            <a
-              href={cta.whatsappLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 24px',
-                backgroundColor: '#25D366',
-                color: '#ffffff',
-                fontWeight: 700,
-                fontSize: '0.94rem',
-                borderRadius: '10px',
-                textDecoration: 'none',
-              }}
-            >
-              <FaWhatsapp size={18} />
-              <span>{cta.whatsapp}</span>
-            </a>
-
-            <a
-              href={cta.emailLink}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '12px 24px',
-                backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                color: '#FFFFFF',
-                fontWeight: 700,
-                fontSize: '0.94rem',
-                borderRadius: '10px',
-                textDecoration: 'none',
-              }}
-            >
-              <LuMail size={18} />
-              <span>{cta.email}</span>
-            </a>
+            <div className="hero-side-label">{hero.sideLabel}</div>
           </div>
-
-          <div style={{ paddingTop: '6px' }}>
-            <a
-              href={cta.portfolioLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: 'var(--color-accent, #D4A373)',
-                textDecoration: 'underline',
-                textUnderlineOffset: '4px',
-                fontSize: '0.92rem',
-                fontWeight: 600,
-              }}
-            >
-              <span>{cta.portfolio}</span>
-            </a>
-          </div>
-        </section>
-
-        {/* 7. RETURN TO RESTAURANT HOMEPAGE */}
-        <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '8px' }}>
-          <Link
-            href="/"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              fontSize: '0.94rem',
-              color: 'var(--color-brand-primary, #C8102E)',
-              textDecoration: 'none',
-              fontWeight: 700,
-              padding: '8px 16px',
-              borderRadius: '8px',
-              backgroundColor: 'rgba(200, 16, 46, 0.06)',
-            }}
-          >
-            <span>{returnHomeText[lang] || returnHomeText.tr}</span>
-          </Link>
         </div>
-      </div>
-    </div>
+
+        <div className="hero-bottomline">
+          <span>{hero.bottomline}</span>
+          <a href="#facts">
+            {hero.scrollDown} <b aria-hidden="true">{isRTL ? '↓' : '↓'}</b>
+          </a>
+        </div>
+      </section>
+
+      {/* 2. FACTS STRIP */}
+      <section className="facts-strip" id="facts" aria-label="Project Scope and Metrics">
+        <div className="fact-intro">
+          <span className="section-tag">{facts.tag}</span>
+          <b>{facts.title}</b>
+        </div>
+        <div className="fact">
+          <strong>{facts.languages}</strong>
+          <span>{facts.languagesLabel}</span>
+        </div>
+        <div className="fact">
+          <strong>{facts.branches}</strong>
+          <span>{facts.branchesLabel}</span>
+        </div>
+        <div className="fact">
+          <strong>
+            {facts.closingHour}
+            <span className="fact-small">{facts.closingMinute}</span>
+          </strong>
+          <span>{facts.closingLabel}</span>
+        </div>
+        <div className="fact-stamp" aria-hidden="true">
+          {facts.stampCity}
+          <br />
+          <b>{facts.stampCountry}</b>
+        </div>
+      </section>
+
+      {/* 3. STORY SECTION */}
+      <section className="story-section section-pad" id="story">
+        <div className="section-index">
+          <span>{story.index}</span>
+          <i /> {story.sectionName}
+        </div>
+
+        <div className="story-layout">
+          <div className="story-headline">
+            <p className="section-tag">{story.tag}</p>
+            <h2>
+              {story.h2Part1}
+              <br />
+              <em>{story.h2Em}</em> {story.h2Part2}
+            </h2>
+          </div>
+
+          <div className="story-copy">
+            <p className="lead-copy">{story.lead}</p>
+            <p>{story.p}</p>
+            <Link className="text-link" href={aboutUrl}>
+              {story.linkText} <span aria-hidden="true">{isRTL ? '↖' : '↗'}</span>
+            </Link>
+          </div>
+        </div>
+
+        <div className="story-photo-band">
+          <img
+            src="/images/developer/lucky-store.jpg"
+            alt="Lucky Sushi Istanbul Neon Bar & Fresh Rolls"
+            className="story-band-bg-img"
+            loading="eager"
+          />
+          <div className="photo-band-overlay" />
+          <div className="photo-band-label">
+            <span>{story.photoBadge}</span>
+            <b>{story.photoHeadline}</b>
+          </div>
+          <div className="photo-band-number">
+            {story.photoLocation}
+            <br />
+            <strong>{story.photoCoord}</strong>
+          </div>
+        </div>
+
+        <div className="principles-row">
+          {story.principles.map((pr, idx) => {
+            const principleImages = [
+              '/images/set-salmon-lovers.jpg',
+              '/images/developer/lucky-front.jpg',
+              '/images/developer/lucky-store.jpg',
+            ];
+            return (
+              <div key={idx} className="principle-card">
+                <div className="principle-card__media">
+                  <img
+                    src={principleImages[idx]}
+                    alt={pr.num}
+                    className="principle-card__img"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="principle-card__text">
+                  <span>{pr.num}</span>
+                  <p>{pr.desc}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* 4. BRANCHES SECTION */}
+      <section className="branch-section section-pad" id="branches">
+        <div className="section-index section-index--light">
+          <span>{branches.index}</span>
+          <i /> {branches.sectionName}
+        </div>
+
+        <div className="branch-heading-row">
+          <div>
+            <p className="section-tag section-tag--light">{branches.tag}</p>
+            <h2>
+              {branches.h2Part1}
+              <br />
+              <em>{branches.h2Em}</em>
+            </h2>
+          </div>
+          <p className="branch-intro">{branches.intro}</p>
+        </div>
+
+        <div className="branch-map-card">
+          <div
+            className="branch-map-visual"
+            aria-label="Schematic routing of the three Istanbul Lucky branches"
+          >
+            <div className="map-grid" aria-hidden="true" />
+            <svg
+              className="route-lines"
+              viewBox="0 0 620 260"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path d="M72 200C160 178 189 84 288 98C383 111 404 205 548 177" />
+              <path d="M72 200C166 224 198 180 288 98" />
+              <path d="M288 98C362 37 453 70 548 177" />
+              <circle cx="72" cy="200" r="7" />
+              <circle cx="288" cy="98" r="7" />
+              <circle cx="548" cy="177" r="7" />
+            </svg>
+            <span className="map-label map-label--one">
+              ALİBEYKÖY <b>01</b>
+            </span>
+            <span className="map-label map-label--two">
+              ZEYTİNBURNU <b>02</b>
+            </span>
+            <span className="map-label map-label--three">
+              REŞİTPAŞA <b>03</b>
+            </span>
+            <div className="map-caption">
+              <FaLocationDot className="map-caption-icon" /> {branches.mapCaption}{' '}
+              <span>{branches.mapScale}</span>
+            </div>
+          </div>
+
+          <div className="branch-list">
+            {branches.list.map((branch, idx) => {
+              const branchThumbnails = [
+                '/images/floter.jpg',
+                '/images/developer/lucky-front.jpg',
+                '/images/shrimp-ramen.jpg',
+              ];
+              return (
+                <article className="branch-row" key={branch.number}>
+                  <div className="branch-row__thumb">
+                    <img
+                      src={branchThumbnails[idx]}
+                      alt={branch.name}
+                      className="branch-row__img"
+                      loading="lazy"
+                    />
+                  </div>
+                  <span className="branch-row__number">{branch.number}</span>
+                  <div className="branch-row__main">
+                    <h3>{branch.name}</h3>
+                    <p>{branch.type}</p>
+                    <small>{branch.areas}</small>
+                  </div>
+                  <div className="branch-row__hours">
+                    <b>{branch.hours}</b>
+                    <span>{branch.schedule}</span>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+
+        <p className="branch-footnote">{branches.footnote}</p>
+      </section>
+
+      {/* 5. EXPERIENCE SECTION (INTERACTIVE PHONE DEMO) */}
+      <section className="experience-section section-pad" id="experience">
+        <div className="section-index">
+          <span>{experience.index}</span>
+          <i /> {experience.sectionName}
+        </div>
+
+        <div className="experience-header">
+          <div>
+            <p className="section-tag">{experience.tag}</p>
+            <h2>
+              {experience.h2Part1}
+              <br />
+              <em>{experience.h2Em}</em>
+            </h2>
+          </div>
+          <p>{experience.intro}</p>
+        </div>
+
+        <div className="experience-grid">
+          <div className="phone-stage">
+            <div className="phone-orbit phone-orbit--one" aria-hidden="true" />
+            <div className="phone-orbit phone-orbit--two" aria-hidden="true" />
+            <OrderDemo lang={lang} />
+            <span className="phone-stage-caption">{experience.stageCaption}</span>
+          </div>
+
+          <div className="experience-side">
+            {experience.notes.map((note, idx) => (
+              <div className="experience-note" key={idx}>
+                <span className="note-symbol">{note.symbol}</span>
+                <div>
+                  <b>{note.title}</b>
+                  <p>{note.desc}</p>
+                </div>
+              </div>
+            ))}
+
+            <Link className="live-menu-card" href={menuUrl}>
+              <div>
+                <span>{experience.liveMenuTag}</span>
+                <b style={{ whiteSpace: 'pre-line' }}>{experience.liveMenuTitle}</b>
+              </div>
+              <span className="live-menu-arrow" aria-hidden="true">
+                {isRTL ? '↖' : '↗'}
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. MULTILINGUAL SECTION (INTERACTIVE 5-LANGUAGE DEMO) */}
+      <section className="language-section section-pad" id="languages">
+        <div className="section-index section-index--light">
+          <span>{languages.index}</span>
+          <i /> {languages.sectionName}
+        </div>
+
+        <div className="language-layout">
+          <div className="language-copy">
+            <p className="section-tag section-tag--light">{languages.tag}</p>
+            <h2>
+              {languages.h2Part1}
+              <br />
+              <em>{languages.h2Em}</em>
+              <br />
+              {languages.h2Part2}
+            </h2>
+            <p>{languages.intro}</p>
+            <div className="language-specs">
+              {languages.specs.map((sp, idx) => (
+                <span key={idx}>
+                  <b>{sp.b}</b>
+                  {sp.label}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <LanguageDemo initialLang={lang} />
+        </div>
+
+        <div className="language-bottomnote">
+          <span>{languages.bottom1}</span>
+          <span>
+            <b>{languages.bottom2}</b>
+          </span>
+        </div>
+      </section>
+
+      {/* 7. ENGINEERING SECTION */}
+      <section className="engineering-section section-pad" id="engineering">
+        <div className="section-index">
+          <span>{engineering.index}</span>
+          <i /> {engineering.sectionName}
+        </div>
+
+        <div className="engineering-heading">
+          <div>
+            <p className="section-tag">{engineering.tag}</p>
+            <h2>
+              {engineering.h2Part1}
+              <br />
+              <em>{engineering.h2Em}</em>
+            </h2>
+          </div>
+          <p>{engineering.intro}</p>
+        </div>
+
+        <div className="architecture-list">
+          {engineering.items.map((item) => (
+            <article className="architecture-item" key={item.number}>
+              <span className="architecture-number">{item.number}</span>
+              <div className="architecture-title">
+                <span>{item.cat}</span>
+                <h3>{item.title}</h3>
+              </div>
+              <p>{item.desc}</p>
+              <span className="architecture-glyph" aria-hidden="true">
+                {item.glyph}
+              </span>
+            </article>
+          ))}
+        </div>
+
+        <div className="stack-rail">
+          <span>{engineering.stackLabel}</span>
+          <div>
+            {engineering.stack.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="seo-note">
+          <span className="seo-note__mark">{engineering.seoNoteMark}</span>
+          <div>
+            <b>{engineering.seoNoteTitle}</b>
+            <p>{engineering.seoNoteDesc}</p>
+          </div>
+          <span className="seo-note__status">
+            <FaCircleCheck className="status-icon" /> {engineering.seoNoteStatus}
+          </span>
+        </div>
+      </section>
+
+      {/* 8. CLOSING SECTION */}
+      <section className="closing-section">
+        <img
+          src="/images/floter.jpg"
+          alt="Lucky Sushi Istanbul Storefront Facade"
+          className="closing-photo"
+          loading="lazy"
+        />
+        <div className="closing-scrim" />
+        <div className="closing-content">
+          <span className="closing-overline">{closing.overline}</span>
+          <h2>
+            {closing.h2Part1}
+            <br />
+            <em>{closing.h2Em}</em>
+            <br />
+            {closing.h2Part2}
+          </h2>
+          <p>{closing.desc}</p>
+          <div className="closing-actions">
+            <a
+              className="button button--red"
+              href={closing.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {closing.ctaTalk} <span aria-hidden="true">{isRTL ? '↖' : '↗'}</span>
+            </a>
+            <a
+              className="button button--outline"
+              href={closing.portfolioUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {closing.ctaPortfolio} <span aria-hidden="true">{isRTL ? '↖' : '↗'}</span>
+            </a>
+          </div>
+        </div>
+        <div className="closing-credit">
+          {closing.creditLabel} <b>{closing.creditName}</b>
+        </div>
+      </section>
+    </article>
   );
 }

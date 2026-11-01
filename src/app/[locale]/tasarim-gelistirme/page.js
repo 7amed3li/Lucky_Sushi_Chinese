@@ -25,8 +25,8 @@ export default function TasarimGelistirmePage() {
             description: content.meta?.description || '',
             mainEntity: {
               '@type': 'Person',
-              name: content.hero?.name || 'Hamed Mohamed',
-              jobTitle: content.hero?.role || 'Web Designer & Developer',
+              name: content.hero?.devName || content.hero?.name || 'Hamed Mohamed',
+              jobTitle: content.hero?.devRole || content.hero?.role || 'Web Designer & Developer',
               url: 'https://hamedmohamed.dev/',
               sameAs: [
                 'https://hamedmohamed.dev',

@@ -94,12 +94,15 @@ function formatPortion(portion, lang) {
 
 export default function RotatingDishShowcase({ onOpen }) {
   const { lang, t, dir } = useLang();
-  // pairIndex controls which PAIR of images is in the spinner
-  const [pairIndex, setPairIndex] = useState(0);
-  // displayIndex is whichever dish info we show in the card
-  const [displayIndex, setDisplayIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [incomingIndex, setIncomingIndex] = useState(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isSwapping, setIsSwapping] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [animKey, setAnimKey] = useState(0);
+
+  const isTransitioningRef = useRef(false);
+  const swapTimerRef = useRef(null);
+  const doneTimerRef = useRef(null);
   const touchStartX = useRef(null);
   const touchDeltaX = useRef(0);
   const pauseTimeoutRef = useRef(null);
@@ -139,39 +142,62 @@ export default function RotatingDishShowcase({ onOpen }) {
     .map((id) => menuItems.find((m) => m.id === id))
     .filter(Boolean);
 
-  const totalPairs = Math.ceil(items.length / 2);
+  const currentDish = items[currentIndex] || items[0];
+  const incomingDish = incomingIndex !== null ? items[incomingIndex] : null;
+  const displayedDish = isSwapping && incomingDish ? incomingDish : currentDish;
 
-  const imgA = items[pairIndex * 2] || items[0];
-  const imgB = items[pairIndex * 2 + 1] || items[0];
+  const goToDish = useCallback((nextIdx) => {
+    if (isTransitioningRef.current || nextIdx === currentIndex || !items[nextIdx]) return;
+    isTransitioningRef.current = true;
+    setIncomingIndex(nextIdx);
+    setIsTransitioning(true);
+    setIsSwapping(false);
 
-  const goToPair = useCallback((newPair) => {
-    setPairIndex(newPair);
-    setDisplayIndex(newPair * 2);
-    setAnimKey((k) => k + 1);
-  }, []);
+    // Step 1: The plate starts rotating circularly at a moderate speed
+    // Step 2: At 450ms into the rotation, switch image and card with the animation
+    if (swapTimerRef.current) clearTimeout(swapTimerRef.current);
+    swapTimerRef.current = setTimeout(() => {
+      setIsSwapping(true);
+    }, 450);
 
-  const nextPair = useCallback(() => {
-    goToPair((pairIndex + 1) % totalPairs);
-  }, [pairIndex, totalPairs, goToPair]);
+    // Step 3: At 1100ms, the plate finishes its rotation smoothly onto the new dish
+    if (doneTimerRef.current) clearTimeout(doneTimerRef.current);
+    doneTimerRef.current = setTimeout(() => {
+      setCurrentIndex(nextIdx);
+      setIncomingIndex(null);
+      setIsTransitioning(false);
+      setIsSwapping(false);
+      isTransitioningRef.current = false;
+    }, 1100);
+  }, [currentIndex, items]);
 
-  const prevPair = useCallback(() => {
-    goToPair((pairIndex - 1 + totalPairs) % totalPairs);
-  }, [pairIndex, totalPairs, goToPair]);
+  const nextDish = useCallback(() => {
+    if (items.length <= 1) return;
+    goToDish((currentIndex + 1) % items.length);
+  }, [currentIndex, items.length, goToDish]);
 
-  // Keep the plate rotation smooth and consistent instead of abrupt.
+  const prevDish = useCallback(() => {
+    if (items.length <= 1) return;
+    goToDish((currentIndex - 1 + items.length) % items.length);
+  }, [currentIndex, items.length, goToDish]);
+
+  // Keep ambient rotation alive; auto-advance dishes every 4.6s unless paused
   useEffect(() => {
-    if (isPaused || totalPairs <= 1) return;
+    if (isPaused || items.length <= 1) return;
     const interval = setInterval(() => {
-      nextPair();
-    }, 3400);
+      nextDish();
+    }, 4600);
     return () => clearInterval(interval);
-  }, [isPaused, nextPair, totalPairs]);
+  }, [isPaused, nextDish, items.length]);
 
-  // Keep the highlighted dish in sync immediately with the current pair.
+  // Clean up timers on unmount
   useEffect(() => {
-    if (isPaused) return;
-    setDisplayIndex((pairIndex * 2 + 1) < items.length ? pairIndex * 2 + 1 : pairIndex * 2);
-  }, [pairIndex, isPaused, items.length]);
+    return () => {
+      if (swapTimerRef.current) clearTimeout(swapTimerRef.current);
+      if (doneTimerRef.current) clearTimeout(doneTimerRef.current);
+      if (pauseTimeoutRef.current) clearTimeout(pauseTimeoutRef.current);
+    };
+  }, []);
 
   const triggerTempPause = () => {
     setIsPaused(true);
@@ -195,16 +221,16 @@ export default function RotatingDishShowcase({ onOpen }) {
     const delta = touchDeltaX.current;
     const threshold = 35;
     if (Math.abs(delta) > threshold) {
-      if (dir === 'rtl') { delta > threshold ? nextPair() : prevPair(); }
-      else { delta < -threshold ? nextPair() : prevPair(); }
+      if (dir === 'rtl') { delta > threshold ? nextDish() : prevDish(); }
+      else { delta < -threshold ? nextDish() : prevDish(); }
     }
     touchStartX.current = null;
     touchDeltaX.current = 0;
   };
 
-  const currentItem = items[displayIndex] || items[0];
-  const badge = getBadge(currentItem?.tags, lang);
-  const dishName = currentItem ? t(currentItem, 'name') : '';
+  const badge = getBadge(displayedDish?.tags, lang);
+  const dishName = displayedDish ? t(displayedDish, 'name') : '';
+  const activeDotIndex = isSwapping && incomingIndex !== null ? incomingIndex : currentIndex;
 
   return (
     <section
@@ -232,37 +258,52 @@ export default function RotatingDishShowcase({ onOpen }) {
           <button
             type="button"
             className="dish-showcase__arrow dish-showcase__arrow--prev"
-            onClick={() => { triggerTempPause(); dir === 'rtl' ? nextPair() : prevPair(); }}
+            onClick={() => { triggerTempPause(); dir === 'rtl' ? nextDish() : prevDish(); }}
             aria-label="Previous"
           >
             {dir === 'rtl' ? <FaChevronRight /> : <FaChevronLeft />}
           </button>
 
-          {/* ═══ THE SIGNATURE SPINNING PLATE (720deg rotation + crossfade) ═══ */}
+          {/* ═══ THE SIGNATURE SPINNING PLATE (Ambient circular rotation + smooth animated swap) ═══ */}
           <div
             className="dish-showcase__plate-wrapper"
-            onClick={() => onOpen?.(currentItem)}
+            onClick={() => onOpen?.(displayedDish)}
             role="button"
             tabIndex={0}
             aria-label={dishName}
-            onKeyDown={(e) => { if (e.key === 'Enter') onOpen?.(currentItem); }}
+            onKeyDown={(e) => { if (e.key === 'Enter') onOpen?.(displayedDish); }}
           >
-            <div className="dish-showcase__plate-rim" key={animKey}>
-              <Image
-                src={imgA.image}
-                alt={t(imgA, 'name')}
-                fill
-                sizes="(max-width: 480px) 270px, 340px"
-                priority
-                className="dish-showcase__plate-img dish-plate-1"
-              />
-              <Image
-                src={imgB.image}
-                alt={t(imgB, 'name')}
-                fill
-                sizes="(max-width: 480px) 270px, 340px"
-                className="dish-showcase__plate-img dish-plate-2"
-              />
+            <div
+              className={`dish-showcase__plate-rim ${isTransitioning ? 'is-spinning' : 'is-ambient'}`}
+            >
+              {/* Active / Outgoing Dish Image Layer */}
+              <div
+                className={`dish-showcase__plate-layer ${isSwapping ? 'is-leaving' : 'is-active'}`}
+              >
+                <Image
+                  src={currentDish.image}
+                  alt={t(currentDish, 'name')}
+                  fill
+                  sizes="(max-width: 480px) 270px, 340px"
+                  priority
+                  className="dish-showcase__plate-img"
+                />
+              </div>
+
+              {/* Incoming Dish Image Layer during transition */}
+              {incomingDish && (
+                <div
+                  className={`dish-showcase__plate-layer ${isSwapping ? 'is-entering' : 'is-hidden'}`}
+                >
+                  <Image
+                    src={incomingDish.image}
+                    alt={t(incomingDish, 'name')}
+                    fill
+                    sizes="(max-width: 480px) 270px, 340px"
+                    className="dish-showcase__plate-img"
+                  />
+                </div>
+              )}
             </div>
           </div>
 
@@ -270,20 +311,20 @@ export default function RotatingDishShowcase({ onOpen }) {
           <button
             type="button"
             className="dish-showcase__arrow dish-showcase__arrow--next"
-            onClick={() => { triggerTempPause(); dir === 'rtl' ? prevPair() : nextPair(); }}
+            onClick={() => { triggerTempPause(); dir === 'rtl' ? prevDish() : nextDish(); }}
             aria-label="Next"
           >
             {dir === 'rtl' ? <FaChevronLeft /> : <FaChevronRight />}
           </button>
         </div>
 
-        {/* Stable Product Info Card */}
+        {/* Stable Product Info Card with smooth content update */}
         <div
           className="dish-showcase__details-card"
-          onClick={() => onOpen?.(currentItem)}
+          onClick={() => onOpen?.(displayedDish)}
           role="button"
           tabIndex={0}
-          onKeyDown={(e) => { if (e.key === 'Enter') onOpen?.(currentItem); }}
+          onKeyDown={(e) => { if (e.key === 'Enter') onOpen?.(displayedDish); }}
         >
           <div className="dish-showcase__meta-top">
             {badge ? (
@@ -291,22 +332,22 @@ export default function RotatingDishShowcase({ onOpen }) {
                 {badge.label}
               </span>
             ) : <span />}
-            {currentItem?.portion_or_pieces && (
+            {displayedDish?.portion_or_pieces && (
               <span className="dish-showcase__portion">
                 <GiChopsticks style={{ marginInlineEnd: '4px' }} aria-hidden="true" />
-                {formatPortion(currentItem.portion_or_pieces, lang)}
+                {formatPortion(displayedDish.portion_or_pieces, lang)}
               </span>
             )}
           </div>
           <h3 className="dish-showcase__dish-name">{dishName}</h3>
           <div className="dish-showcase__meta-bottom">
             <span className="dish-showcase__price">
-              {currentItem?.price ? currentItem.price.toLocaleString('tr-TR') : ''} ₺
+              {displayedDish?.price ? displayedDish.price.toLocaleString('tr-TR') : ''} ₺
             </span>
             <button
               type="button"
               className="dish-showcase__cta-btn"
-              onClick={(e) => { e.stopPropagation(); onOpen?.(currentItem); }}
+              onClick={(e) => { e.stopPropagation(); onOpen?.(displayedDish); }}
               aria-label={`${getOrderBtnText()} - ${dishName}`}
             >
               <span>{getOrderBtnText()}</span>
@@ -315,16 +356,16 @@ export default function RotatingDishShowcase({ onOpen }) {
           </div>
         </div>
 
-        {/* ═══ SLIDE DOTS INDICATOR (One dot per pair, pill-expanded when active) ═══ */}
+        {/* ═══ SLIDE DOTS INDICATOR (One dot per dish, expands when active) ═══ */}
         <div className="dish-showcase__dots" role="tablist" aria-label="Slide Indicator">
-          {Array.from({ length: totalPairs }).map((_, idx) => (
+          {items.map((_, idx) => (
             <button
               key={idx}
               type="button"
               role="tab"
-              aria-selected={idx === pairIndex}
-              className={`dish-showcase__dot ${idx === pairIndex ? 'is-active' : ''}`}
-              onClick={() => { triggerTempPause(); goToPair(idx); }}
+              aria-selected={idx === activeDotIndex}
+              className={`dish-showcase__dot ${idx === activeDotIndex ? 'is-active' : ''}`}
+              onClick={() => { triggerTempPause(); goToDish(idx); }}
               aria-label={`Slide ${idx + 1}`}
             />
           ))}
