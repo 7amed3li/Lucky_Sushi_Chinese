@@ -40,7 +40,7 @@ export default function DishCard({ item, onClick }) {
   const name = t(item, 'name');
   const desc = t(item, 'description');
   const badge = getBadge(item.tags, lang);
-  const hasImage = item.image && item.image !== '/images/placeholder.jpg';
+  const hasImage = item.image && !item.image?.includes('placeholder');
   const qty = getItemQuantity ? getItemQuantity(item.id) : 0;
 
   const handleAdd = (e) => {

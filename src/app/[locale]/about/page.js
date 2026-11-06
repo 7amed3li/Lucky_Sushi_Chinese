@@ -148,7 +148,7 @@ export default function AboutPage() {
               background: 'var(--color-surface-secondary)'
             }}>
               <Image
-                src="/images/floter.jpg"
+                src="/images/floter.webp"
                 alt="Lucky Sushi Chinese Restaurant Istanbul"
                 fill
                 style={{ objectFit: 'cover' }}
@@ -250,7 +250,7 @@ export default function AboutPage() {
               background: 'var(--color-surface-secondary)'
             }}>
               <Image
-                src="/images/beef-gyoza.jpg"
+                src="/images/beef-gyoza.webp"
                 alt="Lucky Sushi Chinese Handcrafted Dumplings"
                 fill
                 style={{ objectFit: 'cover' }}
@@ -327,10 +327,10 @@ export default function AboutPage() {
             gap: 'var(--sp-4)'
           }}>
             {[
-              { src: '/images/salmon-lovers.jpg', title: 'Salmon Lovers Set' },
-              { src: '/images/dragon-roll.jpg', title: 'Signature Dragon Roll' },
-              { src: '/images/bento-1.jpg', title: 'Bento Box Craft' },
-              { src: '/images/canada-set.jpg', title: 'Canada Prestige Selection' },
+              { src: '/images/salmon-lovers.webp', title: 'Salmon Lovers Set' },
+              { src: '/images/dragon-roll.webp', title: 'Signature Dragon Roll' },
+              { src: '/images/bento-1.webp', title: 'Bento Box Craft' },
+              { src: '/images/canada-set.webp', title: 'Canada Prestige Selection' },
             ].map((dish, idx) => (
               <div
                 key={idx}

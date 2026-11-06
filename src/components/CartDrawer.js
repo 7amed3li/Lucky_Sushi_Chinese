@@ -448,7 +448,7 @@ export default function CartDrawer() {
             cart.map(({ item, quantity }) => {
               const primaryName = getItemName(item, cartLang);
               const secondaryName = cartLang !== lang ? getItemName(item, lang) : (cartLang !== 'tr' ? getItemName(item, 'tr') : null);
-              const hasImg = item.image && item.image !== '/images/placeholder.jpg';
+              const hasImg = item.image && !item.image?.includes('placeholder');
 
               return (
                 <div key={item.id} className="cart-item">

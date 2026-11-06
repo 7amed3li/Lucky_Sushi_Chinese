@@ -38,7 +38,7 @@ export default function Footer() {
         <div className="main-footer__col main-footer__col--logo">
           <Link href="/" aria-label="Lucky Sushi & Chinese Home">
             <Image 
-              src="/logo-dark-mode.png" 
+              src="/logo-dark-mode.webp" 
               alt="Lucky Sushi & Chinese Official Logo"
               width={160}
               height={110}
@@ -98,7 +98,7 @@ export default function Footer() {
         <div className="main-footer__col main-footer__col--store">
           <div className="main-footer__store-img-wrap">
             <Image 
-              src="/images/floter.jpg" 
+              src="/images/floter.webp" 
               alt="Lucky Sushi & Chinese Restaurant Alibeyköy Eyüpsultan"
               width={350}
               height={200}

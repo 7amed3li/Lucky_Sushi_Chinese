@@ -40,7 +40,7 @@ export default function DishModal({ item, onClose }) {
   const name = t(item, 'name');
   const desc = t(item, 'description');
   const ingredientsContent = desc || (item.ingredients?.length > 0 ? translateIngredientsList(item.ingredients, lang) : '');
-  const hasImage = item.image && item.image !== '/images/placeholder.jpg';
+  const hasImage = item.image && !item.image?.includes('placeholder');
 
   // Close on escape
   const handleKeyDown = useCallback((e) => {

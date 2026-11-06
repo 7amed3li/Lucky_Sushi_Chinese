@@ -62,7 +62,7 @@ export const branchesData = [
     coverage_ru: "Эйюпсултан, Газиосманпаша, Кягытхане, Алибейкёй и окрестности",
     coverage_zh: "埃于普苏丹、加济奥斯曼帕夏、卡厄特哈内及周边",
     
-    image: "/images/floter.jpg",
+    image: "/images/floter.webp",
     imageType: "location",
   },
   {
@@ -117,7 +117,7 @@ export const branchesData = [
     coverage_ru: "Зейтинбурну, Бакыркёй, Фатих, Топкапы и окрестности",
     coverage_zh: "宰廷布尔努、巴克尔柯伊、法蒂赫及周边",
     
-    image: "/images/bento-1.jpg",
+    image: "/images/bento-1.webp",
     imageType: "menu-dish",
   },
   {
@@ -172,7 +172,7 @@ export const branchesData = [
     coverage_ru: "Сарыер, Решитпаша, Маслак, Истинье, Бешикташ и окрестности",
     coverage_zh: "萨勒耶尔、赖希特帕夏、马斯拉克、伊斯廷耶及周边",
     
-    image: "/images/lucky-set.png",
+    image: "/images/lucky-set.webp",
     imageType: "menu-dish",
   },
 ];

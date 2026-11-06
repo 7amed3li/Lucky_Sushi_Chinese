@@ -52,7 +52,7 @@ export default function TrendingBar({ onOpen }) {
         >
           {trendingItems.map((item) => {
             const name = t(item, 'name');
-            const hasImage = item.image && item.image !== '/images/placeholder.jpg';
+            const hasImage = item.image && !item.image?.includes('placeholder');
             const isBestseller = item.tags?.includes('bestseller');
             const isChef = item.tags?.includes('chefs-pick');
             const badgeLabel = isBestseller

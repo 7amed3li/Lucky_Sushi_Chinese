@@ -95,7 +95,7 @@ export default function MenuPage() {
     const map = {};
     for (const cat of menuCategories) {
       const match = menuItems.find(
-        (item) => item.category === cat.id && item.image && item.image !== '/images/placeholder.jpg'
+        (item) => item.category === cat.id && item.image && !item.image?.includes('placeholder')
       );
       if (match) {
         map[cat.id] = match.image;

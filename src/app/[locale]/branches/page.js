@@ -230,7 +230,7 @@ export default function BranchesPage() {
                   {/* Branch Visual Banner */}
                   <div style={{ position: 'relative', width: '100%', height: '200px', background: 'rgba(0,0,0,0.05)' }}>
                     <Image
-                      src={branch.image || '/images/floter.jpg'}
+                      src={branch.image || '/images/floter.webp'}
                       alt={`${branchName} - Lucky Sushi & Chinese`}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

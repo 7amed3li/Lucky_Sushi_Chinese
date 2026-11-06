@@ -65,7 +65,7 @@ export default function Header() {
           {/* Brand Logo */}
           <Link href="/" className="header__logo" aria-label="Lucky Sushi Chinese — Home">
             <Image
-              src="/logo-icon.png"
+              src="/logo-icon.webp"
               alt="Lucky Sushi Chinese"
               width={38}
               height={38}
@@ -233,7 +233,7 @@ export default function Header() {
         <div className="mobile-drawer__header">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <Image
-              src="/logo-icon.png"
+              src="/logo-icon.webp"
               alt="Lucky Sushi Chinese"
               width={34}
               height={34}

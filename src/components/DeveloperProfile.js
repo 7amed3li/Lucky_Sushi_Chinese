@@ -63,7 +63,7 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
           >
             <div className="hero-image-frame">
               <Image
-                src="/images/developer/lucky-rolls.jpg"
+                src="/images/developer/lucky-rolls.webp"
                 alt="Lucky Sushi rolls on slate plate"
                 className="hero-food-image"
                 width={525}
@@ -91,7 +91,7 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
 
             <div className="hero-note">
               <Image
-                src="/images/developer/lucky-logo.png"
+                src="/images/developer/lucky-logo.webp"
                 alt="Lucky Logo"
                 width={40}
                 height={30}
@@ -171,7 +171,7 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
 
         <div className="story-photo-band">
           <img
-            src="/images/developer/lucky-store.jpg"
+            src="/images/developer/lucky-store.webp"
             alt="Lucky Sushi Istanbul Neon Bar & Fresh Rolls"
             className="story-band-bg-img"
             loading="eager"
@@ -191,9 +191,9 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
         <div className="principles-row">
           {story.principles.map((pr, idx) => {
             const principleImages = [
-              '/images/set-salmon-lovers.jpg',
-              '/images/developer/lucky-front.jpg',
-              '/images/developer/lucky-store.jpg',
+              '/images/set-salmon-lovers.webp',
+              '/images/developer/lucky-front.webp',
+              '/images/developer/lucky-store.webp',
             ];
             return (
               <div key={idx} className="principle-card">
@@ -271,9 +271,9 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
           <div className="branch-list">
             {branches.list.map((branch, idx) => {
               const branchThumbnails = [
-                '/images/floter.jpg',
-                '/images/developer/lucky-front.jpg',
-                '/images/shrimp-ramen.jpg',
+                '/images/floter.webp',
+                '/images/developer/lucky-front.webp',
+                '/images/shrimp-ramen.webp',
               ];
               return (
                 <article className="branch-row" key={branch.number}>
@@ -453,7 +453,7 @@ export default function DeveloperProfile({ content, isRTL, lang }) {
       {/* 8. CLOSING SECTION */}
       <section className="closing-section">
         <img
-          src="/images/floter.jpg"
+          src="/images/floter.webp"
           alt="Lucky Sushi Istanbul Storefront Facade"
           className="closing-photo"
           loading="lazy"
