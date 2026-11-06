@@ -104,7 +104,12 @@ export default async function RootLayout({ children }) {
   const restaurantJsonLd = generateRestaurantJsonLd(locale);
 
   return (
-    <html lang={locale} dir={getDir(locale)} className={`${notoSerif.variable} ${notoSans.variable}`}>
+    <html
+      lang={locale}
+      dir={getDir(locale)}
+      className={`${notoSerif.variable} ${notoSans.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Structured Data: Restaurant */}
         <script
@@ -113,7 +118,7 @@ export default async function RootLayout({ children }) {
         />
         {/* Arabic & secondary font imports via CSS @import in globals.css */}
       </head>
-      <body>
+      <body suppressHydrationWarning>
         <a href="#main-content" className="skip-link">Skip to content</a>
         <NextIntlClientProvider locale={locale} messages={await getMessages()}>
           <BranchProvider>

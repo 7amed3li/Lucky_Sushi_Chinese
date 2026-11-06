@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { Link } from '@/i18n/navigation';
 import { useEffect, useCallback, useState } from 'react';
 import { FaExpand, FaXmark } from 'react-icons/fa6';
 import { GiSushis } from 'react-icons/gi';
@@ -208,6 +209,24 @@ export default function DishModal({ item, onClose }) {
               <span>+</span>
               <span>{addLabel[lang] || addLabel.en}</span>
             </button>
+          </div>
+
+          {/* Standalone Product Page Link */}
+          <div style={{ textAlign: 'center', marginTop: '10px' }}>
+            <Link
+              href={`/menu/${item.id}`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: '0.82rem',
+                color: 'var(--color-brand-primary)',
+                fontWeight: '600',
+                textDecoration: 'none'
+              }}
+            >
+              <span>{lang === 'ar' ? 'عرض صفحة المنتج المستقلة والتسويقية ↗' : lang === 'tr' ? 'Ürün Detay & Tanıtım Sayfası ↗' : 'View Dedicated Product Page ↗'}</span>
+            </Link>
           </div>
         </div>
       </div>

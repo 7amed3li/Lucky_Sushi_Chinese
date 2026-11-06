@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import { useLang } from '@/context/LangContext';
 import { menuItems, menuCategories, quickFilters } from '@/data/menuData';
@@ -42,12 +43,182 @@ const MULTILINGUAL_SYNONYMS = [
   ['set', 'menu', 'menü', 'combo', 'сет', 'набор', 'طقم', 'وجبة', '套餐'],
 ];
 
-export default function MenuPage() {
+function MenuContent() {
   const { lang, tUI, dir } = useLang();
-  const [activeCategory, setActiveCategory] = useState(menuCategories[0].id);
-  const [activeFilter, setActiveFilter] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedItem, setSelectedItem] = useState(null);
+  const searchParams = useSearchParams();
+
+  const paramCat = searchParams.get('category') || searchParams.get('cat');
+  const paramFilter = searchParams.get('filter');
+  const paramQuery = searchParams.get('q') || searchParams.get('search');
+  const paramDishId = searchParams.get('dish');
+
+  const initialDish = useMemo(() => {
+    if (!paramDishId) return null;
+    return menuItems.find((item) => item.id === paramDishId) || null;
+  }, [paramDishId]);
+
+  const initialCategory = useMemo(() => {
+    if (paramCat && menuCategories.some((c) => c.id === paramCat)) return paramCat;
+    if (initialDish?.category) return initialDish.category;
+    return menuCategories[0].id;
+  }, [paramCat, initialDish]);
+
+  const initialFilter = useMemo(() => {
+    if (paramFilter && (paramFilter === 'all' || quickFilters.some((qf) => qf.id === paramFilter))) {
+      return paramFilter;
+    }
+    return 'all';
+  }, [paramFilter]);
+
+  const [activeCategory, setActiveCategory] = useState(initialCategory);
+  const [activeFilter, setActiveFilter] = useState(initialFilter);
+  const [searchQuery, setSearchQuery] = useState(paramQuery || '');
+  const [selectedItem, setSelectedItem] = useState(initialDish);
+
+  // Sync state if searchParams change
+  useEffect(() => {
+    const cat = searchParams.get('category') || searchParams.get('cat');
+    const f = searchParams.get('filter');
+    const q = searchParams.get('q') || searchParams.get('search');
+    const dishId = searchParams.get('dish');
+
+    if (cat && menuCategories.some((c) => c.id === cat)) {
+      setActiveCategory(cat);
+    }
+    if (f && (f === 'all' || quickFilters.some((qf) => qf.id === f))) {
+      setActiveFilter(f);
+    }
+    if (q !== null && q !== undefined) {
+      setSearchQuery(q);
+    }
+    if (dishId) {
+      const match = menuItems.find((item) => item.id === dishId);
+      if (match) setSelectedItem(match);
+    } else {
+      setSelectedItem(null);
+    }
+  }, [searchParams]);
+
+  // URL sync helper: updates browser address bar without reload
+  const updateUrl = useCallback((cat, filter, search, dish) => {
+    if (typeof window === 'undefined') return;
+    const url = new URL(window.location.href);
+
+    if (cat) {
+      url.searchParams.set('category', cat);
+    } else {
+      url.searchParams.delete('category');
+    }
+    url.searchParams.delete('cat');
+
+    if (filter && filter !== 'all') {
+      url.searchParams.set('filter', filter);
+    } else {
+      url.searchParams.delete('filter');
+    }
+
+    if (search && search.trim()) {
+      url.searchParams.set('q', search.trim());
+    } else {
+      url.searchParams.delete('q');
+      url.searchParams.delete('search');
+    }
+
+    if (dish) {
+      const dishId = typeof dish === 'string' ? dish : dish.id;
+      url.searchParams.set('dish', dishId);
+    } else {
+      url.searchParams.delete('dish');
+    }
+
+    const qs = url.searchParams.toString();
+    const newPath = url.pathname + (qs ? `?${qs}` : '') + url.hash;
+    window.history.replaceState(null, '', newPath);
+  }, []);
+
+  // Listen to browser Back/Forward (popstate)
+  useEffect(() => {
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const dishId = params.get('dish');
+      if (dishId) {
+        const match = menuItems.find((item) => item.id === dishId);
+        setSelectedItem(match || null);
+      } else {
+        setSelectedItem(null);
+      }
+
+      const cat = params.get('category') || params.get('cat');
+      if (cat && menuCategories.some((c) => c.id === cat)) {
+        setActiveCategory(cat);
+      } else {
+        setActiveCategory(menuCategories[0].id);
+      }
+
+      const f = params.get('filter');
+      if (f && (f === 'all' || quickFilters.some((qf) => qf.id === f))) {
+        setActiveFilter(f);
+      } else {
+        setActiveFilter('all');
+      }
+
+      const q = params.get('q') || params.get('search');
+      setSearchQuery(q || '');
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const handleSelectCategory = (catId) => {
+    setSearchQuery('');
+    setActiveCategory(catId);
+    updateUrl(catId, activeFilter, '', selectedItem);
+    scrollToGrid();
+  };
+
+  const handleSelectFilter = (filterId) => {
+    const nextFilter = filterId === 'all' ? 'all' : (activeFilter === filterId ? 'all' : filterId);
+    setActiveFilter(nextFilter);
+    updateUrl(activeCategory, nextFilter, searchQuery, selectedItem);
+    scrollToGrid();
+  };
+
+  const handleOpenDish = (dish) => {
+    setSelectedItem(dish);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('dish', dish.id);
+      const qs = url.searchParams.toString();
+      window.history.pushState({ dish: dish.id }, '', url.pathname + (qs ? `?${qs}` : '') + url.hash);
+    }
+  };
+
+  const handleCloseDish = () => {
+    setSelectedItem(null);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('dish');
+      const qs = url.searchParams.toString();
+      window.history.replaceState(null, '', url.pathname + (qs ? `?${qs}` : '') + url.hash);
+    }
+  };
+
+  const handleSearchChange = (val) => {
+    setSearchQuery(val);
+    updateUrl(activeCategory, activeFilter, val, selectedItem);
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    updateUrl(activeCategory, activeFilter, '', selectedItem);
+  };
+
+  const handleResetFilters = () => {
+    setSearchQuery('');
+    setActiveFilter('all');
+    updateUrl(activeCategory, 'all', '', selectedItem);
+  };
   
   const categoryScrollRef = useRef(null);
   const menuGridRef = useRef(null);
@@ -180,7 +351,7 @@ export default function MenuPage() {
         
         {/* ── 1. Best Sellers Trending Showcase ── */}
         <div style={{ paddingTop: '10px' }}>
-          <TrendingBar onOpen={(item) => setSelectedItem(item)} />
+          <TrendingBar onOpen={handleOpenDish} />
         </div>
 
         {/* ── 2. Sticky Header for Categories & Filters ── */}
@@ -282,11 +453,7 @@ export default function MenuPage() {
                         data-cat={cat.id}
                         type="button"
                         className={`lucky-cat-item ${isActive ? 'active' : ''}`}
-                        onClick={() => {
-                          setSearchQuery('');
-                          setActiveCategory(cat.id);
-                          scrollToGrid();
-                        }}
+                        onClick={() => handleSelectCategory(cat.id)}
                       >
                         <div className="lucky-cat-thumb">
                           {catImg ? (
@@ -322,14 +489,14 @@ export default function MenuPage() {
               className="menu-search-input"
               placeholder={l('searchPlaceholder')}
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
               aria-label={l('searchPlaceholder')}
             />
             {searchQuery && (
               <button
                 type="button"
                 className="menu-search-clear"
-                onClick={() => setSearchQuery('')}
+                onClick={handleClearSearch}
                 aria-label="Clear search"
               >
                 ✕
@@ -347,14 +514,7 @@ export default function MenuPage() {
                   <button
                     key={filter.id}
                     type="button"
-                    onClick={() => {
-                      if (filter.id === 'all') {
-                        setActiveFilter('all');
-                      } else {
-                        setActiveFilter(isActive ? 'all' : filter.id);
-                      }
-                      scrollToGrid();
-                    }}
+                    onClick={() => handleFilterSelect(filter.id)}
                     className={`lucky-filter-pill ${isActive ? 'active' : ''}`}
                   >
                     <span>{filterName}</span>
@@ -379,7 +539,7 @@ export default function MenuPage() {
                 <DishCard
                   key={item.id}
                   item={item}
-                  onClick={() => setSelectedItem(item)}
+                  onClick={() => handleOpenDish(item)}
                 />
               ))}
             </div>
@@ -399,10 +559,7 @@ export default function MenuPage() {
               </h3>
               <button
                 type="button"
-                onClick={() => {
-                  setSearchQuery('');
-                  setActiveFilter('all');
-                }}
+                onClick={handleResetFilters}
                 className="btn-primary"
                 style={{
                   marginTop: '12px',
@@ -422,12 +579,20 @@ export default function MenuPage() {
       {selectedItem && (
         <DishModal
           item={selectedItem}
-          onClose={() => setSelectedItem(null)}
+          onClose={handleCloseDish}
         />
       )}
 
       {/* Shopping Cart Drawer */}
       <CartDrawer />
     </>
+  );
+}
+
+export default function MenuPage() {
+  return (
+    <Suspense fallback={null}>
+      <MenuContent />
+    </Suspense>
   );
 }

@@ -1,4 +1,5 @@
 import { ACTIVE_LOCALE_CODES, DEFAULT_LOCALE } from '@/i18n/config/locales';
+import { menuItems } from '@/data/menuData';
 
 export default function sitemap() {
   const baseUrl = (process.env.NEXT_PUBLIC_SITE_URL || 'https://www.luckysushichinese.com.tr').replace(/\/$/, '');
@@ -12,6 +13,15 @@ export default function sitemap() {
     { path: '/tasarim-gelistirme', changeFrequency: 'monthly', priority: 0.6 },
     { path: '/kvkk', changeFrequency: 'yearly', priority: 0.4 },
   ];
+
+  // Add individual SEO product landing pages for every dish
+  menuItems.forEach((item) => {
+    pages.push({
+      path: `/menu/${item.id}`,
+      changeFrequency: 'weekly',
+      priority: 0.85,
+    });
+  });
 
   const getLocalizedUrl = (pagePath, locale) => {
     if (locale === DEFAULT_LOCALE) {
@@ -32,7 +42,7 @@ export default function sitemap() {
     ACTIVE_LOCALE_CODES.forEach((locale) => {
       sitemapEntries.push({
         url: getLocalizedUrl(page.path, locale),
-        lastModified: new Date('2026-10-19T00:00:00.000Z'),
+        lastModified: new Date('2026-11-06T00:00:00.000Z'),
         changeFrequency: page.changeFrequency,
         priority: locale === DEFAULT_LOCALE ? page.priority : Math.max(0.3, Number((page.priority - 0.05).toFixed(2))),
         alternates: {

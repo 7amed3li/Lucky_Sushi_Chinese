@@ -2,7 +2,8 @@
 
 import Image from 'next/image';
 import { Link } from '@/i18n/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { 
   FaWhatsapp, FaStar, FaMotorcycle,
   FaBookOpen, FaLocationDot, FaCircleInfo,
@@ -29,10 +30,65 @@ const CURATED_BESTSELLER_IDS = [
   'chicken-general-tso',
 ];
 
-export default function HomePage() {
+function HomeContent() {
   const { lang, t, tUI, dir } = useLang();
   const { selectedBranch, openBranchModal } = useBranch();
-  const [selectedItem, setSelectedItem] = useState(null);
+  const searchParams = useSearchParams();
+
+  const paramDishId = searchParams.get('dish');
+  const initialDish = useMemo(() => {
+    if (!paramDishId) return null;
+    return menuItems.find((item) => item.id === paramDishId) || null;
+  }, [paramDishId]);
+
+  const [selectedItem, setSelectedItem] = useState(initialDish);
+
+  // Sync if searchParams change
+  useEffect(() => {
+    const dishId = searchParams.get('dish');
+    if (dishId) {
+      const match = menuItems.find((item) => item.id === dishId);
+      if (match) setSelectedItem(match);
+    } else {
+      setSelectedItem(null);
+    }
+  }, [searchParams]);
+
+  // Popstate listener (for browser Back/Forward)
+  useEffect(() => {
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const dishId = params.get('dish');
+      if (dishId) {
+        const match = menuItems.find((item) => item.id === dishId);
+        setSelectedItem(match || null);
+      } else {
+        setSelectedItem(null);
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const handleOpenDish = (dish) => {
+    setSelectedItem(dish);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('dish', dish.id);
+      const qs = url.searchParams.toString();
+      window.history.pushState({ dish: dish.id }, '', url.pathname + (qs ? `?${qs}` : '') + url.hash);
+    }
+  };
+
+  const handleCloseDish = () => {
+    setSelectedItem(null);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('dish');
+      const qs = url.searchParams.toString();
+      window.history.replaceState(null, '', url.pathname + (qs ? `?${qs}` : '') + url.hash);
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -221,7 +277,7 @@ export default function HomePage() {
         </div>
 
         {/* ── 4. Rotating Dish Showcase ── */}
-        <RotatingDishShowcase onOpen={setSelectedItem} />
+        <RotatingDishShowcase onOpen={handleOpenDish} />
 
         {/* ── 5. Curated Bestsellers Grid (4-6 Products with Direct Add-to-Cart) ── */}
         <section className="home-bestsellers-section" style={{ maxWidth: '1100px', margin: '0 auto', padding: 'var(--sp-8) var(--page-pad)' }}>
@@ -243,7 +299,7 @@ export default function HomePage() {
               <DishCard
                 key={item.id}
                 item={item}
-                onClick={() => setSelectedItem(item)}
+                onClick={() => handleOpenDish(item)}
               />
             ))}
           </div>
@@ -473,12 +529,20 @@ export default function HomePage() {
       {selectedItem && (
         <DishModal
           item={selectedItem}
-          onClose={() => setSelectedItem(null)}
+          onClose={handleCloseDish}
         />
       )}
 
       {/* Shopping Cart Drawer */}
       <CartDrawer />
     </>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={null}>
+      <HomeContent />
+    </Suspense>
   );
 }
