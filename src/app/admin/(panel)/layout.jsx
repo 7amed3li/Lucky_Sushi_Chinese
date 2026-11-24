@@ -37,6 +37,7 @@ export default async function AdminPanelLayout({ children }) {
             <Link href="/admin">Dashboard</Link>
             <Link href="/admin/menu">Menu items</Link>
             {canManageUsers ? <Link href="/admin/users">Users &amp; roles</Link> : null}
+            <Link href="/admin/settings">Account &amp; password</Link>
             <Link href="/tr" target="_blank">View website ↗</Link>
           </nav>
           <div className="foot">
