@@ -43,9 +43,11 @@ Safety rules enforced on the server (not just hidden in the UI):
   caller's session and role in code, then writes with the service-role
   key. Row Level Security policies in the database are a second line of
   defence.
-- **The public website** keeps reading the menu from the same
-  `menu_items` table (see `src/lib/services/menuService.js`) and still
-  falls back to the built-in static menu if the database is unreachable.
+- **The public website** — ⚠️ the menu *service* (`src/lib/services/menuService.js`)
+  can read `menu_items`, but the website's pages currently import the static
+  `src/data/menuData.js` directly, so **edits made in the panel are stored in the
+  database but are not shown on the site yet**. Wiring the site to the database is
+  a separate step.
 
 ## One-time setup
 
@@ -83,7 +85,9 @@ Safety rules enforced on the server (not just hidden in the UI):
 | `src/app/api/admin/menu/route.js` | Menu CRUD API (role-gated) |
 | `src/app/admin/login/` | Panel login page |
 | `src/app/admin/(panel)/` | Dashboard, menu manager, users manager, shell |
-| `src/app/admin/admin.css` | Panel styles (scoped, fixed overlay shell) |
+| `src/app/admin/layout.jsx` | Admin-only root shell (own CSS, `noindex`) — none of the public site's providers load here |
+| `src/lib/supabase/proxy.js` + `src/proxy.js` | Refreshes the Supabase session for `/admin` so staff are not logged out every hour |
+| `src/app/admin/admin.css` | Panel styles (brand-aligned, responsive: top bar + card rows + bottom sheets on mobile) |
 
 One existing file was touched: `src/proxy.js` — the i18n middleware
 matcher now also excludes `admin`, so `/admin` is not treated as a

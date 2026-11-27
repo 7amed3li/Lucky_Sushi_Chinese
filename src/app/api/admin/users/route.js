@@ -1,4 +1,4 @@
-import { getAdminSession, hasRoleAtLeast, roleRank, ROLES } from '@/lib/adminAuth';
+import { getAdminSession, hasRoleAtLeast, isSameOrigin, ROLES } from '@/lib/adminAuth';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 
 /**
@@ -16,11 +16,18 @@ import { createSupabaseAdminClient } from '@/lib/supabase/admin';
  * role has been verified here - this route is the security gate.
  */
 
+const PROFILE_COLUMNS =
+  'id, email, display_name, role, is_active, created_by, created_at';
+const NO_STORE = { 'Cache-Control': 'no-store' };
+
 function fail(message, status = 400) {
-  return Response.json({ error: message }, { status });
+  return Response.json({ error: message }, { status, headers: NO_STORE });
 }
 
-async function requireSession(minRole) {
+async function requireSession(minRole, request) {
+  if (request && !isSameOrigin(request)) {
+    return { error: fail('Cross-site request blocked.', 403) };
+  }
   const session = await getAdminSession();
   if (!session) return { error: fail('Not signed in.', 401) };
   if (!hasRoleAtLeast(session.profile, minRole)) {
@@ -41,9 +48,9 @@ async function requireSession(minRole) {
 async function getProfile(admin, id) {
   const { data } = await admin
     .from('profiles')
-    .select('id, email, display_name, role, is_active, created_by, created_at')
+    .select(PROFILE_COLUMNS)
     .eq('id', id)
-    .single();
+    .maybeSingle();
   return data ?? null;
 }
 
@@ -59,28 +66,27 @@ async function countActiveDevelopers(admin, exceptId = null) {
 }
 
 export async function GET() {
-  const { session, admin, error } = await requireSession('owner');
+  const { admin, error } = await requireSession('owner');
   if (error) return error;
-  void session;
 
   const { data, error: dbError } = await admin
     .from('profiles')
-    .select('id, email, display_name, role, is_active, created_by, created_at')
+    .select(PROFILE_COLUMNS)
     .order('created_at', { ascending: true });
   if (dbError) return fail(dbError.message, 500);
 
-  return Response.json({ users: data });
+  return Response.json({ users: data }, { headers: NO_STORE });
 }
 
 export async function POST(request) {
-  const { session, admin, error } = await requireSession('owner');
+  const { session, admin, error } = await requireSession('owner', request);
   if (error) return error;
   const actor = session.profile;
 
   const body = await request.json().catch(() => ({}));
   const email = String(body.email ?? '').trim().toLowerCase();
   const password = String(body.password ?? '');
-  const displayName = String(body.display_name ?? '').trim() || null;
+  const displayName = String(body.display_name ?? '').trim().slice(0, 120) || null;
   const role = String(body.role ?? 'admin');
 
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -102,7 +108,12 @@ export async function POST(request) {
       email_confirm: true,
       user_metadata: { role, display_name: displayName },
     });
-  if (createError) return fail(createError.message, 400);
+  if (createError) {
+    if (/already (been )?registered|already exists/i.test(createError.message)) {
+      return fail('An account with this email already exists.', 409);
+    }
+    return fail(createError.message, 400);
+  }
 
   // The DB trigger created the profile from metadata; make sure the
   // stored role/creator match exactly what was requested.
@@ -110,15 +121,19 @@ export async function POST(request) {
     .from('profiles')
     .update({ role, display_name: displayName, created_by: actor.id })
     .eq('id', created.user.id)
-    .select('id, email, display_name, role, is_active, created_by, created_at')
+    .select(PROFILE_COLUMNS)
     .single();
-  if (updateError) return fail(updateError.message, 500);
+  if (updateError) {
+    // Do not leave a half-created account behind.
+    await admin.auth.admin.deleteUser(created.user.id);
+    return fail(updateError.message, 500);
+  }
 
-  return Response.json({ user: profile }, { status: 201 });
+  return Response.json({ user: profile }, { status: 201, headers: NO_STORE });
 }
 
 export async function PATCH(request) {
-  const { session, admin, error } = await requireSession('owner');
+  const { session, admin, error } = await requireSession('owner', request);
   if (error) return error;
   const actor = session.profile;
 
@@ -135,7 +150,7 @@ export async function PATCH(request) {
     body.is_active !== undefined ? Boolean(body.is_active) : target.is_active;
   const nextName =
     body.display_name !== undefined
-      ? String(body.display_name).trim() || null
+      ? String(body.display_name).trim().slice(0, 120) || null
       : target.display_name;
 
   if (!ROLES.includes(nextRole)) return fail('Unknown role.');
@@ -162,7 +177,6 @@ export async function PATCH(request) {
       return fail('There must always be at least one active developer.');
     }
   }
-  void roleRank;
 
   const { data: updated, error: updateError } = await admin
     .from('profiles')
@@ -173,15 +187,15 @@ export async function PATCH(request) {
       updated_at: new Date().toISOString(),
     })
     .eq('id', target.id)
-    .select('id, email, display_name, role, is_active, created_by, created_at')
+    .select(PROFILE_COLUMNS)
     .single();
   if (updateError) return fail(updateError.message, 500);
 
-  return Response.json({ user: updated });
+  return Response.json({ user: updated }, { headers: NO_STORE });
 }
 
 export async function DELETE(request) {
-  const { session, admin, error } = await requireSession('developer');
+  const { session, admin, error } = await requireSession('developer', request);
   if (error) return error;
   const actor = session.profile;
 
@@ -203,5 +217,5 @@ export async function DELETE(request) {
   const { error: deleteError } = await admin.auth.admin.deleteUser(targetId);
   if (deleteError) return fail(deleteError.message, 500);
 
-  return Response.json({ ok: true });
+  return Response.json({ ok: true }, { headers: NO_STORE });
 }

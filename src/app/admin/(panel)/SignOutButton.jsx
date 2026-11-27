@@ -1,20 +1,28 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { LuLogOut } from 'react-icons/lu';
 import { supabase } from '@/lib/supabase/client';
 
 export default function SignOutButton() {
-  const router = useRouter();
+  const [busy, setBusy] = useState(false);
 
   async function signOut() {
-    if (supabase) await supabase.auth.signOut();
-    router.push('/admin/login');
-    router.refresh();
+    if (busy) return;
+    setBusy(true);
+    try {
+      if (supabase) await supabase.auth.signOut();
+    } finally {
+      // Hard navigation: guarantees the cookies are gone and no cached
+      // admin page can be shown after signing out.
+      window.location.assign('/admin/login');
+    }
   }
 
   return (
-    <button className="btn secondary small" onClick={signOut} style={{ width: '100%', justifyContent: 'center' }}>
-      Sign out
+    <button type="button" className="btn secondary small block" onClick={signOut} disabled={busy}>
+      <LuLogOut aria-hidden="true" />
+      {busy ? 'Signing out…' : 'Sign out'}
     </button>
   );
 }

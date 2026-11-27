@@ -1,19 +1,15 @@
 import { Noto_Sans, Noto_Serif } from "next/font/google";
-import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
-import "./globals.css";
-import "./footer.css";
-import { CartProvider } from "@/context/CartContext";
-import { CurrencyProvider } from "@/context/CurrencyContext";
-import { BranchProvider } from "@/context/BranchContext";
-import { DeliveryProvider } from "@/context/DeliveryContext";
+import { getLocale } from "next-intl/server";
 import { getDir } from "@/i18n/config/locales";
-import Footer from "@/components/Footer";
-import MobileBottomBar from "@/components/MobileBottomBar";
-import BranchModal from "@/components/BranchModal";
-import { generateRestaurantJsonLd } from "@/lib/structuredData";
-import { Analytics } from "@vercel/analytics/next";
 
+/**
+ * Root layout — intentionally minimal.
+ *
+ * It only provides <html>/<body> and the brand fonts. Everything that is
+ * specific to the public website (global CSS, cart/branch/currency providers,
+ * footer, mobile bar, analytics, JSON-LD) lives in `[locale]/layout.js`, so
+ * the admin panel (`/admin`) does NOT pay for any of it.
+ */
 const notoSans = Noto_Sans({
   subsets: ["latin", "cyrillic"],
   weight: ["300", "400", "500", "600", "700", "800"],
@@ -101,7 +97,6 @@ export const viewport = {
 
 export default async function RootLayout({ children }) {
   const locale = await getLocale();
-  const restaurantJsonLd = generateRestaurantJsonLd(locale);
 
   return (
     <html
@@ -110,32 +105,7 @@ export default async function RootLayout({ children }) {
       className={`${notoSerif.variable} ${notoSans.variable}`}
       suppressHydrationWarning
     >
-      <head>
-        {/* Structured Data: Restaurant */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantJsonLd) }}
-        />
-        {/* Arabic & secondary font imports via CSS @import in globals.css */}
-      </head>
-      <body suppressHydrationWarning>
-        <a href="#main-content" className="skip-link">Skip to content</a>
-        <NextIntlClientProvider locale={locale} messages={await getMessages()}>
-          <BranchProvider>
-            <CurrencyProvider>
-              <CartProvider>
-                <DeliveryProvider>
-                  {children}
-                  <Footer />
-                  <MobileBottomBar />
-                  <BranchModal />
-                </DeliveryProvider>
-              </CartProvider>
-            </CurrencyProvider>
-          </BranchProvider>
-        </NextIntlClientProvider>
-        <Analytics />
-      </body>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

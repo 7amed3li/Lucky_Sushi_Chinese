@@ -5,6 +5,20 @@ import { routing } from '@/i18n/routing';
 import { getLocale as getLocaleConfig } from '@/i18n/config/locales';
 
 import { getRouteCanonicalAndAlternates } from '@/lib/seo';
+import { generateRestaurantJsonLd } from '@/lib/structuredData';
+import { Analytics } from '@vercel/analytics/next';
+import { CartProvider } from '@/context/CartContext';
+import { CurrencyProvider } from '@/context/CurrencyContext';
+import { BranchProvider } from '@/context/BranchContext';
+import { DeliveryProvider } from '@/context/DeliveryContext';
+import Footer from '@/components/Footer';
+import MobileBottomBar from '@/components/MobileBottomBar';
+import BranchModal from '@/components/BranchModal';
+
+// Public-website styles. Loaded here (not in the root layout) so the admin
+// panel never downloads them.
+import '../globals.css';
+import '../footer.css';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -73,9 +87,30 @@ export default async function LocaleLayout({ children, params }) {
   if (!localeConfig) notFound();
   setRequestLocale(locale);
 
+  const messages = await getMessages();
+  const restaurantJsonLd = generateRestaurantJsonLd(locale);
+
   return (
-    <NextIntlClientProvider locale={locale} messages={await getMessages()}>
-      {children}
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      {/* Structured Data: Restaurant */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantJsonLd) }}
+      />
+      <a href="#main-content" className="skip-link">Skip to content</a>
+      <BranchProvider>
+        <CurrencyProvider>
+          <CartProvider>
+            <DeliveryProvider>
+              {children}
+              <Footer />
+              <MobileBottomBar />
+              <BranchModal />
+            </DeliveryProvider>
+          </CartProvider>
+        </CurrencyProvider>
+      </BranchProvider>
+      <Analytics />
     </NextIntlClientProvider>
   );
 }
